@@ -27,6 +27,10 @@
 			<artifactId>globalpom-log</artifactId>
 			<version>1.8</version>
 		</dependency>
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>
