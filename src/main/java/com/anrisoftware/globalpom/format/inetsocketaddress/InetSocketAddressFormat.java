@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpom-utils. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.format;
+package com.anrisoftware.globalpom.format.inetsocketaddress;
 
 import java.net.InetSocketAddress;
 import java.net.URI;

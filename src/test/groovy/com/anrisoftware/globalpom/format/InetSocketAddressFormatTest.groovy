@@ -23,6 +23,8 @@ import static com.anrisoftware.globalpom.utils.TestUtils.*
 
 import org.junit.Test
 
+import com.anrisoftware.globalpom.format.inetsocketaddress.InetSocketAddressFormat;
+
 /**
  * Test parsing and formatting Internet socket address.
  *
