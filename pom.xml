@@ -17,6 +17,10 @@
 	<url>https://www.anr-institute.com/projects/projects/globalpom-utils</url>
 	<inceptionYear>2013</inceptionYear>
 
+	<properties>
+		<project.custom.year>${project.inceptionYear}</project.custom.year>
+	</properties>
+
 	<developers>
 		<developer>
 			<id>EM</id>
@@ -44,10 +48,6 @@
 		<url>https://www.anr-institute.com/projects/projects/globalpom-utils</url>
 	</issueManagement>
 
-	<properties>
-		<project.custom.year>${project.inceptionYear}</project.custom.year>
-	</properties>
-
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -58,7 +58,7 @@
 			<dependency>
 				<groupId>com.anrisoftware.globalpom</groupId>
 				<artifactId>globalpom-log</artifactId>
-				<version>1.9-SNAPSHOT</version>
+				<version>1.9</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -76,6 +76,14 @@
 		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-assistedinject</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
 		</dependency>
 	</dependencies>
 
