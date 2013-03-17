@@ -58,7 +58,14 @@
 			<dependency>
 				<groupId>com.anrisoftware.globalpom</groupId>
 				<artifactId>globalpom-log</artifactId>
-				<version>1.9.1-SNAPSHOT</version>
+				<version>1.9.1</version>
+			</dependency>
+			<dependency>
+				<groupId>com.anrisoftware.propertiesutils</groupId>
+				<artifactId>
+					propertiesutils-contextproperties
+				</artifactId>
+				<version>1.5</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -84,6 +91,13 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
+		</dependency>
+
+		<!-- for map to string -->
+		<dependency>
+			<groupId>com.anrisoftware.propertiesutils</groupId>
+			<artifactId>propertiesutils-contextproperties</artifactId>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 
