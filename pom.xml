@@ -11,7 +11,7 @@
 	</parent>
 
 	<artifactId>globalpom-utils</artifactId>
-	<version>1.1</version>
+	<version>1.2-SNAPSHOT</version>
 	<name>Global POM :: Utilities</name>
 	<description>Various utilities.</description>
 	<url>https://www.anr-institute.com/projects/projects/globalpom-utils</url>
