@@ -21,6 +21,7 @@ package com.anrisoftware.globalpom.strings;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
+import java.util.Properties;
 
 import com.anrisoftware.propertiesutils.ContextProperties;
 import com.anrisoftware.propertiesutils.ContextPropertiesFactory;
@@ -34,9 +35,45 @@ import com.anrisoftware.propertiesutils.ContextPropertiesFactory;
  * </pre>
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.0
+ * @since 1.2
  */
 public class MapToTableString implements Appendable {
+
+	/**
+	 * The context properties context.
+	 * 
+	 * @since 1.3
+	 */
+	public static final String PROPERTIES_CONTEXT = MapToTableString.class
+			.getPackage().getName();
+
+	/**
+	 * The name of the null string value property.
+	 * 
+	 * @since 1.3
+	 */
+	public static final String NULL_STRING_PROPERTY = "null_string";
+
+	/**
+	 * The name of the line separator value property.
+	 * 
+	 * @since 1.3
+	 */
+	public static final String LINE_SEPARATOR_PROPERTY = "line_separator";
+
+	/**
+	 * The name of the values delimiter value property.
+	 * 
+	 * @since 1.3
+	 */
+	public static final String VALUES_DELIMITER_PROPERTY = "values_delimiter";
+
+	private static final String NULL_STRING_DEFAULT = "NULL";
+
+	private static final String VALUES_DELIMITER_DEFAULT = ":=";
+
+	private static final String LINE_SEPARATOR = System
+			.getProperty("line.separator");
 
 	private static final URL PROPERTIES_RESOURCE = MapToTableString.class
 			.getResource("/table_printer.properties");
@@ -86,11 +123,38 @@ public class MapToTableString implements Appendable {
 	 * representation.
 	 * 
 	 * @param p
+	 *            the {@link Properties}:
+	 *            <dl>
+	 *            <dt>{@code com.anrisoftware.globalpom.strings.values_delimiter}
+	 *            </dt>
+	 *            <dd>The string to use to separate the value from the key.</dd>
+	 * 
+	 *            <dt>{@code com.anrisoftware.globalpom.strings.line_separator}</dt>
+	 *            <dd>The string to use to separate the entries.</dd>
+	 * 
+	 *            <dt>{@code com.anrisoftware.globalpom.strings.null_string}</dt>
+	 *            <dd>The string to use for {@code null} keys or values.</dd>
+	 *            </dl>
+	 * 
+	 * @param appendable
+	 *            the {@link Appendable} to append the string representation.
+	 * 
+	 * @since 1.3
+	 */
+	public MapToTableString(Properties p, Appendable appendable) {
+		this(new ContextProperties(MapToTableString.class, p), appendable);
+	}
+
+	/**
+	 * Sets the properties for the converter and where to append the string
+	 * representation.
+	 * 
+	 * @param p
 	 *            the {@link ContextProperties}:
 	 *            <dl>
-	 *            <dt>{@code com.anrisoftware.globalpom.strings.values_delimeter}
+	 *            <dt>{@code com.anrisoftware.globalpom.strings.values_delimiter}
 	 *            </dt>
-	 *            <dd>The string to use to separate the value froom the key.</dd>
+	 *            <dd>The string to use to separate the value from the key.</dd>
 	 * 
 	 *            <dt>{@code com.anrisoftware.globalpom.strings.line_separator}</dt>
 	 *            <dd>The string to use to separate the entries.</dd>
@@ -104,9 +168,12 @@ public class MapToTableString implements Appendable {
 	 */
 	public MapToTableString(ContextProperties p, Appendable appendable) {
 		this.appendable = appendable;
-		this.valuesDelimeter = p.getProperty("values_delimeter");
-		this.lineSeparator = p.getProperty("line_separator");
-		this.nullString = p.getProperty("null_string");
+		this.valuesDelimeter = p.getProperty(VALUES_DELIMITER_PROPERTY,
+				VALUES_DELIMITER_DEFAULT);
+		this.lineSeparator = p.getProperty(LINE_SEPARATOR_PROPERTY,
+				LINE_SEPARATOR);
+		this.nullString = p.getProperty(NULL_STRING_PROPERTY,
+				NULL_STRING_DEFAULT);
 	}
 
 	/**
