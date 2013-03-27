@@ -23,7 +23,7 @@ import static java.lang.String.format;
 import java.text.ParseException;
 import java.text.ParsePosition;
 
-import com.anrisoftware.globalpom.log.AbstractSerializedLogger;
+import com.anrisoftware.globalpom.log.AbstractLogger;
 
 /**
  * Logging messages for {@link PointFormat.class}.
@@ -31,7 +31,7 @@ import com.anrisoftware.globalpom.log.AbstractSerializedLogger;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.6
  */
-class PointFormatLogger extends AbstractSerializedLogger {
+class PointFormatLogger extends AbstractLogger {
 
 	/**
 	 * Create logger for {@link PointFormat.class}.
@@ -43,14 +43,12 @@ class PointFormatLogger extends AbstractSerializedLogger {
 	ParseException errorParsePoint(String source, ParsePosition pos) {
 		String message = format("Unparseable point: '%s'", source);
 		ParseException ex = new ParseException(message, pos.getErrorIndex());
-		logException(message, ex);
-		return ex;
+		return logException(ex, message);
 	}
 
 	ParseException errorTwoPointsNeeded(String string) {
 		String message = format("Point needs two dimensions: '%s'", string);
 		ParseException ex = new ParseException(message, 0);
-		logException(message, ex);
-		return ex;
+		return logException(ex, message);
 	}
 }
