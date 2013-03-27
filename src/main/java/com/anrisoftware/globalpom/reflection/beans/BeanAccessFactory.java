@@ -13,34 +13,60 @@ import java.lang.reflect.Field;
 public interface BeanAccessFactory {
 
 	/**
-	 * Creates the field access with the specified name in the parent object.
+	 * Creates the bean access to the specified field.
 	 * 
-	 * @param fieldName
-	 *            the field name.
+	 * @param name
+	 *            the field name. The access will be either through the
+	 *            getter/setter methods or through the field directly if no
+	 *            getter/setter methods are defined. Must have a field in the
+	 *            bean to identify the type.
 	 * 
-	 * @param parentObject
-	 *            the parent {@link Object}.
+	 * @param bean
+	 *            the bean {@link Object}.
 	 * 
 	 * @return the {@link BeanAccess}.
 	 * 
 	 * @throws NullPointerException
-	 *             if the field name or the parent object is {@code null}.
+	 *             if the name or the parent object is {@code null}.
 	 */
-	BeanAccess create(String fieldName, Object parentObject);
+	BeanAccess create(String name, Object bean);
 
 	/**
-	 * Creates the field access with the specified field in the parent object.
+	 * Creates the bean access to the specified field
+	 * 
+	 * @param name
+	 *            the field name. The access will be either through the
+	 *            getter/setter methods or through the field directly if no
+	 *            getter/setter methods are defined.
+	 * 
+	 * @param type
+	 *            the {@link Class} type of the field.
+	 * 
+	 * @param bean
+	 *            the bean {@link Object}.
+	 * 
+	 * @return the {@link BeanAccess}.
+	 * 
+	 * @throws NullPointerException
+	 *             if the name or the parent object is {@code null}.
+	 */
+	BeanAccess create(String name, Class<?> type, Object bean);
+
+	/**
+	 * Creates the bean access to the specified field.
 	 * 
 	 * @param field
-	 *            the {@link Field}.
+	 *            the {@link Field}. The access will be either through the
+	 *            getter/setter methods of the field or through the field
+	 *            directly if no getter/setter methods are defined.
 	 * 
-	 * @param parentObject
-	 *            the parent {@link Object}.
+	 * @param bean
+	 *            the bean {@link Object}.
 	 * 
 	 * @return the {@link BeanAccess}.
 	 * 
 	 * @throws NullPointerException
 	 *             if the field or the parent object is {@code null}.
 	 */
-	BeanAccess create(Field field, Object parentObject);
+	BeanAccess create(Field field, Object bean);
 }

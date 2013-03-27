@@ -18,7 +18,9 @@
  */
 package com.anrisoftware.globalpom.reflection.beans;
 
+import java.beans.PropertyVetoException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import com.anrisoftware.globalpom.reflection.exceptions.ReflectionError;
 
@@ -33,13 +35,33 @@ public interface BeanAccess {
 	/**
 	 * Returns the field.
 	 * 
-	 * @return the {@link Field}.
-	 * 
-	 * @throws NullPointerException
-	 *             if the specified field name or parent object is {@code null}.
-	 * 
+	 * @return the {@link Field} or {@code null} if there is no field.
 	 */
 	Field getField();
+
+	/**
+	 * Returns the setter method of the bean. The setter method is a method with
+	 * the signature:
+	 * 
+	 * <pre>
+	 * public void setAttribute(Type value);
+	 * </pre>
+	 * 
+	 * @return the {@link Method} of {@code null} if there is no setter method.
+	 */
+	Method getSetter();
+
+	/**
+	 * Returns the getter method of the bean. The getter method is a method with
+	 * the signature:
+	 * 
+	 * <pre>
+	 * public Type getAttribute();
+	 * </pre>
+	 * 
+	 * @return the {@link Method} of {@code null} if there is no getter method.
+	 */
+	Method getGetter();
 
 	/**
 	 * Return the value from a field with the specified name.
@@ -69,7 +91,10 @@ public interface BeanAccess {
 	 * 
 	 * @param value
 	 *            the value to be set.
+	 * 
+	 * @throws PropertyVetoException
+	 *             if the value is unacceptable by the bean.
 	 */
-	void setValue(Object value);
+	void setValue(Object value) throws PropertyVetoException;
 
 }

@@ -20,8 +20,10 @@ package com.anrisoftware.globalpom.reflection.beans;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
+import java.beans.PropertyVetoException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import com.anrisoftware.globalpom.log.AbstractLogger;
 import com.anrisoftware.globalpom.reflection.exceptions.ReflectionError;
@@ -34,9 +36,13 @@ import com.anrisoftware.globalpom.reflection.exceptions.ReflectionError;
  */
 class BeanAccessImplLogger extends AbstractLogger {
 
+	private static final String FIELD_TYPE_NULL = "Field type cannot be null.";
+
+	private static final String UNACCEPTABLE_VALUE = "Unacceptable value for %s#%s in %s.";
+
 	private static final String FIELD_NULL = "The specified field cannot be null.";
 
-	private static final String PARENT_OBJECT_NULL = "The specified parent object cannot be null.";
+	private static final String BEAN_NULL = "The specified bean object cannot be null.";
 
 	private static final String FIELD_NAME_NULL = "The specified field name cannot be null.";
 
@@ -48,13 +54,13 @@ class BeanAccessImplLogger extends AbstractLogger {
 
 	private static final String EXCEPTION_THROWN = "Exception thrown in getter";
 
-	private static final String EXCEPTION_GETTER_MESSAGE = "Exception thrown in getter of %s#%s.";
+	private static final String EXCEPTION_GETTER_MESSAGE = "Exception thrown in getter %3$s of %1$s#%2$s.";
 
-	private static final String ILLEGAL_ARGUMENT_MESSAGE = "Illegal argument for getter for %s#%s.";
+	private static final String ILLEGAL_ARGUMENT_MESSAGE = "Illegal argument for getter %3$s for %1$s#%2$s.";
 
 	private static final String ILLEGAL_ACCESS_FIELD_MESSAGE = "Illegal access to field %s#%s.";
 
-	private static final String ILLEGAL_ACCESS_GETTER_MESSAGE = "Illegal access to field getter %s#%s.";
+	private static final String ILLEGAL_ACCESS_GETTER_MESSAGE = "Illegal access to field getter %3$s for %1$s#%2$s.";
 
 	/**
 	 * Creates logger for {@link BeanAccessImpl}.
@@ -63,48 +69,63 @@ class BeanAccessImplLogger extends AbstractLogger {
 		super(BeanAccessImpl.class);
 	}
 
-	ReflectionError illegalAccessError(IllegalAccessException e,
-			Object parentObject, String name) {
-		return logException(new ReflectionError(ILLEGAL_ACCESS_GETTER, e)
-				.addContextValue("parent object", parentObject)
-				.addContextValue("name", name), ILLEGAL_ACCESS_GETTER_MESSAGE,
-				parentObject, name);
+	ReflectionError illegalAccessError(IllegalAccessException e, Object bean,
+			String fieldName, Method getter) {
+		return logException(
+				new ReflectionError(ILLEGAL_ACCESS_GETTER, e)
+						.addContextValue("bean", bean)
+						.addContextValue("field", fieldName)
+						.addContextValue("getter", getter),
+				ILLEGAL_ACCESS_GETTER_MESSAGE, bean, fieldName, getter);
 	}
 
-	ReflectionError illegalAccessError(IllegalAccessException e, Field field,
-			Object parentObject) {
-		return logException(new ReflectionError(ILLEGAL_ACCESS_FIELD, e)
-				.addContextValue("parent object", parentObject)
-				.addContextValue("field", field), ILLEGAL_ACCESS_FIELD_MESSAGE,
-				parentObject, field);
+	ReflectionError illegalAccessError(IllegalAccessException e,
+			String fieldName, Object bean) {
+		return logException(
+				new ReflectionError(ILLEGAL_ACCESS_FIELD, e).addContextValue(
+						"bean", bean).addContextValue("field", fieldName),
+				ILLEGAL_ACCESS_FIELD_MESSAGE, bean, fieldName);
 	}
 
 	ReflectionError illegalArgumentError(IllegalArgumentException e,
-			Object parentObject, String name) {
-		return logException(new ReflectionError(ILLEGAL_ARGUMENT, e)
-				.addContextValue("parent object", parentObject)
-				.addContextValue("name", name), ILLEGAL_ARGUMENT_MESSAGE,
-				parentObject, name);
+			Object bean, String fieldName, Method getter) {
+		return logException(
+				new ReflectionError(ILLEGAL_ARGUMENT, e)
+						.addContextValue("bean", bean)
+						.addContextValue("name", fieldName)
+						.addContextValue("getter", getter),
+				ILLEGAL_ARGUMENT_MESSAGE, bean, fieldName, getter);
 	}
 
 	ReflectionError invocationTargetError(InvocationTargetException e,
-			Object parentObject, String name) {
-		return logException(new ReflectionError(EXCEPTION_THROWN, e.getCause())
-				.addContextValue("parent object", parentObject)
-				.addContextValue("name", name), EXCEPTION_GETTER_MESSAGE,
-				parentObject, name);
+			Object bean, String fieldName, Method getter) {
+		return logException(
+				new ReflectionError(EXCEPTION_THROWN, e.getCause())
+						.addContextValue("bean", bean)
+						.addContextValue("field", fieldName)
+						.addContextValue("getter", getter),
+				EXCEPTION_GETTER_MESSAGE, bean, fieldName, getter);
 	}
 
 	void checkFieldName(String fieldName) {
 		notNull(fieldName, FIELD_NAME_NULL);
 	}
 
-	void checkParentObject(Object parentObject) {
-		notNull(parentObject, PARENT_OBJECT_NULL);
+	void checkBean(Object parentObject) {
+		notNull(parentObject, BEAN_NULL);
 	}
 
 	void checkField(Field field) {
 		notNull(field, FIELD_NULL);
+	}
+
+	PropertyVetoException unacceptableValueError(PropertyVetoException ex,
+			Object bean, String fieldName, Method setter) {
+		return logException(ex, UNACCEPTABLE_VALUE, bean, fieldName, setter);
+	}
+
+	void checkFieldType(Class<?> fieldType) {
+		notNull(fieldType, FIELD_TYPE_NULL);
 	}
 
 }

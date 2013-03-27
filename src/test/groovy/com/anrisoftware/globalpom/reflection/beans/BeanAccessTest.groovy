@@ -18,6 +18,8 @@
  */
 package com.anrisoftware.globalpom.reflection.beans
 
+import java.beans.PropertyVetoException
+
 import org.apache.commons.lang3.reflect.FieldUtils
 import org.junit.Before
 import org.junit.BeforeClass
@@ -60,6 +62,14 @@ class BeanAccessTest extends BeanUtils {
 	}
 
 	@Test
+	void "read method value"() {
+		def field = "methodOnly"
+		def value = factory.create(field, String.class, bean.bean).getValue()
+		assertStringContent value, "MethodOnly"
+		assert bean.bean.getterMethodOnlyCalled
+	}
+
+	@Test
 	void "write field value"() {
 		def field = FieldUtils.getField Bean, "stringField", true
 		String value = "value"
@@ -83,6 +93,24 @@ class BeanAccessTest extends BeanUtils {
 		shouldFailWith(ReflectionError) {
 			factory.create(field, bean.bean).setValue(value)
 		}
+	}
+
+	@Test
+	void "write method value"() {
+		def field = "methodOnly"
+		String value = "value"
+		factory.create(field, String.class, bean.bean).setValue(value)
+		assert bean.bean.setterMethodOnlyCalled
+	}
+
+	@Test
+	void "write method value with veto"() {
+		def field = "getterMethodOnlyVetoException"
+		String value = "value"
+		shouldFailWith(PropertyVetoException) {
+			factory.create(field, String.class, bean.bean).setValue(value)
+		}
+		assert bean.bean.setterMethodOnlyVetoExceptionCalled
 	}
 
 	static Injector injector

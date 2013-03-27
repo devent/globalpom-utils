@@ -1,5 +1,9 @@
 package com.anrisoftware.globalpom.reflection.utils
 
+import java.beans.PropertyChangeEvent
+import java.beans.PropertyVetoException
+
+
 /**
  * Bean to test fields access.
  * 
@@ -27,6 +31,14 @@ class Bean {
 
 	String setterFieldThatThrowsException = 'Setter Text'
 
+	boolean getterMethodOnlyCalled = false
+
+	boolean setterMethodOnlyCalled = false
+
+	boolean getterMethodOnlyVetoExceptionCalled = false
+
+	boolean setterMethodOnlyVetoExceptionCalled = false
+
 	String getGetterField() {
 		getterOfGetterFieldCalled = true
 		return getterField
@@ -43,6 +55,27 @@ class Bean {
 
 	void setSetterFieldThatThrowsException(String value) {
 		throw new Exception("Error in setter")
+	}
+
+	String getMethodOnly() {
+		getterMethodOnlyCalled = true
+		return "MethodOnly"
+	}
+
+	void setMethodOnly(String value) {
+		setterMethodOnlyCalled = true
+	}
+
+	String getGetterMethodOnlyVetoException() {
+		getterMethodOnlyVetoExceptionCalled = true
+		return "veto"
+	}
+
+	void setGetterMethodOnlyVetoException(String value) throws PropertyVetoException {
+		setterMethodOnlyVetoExceptionCalled = true
+		def name = "methodOnlyVetoException"
+		def event = new PropertyChangeEvent(this, name, null, null)
+		throw new PropertyVetoException(name, event)
 	}
 }
 

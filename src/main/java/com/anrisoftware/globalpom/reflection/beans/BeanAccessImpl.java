@@ -20,6 +20,7 @@ package com.anrisoftware.globalpom.reflection.beans;
 
 import static org.apache.commons.lang3.reflect.MethodUtils.getAccessibleMethod;
 
+import java.beans.PropertyVetoException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -41,19 +42,50 @@ class BeanAccessImpl implements BeanAccess {
 
 	private final Field field;
 
-	private final Object parentObject;
+	private final String fieldName;
+
+	private final Object bean;
+
+	private final Method setter;
+
+	private final Method getter;
+
+	private final Class<?> fieldType;
 
 	/**
 	 * @see BeanAccessFactory#create(String, Object)
 	 */
 	@AssistedInject
 	BeanAccessImpl(BeanAccessImplLogger logger, @Assisted String fieldName,
-			@Assisted Object parentObject) {
+			@Assisted Object bean) {
 		this.log = logger;
 		log.checkFieldName(fieldName);
-		log.checkParentObject(parentObject);
-		this.parentObject = parentObject;
-		this.field = toField(fieldName, parentObject);
+		log.checkBean(bean);
+		this.fieldName = fieldName;
+		this.field = findField(fieldName, bean);
+		log.checkField(field);
+		this.fieldType = field.getType();
+		this.bean = bean;
+		this.setter = findSetter(fieldName, fieldType, bean);
+		this.getter = findGetter(fieldName, bean);
+	}
+
+	/**
+	 * @see BeanAccessFactory#create(String, Class, Object)
+	 */
+	@AssistedInject
+	BeanAccessImpl(BeanAccessImplLogger logger, @Assisted String fieldName,
+			@Assisted Class<?> fieldType, @Assisted Object bean) {
+		this.log = logger;
+		log.checkFieldName(fieldName);
+		log.checkFieldType(fieldType);
+		log.checkBean(bean);
+		this.fieldName = fieldName;
+		this.field = findField(fieldName, bean);
+		this.fieldType = fieldType;
+		this.bean = bean;
+		this.setter = findSetter(fieldName, fieldType, bean);
+		this.getter = findGetter(fieldName, bean);
 	}
 
 	/**
@@ -61,16 +93,48 @@ class BeanAccessImpl implements BeanAccess {
 	 */
 	@AssistedInject
 	BeanAccessImpl(BeanAccessImplLogger logger, @Assisted Field field,
-			@Assisted Object parentObject) {
+			@Assisted Object bean) {
 		this.log = logger;
 		log.checkField(field);
-		log.checkParentObject(parentObject);
-		this.parentObject = parentObject;
-		this.field = field;
+		log.checkBean(bean);
+		this.fieldName = field.getName();
+		this.field = findField(fieldName, bean);
+		this.fieldType = field.getType();
+		this.bean = bean;
+		this.setter = findSetter(fieldName, fieldType, bean);
+		this.getter = findGetter(fieldName, bean);
 	}
 
-	private Field toField(String fieldName, Object parentObject) {
-		return FieldUtils.getField(parentObject.getClass(), fieldName, true);
+	private Field findField(String fieldName, Object bean) {
+		return FieldUtils.getField(bean.getClass(), fieldName, true);
+	}
+
+	private Method findSetter(String fieldName, Class<?> type, Object bean) {
+		String name = getSetterName(fieldName);
+		return getAccessibleMethod(bean.getClass(), name, type);
+	}
+
+	private String getSetterName(String name) {
+		StringBuilder builder = new StringBuilder();
+		char nameChar = Character.toUpperCase(name.charAt(0));
+		builder.append("set");
+		builder.append(nameChar);
+		builder.append(name.substring(1));
+		return builder.toString();
+	}
+
+	private Method findGetter(String fieldName, Object bean) {
+		String name = getGetterName(fieldName);
+		return getAccessibleMethod(bean.getClass(), name);
+	}
+
+	private String getGetterName(String name) {
+		StringBuilder builder = new StringBuilder();
+		char nameChar = Character.toUpperCase(name.charAt(0));
+		builder.append("get");
+		builder.append(nameChar);
+		builder.append(name.substring(1));
+		return builder.toString();
 	}
 
 	@Override
@@ -79,28 +143,36 @@ class BeanAccessImpl implements BeanAccess {
 	}
 
 	@Override
+	public Method getGetter() {
+		return getter;
+	}
+
+	@Override
+	public Method getSetter() {
+		return setter;
+	}
+
+	@Override
 	public <T> T getValue() {
-		T value = getValueFromGetter(field, parentObject);
+		T value = getValueFromGetter(getter, bean);
 		if (value == null) {
-			value = getValueFromField(field, parentObject);
+			value = getValueFromField(field, bean);
 		}
 		return value;
 	}
 
-	private <T> T getValueFromGetter(Field field, Object parentObject) {
-		String name = getGetterName(field);
-		Method method = getAccessibleMethod(parentObject.getClass(), name);
-		if (method == null) {
+	private <T> T getValueFromGetter(Method getter, Object bean) {
+		if (getter == null) {
 			return null;
 		}
 		try {
-			return toType(method.invoke(parentObject));
+			return toType(getter.invoke(bean));
 		} catch (IllegalAccessException e) {
-			throw log.illegalAccessError(e, parentObject, name);
+			throw log.illegalAccessError(e, bean, fieldName, getter);
 		} catch (IllegalArgumentException e) {
-			throw log.illegalArgumentError(e, parentObject, name);
+			throw log.illegalArgumentError(e, bean, fieldName, getter);
 		} catch (InvocationTargetException e) {
-			throw log.invocationTargetError(e, parentObject, name);
+			throw log.invocationTargetError(e, bean, fieldName, getter);
 		}
 	}
 
@@ -109,68 +181,48 @@ class BeanAccessImpl implements BeanAccess {
 		return (T) object;
 	}
 
-	private String getGetterName(Field field) {
-		StringBuilder builder = new StringBuilder();
-		String name = field.getName();
-		char nameChar = Character.toUpperCase(name.charAt(0));
-		builder.append("get");
-		builder.append(nameChar);
-		builder.append(name.substring(1));
-		return builder.toString();
-	}
-
-	private <T> T getValueFromField(Field field, Object parentObject) {
+	private <T> T getValueFromField(Field field, Object bean) {
 		try {
-			return toType(FieldUtils.readField(field, parentObject, true));
+			return toType(FieldUtils.readField(field, bean, true));
 		} catch (IllegalAccessException e) {
-			throw log.illegalAccessError(e, field, parentObject);
+			throw log.illegalAccessError(e, fieldName, bean);
 		}
 	}
 
 	@Override
-	public void setValue(Object value) {
-		boolean set = setValueWithSetter(value, field, parentObject);
+	public void setValue(Object value) throws PropertyVetoException {
+		boolean set = setValueWithSetter(setter, value);
 		if (!set) {
-			setValueFromField(value, field, parentObject);
+			setValueFromField(value, field, bean);
 		}
 	}
 
-	private boolean setValueWithSetter(Object value, Field field,
-			Object parentObject) {
-		String name = getSetterName(field);
-		Class<?> cls = parentObject.getClass();
-		Method method = getAccessibleMethod(cls, name, value.getClass());
-		if (method == null) {
+	private boolean setValueWithSetter(Method setter, Object value)
+			throws PropertyVetoException {
+		if (setter == null) {
 			return false;
 		}
 		try {
-			method.invoke(parentObject, value);
+			setter.invoke(bean, value);
 			return true;
 		} catch (IllegalAccessException e) {
-			throw log.illegalAccessError(e, parentObject, name);
+			throw log.illegalAccessError(e, bean, fieldName, setter);
 		} catch (IllegalArgumentException e) {
-			throw log.illegalArgumentError(e, parentObject, name);
+			throw log.illegalArgumentError(e, bean, fieldName, setter);
 		} catch (InvocationTargetException e) {
-			throw log.invocationTargetError(e, parentObject, name);
+			if (e.getCause() instanceof PropertyVetoException) {
+				PropertyVetoException ex = (PropertyVetoException) e.getCause();
+				throw log.unacceptableValueError(ex, bean, fieldName, setter);
+			}
+			throw log.invocationTargetError(e, bean, fieldName, setter);
 		}
 	}
 
-	private String getSetterName(Field field) {
-		StringBuilder builder = new StringBuilder();
-		String name = field.getName();
-		char nameChar = Character.toUpperCase(name.charAt(0));
-		builder.append("set");
-		builder.append(nameChar);
-		builder.append(name.substring(1));
-		return builder.toString();
-	}
-
-	private void setValueFromField(Object value, Field field,
-			Object parentObject) {
+	private void setValueFromField(Object value, Field field, Object bean) {
 		try {
-			FieldUtils.writeField(field, parentObject, value, true);
+			FieldUtils.writeField(field, bean, value, true);
 		} catch (IllegalAccessException e) {
-			throw log.illegalAccessError(e, field, parentObject);
+			throw log.illegalAccessError(e, fieldName, bean);
 		}
 	}
 
