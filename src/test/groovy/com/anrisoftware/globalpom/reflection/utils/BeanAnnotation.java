@@ -1,6 +1,7 @@
 package com.anrisoftware.globalpom.reflection.utils;
 
 import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Retention;
@@ -12,7 +13,7 @@ import java.lang.annotation.Target;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.4
  */
-@Target(FIELD)
+@Target({ FIELD, METHOD })
 @Retention(RUNTIME)
 public @interface BeanAnnotation {
 

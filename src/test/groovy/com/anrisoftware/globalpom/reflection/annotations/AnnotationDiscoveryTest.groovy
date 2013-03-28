@@ -24,7 +24,6 @@ import org.apache.commons.lang3.reflect.FieldUtils
 import org.junit.BeforeClass
 import org.junit.Test
 
-import com.anrisoftware.globalpom.reflection.exceptions.ReflectionError
 import com.anrisoftware.globalpom.reflection.utils.Bean
 import com.anrisoftware.globalpom.reflection.utils.BeanAnnotation
 import com.anrisoftware.globalpom.reflection.utils.ParentBean
@@ -36,35 +35,24 @@ import com.google.inject.Injector
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.4
  */
-class AnnotationAccessTest extends AnnotationUtils {
+class AnnotationDiscoveryTest extends AnnotationUtils {
 
 	@Test
-	void "read annotation value"() {
-		def access = factory.create BeanAnnotation, field
-		def value = access.getValue()
-		assertStringContent value, "Annotation Value"
-	}
-
-	@Test
-	void "read annotation title value"() {
-		def name = "title"
-		def access = factory.create BeanAnnotation, field
-		def value = access.getValue(name)
-		assertStringContent value, "Annotation Title"
-	}
-
-	@Test
-	void "read undefined annotation element"() {
-		def name = "not defined"
-		def access = factory.create BeanAnnotation, field
-		shouldFailWith(ReflectionError) {
-			def value = access.getValue(name)
-		}
+	void "find annotations"() {
+		int foundCounter = 0
+		def filter = filterFactory.create([BeanAnnotation])
+		def a = factory.create bean.bean, filter
+		a.addListener([memberFound: { foundCounter++ }]as AnnotationListener)
+		def result = a.call()
+		assert result.size() == 3
+		assert foundCounter == 3
 	}
 
 	static Injector injector
 
-	static AnnotationAccessFactory factory
+	static AnnotationDiscoveryFactory factory
+
+	static AnnotationSetFilterFactory filterFactory
 
 	static ParentBean bean
 
@@ -73,7 +61,8 @@ class AnnotationAccessTest extends AnnotationUtils {
 	@BeforeClass
 	static void setupFactory() {
 		injector = createInjector()
-		factory = createAnnotationAccessFactory(injector)
+		factory = createAnnotationDiscoveryFactory(injector)
+		filterFactory = createAnnotationSetFilterFactory(injector)
 		bean = new ParentBean()
 		field = FieldUtils.getField Bean, "annotatedField", true
 	}

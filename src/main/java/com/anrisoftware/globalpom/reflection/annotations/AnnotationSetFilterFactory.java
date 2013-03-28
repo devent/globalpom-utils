@@ -18,32 +18,25 @@
  */
 package com.anrisoftware.globalpom.reflection.annotations;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
+import java.lang.annotation.Annotation;
+import java.util.Collection;
 
 /**
- * Binds the annotation access and annotation discovery.
+ * Factory to create an annotation filter from a collection of annotation types.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.4
- * 
- * @see AnnotationAccessFactory
- * @see AnnotationDiscoveryFactory
- * @see AnnotationSetFilterFactory
  */
-public class AnnotationsModule extends AbstractModule {
+public interface AnnotationSetFilterFactory {
 
-	@Override
-	protected void configure() {
-		install(new FactoryModuleBuilder().implement(AnnotationAccess.class,
-				AnnotationAccessImpl.class)
-				.build(AnnotationAccessFactory.class));
-		install(new FactoryModuleBuilder().implement(AnnotationDiscovery.class,
-				AnnotationDiscoveryImpl.class).build(
-				AnnotationDiscoveryFactory.class));
-		install(new FactoryModuleBuilder().implement(AnnotationFilter.class,
-				AnnotationSetFilter.class).build(
-				AnnotationSetFilterFactory.class));
-	}
-
+	/**
+	 * Creates a new filter from the specified annotation types.
+	 * 
+	 * @param annotations
+	 *            {@link Collection} that returns the annotation types.
+	 * 
+	 * @return the {@link AnnotationFilter}.
+	 */
+	AnnotationFilter create(
+			Collection<? extends Class<? extends Annotation>> annotations);
 }

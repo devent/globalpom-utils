@@ -18,6 +18,7 @@
  */
 package com.anrisoftware.globalpom.reflection.annotations
 
+import com.anrisoftware.globalpom.reflection.beans.BeansModule
 import com.anrisoftware.globalpom.utils.TestUtils
 import com.google.inject.Guice
 import com.google.inject.Injector
@@ -31,10 +32,18 @@ import com.google.inject.Injector
 class AnnotationUtils extends TestUtils {
 
 	static Injector createInjector() {
-		Guice.createInjector new AnnotationsModule()
+		Guice.createInjector new AnnotationsModule(), new BeansModule()
 	}
 
-	static AnnotationAccessFactory createFactory(Injector injector) {
+	static AnnotationAccessFactory createAnnotationAccessFactory(Injector injector) {
 		injector.getInstance AnnotationAccessFactory
+	}
+
+	static AnnotationSetFilterFactory createAnnotationSetFilterFactory(Injector injector) {
+		injector.getInstance AnnotationSetFilterFactory
+	}
+
+	static AnnotationDiscoveryFactory createAnnotationDiscoveryFactory(Injector injector) {
+		injector.getInstance AnnotationDiscoveryFactory
 	}
 }

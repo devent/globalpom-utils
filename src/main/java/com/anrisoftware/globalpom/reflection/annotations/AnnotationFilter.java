@@ -18,32 +18,24 @@
  */
 package com.anrisoftware.globalpom.reflection.annotations;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
+import java.lang.annotation.Annotation;
 
 /**
- * Binds the annotation access and annotation discovery.
+ * Filter that accepts annotations.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.4
- * 
- * @see AnnotationAccessFactory
- * @see AnnotationDiscoveryFactory
- * @see AnnotationSetFilterFactory
  */
-public class AnnotationsModule extends AbstractModule {
+public interface AnnotationFilter {
 
-	@Override
-	protected void configure() {
-		install(new FactoryModuleBuilder().implement(AnnotationAccess.class,
-				AnnotationAccessImpl.class)
-				.build(AnnotationAccessFactory.class));
-		install(new FactoryModuleBuilder().implement(AnnotationDiscovery.class,
-				AnnotationDiscoveryImpl.class).build(
-				AnnotationDiscoveryFactory.class));
-		install(new FactoryModuleBuilder().implement(AnnotationFilter.class,
-				AnnotationSetFilter.class).build(
-				AnnotationSetFilterFactory.class));
-	}
-
+	/**
+	 * Tests if the annotation is accepted by the filter.
+	 * 
+	 * @param annotation
+	 *            the {@link Annotation}.
+	 * 
+	 * @return {@code true} if the specified annotation is accepted,
+	 *         {@code false} if not.
+	 */
+	boolean accept(Annotation annotation);
 }

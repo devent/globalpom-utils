@@ -18,32 +18,42 @@
  */
 package com.anrisoftware.globalpom.reflection.annotations;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
+import java.lang.annotation.Annotation;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 /**
- * Binds the annotation access and annotation discovery.
+ * A filter that only accepts predefined {@link Annotation}s from a given
+ * collection.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.4
- * 
- * @see AnnotationAccessFactory
- * @see AnnotationDiscoveryFactory
- * @see AnnotationSetFilterFactory
  */
-public class AnnotationsModule extends AbstractModule {
+class AnnotationSetFilter implements AnnotationFilter {
+
+	private final Set<Class<? extends Annotation>> annotations;
+
+	/**
+	 * @see AnnotationSetFilterFactory#create(Iterable)
+	 */
+	@Inject
+	AnnotationSetFilter(
+			@Assisted Collection<? extends Class<? extends Annotation>> annotations) {
+		this.annotations = new HashSet<Class<? extends Annotation>>(annotations);
+	}
 
 	@Override
-	protected void configure() {
-		install(new FactoryModuleBuilder().implement(AnnotationAccess.class,
-				AnnotationAccessImpl.class)
-				.build(AnnotationAccessFactory.class));
-		install(new FactoryModuleBuilder().implement(AnnotationDiscovery.class,
-				AnnotationDiscoveryImpl.class).build(
-				AnnotationDiscoveryFactory.class));
-		install(new FactoryModuleBuilder().implement(AnnotationFilter.class,
-				AnnotationSetFilter.class).build(
-				AnnotationSetFilterFactory.class));
+	public boolean accept(Annotation annotation) {
+		for (Class<? extends Annotation> a : annotations) {
+			if (a.isInstance(annotation)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

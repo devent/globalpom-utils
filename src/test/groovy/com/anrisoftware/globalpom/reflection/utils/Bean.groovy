@@ -13,7 +13,7 @@ import java.beans.PropertyVetoException
 class Bean {
 
 	@BeanAnnotation(value = "Annotation Value", title = "Annotation Title")
-	String annotatedField = 'Text'
+	public String annotatedField = 'Text'
 
 	String stringField = 'Text'
 
@@ -76,6 +76,16 @@ class Bean {
 		def name = "methodOnlyVetoException"
 		def event = new PropertyChangeEvent(this, name, null, null)
 		throw new PropertyVetoException(name, event)
+	}
+
+	@BeanAnnotation(value = "Annotation Method", title = "Method Title")
+	String getAnnotatedMethod() {
+		return "AnnotatedMethod"
+	}
+
+	@BeanAnnotation(value = "Annotation Method Boolean", title = "Method Boolean Title")
+	boolean isAnnotatedMethodBoolean() {
+		return "AnnotatedMethodBoolean"
 	}
 }
 
