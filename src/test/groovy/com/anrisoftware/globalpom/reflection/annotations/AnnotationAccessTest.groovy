@@ -19,8 +19,10 @@
 package com.anrisoftware.globalpom.reflection.annotations
 
 import java.lang.reflect.Field
+import java.lang.reflect.Method
 
 import org.apache.commons.lang3.reflect.FieldUtils
+import org.apache.commons.lang3.reflect.MethodUtils
 import org.junit.BeforeClass
 import org.junit.Test
 
@@ -62,6 +64,13 @@ class AnnotationAccessTest extends AnnotationUtils {
 		}
 	}
 
+	@Test
+	void "read annotation value from method"() {
+		def access = factory.create BeanAnnotation, method
+		def value = access.getValue()
+		assertStringContent value, "Annotation Method"
+	}
+
 	static Injector injector
 
 	static AnnotationAccessFactory factory
@@ -70,11 +79,14 @@ class AnnotationAccessTest extends AnnotationUtils {
 
 	static Field field
 
+	static Method method
+
 	@BeforeClass
 	static void setupFactory() {
 		injector = createInjector()
 		factory = createAnnotationAccessFactory(injector)
 		bean = new ParentBean()
 		field = FieldUtils.getField Bean, "annotatedField", true
+		method = MethodUtils.getAccessibleMethod Bean, "getAnnotatedMethod"
 	}
 }

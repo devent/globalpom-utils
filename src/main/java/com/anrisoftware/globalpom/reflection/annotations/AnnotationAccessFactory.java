@@ -20,6 +20,7 @@ package com.anrisoftware.globalpom.reflection.annotations;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * Factory to create the access to the elements of an annotation.
@@ -42,4 +43,20 @@ public interface AnnotationAccessFactory {
 	 */
 	AnnotationAccess create(Class<? extends Annotation> annotationClass,
 			Field field);
+
+	/**
+	 * Creates the annotation access.
+	 * 
+	 * @param annotationClass
+	 *            the {@link Class} type of the annotation.
+	 * 
+	 * @param method
+	 *            the {@link Method} where the annotation is added.
+	 * 
+	 * @return the {@link AnnotationAccess}.
+	 * 
+	 * @since 1.5
+	 */
+	AnnotationAccess create(Class<? extends Annotation> annotationClass,
+			Method method);
 }

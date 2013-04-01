@@ -18,6 +18,8 @@
  */
 package com.anrisoftware.globalpom.reflection.annotations;
 
+import java.lang.annotation.Annotation;
+
 import com.anrisoftware.globalpom.reflection.exceptions.ReflectionError;
 
 /**
@@ -68,4 +70,13 @@ public interface AnnotationAccess {
 	 *             can not be accessed or the element throws an exception.
 	 */
 	<T> T getValue(String name);
+
+	/**
+	 * Returns the annotation.
+	 * 
+	 * @return the {@link Annotation}.
+	 * 
+	 * @since 1.5
+	 */
+	Annotation getAnnotation();
 }

@@ -21,12 +21,12 @@ package com.anrisoftware.globalpom.reflection.annotations;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-
-import javax.inject.Inject;
+import java.lang.reflect.Method;
 
 import org.apache.commons.lang3.reflect.MethodUtils;
 
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 /**
  * Read access to the elements of an annotation via reflection.
@@ -42,16 +42,34 @@ class AnnotationAccessImpl implements AnnotationAccess {
 
 	private final Field field;
 
+	private final Method method;
+
 	/**
 	 * @see AnnotationAccessFactory#create(Class, Field)
 	 */
-	@Inject
+	@AssistedInject
+	AnnotationAccessImpl(AnnotationAccessImplLogger logger,
+			@Assisted Class<? extends Annotation> annotationClass,
+			@Assisted Method method) {
+		this.log = logger;
+		this.annotationClass = annotationClass;
+		this.field = null;
+		this.method = method;
+	}
+
+	/**
+	 * @see AnnotationAccessFactory#create(Class, Method)
+	 * 
+	 * @since 1.5
+	 */
+	@AssistedInject
 	AnnotationAccessImpl(AnnotationAccessImplLogger logger,
 			@Assisted Class<? extends Annotation> annotationClass,
 			@Assisted Field field) {
 		this.log = logger;
 		this.annotationClass = annotationClass;
 		this.field = field;
+		this.method = null;
 	}
 
 	@Override
@@ -61,7 +79,7 @@ class AnnotationAccessImpl implements AnnotationAccess {
 
 	@Override
 	public <T> T getValue(String name) {
-		Annotation a = field.getAnnotation(annotationClass);
+		Annotation a = getAnnotation();
 		try {
 			return asType(name, a);
 		} catch (NoSuchMethodException e) {
@@ -71,6 +89,17 @@ class AnnotationAccessImpl implements AnnotationAccess {
 		} catch (InvocationTargetException e) {
 			throw log.invocationTargetError(e, annotationClass, field, name);
 		}
+	}
+
+	@Override
+	public Annotation getAnnotation() {
+		if (field != null) {
+			return field.getAnnotation(annotationClass);
+		}
+		if (method != null) {
+			return method.getAnnotation(annotationClass);
+		}
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
