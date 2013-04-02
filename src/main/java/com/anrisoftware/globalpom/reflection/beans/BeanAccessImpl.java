@@ -76,11 +76,11 @@ class BeanAccessImpl implements BeanAccess {
 
 	private Class<?> findFieldType(String fieldName, Object bean, Field field,
 			Method getter) {
-		if (field != null) {
-			return field.getType();
-		}
 		if (getter != null) {
 			return getter.getReturnType();
+		}
+		if (field != null) {
+			return field.getType();
 		}
 		throw log.neitherFieldGetter(bean, fieldName);
 	}
@@ -167,17 +167,14 @@ class BeanAccessImpl implements BeanAccess {
 
 	@Override
 	public <T> T getValue() {
-		T value = getValueFromGetter(getter, bean);
-		if (value == null) {
-			value = getValueFromField(field, bean);
+		if (getter != null) {
+			return getValueFromGetter(getter, bean);
+		} else {
+			return getValueFromField(field, bean);
 		}
-		return value;
 	}
 
 	private <T> T getValueFromGetter(Method getter, Object bean) {
-		if (getter == null) {
-			return null;
-		}
 		try {
 			return toType(getter.invoke(bean));
 		} catch (IllegalAccessException e) {
@@ -206,7 +203,7 @@ class BeanAccessImpl implements BeanAccess {
 	public void setValue(Object value) throws PropertyVetoException {
 		boolean set = setValueWithSetter(setter, value);
 		if (!set) {
-			setValueFromField(value, field, bean);
+			setValueToField(value, field, bean);
 		}
 	}
 
@@ -231,7 +228,7 @@ class BeanAccessImpl implements BeanAccess {
 		}
 	}
 
-	private void setValueFromField(Object value, Field field, Object bean) {
+	private void setValueToField(Object value, Field field, Object bean) {
 		try {
 			FieldUtils.writeField(field, bean, value, true);
 		} catch (IllegalAccessException e) {

@@ -23,7 +23,9 @@ import java.lang.reflect.Field;
 import com.anrisoftware.globalpom.reflection.exceptions.ReflectionError;
 
 /**
- * Factory to create a new access to a Java bean.
+ * Factory to create a new access to a Java bean. If both the getter method and
+ * the field are defined then any information and access will be through the
+ * getter method first.
  * 
  * @see BeanAccess
  * 
@@ -38,8 +40,8 @@ public interface BeanAccessFactory {
 	 * @param name
 	 *            the field name. The access will be either through the
 	 *            getter/setter methods or through the field directly if no
-	 *            getter/setter methods are defined. Must have a field or a
-	 *            getter method in the bean to identify the type.
+	 *            getter/setter methods are defined. Must have a getter method
+	 *            or a field in the bean to identify the type.
 	 * 
 	 * @param bean
 	 *            the bean {@link Object}.
