@@ -19,7 +19,7 @@
 package com.anrisoftware.globalpom.reflection.annotations;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
+import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.inject.Inject;
@@ -37,11 +37,23 @@ import com.anrisoftware.globalpom.reflection.exceptions.ReflectionError;
 @Singleton
 class AnnotationAccessImplLogger extends AbstractLogger {
 
-	private static final String EXCEPTION_THROWN = "Exception thrown in element '%s' in @%s %s.";
+	private static final String ACCESSIBLE_OBJECT = "accessible object";
 
-	private static final String ILLEGAL_ACCESS = "Illegal access to element '%s' in @%s/%s.";
+	private static final String ANNOTATION = "annotation";
 
-	private static final String NO_SUCH_ELEMENT = "No such element '%s' found in @%s/%s.";
+	private static final String NAME = "name";
+
+	private static final String EXCEPTION_THROWN = "Exception thrown in element";
+
+	private static final String ILLEGAL_ACCESS = "Illegal access to element";
+
+	private static final String NO_SUCH_ELEMENT = "No such element found";
+
+	private static final String EXCEPTION_THROWN_MESSAGE = "Exception thrown in element '%s' in @%s %s.";
+
+	private static final String ILLEGAL_ACCESS_MESSAGE = "Illegal access to element '%s' in @%s/%s.";
+
+	private static final String NO_SUCH_ELEMENT_MESSAGE = "No such element '%s' found in @%s/%s.";
 
 	/**
 	 * Creates logger for {@link AnnotationAccessImpl}.
@@ -52,35 +64,38 @@ class AnnotationAccessImplLogger extends AbstractLogger {
 	}
 
 	ReflectionError noSuchMethodError(NoSuchMethodException e,
-			Class<? extends Annotation> annotationClass, Field field,
-			String name) {
+			Class<? extends Annotation> annotationClass,
+			AccessibleObject accessible, String name) {
 		return logException(
-				new ReflectionError("No such element found", e)
-						.addContextValue("name", name)
-						.addContextValue("annotation", annotationClass)
-						.addContextValue("field", field), NO_SUCH_ELEMENT,
-				name, annotationClass.getName(), field);
+				new ReflectionError(NO_SUCH_ELEMENT, e)
+						.addContextValue(NAME, name)
+						.addContextValue(ANNOTATION, annotationClass)
+						.addContextValue(ACCESSIBLE_OBJECT, accessible),
+				NO_SUCH_ELEMENT_MESSAGE, name, annotationClass.getName(),
+				accessible);
 	}
 
 	ReflectionError illegalAccessError(IllegalAccessException e,
-			Class<? extends Annotation> annotationClass, Field field,
-			String name) {
+			Class<? extends Annotation> annotationClass,
+			AccessibleObject accessible, String name) {
 		return logException(
-				new ReflectionError("Illegal access to element", e)
-						.addContextValue("name", name)
-						.addContextValue("annotation", annotationClass)
-						.addContextValue("field", field), ILLEGAL_ACCESS, name,
-				annotationClass.getName(), field);
+				new ReflectionError(ILLEGAL_ACCESS, e)
+						.addContextValue(NAME, name)
+						.addContextValue(ANNOTATION, annotationClass)
+						.addContextValue(ACCESSIBLE_OBJECT, accessible),
+				ILLEGAL_ACCESS_MESSAGE, name, annotationClass.getName(),
+				accessible);
 	}
 
 	ReflectionError invocationTargetError(InvocationTargetException e,
-			Class<? extends Annotation> annotationClass, Field field,
-			String name) {
+			Class<? extends Annotation> annotationClass,
+			AccessibleObject accessible, String name) {
 		return logException(
-				new ReflectionError("Exception thrown in element", e)
-						.addContextValue("name", name)
-						.addContextValue("annotation", annotationClass)
-						.addContextValue("field", field), EXCEPTION_THROWN,
-				name, annotationClass.getName(), field);
+				new ReflectionError(EXCEPTION_THROWN, e)
+						.addContextValue(NAME, name)
+						.addContextValue(ANNOTATION, annotationClass)
+						.addContextValue(ACCESSIBLE_OBJECT, accessible),
+				EXCEPTION_THROWN_MESSAGE, name, annotationClass.getName(),
+				accessible);
 	}
 }

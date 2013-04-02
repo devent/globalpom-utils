@@ -19,6 +19,7 @@
 package com.anrisoftware.globalpom.reflection.annotations;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -36,27 +37,14 @@ public interface AnnotationAccessFactory {
 	 * @param annotationClass
 	 *            the {@link Class} type of the annotation.
 	 * 
-	 * @param field
-	 *            the {@link Field} where the annotation is added.
-	 * 
-	 * @return the {@link AnnotationAccess}.
-	 */
-	AnnotationAccess create(Class<? extends Annotation> annotationClass,
-			Field field);
-
-	/**
-	 * Creates the annotation access.
-	 * 
-	 * @param annotationClass
-	 *            the {@link Class} type of the annotation.
-	 * 
-	 * @param method
-	 *            the {@link Method} where the annotation is added.
+	 * @param accessible
+	 *            the {@link Field} or the {@link Method} where the annotation
+	 *            is added.
 	 * 
 	 * @return the {@link AnnotationAccess}.
 	 * 
 	 * @since 1.5
 	 */
 	AnnotationAccess create(Class<? extends Annotation> annotationClass,
-			Method method);
+			AccessibleObject accessible);
 }

@@ -19,14 +19,15 @@
 package com.anrisoftware.globalpom.reflection.annotations;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
+import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
+import javax.inject.Inject;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.reflect.MethodUtils;
 
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 
 /**
  * Read access to the elements of an annotation via reflection.
@@ -36,40 +37,28 @@ import com.google.inject.assistedinject.AssistedInject;
  */
 class AnnotationAccessImpl implements AnnotationAccess {
 
+	private static final String ACCESSIBLE_OBJECT = "accessible object";
+
+	private static final String ANNOTATION = "annotation";
+
 	private final AnnotationAccessImplLogger log;
 
 	private final Class<? extends Annotation> annotationClass;
 
-	private final Field field;
-
-	private final Method method;
+	private final AccessibleObject accessible;
 
 	/**
-	 * @see AnnotationAccessFactory#create(Class, Field)
-	 */
-	@AssistedInject
-	AnnotationAccessImpl(AnnotationAccessImplLogger logger,
-			@Assisted Class<? extends Annotation> annotationClass,
-			@Assisted Method method) {
-		this.log = logger;
-		this.annotationClass = annotationClass;
-		this.field = null;
-		this.method = method;
-	}
-
-	/**
-	 * @see AnnotationAccessFactory#create(Class, Method)
+	 * @see AnnotationAccessFactory#create(Class, AccessibleObject)
 	 * 
 	 * @since 1.5
 	 */
-	@AssistedInject
+	@Inject
 	AnnotationAccessImpl(AnnotationAccessImplLogger logger,
 			@Assisted Class<? extends Annotation> annotationClass,
-			@Assisted Field field) {
+			@Assisted AccessibleObject accessible) {
 		this.log = logger;
 		this.annotationClass = annotationClass;
-		this.field = field;
-		this.method = null;
+		this.accessible = accessible;
 	}
 
 	@Override
@@ -83,23 +72,18 @@ class AnnotationAccessImpl implements AnnotationAccess {
 		try {
 			return asType(name, a);
 		} catch (NoSuchMethodException e) {
-			throw log.noSuchMethodError(e, annotationClass, field, name);
+			throw log.noSuchMethodError(e, annotationClass, accessible, name);
 		} catch (IllegalAccessException e) {
-			throw log.illegalAccessError(e, annotationClass, field, name);
+			throw log.illegalAccessError(e, annotationClass, accessible, name);
 		} catch (InvocationTargetException e) {
-			throw log.invocationTargetError(e, annotationClass, field, name);
+			throw log.invocationTargetError(e, annotationClass, accessible,
+					name);
 		}
 	}
 
 	@Override
 	public Annotation getAnnotation() {
-		if (field != null) {
-			return field.getAnnotation(annotationClass);
-		}
-		if (method != null) {
-			return method.getAnnotation(annotationClass);
-		}
-		return null;
+		return accessible.getAnnotation(annotationClass);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -109,4 +93,9 @@ class AnnotationAccessImpl implements AnnotationAccess {
 		return (T) MethodUtils.invokeMethod(a, name);
 	}
 
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this).append(ANNOTATION, annotationClass)
+				.append(ACCESSIBLE_OBJECT, accessible).toString();
+	}
 }
