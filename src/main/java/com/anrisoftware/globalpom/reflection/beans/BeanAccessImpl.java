@@ -21,6 +21,7 @@ package com.anrisoftware.globalpom.reflection.beans;
 import static org.apache.commons.lang3.reflect.MethodUtils.getAccessibleMethod;
 
 import java.beans.PropertyVetoException;
+import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -152,6 +153,11 @@ class BeanAccessImpl implements BeanAccess {
 	@Override
 	public Method getSetter() {
 		return setter;
+	}
+
+	@Override
+	public AccessibleObject getGettterObject() {
+		return getter != null ? getter : field;
 	}
 
 	@Override

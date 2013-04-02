@@ -19,6 +19,7 @@
 package com.anrisoftware.globalpom.reflection.beans;
 
 import java.beans.PropertyVetoException;
+import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -62,6 +63,15 @@ public interface BeanAccess {
 	 * @return the {@link Method} of {@code null} if there is no getter method.
 	 */
 	Method getGetter();
+
+	/**
+	 * Returns the getter method or the field.
+	 * 
+	 * @return the {@link AccessibleObject}.
+	 * 
+	 * @since 1.5
+	 */
+	AccessibleObject getGettterObject();
 
 	/**
 	 * Returns the type of the bean. The type is either the return type of the
