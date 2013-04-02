@@ -64,6 +64,16 @@ public interface BeanAccess {
 	Method getGetter();
 
 	/**
+	 * Returns the type of the bean. The type is either the return type of the
+	 * getter method or the field type.
+	 * 
+	 * @return the {@link Class} type.
+	 * 
+	 * @since 1.5
+	 */
+	Class<?> getType();
+
+	/**
 	 * Return the value from a field with the specified name.
 	 * <p>
 	 * If a getter for this field is defined it tries to use the getter first. A

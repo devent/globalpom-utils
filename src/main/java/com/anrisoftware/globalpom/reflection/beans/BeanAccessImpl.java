@@ -155,6 +155,11 @@ class BeanAccessImpl implements BeanAccess {
 	}
 
 	@Override
+	public Class<?> getType() {
+		return fieldType;
+	}
+
+	@Override
 	public <T> T getValue() {
 		T value = getValueFromGetter(getter, bean);
 		if (value == null) {
