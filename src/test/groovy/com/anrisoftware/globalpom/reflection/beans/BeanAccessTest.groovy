@@ -64,7 +64,7 @@ class BeanAccessTest extends BeanUtils {
 	@Test
 	void "read method value"() {
 		def field = "methodOnly"
-		def value = factory.create(field, String.class, bean.bean).getValue()
+		def value = factory.create(field, bean.bean).getValue()
 		assertStringContent value, "MethodOnly"
 		assert bean.bean.getterMethodOnlyCalled
 	}
@@ -99,7 +99,7 @@ class BeanAccessTest extends BeanUtils {
 	void "write method value"() {
 		def field = "methodOnly"
 		String value = "value"
-		factory.create(field, String.class, bean.bean).setValue(value)
+		factory.create(field, bean.bean).setValue(value)
 		assert bean.bean.setterMethodOnlyCalled
 	}
 
@@ -108,7 +108,7 @@ class BeanAccessTest extends BeanUtils {
 		def field = "getterMethodOnlyVetoException"
 		String value = "value"
 		shouldFailWith(PropertyVetoException) {
-			factory.create(field, String.class, bean.bean).setValue(value)
+			factory.create(field, bean.bean).setValue(value)
 		}
 		assert bean.bean.setterMethodOnlyVetoExceptionCalled
 	}

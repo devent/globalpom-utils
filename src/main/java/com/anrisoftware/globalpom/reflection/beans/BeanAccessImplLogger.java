@@ -36,6 +36,16 @@ import com.anrisoftware.globalpom.reflection.exceptions.ReflectionError;
  */
 class BeanAccessImplLogger extends AbstractLogger {
 
+	private static final String GETTER = "getter";
+
+	private static final String FIELD = "field";
+
+	private static final String BEAN = "bean";
+
+	private static final String FIELD_GETTER_MUST_BE_DEFINED_MESSAGE = "Field or field getter must be defined for %s#%s.";
+
+	private static final String FIELD_GETTER_MUST_BE_DEFINED = "Field or field getter must be defined";
+
 	private static final String FIELD_TYPE_NULL = "Field type cannot be null.";
 
 	private static final String UNACCEPTABLE_VALUE = "Unacceptable value for %s#%s in %s.";
@@ -71,40 +81,39 @@ class BeanAccessImplLogger extends AbstractLogger {
 
 	ReflectionError illegalAccessError(IllegalAccessException e, Object bean,
 			String fieldName, Method getter) {
-		return logException(
-				new ReflectionError(ILLEGAL_ACCESS_GETTER, e)
-						.addContextValue("bean", bean)
-						.addContextValue("field", fieldName)
-						.addContextValue("getter", getter),
+		return logException(new ReflectionError(ILLEGAL_ACCESS_GETTER, e)
+				.addContextValue(BEAN, bean).addContextValue(FIELD, fieldName)
+				.addContextValue(GETTER, getter),
 				ILLEGAL_ACCESS_GETTER_MESSAGE, bean, fieldName, getter);
 	}
 
 	ReflectionError illegalAccessError(IllegalAccessException e,
 			String fieldName, Object bean) {
-		return logException(
-				new ReflectionError(ILLEGAL_ACCESS_FIELD, e).addContextValue(
-						"bean", bean).addContextValue("field", fieldName),
+		return logException(new ReflectionError(ILLEGAL_ACCESS_FIELD, e)
+				.addContextValue(BEAN, bean).addContextValue(FIELD, fieldName),
 				ILLEGAL_ACCESS_FIELD_MESSAGE, bean, fieldName);
 	}
 
 	ReflectionError illegalArgumentError(IllegalArgumentException e,
 			Object bean, String fieldName, Method getter) {
-		return logException(
-				new ReflectionError(ILLEGAL_ARGUMENT, e)
-						.addContextValue("bean", bean)
-						.addContextValue("name", fieldName)
-						.addContextValue("getter", getter),
-				ILLEGAL_ARGUMENT_MESSAGE, bean, fieldName, getter);
+		return logException(new ReflectionError(ILLEGAL_ARGUMENT, e)
+				.addContextValue(BEAN, bean).addContextValue("name", fieldName)
+				.addContextValue(GETTER, getter), ILLEGAL_ARGUMENT_MESSAGE,
+				bean, fieldName, getter);
 	}
 
 	ReflectionError invocationTargetError(InvocationTargetException e,
 			Object bean, String fieldName, Method getter) {
-		return logException(
-				new ReflectionError(EXCEPTION_THROWN, e.getCause())
-						.addContextValue("bean", bean)
-						.addContextValue("field", fieldName)
-						.addContextValue("getter", getter),
-				EXCEPTION_GETTER_MESSAGE, bean, fieldName, getter);
+		return logException(new ReflectionError(EXCEPTION_THROWN, e.getCause())
+				.addContextValue(BEAN, bean).addContextValue(FIELD, fieldName)
+				.addContextValue(GETTER, getter), EXCEPTION_GETTER_MESSAGE,
+				bean, fieldName, getter);
+	}
+
+	ReflectionError neitherFieldGetter(Object bean, String fieldName) {
+		return logException(new ReflectionError(FIELD_GETTER_MUST_BE_DEFINED)
+				.addContextValue(BEAN, bean).addContextValue(FIELD, fieldName),
+				FIELD_GETTER_MUST_BE_DEFINED_MESSAGE, bean, fieldName);
 	}
 
 	void checkFieldName(String fieldName) {

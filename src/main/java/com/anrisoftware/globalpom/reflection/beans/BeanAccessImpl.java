@@ -38,6 +38,10 @@ import com.google.inject.assistedinject.AssistedInject;
  */
 class BeanAccessImpl implements BeanAccess {
 
+	private static final String SETTER_PREFIX = "set";
+
+	private static final String[] GETTER_PREFIXES = { "get", "is" };
+
 	private final BeanAccessImplLogger log;
 
 	private final Field field;
@@ -63,29 +67,21 @@ class BeanAccessImpl implements BeanAccess {
 		log.checkBean(bean);
 		this.fieldName = fieldName;
 		this.field = findField(fieldName, bean);
-		log.checkField(field);
-		this.fieldType = field.getType();
 		this.bean = bean;
-		this.setter = findSetter(fieldName, fieldType, bean);
 		this.getter = findGetter(fieldName, bean);
+		this.fieldType = findFieldType(fieldName, bean, field, getter);
+		this.setter = findSetter(fieldName, fieldType, bean);
 	}
 
-	/**
-	 * @see BeanAccessFactory#create(String, Class, Object)
-	 */
-	@AssistedInject
-	BeanAccessImpl(BeanAccessImplLogger logger, @Assisted String fieldName,
-			@Assisted Class<?> fieldType, @Assisted Object bean) {
-		this.log = logger;
-		log.checkFieldName(fieldName);
-		log.checkFieldType(fieldType);
-		log.checkBean(bean);
-		this.fieldName = fieldName;
-		this.field = findField(fieldName, bean);
-		this.fieldType = fieldType;
-		this.bean = bean;
-		this.setter = findSetter(fieldName, fieldType, bean);
-		this.getter = findGetter(fieldName, bean);
+	private Class<?> findFieldType(String fieldName, Object bean, Field field,
+			Method getter) {
+		if (field != null) {
+			return field.getType();
+		}
+		if (getter != null) {
+			return getter.getReturnType();
+		}
+		throw log.neitherFieldGetter(bean, fieldName);
 	}
 
 	/**
@@ -117,21 +113,27 @@ class BeanAccessImpl implements BeanAccess {
 	private String getSetterName(String name) {
 		StringBuilder builder = new StringBuilder();
 		char nameChar = Character.toUpperCase(name.charAt(0));
-		builder.append("set");
+		builder.append(SETTER_PREFIX);
 		builder.append(nameChar);
 		builder.append(name.substring(1));
 		return builder.toString();
 	}
 
 	private Method findGetter(String fieldName, Object bean) {
-		String name = getGetterName(fieldName);
-		return getAccessibleMethod(bean.getClass(), name);
+		for (String prefix : GETTER_PREFIXES) {
+			String name = getGetterName(fieldName, prefix);
+			Method method = getAccessibleMethod(bean.getClass(), name);
+			if (method != null) {
+				return method;
+			}
+		}
+		return null;
 	}
 
-	private String getGetterName(String name) {
+	private String getGetterName(String name, String prefix) {
 		StringBuilder builder = new StringBuilder();
 		char nameChar = Character.toUpperCase(name.charAt(0));
-		builder.append("get");
+		builder.append(prefix);
 		builder.append(nameChar);
 		builder.append(name.substring(1));
 		return builder.toString();

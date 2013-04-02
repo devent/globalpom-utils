@@ -140,8 +140,7 @@ class AnnotationDiscoveryImpl implements AnnotationDiscovery {
 
 	private Object getValue(Object bean, Method method) {
 		String fieldName = getFieldName(method);
-		Class<?> type = method.getReturnType();
-		return accessFactory.create(fieldName, type, bean);
+		return accessFactory.create(fieldName, bean);
 	}
 
 	private String getFieldName(Method method) {
