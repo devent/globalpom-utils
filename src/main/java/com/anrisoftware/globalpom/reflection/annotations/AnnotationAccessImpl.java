@@ -69,6 +69,7 @@ class AnnotationAccessImpl implements AnnotationAccess {
 	@Override
 	public <T> T getValue(String name) {
 		Annotation a = getAnnotation();
+		log.checkAnnotation(a, annotationClass, accessible);
 		try {
 			return asType(name, a);
 		} catch (NoSuchMethodException e) {

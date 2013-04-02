@@ -18,6 +18,8 @@
  */
 package com.anrisoftware.globalpom.reflection.annotations;
 
+import static org.apache.commons.lang3.Validate.notNull;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.InvocationTargetException;
@@ -36,6 +38,8 @@ import com.anrisoftware.globalpom.reflection.exceptions.ReflectionError;
  */
 @Singleton
 class AnnotationAccessImplLogger extends AbstractLogger {
+
+	private static final String ACCESSIBLE_OBJECT_MUST_HAVE_ANNOTATION_MESSAGE = "Accessible object %s must have annotation %s.";
 
 	private static final String ACCESSIBLE_OBJECT = "accessible object";
 
@@ -97,5 +101,12 @@ class AnnotationAccessImplLogger extends AbstractLogger {
 						.addContextValue(ACCESSIBLE_OBJECT, accessible),
 				EXCEPTION_THROWN_MESSAGE, name, annotationClass.getName(),
 				accessible);
+	}
+
+	void checkAnnotation(Annotation a,
+			Class<? extends Annotation> annotationClass,
+			AccessibleObject accessible) {
+		notNull(a, ACCESSIBLE_OBJECT_MUST_HAVE_ANNOTATION_MESSAGE, accessible,
+				annotationClass);
 	}
 }
