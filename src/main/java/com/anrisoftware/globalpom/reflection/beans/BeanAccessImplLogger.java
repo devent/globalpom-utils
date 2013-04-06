@@ -48,7 +48,7 @@ class BeanAccessImplLogger extends AbstractLogger {
 
 	private static final String FIELD_TYPE_NULL = "Field type cannot be null.";
 
-	private static final String UNACCEPTABLE_VALUE = "Unacceptable value for %s#%s in %s.";
+	private static final String UNACCEPTABLE_VALUE = "Unacceptable value for {}#{} in {}.";
 
 	private static final String FIELD_NULL = "The specified field cannot be null.";
 
@@ -130,7 +130,8 @@ class BeanAccessImplLogger extends AbstractLogger {
 
 	PropertyVetoException unacceptableValueError(PropertyVetoException ex,
 			Object bean, String fieldName, Method setter) {
-		return logException(ex, UNACCEPTABLE_VALUE, bean, fieldName, setter);
+		log.debug(UNACCEPTABLE_VALUE, bean, fieldName, setter);
+		return ex;
 	}
 
 	void checkFieldType(Class<?> fieldType) {
