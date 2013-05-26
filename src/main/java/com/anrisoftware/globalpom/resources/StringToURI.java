@@ -18,10 +18,16 @@
  */
 package com.anrisoftware.globalpom.resources;
 
-import java.net.MalformedURLException;
+import static com.google.inject.Guice.createInjector;
+
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.regex.Pattern;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import com.google.inject.Injector;
 
 /**
  * Converts a string path to a URI.
@@ -29,28 +35,70 @@ import java.net.URL;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.2
  */
+@Singleton
 public class StringToURI {
+
+	private static final Injector INJECTOR = createInjector();
+
+	private static final Pattern PROTOCOL = Pattern.compile(".*?://.*");
+
+	/**
+	 * @see StringToURI#convert(String)
+	 */
+	public static URI toURI(String path) throws ConvertException {
+		return INJECTOR.getInstance(StringToURI.class).convert(path);
+	}
+
+	/**
+	 * @see StringToURI#convert(String, String)
+	 */
+	public static URI toURI(String path, String protocol)
+			throws ConvertException {
+		return INJECTOR.getInstance(StringToURI.class).convert(path, protocol);
+	}
+
+	private final StringToURILogger log;
+
+	@Inject
+	StringToURI(StringToURILogger logger) {
+		this.log = logger;
+	}
+
+	/**
+	 * @see #convert(String, String)
+	 */
+	public URI convert(String path) throws ConvertException {
+		return convert(path, "file://");
+	}
 
 	/**
 	 * Converts the specified path to a URI.
 	 * 
 	 * @param path
 	 *            the path.
+	 * @param protocol
 	 * 
 	 * @return the {@link URI}
 	 * 
-	 * @throws MalformedURLException
-	 *             if the path is not a valid {@link URL}.
-	 * 
-	 * @throws URISyntaxException
+	 * @throws ConvertException
 	 *             if the path is not a valid {@link URL}.
 	 */
-	public URI convert(String path) throws MalformedURLException,
-			URISyntaxException {
-		URL url = new URL(path);
-		String nullFragment = null;
-		return new URI(url.getProtocol(), url.getHost(), url.getPath(),
-				url.getQuery(), nullFragment);
+	public URI convert(String path, String protocol) throws ConvertException {
+		try {
+			path = attachProtocol(path, protocol);
+			URL url = new URL(path);
+			String nullFragment = null;
+			return new URI(url.getProtocol(), url.getHost(), url.getPath(),
+					url.getQuery(), nullFragment);
+		} catch (Exception e) {
+			throw log.errorConvert(e, path);
+		}
 	}
 
+	private String attachProtocol(String path, String protocol) {
+		if (!PROTOCOL.matcher(path).matches()) {
+			return String.format("%s%s", protocol, path);
+		}
+		return path;
+	}
 }
