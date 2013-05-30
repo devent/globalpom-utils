@@ -18,6 +18,8 @@
  */
 package com.anrisoftware.globalpom.format.inetsocketaddress;
 
+import static com.google.inject.Guice.createInjector;
+
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -27,6 +29,10 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import com.anrisoftware.globalpom.resources.ConvertException;
+import com.google.inject.Injector;
 
 /**
  * Parses an Internet socket address.
@@ -34,14 +40,29 @@ import javax.inject.Inject;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.0
  */
+@Singleton
 @SuppressWarnings("serial")
 public class InetSocketAddressFormat extends Format {
 
-	private final InetSocketAddressFormatLogger log;
+	private static final Injector INJECTOR = createInjector();
 
-	public InetSocketAddressFormat() {
-		this(new InetSocketAddressFormatLogger());
+	/**
+	 * @see #create()
+	 */
+	public static InetSocketAddressFormat createInetSocketAddressFormat() {
+		return create();
 	}
+
+	/**
+	 * Creates the Internet socket address formatter.
+	 * 
+	 * @return the Internet socket address {@link InetSocketAddressFormat}.
+	 */
+	public static InetSocketAddressFormat create() throws ConvertException {
+		return INJECTOR.getInstance(InetSocketAddressFormat.class);
+	}
+
+	private final InetSocketAddressFormatLogger log;
 
 	/**
 	 * @param logger
