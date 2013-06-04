@@ -92,6 +92,7 @@
 		</dependency>
 
 		<!-- for map to string -->
+		<!-- properties threads -->
 		<dependency>
 			<groupId>com.anrisoftware.propertiesutils</groupId>
 			<artifactId>propertiesutils-contextproperties</artifactId>
