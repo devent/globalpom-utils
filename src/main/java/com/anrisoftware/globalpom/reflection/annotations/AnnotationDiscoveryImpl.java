@@ -140,7 +140,7 @@ class AnnotationDiscoveryImpl implements AnnotationDiscovery {
 
 	private Object getValue(Object bean, Method method) {
 		String fieldName = getFieldName(method);
-		return accessFactory.create(fieldName, bean);
+		return accessFactory.create(fieldName, bean).getValue();
 	}
 
 	private String getFieldName(Method method) {
@@ -166,7 +166,7 @@ class AnnotationDiscoveryImpl implements AnnotationDiscovery {
 	}
 
 	private Object getValue(Object bean, Field field) {
-		return accessFactory.create(field, bean);
+		return accessFactory.create(field, bean).getValue();
 	}
 
 }
