@@ -23,8 +23,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 /**
  * A filter that only accepts predefined {@link Annotation}s from a given
@@ -38,9 +38,18 @@ class AnnotationSetFilter implements AnnotationFilter {
 	private final Set<Class<? extends Annotation>> annotations;
 
 	/**
+	 * @see AnnotationSetFilterFactory#create(Class)
+	 */
+	@AssistedInject
+	AnnotationSetFilter(@Assisted Class<? extends Annotation> annotation) {
+		this.annotations = new HashSet<Class<? extends Annotation>>();
+		annotations.add(annotation);
+	}
+
+	/**
 	 * @see AnnotationSetFilterFactory#create(Iterable)
 	 */
-	@Inject
+	@AssistedInject
 	AnnotationSetFilter(
 			@Assisted Collection<? extends Class<? extends Annotation>> annotations) {
 		this.annotations = new HashSet<Class<? extends Annotation>>(annotations);

@@ -30,6 +30,18 @@ import java.util.Collection;
 public interface AnnotationSetFilterFactory {
 
 	/**
+	 * Creates a new filter from the specified annotation type.
+	 * 
+	 * @param annotation
+	 *            the annotation {@link Class} type.
+	 * 
+	 * @return the {@link AnnotationFilter}.
+	 * 
+	 * @since 1.5
+	 */
+	AnnotationFilter create(Class<? extends Annotation> annotation);
+
+	/**
 	 * Creates a new filter from the specified annotation types.
 	 * 
 	 * @param annotations
