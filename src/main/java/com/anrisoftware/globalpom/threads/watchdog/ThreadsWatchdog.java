@@ -29,11 +29,11 @@ public class ThreadsWatchdog {
 
 	private final ThreadsWatchdogLogger log;
 
-	private final List<Future<?>> tasks;
+	private volatile List<Future<?>> tasks;
 
-	private ExecutorService executor;
+	private volatile ExecutorService executor;
 
-	private boolean notified;
+	private volatile boolean notified;
 
 	@Inject
 	ThreadsWatchdog(ThreadsWatchdogLogger logger) {
