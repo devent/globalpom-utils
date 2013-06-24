@@ -191,8 +191,16 @@ public class AnnotationClass<ClassType> implements Builder<ClassType> {
 	}
 
 	private ClassType createModelClass() {
-		Class<? extends ClassType>[] type = fieldAnnotation
-				.getValue(getAttributeClass());
+		ClassType model = null;
+		String name = getAttributeClass();
+		if (fieldAnnotation.haveValue(name)) {
+			model = createModelClass0(name);
+		}
+		return model;
+	}
+
+	private ClassType createModelClass0(String name) {
+		Class<? extends ClassType>[] type = fieldAnnotation.getValue(name);
 		if (type.length < 1) {
 			return defaultValue;
 		}
