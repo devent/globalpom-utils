@@ -30,12 +30,13 @@ public class KeyCodeMap {
 	 * @param keyname
 	 *            the key code name.
 	 * 
-	 * @return the key code.
+	 * @return the key code or {@code null} if the key code name does not have a
+	 *         key code.
 	 * 
 	 * @see KeyEvent
 	 * @see KeyEvent#getExtendedKeyCodeForChar(int)
 	 */
-	public int getKeyCode(String keyname) {
+	public Integer getKeyCode(String keyname) {
 		if (keyname.startsWith("VK_")) {
 			Map<String, Integer> codes = getKeyCodes();
 			return codes.get(keyname);
@@ -44,7 +45,11 @@ public class KeyCodeMap {
 			Map<String, Integer> codes = getKeyCodes();
 			return codes.get(keyname);
 		}
-		return KeyEvent.getExtendedKeyCodeForChar(keyname.charAt(0));
+		if (keyname.length() == 1) {
+			return KeyEvent.getExtendedKeyCodeForChar(keyname.charAt(0));
+		} else {
+			return null;
+		}
 	}
 
 	private Map<String, Integer> getKeyCodes() {

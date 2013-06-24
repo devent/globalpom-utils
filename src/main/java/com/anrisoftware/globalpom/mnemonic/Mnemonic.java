@@ -52,11 +52,11 @@ public class Mnemonic {
 	 * <li>{@code a}</li>
 	 * </ul>
 	 * 
-	 * @return the mnemonic key code.
+	 * @return the mnemonic key code or {@code null}.
 	 * 
 	 * @see KeyEvent
 	 */
-	public int getMnemonic() {
+	public Integer getMnemonic() {
 		return codeMap.getKeyCode(keynames[0]);
 	}
 
