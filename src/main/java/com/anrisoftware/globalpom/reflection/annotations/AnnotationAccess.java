@@ -72,6 +72,17 @@ public interface AnnotationAccess {
 	<T> T getValue(String name);
 
 	/**
+	 * Tests if the annotation have the element with the specified name.
+	 * 
+	 * @param name
+	 *            the name of the annotation element.
+	 * 
+	 * @return {@code true} if the annotation have the element with the
+	 *         specified name.
+	 */
+	boolean haveValue(String name);
+
+	/**
 	 * Returns the annotation.
 	 * 
 	 * @return the {@link Annotation}.
@@ -79,4 +90,5 @@ public interface AnnotationAccess {
 	 * @since 1.5
 	 */
 	Annotation getAnnotation();
+
 }

@@ -83,6 +83,13 @@ class AnnotationAccessImpl implements AnnotationAccess {
 	}
 
 	@Override
+	public boolean haveValue(String name) {
+		Annotation a = getAnnotation();
+		log.checkAnnotation(a, annotationClass, accessible);
+		return MethodUtils.getAccessibleMethod(annotationClass, name) != null;
+	}
+
+	@Override
 	public Annotation getAnnotation() {
 		return accessible.getAnnotation(annotationClass);
 	}
