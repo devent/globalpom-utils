@@ -1,6 +1,5 @@
 package com.anrisoftware.globalpom.mnemonic;
 
-import static com.google.inject.Guice.createInjector;
 import static org.apache.commons.lang3.StringUtils.split;
 
 import java.awt.event.KeyEvent;
@@ -9,7 +8,6 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import com.google.inject.Injector;
 import com.google.inject.assistedinject.Assisted;
 
 /**
@@ -25,13 +23,12 @@ public class Mnemonic {
 	 */
 	public static final int NO_INDEX = -1;
 
-	private static final Injector INJECTOR = createInjector();
-
 	/**
 	 * @see MnemonicFactory#create(String)
 	 */
 	public static Mnemonic valueOf(String string) {
-		return INJECTOR.getInstance(MnemonicFactory.class).create(string);
+		return MnemonicModule.getInjector().getInstance(MnemonicFactory.class)
+				.create(string);
 	}
 
 	private final KeyCodeMap codeMap;
