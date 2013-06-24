@@ -96,13 +96,13 @@ class AnnotationDiscoveryImpl implements AnnotationDiscovery {
 	private Set<AnnotationBean> findFields(Set<AnnotationBean> result,
 			Object bean) {
 		Class<? extends Object> type = bean.getClass();
-		return findAnnotations(result, bean, asList(type.getDeclaredFields()));
+		return findAnnotations(result, bean, asList(type.getFields()));
 	}
 
 	private Set<AnnotationBean> findMethods(Set<AnnotationBean> result,
 			Object bean) {
 		Class<? extends Object> type = bean.getClass();
-		return findAnnotations(result, bean, asList(type.getDeclaredMethods()));
+		return findAnnotations(result, bean, asList(type.getMethods()));
 	}
 
 	private Set<AnnotationBean> findAnnotations(Set<AnnotationBean> result,
