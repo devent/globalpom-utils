@@ -19,19 +19,19 @@ import com.anrisoftware.globalpom.threads.api.ThreadsException;
 @Singleton
 class ThreadingPropertiesLogger extends AbstractLogger {
 
-	private static final String INSTANTIATION_ERROR_MESSAGE = "Instantiation error of thread factory %s.";
+	private static final String INSTANTIATION_ERROR_MESSAGE = "Instantiation error of thread factory {}.";
 	private static final String INSTANTIATION_ERROR = "Instantiation error of thread factory";
-	private static final String ERROR_DEFAULT_CTOR_MESSAGE = "Error in default constructor of thread factory %s.";
+	private static final String ERROR_DEFAULT_CTOR_MESSAGE = "Error in default constructor of thread factory {}.";
 	private static final String ERROR_DEFAULT_CTOR = "Error in default constructor of thread factory";
-	private static final String ILLEGAL_ACCESS_MESSAGE = "Illegal access to default constructor of thread factory %s.";
+	private static final String ILLEGAL_ACCESS_MESSAGE = "Illegal access to default constructor of thread factory {}.";
 	private static final String ILLEGAL_ACCESS = "Illegal access to default constructor of thread factory";
 	private static final String NAME = "name";
-	private static final String THREAD_FACTORY_NOT_FOUND_MESSAGE = "Thread factory %s not found";
+	private static final String THREAD_FACTORY_NOT_FOUND_MESSAGE = "Thread factory {} not found";
 	private static final String THREAD_FACTORY_NOT_FOUND = "Thread factory not found";
 	private static final String THREAD_FACTORY_NULL = "No thread factory found.";
 	private static final String THREADING_POLICY_NULL = "No threading policy found.";
 	private static final String TYPE = "type";
-	private static final String NO_DEFAULT_CONSTRUCTOR_MESSAGE = "No default constructor for type %s available.";
+	private static final String NO_DEFAULT_CONSTRUCTOR_MESSAGE = "No default constructor for type {} available.";
 	private static final String NO_DEFAULT_CONSTRUCTOR = "No default constructor available";
 
 	/**

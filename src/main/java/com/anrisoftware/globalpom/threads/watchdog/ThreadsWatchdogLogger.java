@@ -16,6 +16,9 @@ import com.anrisoftware.globalpom.threads.listenablefuture.DefaultListenableFutu
 @Singleton
 class ThreadsWatchdogLogger extends AbstractLogger {
 
+	private static final String TASK_DONE = "Task {} done.";
+	private static final String TASK_SUBMITTED = "Task {} submitted.";
+
 	/**
 	 * Create logger for {@link ThreadsWatchdog}.
 	 */
@@ -24,10 +27,10 @@ class ThreadsWatchdogLogger extends AbstractLogger {
 	}
 
 	void taskSubmitted(DefaultListenableFuture<?> task) {
-		log.debug("Task {} submitted.", task);
+		log.debug(TASK_SUBMITTED, task);
 	}
 
 	void taskDone(Future<?> future) {
-		log.debug("Task {} done.", future);
+		log.debug(TASK_DONE, future);
 	}
 }

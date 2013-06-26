@@ -19,7 +19,7 @@ class PropertiesThreadsLogger extends AbstractLogger {
 
 	private static final String NAME_NULL = "The name must be not null or empty.";
 	private static final String POLICY = "policy";
-	private static final String INVALID_POLICY_MESSAGE = "Invalid thread pool policy %s.";
+	private static final String INVALID_POLICY_MESSAGE = "Invalid thread pool policy {}.";
 	private static final String INVALID_POLICY = "Invalid thread pool policy";
 
 	/**
