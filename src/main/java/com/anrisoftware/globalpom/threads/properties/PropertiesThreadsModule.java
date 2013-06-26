@@ -22,7 +22,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /**
- * Install the threads based on laoded properties.
+ * Install the threads based on loaded properties.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.5
