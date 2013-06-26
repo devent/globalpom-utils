@@ -20,9 +20,9 @@ class ToURLLogger extends AbstractLogger {
 	private static final String FILE = "file";
 	private static final String URI = "URI";
 	private static final String PATH = "path";
-	private static final String ERROR_CONVERT_MESSAGE = "Error convert path '%s' to URL.";
+	private static final String ERROR_CONVERT_MESSAGE = "Error convert path '{}' to URL.";
 	private static final String ERROR_CONVERT = "Error convert path";
-	private static final String ERROR_CONVERT_SCHEME_MESSAGE = "Error convert path '%s%s' to URL.";
+	private static final String ERROR_CONVERT_SCHEME_MESSAGE = "Error convert path '{}{}' to URL.";
 
 	/**
 	 * Create logger for {@link ToURL}.
