@@ -18,6 +18,8 @@
  */
 package com.anrisoftware.globalpom.format.inetsocketaddress;
 
+import static java.lang.String.format;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.ParseException;
@@ -33,6 +35,12 @@ import com.anrisoftware.globalpom.log.AbstractLogger;
  */
 class InetSocketAddressFormatLogger extends AbstractLogger {
 
+	private static final String SYNTAX_ERROR = "Syntax error for URI {}: {}";
+	private static final String URI_HOST_PART_MESSAGE = "URI '{}' must have a host part.";
+	private static final String URI_HOST_PART = "URI must have a host part";
+	private static final String UNPARSEABLE_SOCKET_ADDRESS_MESSAGE = "Unparseable socket address: '{}'";
+	private static final String UNPARSEABLE_SOCKET_ADDRESS = "Unparseable socket address: '%s'";
+
 	/**
 	 * Create logger for {@link InetSocketAddressFormat}.
 	 */
@@ -41,23 +49,19 @@ class InetSocketAddressFormatLogger extends AbstractLogger {
 	}
 
 	ParseException errorParseAddress(String source, ParsePosition pos) {
-		ParseException ex = new ParseException(String.format(
-				"Unparseable socket address: '%s'", source),
-				pos.getErrorIndex());
-		log.error(ex.getLocalizedMessage());
-		return ex;
+		return logException(
+				new ParseException(format(UNPARSEABLE_SOCKET_ADDRESS, source),
+						pos.getErrorIndex()),
+				UNPARSEABLE_SOCKET_ADDRESS_MESSAGE, source);
 	}
 
 	URISyntaxException errorURISyntax(URI uri) {
-		URISyntaxException ex = new URISyntaxException(uri.toString(),
-				"URI must have a host part");
-		log.error(ex.getLocalizedMessage());
-		return ex;
+		return logException(new URISyntaxException(uri.toString(),
+				URI_HOST_PART), URI_HOST_PART_MESSAGE, uri);
 	}
 
 	URISyntaxException errorURISyntax(String hostName, URISyntaxException e) {
-		log.error("Syntax error for URI {}: {}", hostName,
-				e.getLocalizedMessage());
+		log.error(SYNTAX_ERROR, hostName, e.getLocalizedMessage());
 		return e;
 	}
 
