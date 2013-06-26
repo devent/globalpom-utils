@@ -37,40 +37,23 @@ import com.anrisoftware.globalpom.reflection.exceptions.ReflectionError;
 class BeanAccessImplLogger extends AbstractLogger {
 
 	private static final String GETTER = "getter";
-
 	private static final String FIELD = "field";
-
 	private static final String BEAN = "bean";
-
-	private static final String FIELD_GETTER_MUST_BE_DEFINED_MESSAGE = "Field or field getter must be defined for %s#%s.";
-
+	private static final String FIELD_GETTER_MUST_BE_DEFINED_MESSAGE = "Field or field getter must be defined for {}#{}.";
 	private static final String FIELD_GETTER_MUST_BE_DEFINED = "Field or field getter must be defined";
-
 	private static final String FIELD_TYPE_NULL = "Field type cannot be null.";
-
 	private static final String UNACCEPTABLE_VALUE = "Unacceptable value for {}#{} in {}.";
-
 	private static final String FIELD_NULL = "The specified field cannot be null.";
-
 	private static final String BEAN_NULL = "The specified bean object cannot be null.";
-
 	private static final String FIELD_NAME_NULL = "The specified field name cannot be null.";
-
 	private static final String ILLEGAL_ARGUMENT = "Illegal argument for getter";
-
 	private static final String ILLEGAL_ACCESS_FIELD = "Illegal access to field";
-
 	private static final String ILLEGAL_ACCESS_GETTER = "Illegal access to field getter";
-
 	private static final String EXCEPTION_THROWN = "Exception thrown in getter";
-
-	private static final String EXCEPTION_GETTER_MESSAGE = "Exception thrown in getter %3$s of %1$s#%2$s.";
-
-	private static final String ILLEGAL_ARGUMENT_MESSAGE = "Illegal argument for getter %3$s for %1$s#%2$s.";
-
-	private static final String ILLEGAL_ACCESS_FIELD_MESSAGE = "Illegal access to field %s#%s.";
-
-	private static final String ILLEGAL_ACCESS_GETTER_MESSAGE = "Illegal access to field getter %3$s for %1$s#%2$s.";
+	private static final String EXCEPTION_GETTER_MESSAGE = "Exception thrown in getter {} of {}#{}.";
+	private static final String ILLEGAL_ARGUMENT_MESSAGE = "Illegal argument for getter {} for {}#{}.";
+	private static final String ILLEGAL_ACCESS_FIELD_MESSAGE = "Illegal access to field {}#{}.";
+	private static final String ILLEGAL_ACCESS_GETTER_MESSAGE = "Illegal access to field getter {} for {}#{}.";
 
 	/**
 	 * Creates logger for {@link BeanAccessImpl}.
@@ -84,7 +67,7 @@ class BeanAccessImplLogger extends AbstractLogger {
 		return logException(new ReflectionError(ILLEGAL_ACCESS_GETTER, e)
 				.addContextValue(BEAN, bean).addContextValue(FIELD, fieldName)
 				.addContextValue(GETTER, getter),
-				ILLEGAL_ACCESS_GETTER_MESSAGE, bean, fieldName, getter);
+				ILLEGAL_ACCESS_GETTER_MESSAGE, getter, bean, fieldName);
 	}
 
 	ReflectionError illegalAccessError(IllegalAccessException e,
@@ -99,7 +82,7 @@ class BeanAccessImplLogger extends AbstractLogger {
 		return logException(new ReflectionError(ILLEGAL_ARGUMENT, e)
 				.addContextValue(BEAN, bean).addContextValue("name", fieldName)
 				.addContextValue(GETTER, getter), ILLEGAL_ARGUMENT_MESSAGE,
-				bean, fieldName, getter);
+				getter, bean, fieldName);
 	}
 
 	ReflectionError invocationTargetError(InvocationTargetException e,
@@ -107,7 +90,7 @@ class BeanAccessImplLogger extends AbstractLogger {
 		return logException(new ReflectionError(EXCEPTION_THROWN, e.getCause())
 				.addContextValue(BEAN, bean).addContextValue(FIELD, fieldName)
 				.addContextValue(GETTER, getter), EXCEPTION_GETTER_MESSAGE,
-				bean, fieldName, getter);
+				getter, bean, fieldName);
 	}
 
 	ReflectionError neitherFieldGetter(Object bean, String fieldName) {
