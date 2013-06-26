@@ -39,25 +39,16 @@ import com.anrisoftware.globalpom.reflection.exceptions.ReflectionError;
 @Singleton
 class AnnotationAccessImplLogger extends AbstractLogger {
 
-	private static final String ACCESSIBLE_OBJECT_MUST_HAVE_ANNOTATION_MESSAGE = "Accessible object %s must have annotation %s.";
-
+	private static final String ACCESSIBLE_OBJECT_MESSAGE = "Accessible object {} must have annotation {}.";
 	private static final String ACCESSIBLE_OBJECT = "accessible object";
-
 	private static final String ANNOTATION = "annotation";
-
 	private static final String NAME = "name";
-
 	private static final String EXCEPTION_THROWN = "Exception thrown in element";
-
 	private static final String ILLEGAL_ACCESS = "Illegal access to element";
-
 	private static final String NO_SUCH_ELEMENT = "No such element found";
-
-	private static final String EXCEPTION_THROWN_MESSAGE = "Exception thrown in element '%s' in @%s %s.";
-
-	private static final String ILLEGAL_ACCESS_MESSAGE = "Illegal access to element '%s' in @%s/%s.";
-
-	private static final String NO_SUCH_ELEMENT_MESSAGE = "No such element '%s' found in @%s/%s.";
+	private static final String EXCEPTION_THROWN_MESSAGE = "Exception thrown in element '{}' in @{} {}.";
+	private static final String ILLEGAL_ACCESS_MESSAGE = "Illegal access to element '%s' in @{}/{}.";
+	private static final String NO_SUCH_ELEMENT_MESSAGE = "No such element '{}' found in @{}/{}.";
 
 	/**
 	 * Creates logger for {@link AnnotationAccessImpl}.
@@ -106,7 +97,6 @@ class AnnotationAccessImplLogger extends AbstractLogger {
 	void checkAnnotation(Annotation a,
 			Class<? extends Annotation> annotationClass,
 			AccessibleObject accessible) {
-		notNull(a, ACCESSIBLE_OBJECT_MUST_HAVE_ANNOTATION_MESSAGE, accessible,
-				annotationClass);
+		notNull(a, ACCESSIBLE_OBJECT_MESSAGE, accessible, annotationClass);
 	}
 }

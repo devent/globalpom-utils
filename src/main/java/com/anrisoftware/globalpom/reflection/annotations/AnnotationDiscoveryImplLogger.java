@@ -32,14 +32,10 @@ import com.anrisoftware.globalpom.reflection.exceptions.ReflectionError;
 class AnnotationDiscoveryImplLogger extends AbstractLogger {
 
 	private static final String METHOD = "method";
-
 	private static final String BEAN = "bean";
-
 	private static final String ANNOTATION_DISCOVERY = "annotation discovery";
-
-	private static final String METHOD_NOT_GETTER_MESSAGE = "Method is not getter %s#%s.";
-
-	private static final String METHOD_NOT_GETTER = "Method is not getter";
+	private static final String GETTER_MESSAGE = "Method is not getter {}#{}.";
+	private static final String GETTER = "Method is not getter";
 
 	/**
 	 * Create logger for {@link AnnotationDiscoveryImpl}.
@@ -51,10 +47,10 @@ class AnnotationDiscoveryImplLogger extends AbstractLogger {
 	ReflectionError methodNotGetter(AnnotationDiscoveryImpl a, Object bean,
 			Method method) {
 		return logException(
-				new ReflectionError(METHOD_NOT_GETTER)
+				new ReflectionError(GETTER)
 						.addContextValue(ANNOTATION_DISCOVERY, a)
 						.addContextValue(BEAN, bean)
-						.addContextValue(METHOD, method),
-				METHOD_NOT_GETTER_MESSAGE, bean, method);
+						.addContextValue(METHOD, method), GETTER_MESSAGE, bean,
+				method);
 	}
 }
