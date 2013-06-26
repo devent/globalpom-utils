@@ -18,8 +18,6 @@
  */
 package com.anrisoftware.globalpom.format.point;
 
-import static java.lang.String.format;
-
 import java.text.ParseException;
 import java.text.ParsePosition;
 
@@ -33,6 +31,11 @@ import com.anrisoftware.globalpom.log.AbstractLogger;
  */
 class PointFormatLogger extends AbstractLogger {
 
+	private static final String TWO_DIMENSIONS_MESSAGE = "Point needs two dimensions: '{}'";
+	private static final String TWO_DIMENSIONS = "Point needs two dimensions";
+	private static final String UNPARSEABLE_POINT_MESSAGE = "Unparseable point: '{}'";
+	private static final String UNPARSEABLE_POINT = "Unparseable point";
+
 	/**
 	 * Create logger for {@link PointFormat.class}.
 	 */
@@ -41,14 +44,13 @@ class PointFormatLogger extends AbstractLogger {
 	}
 
 	ParseException errorParsePoint(String source, ParsePosition pos) {
-		String message = format("Unparseable point: '%s'", source);
-		ParseException ex = new ParseException(message, pos.getErrorIndex());
-		return logException(ex, message);
+		return logException(
+				new ParseException(UNPARSEABLE_POINT, pos.getErrorIndex()),
+				UNPARSEABLE_POINT_MESSAGE, source);
 	}
 
 	ParseException errorTwoPointsNeeded(String string) {
-		String message = format("Point needs two dimensions: '%s'", string);
-		ParseException ex = new ParseException(message, 0);
-		return logException(ex, message);
+		return logException(new ParseException(TWO_DIMENSIONS, 0),
+				TWO_DIMENSIONS_MESSAGE, string);
 	}
 }

@@ -22,6 +22,7 @@ import static com.anrisoftware.globalpom.utils.TestUtils.*
 
 import java.awt.Point
 import java.awt.geom.Point2D
+import java.text.ParseException
 import java.text.ParsePosition
 
 import org.junit.Test
@@ -86,5 +87,11 @@ class PointFormatTest {
 			def point = format.parse input.source, new ParsePosition(0), input.point
 			assert point == outputs[i]
 		}
+	}
+
+	@Test
+	void "parse not valid string"() {
+		def format = new PointFormat()
+		shouldFailWith(ParseException) { format.parse "(1)" }
 	}
 }
