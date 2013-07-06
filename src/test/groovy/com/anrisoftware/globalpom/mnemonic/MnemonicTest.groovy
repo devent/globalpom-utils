@@ -41,10 +41,12 @@ class MnemonicTest {
 			if (d.ex != null) {
 				shouldFailWith(d.ex) {
 					mnemonic = factory.create(d.string)
+					assert mnemonic.isValid() == d.valid
 					mnemonic.mnemonic
 				}
 			} else {
 				mnemonic = factory.create(d.string)
+				assert mnemonic.isValid() == d.valid
 				assert mnemonic.mnemonic == d.code
 				assert mnemonic.mnemonicIndex == d.index
 			}
@@ -54,11 +56,11 @@ class MnemonicTest {
 	static MnemonicFactory factory
 
 	static data = [
-		[string: "a", code: VK_A, index: -1, ex: null],
-		[string: "a,5", code: VK_A, index: 5, ex: null],
-		[string: "VK_A", code: VK_A, index: -1, ex: null],
-		[string: "", code: null, index: -1, ex: null],
-		[string: "SOME", code: null, index: -1, ex: IllegalArgumentException],
+		[string: "a", code: VK_A, index: -1, valid: true, ex: null],
+		[string: "a,5", code: VK_A, index: 5, valid: true, ex: null],
+		[string: "VK_A", code: VK_A, index: -1, valid: true, ex: null],
+		[string: "", code: null, index: -1, valid: false, ex: null],
+		[string: "SOME", code: null, index: -1, valid: false, ex: IllegalArgumentException],
 	]
 
 	@BeforeClass

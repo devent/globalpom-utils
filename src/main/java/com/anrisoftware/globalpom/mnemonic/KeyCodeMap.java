@@ -1,18 +1,18 @@
 /*
  * Copyright 2013 Erwin Müller <erwin.mueller@deventm.org>
- *
+ * 
  * This file is part of globalpom-utils.
- *
+ * 
  * globalpom-utils is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or (at your
  * option) any later version.
- *
+ * 
  * globalpom-utils is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- *
+ * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpom-utils. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -39,6 +39,25 @@ import javax.inject.Singleton;
 public class KeyCodeMap {
 
 	private Reference<Map<String, Integer>> keyCodes;
+
+	/**
+	 * Tests if the specified string is probably a valid key code. The string is
+	 * probably a valid key code if the string is a single character or begins
+	 * with {@code "VK_"}. Not tested is whether or not the string actually is a
+	 * valid key code.
+	 * 
+	 * @param string
+	 *            the {@link String}.
+	 * 
+	 * @return {@code true} if the specified string is probably a valid key
+	 *         code.
+	 */
+	public boolean valid(String string) {
+		if (string.length() > 1) {
+			return string.startsWith("VK_") ? true : false;
+		}
+		return string.length() == 1;
+	}
 
 	/**
 	 * Returns the key code for the name. The name can be a character or a key
@@ -93,4 +112,5 @@ public class KeyCodeMap {
 		}
 		return map;
 	}
+
 }

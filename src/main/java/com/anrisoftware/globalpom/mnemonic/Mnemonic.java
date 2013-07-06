@@ -66,6 +66,20 @@ public class Mnemonic {
 	}
 
 	/**
+	 * Tests if the mnemonic will probably return a valid key code. Not tested
+	 * is whether or not the mnemonic will actually return a valid key code.
+	 * 
+	 * @return {@code true} if the mnemonic will probably return a valid key
+	 *         code.
+	 */
+	public boolean isValid() {
+		if (keynames.length == 0) {
+			return false;
+		}
+		return codeMap.valid(keynames[0]);
+	}
+
+	/**
 	 * Returns the mnemonic key code. The string can contain a key code name or
 	 * the character. Examples:
 	 * <ul>
@@ -116,4 +130,5 @@ public class Mnemonic {
 	public String toString() {
 		return new ToStringBuilder(this).append(keynames).toString();
 	}
+
 }
