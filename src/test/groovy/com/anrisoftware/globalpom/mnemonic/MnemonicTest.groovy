@@ -18,6 +18,7 @@
  */
 package com.anrisoftware.globalpom.mnemonic
 
+import static com.anrisoftware.globalpom.utils.TestUtils.*
 import static java.awt.event.KeyEvent.*
 
 import org.junit.BeforeClass
@@ -36,19 +37,28 @@ class MnemonicTest {
 	@Test
 	void "mnemonic from string"() {
 		Mnemonic mnemonic
-		data.each {
-			mnemonic = factory.create(it.string)
-			assert mnemonic.mnemonic == it.code
-			assert mnemonic.mnemonicIndex == it.index
+		data.each { d ->
+			if (d.ex != null) {
+				shouldFailWith(d.ex) {
+					mnemonic = factory.create(d.string)
+					mnemonic.mnemonic
+				}
+			} else {
+				mnemonic = factory.create(d.string)
+				assert mnemonic.mnemonic == d.code
+				assert mnemonic.mnemonicIndex == d.index
+			}
 		}
 	}
 
-	static MnemonicFactory factory;
+	static MnemonicFactory factory
 
 	static data = [
-		[string: "a", code: VK_A, index: -1],
-		[string: "a,5", code: VK_A, index: 5],
-		[string: "VK_A", code: VK_A, index: -1],
+		[string: "a", code: VK_A, index: -1, ex: null],
+		[string: "a,5", code: VK_A, index: 5, ex: null],
+		[string: "VK_A", code: VK_A, index: -1, ex: null],
+		[string: "", code: null, index: -1, ex: null],
+		[string: "SOME", code: null, index: -1, ex: IllegalArgumentException],
 	]
 
 	@BeforeClass

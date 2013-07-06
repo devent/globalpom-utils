@@ -18,6 +18,7 @@
  */
 package com.anrisoftware.globalpom.mnemonic
 
+import static com.anrisoftware.globalpom.utils.TestUtils.*
 import static java.awt.event.KeyEvent.*
 import static javax.swing.KeyStroke.*
 
@@ -25,7 +26,7 @@ import org.junit.BeforeClass
 import org.junit.Test
 
 import com.google.inject.Guice
-
+import com.google.inject.ProvisionException
 /**
  * @see Accelerator
  * 
@@ -37,18 +38,29 @@ class AcceleratorTest {
 	@Test
 	void "accelerator from string"() {
 		Accelerator accelerator
-		data.each {
-			accelerator = factory.create(it.string)
-			assert accelerator.accelerator == it.code
+		data.each { d ->
+			if (d.ex != null) {
+				shouldFailWith(d.ex) {
+					accelerator = factory.create(d.string)
+					accelerator.accelerator
+				}
+			} else {
+				accelerator = factory.create(d.string)
+				assert accelerator.accelerator == d.code
+			}
 		}
 	}
 
-	static AcceleratorFactory factory;
+	static AcceleratorFactory factory
 
 	static data = [
-		[string: "a", code: getKeyStroke(VK_A, 0)],
-		[string: "VK_A,ALT_DOWN_MASK,CTRL_DOWN_MASK", code: getKeyStroke(VK_A, ALT_DOWN_MASK|CTRL_DOWN_MASK)],
-		[string: "a,ALT_DOWN_MASK,CTRL_DOWN_MASK", code: getKeyStroke(VK_A, ALT_DOWN_MASK|CTRL_DOWN_MASK)],
+		[string: "a", code: getKeyStroke(VK_A, 0), ex: null],
+		[string: "VK_A,ALT_DOWN_MASK,CTRL_DOWN_MASK", code: getKeyStroke(VK_A, ALT_DOWN_MASK|CTRL_DOWN_MASK), ex: null],
+		[string: "a,ALT_DOWN_MASK,CTRL_DOWN_MASK", code: getKeyStroke(VK_A, ALT_DOWN_MASK|CTRL_DOWN_MASK), ex: null],
+		[string: "", code: null, ex: null],
+		[string: "SOME", code: null, ex: IllegalArgumentException],
+		[string: null, code: null, ex: ProvisionException],
+		[string: "a,SOME", code: null, ex: IllegalArgumentException],
 	]
 
 	@BeforeClass

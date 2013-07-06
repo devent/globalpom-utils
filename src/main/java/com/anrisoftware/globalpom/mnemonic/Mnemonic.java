@@ -1,18 +1,18 @@
 /*
  * Copyright 2013 Erwin Müller <erwin.mueller@deventm.org>
- *
+ * 
  * This file is part of globalpom-utils.
- *
+ * 
  * globalpom-utils is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or (at your
  * option) any later version.
- *
+ * 
  * globalpom-utils is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- *
+ * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpom-utils. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -53,11 +53,14 @@ public class Mnemonic {
 
 	private final String[] keynames;
 
+	private final MnemonicLogger log;
+
 	/**
 	 * @see MnemonicFactory#create(String)
 	 */
 	@Inject
-	Mnemonic(KeyCodeMap codeMap, @Assisted String string) {
+	Mnemonic(MnemonicLogger logger, KeyCodeMap codeMap, @Assisted String string) {
+		this.log = logger;
 		this.codeMap = codeMap;
 		this.keynames = split(string, ",");
 	}
@@ -72,10 +75,18 @@ public class Mnemonic {
 	 * 
 	 * @return the mnemonic key code or {@code null}.
 	 * 
+	 * @throws IllegalArgumentException
+	 *             if the specified mnemonic is not a valid key code.
+	 * 
 	 * @see KeyEvent
 	 */
 	public Integer getMnemonic() {
-		return codeMap.getKeyCode(keynames[0]);
+		if (keynames.length == 0) {
+			return null;
+		}
+		Integer code = codeMap.getKeyCode(keynames[0]);
+		log.checkKeyCode(code, keynames);
+		return code;
 	}
 
 	/**
