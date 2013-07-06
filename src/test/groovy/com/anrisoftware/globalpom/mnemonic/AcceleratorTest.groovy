@@ -42,10 +42,12 @@ class AcceleratorTest {
 			if (d.ex != null) {
 				shouldFailWith(d.ex) {
 					accelerator = factory.create(d.string)
+					assert accelerator.isValid() == d.valid
 					accelerator.accelerator
 				}
 			} else {
 				accelerator = factory.create(d.string)
+				assert accelerator.isValid() == d.valid
 				assert accelerator.accelerator == d.code
 			}
 		}
@@ -54,13 +56,13 @@ class AcceleratorTest {
 	static AcceleratorFactory factory
 
 	static data = [
-		[string: "a", code: getKeyStroke(VK_A, 0), ex: null],
-		[string: "VK_A,ALT_DOWN_MASK,CTRL_DOWN_MASK", code: getKeyStroke(VK_A, ALT_DOWN_MASK|CTRL_DOWN_MASK), ex: null],
-		[string: "a,ALT_DOWN_MASK,CTRL_DOWN_MASK", code: getKeyStroke(VK_A, ALT_DOWN_MASK|CTRL_DOWN_MASK), ex: null],
-		[string: "", code: null, ex: null],
-		[string: "SOME", code: null, ex: IllegalArgumentException],
-		[string: null, code: null, ex: ProvisionException],
-		[string: "a,SOME", code: null, ex: IllegalArgumentException],
+		[string: "a", code: getKeyStroke(VK_A, 0), valid: true, ex: null],
+		[string: "VK_A,ALT_DOWN_MASK,CTRL_DOWN_MASK", code: getKeyStroke(VK_A, ALT_DOWN_MASK|CTRL_DOWN_MASK), valid: true, ex: null],
+		[string: "a,ALT_DOWN_MASK,CTRL_DOWN_MASK", code: getKeyStroke(VK_A, ALT_DOWN_MASK|CTRL_DOWN_MASK), valid: true, ex: null],
+		[string: "", code: null, valid: false, ex: null],
+		[string: "SOME", code: null, valid: false, ex: IllegalArgumentException],
+		[string: null, code: null, valid: false, ex: ProvisionException],
+		[string: "a,SOME", code: null, valid: true, ex: IllegalArgumentException],
 	]
 
 	@BeforeClass

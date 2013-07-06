@@ -61,6 +61,23 @@ public class Accelerator {
 	}
 
 	/**
+	 * Tests if the accelerator will probably return a valid key stroke. Not
+	 * tested is whether or not the accelerator will actually return a valid key
+	 * stroke.
+	 * 
+	 * @return {@code true} if the accelerator will probably return a valid key
+	 *         stroke.
+	 * 
+	 * @since 1.6
+	 */
+	public boolean isValid() {
+		if (keynames.length == 0) {
+			return false;
+		}
+		return codeMap.valid(keynames[0]);
+	}
+
+	/**
 	 * Returns the accelerator key for an action. The accelerator can be just a
 	 * key character or the key code name. In addition, the modifiers can be set
 	 * as the modifiers names. Examples:

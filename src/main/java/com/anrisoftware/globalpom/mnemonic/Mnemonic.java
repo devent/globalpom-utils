@@ -71,6 +71,8 @@ public class Mnemonic {
 	 * 
 	 * @return {@code true} if the mnemonic will probably return a valid key
 	 *         code.
+	 * 
+	 * @since 1.6
 	 */
 	public boolean isValid() {
 		if (keynames.length == 0) {

@@ -51,6 +51,8 @@ public class KeyCodeMap {
 	 * 
 	 * @return {@code true} if the specified string is probably a valid key
 	 *         code.
+	 * 
+	 * @since 1.6
 	 */
 	public boolean valid(String string) {
 		if (string.length() > 1) {
