@@ -49,11 +49,21 @@ public class FileResourceManagerProvider implements
 	/**
 	 * Sets the store directory path for the file resource manager.
 	 * 
-	 * @param storeDir
+	 * @param path
+	 *            the store directory {@link File} path.
+	 */
+	public void setStoreDir(File path) {
+		setStoreDir(path.getAbsolutePath());
+	}
+
+	/**
+	 * Sets the store directory path for the file resource manager.
+	 * 
+	 * @param path
 	 *            the store directory path.
 	 */
-	public void setStoreDir(String storeDir) {
-		this.storeDir = storeDir;
+	public void setStoreDir(String path) {
+		this.storeDir = path;
 	}
 
 	@Override
