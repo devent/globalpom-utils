@@ -1,18 +1,18 @@
 /*
  * Copyright 2013 Erwin Müller <erwin.mueller@deventm.org>
- *
+ * 
  * This file is part of globalpom-utils.
- *
+ * 
  * globalpom-utils is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or (at your
  * option) any later version.
- *
+ * 
  * globalpom-utils is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- *
+ * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpom-utils. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -29,9 +29,7 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
-import com.anrisoftware.globalpom.resources.ConvertException;
 import com.google.inject.Injector;
 
 /**
@@ -40,11 +38,8 @@ import com.google.inject.Injector;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.0
  */
-@Singleton
 @SuppressWarnings("serial")
 public class InetSocketAddressFormat extends Format {
-
-	private static final Injector INJECTOR = createInjector();
 
 	/**
 	 * @see #create()
@@ -58,21 +53,17 @@ public class InetSocketAddressFormat extends Format {
 	 * 
 	 * @return the Internet socket address {@link InetSocketAddressFormat}.
 	 */
-	public static InetSocketAddressFormat create() throws ConvertException {
-		return INJECTOR.getInstance(InetSocketAddressFormat.class);
+	public static InetSocketAddressFormat create() {
+		return InjectorInstance.injector
+				.getInstance(InetSocketAddressFormat.class);
 	}
 
-	private final InetSocketAddressFormatLogger log;
+	private static class InjectorInstance {
+		static final Injector injector = createInjector();
+	}
 
-	/**
-	 * @param logger
-	 *            the {@link InetSocketAddressFormatLogger} for logging
-	 *            messages.
-	 */
 	@Inject
-	InetSocketAddressFormat(InetSocketAddressFormatLogger logger) {
-		this.log = logger;
-	}
+	private InetSocketAddressFormatLogger log;
 
 	/**
 	 * Formats the specified Internet socket address.

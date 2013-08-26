@@ -18,12 +18,10 @@
  */
 package com.anrisoftware.globalpom.format
 
-
+import static com.anrisoftware.globalpom.format.inetsocketaddress.InetSocketAddressFormat.*
 import static com.anrisoftware.globalpom.utils.TestUtils.*
 
 import org.junit.Test
-
-import com.anrisoftware.globalpom.format.inetsocketaddress.InetSocketAddressFormat;
 
 /**
  * Test parsing and formatting Internet socket address.
@@ -69,7 +67,7 @@ class InetSocketAddressFormatTest {
 
 	@Test
 	void "format socket address"() {
-		def format = new InetSocketAddressFormat()
+		def format = createInetSocketAddressFormat()
 		inputs.eachWithIndex { it, int i ->
 			def str = format.format outputs[i]
 			assertStringContent "${it[0]}", str
@@ -78,7 +76,7 @@ class InetSocketAddressFormatTest {
 
 	@Test
 	void "parse socket address"() {
-		def format = new InetSocketAddressFormat()
+		def format = createInetSocketAddressFormat()
 		inputs.eachWithIndex { it, int i ->
 			def address = format.parse it[0]
 			assert address == outputs[i]

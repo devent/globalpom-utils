@@ -16,20 +16,41 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpom-utils. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.format.core;
+package com.anrisoftware.globalpom.format.point;
 
-import com.anrisoftware.globalpom.format.point.PointFormat;
-import com.anrisoftware.globalpom.format.point.PointFormatFactory;
+import static com.google.inject.Guice.createInjector;
+
 import com.google.inject.AbstractModule;
+import com.google.inject.Injector;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /**
- * Installs the format factories.
+ * Installs the point format factory.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.1
  */
-public class FormatsModule extends AbstractModule {
+public class PointFormatModule extends AbstractModule {
+
+	/**
+	 * @see #create()
+	 */
+	public static PointFormatFactory createPointFormatFactory() {
+		return create();
+	}
+
+	/**
+	 * Creates the point format factory.
+	 * 
+	 * @return the {@link PointFormatFactory}.
+	 */
+	public static PointFormatFactory create() {
+		return InjectorInstance.injector.getInstance(PointFormatFactory.class);
+	}
+
+	private static class InjectorInstance {
+		static final Injector injector = createInjector(new PointFormatModule());
+	}
 
 	@Override
 	protected void configure() {
