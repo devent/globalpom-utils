@@ -1,5 +1,5 @@
-com.anrisoftware.globalpom:globalpom-utils:jar:1.6
-+- com.anrisoftware.globalpom:globalpom-groovytestutils:jar:1.20:test
+com.anrisoftware.globalpom:globalpom-utils:jar:1.8
++- com.anrisoftware.globalpom:globalpom-groovytestutils:jar:1.20.1:test
 |  +- org.codehaus.groovy:groovy:jar:2.1.5:test
 |  |  +- antlr:antlr:jar:2.7.7:test
 |  |  +- org.ow2.asm:asm-tree:jar:4.0:test
@@ -14,7 +14,6 @@ com.anrisoftware.globalpom:globalpom-utils:jar:1.6
 |  |  |  +- org.easytesting:fest-util:jar:1.1.6:test
 |  |  |  \- net.jcip:jcip-annotations:jar:1.0:test
 |  |  \- org.easytesting:fest-swing-junit:jar:1.2.1:test
-|  |     \- commons-codec:commons-codec:jar:1.8:test
 |  +- org.codehaus.groovy:groovy-swing:jar:2.1.5:test
 |  +- org.apache.commons:commons-exec:jar:1.1:test
 |  +- commons-io:commons-io:jar:2.4:test
@@ -22,14 +21,22 @@ com.anrisoftware.globalpom:globalpom-utils:jar:1.6
 |     +- com.github.insubstantial:laf-widget:jar:7.2.1:test
 |     +- com.github.insubstantial:trident:jar:swing:7.2.1:test
 |     \- com.github.insubstantial:laf-plugin:jar:7.2.1:test
-+- com.anrisoftware.globalpom:globalpom-log:jar:1.13:compile
++- com.anrisoftware.globalpom:globalpom-log:jar:1.14:compile
 +- javax.inject:javax.inject:jar:1:compile
 +- com.google.inject.extensions:guice-assistedinject:jar:3.0:compile
 |  \- com.google.inject:guice:jar:3.0:compile
 |     \- aopalliance:aopalliance:jar:1.0:compile
 +- org.apache.commons:commons-lang3:jar:3.1:compile
-+- com.anrisoftware.propertiesutils:propertiesutils-contextproperties:jar:1.8:compile
++- com.anrisoftware.propertiesutils:propertiesutils-contextproperties:jar:1.9:compile
 +- joda-time:joda-time:jar:2.2:compile
++- commons-transaction:commons-transaction:jar:1.2:compile
+|  +- commons-codec:commons-codec:jar:1.8:compile
+|  +- commons-logging:commons-logging:jar:1.1:compile
+|  |  +- logkit:logkit:jar:1.0.1:compile
+|  |  +- avalon-framework:avalon-framework:jar:4.1.3:compile
+|  |  \- javax.servlet:servlet-api:jar:2.3:compile
+|  \- log4j:log4j:jar:1.2.8:compile
++- javax:javaee-api:jar:6.0:compile
 +- org.slf4j:slf4j-api:jar:1.7.5:compile
 +- junit:junit:jar:4.11:test
 |  \- org.hamcrest:hamcrest-core:jar:1.3:test
