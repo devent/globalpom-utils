@@ -11,7 +11,7 @@
 	</parent>
 
 	<artifactId>globalpom-utils</artifactId>
-	<version>1.8</version>
+	<version>1.9-SNAPSHOT</version>
 	<name>Global POM :: Utilities</name>
 	<description>Various utilities.</description>
 	<url>https://www.anr-institute.com/projects/projects/globalpom-utils</url>
@@ -113,7 +113,7 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<!-- threads -->
+			<!-- threads, duration format -->
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 			<optional>true</optional>
