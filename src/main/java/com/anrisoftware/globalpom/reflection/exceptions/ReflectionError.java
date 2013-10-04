@@ -1,24 +1,26 @@
 /*
  * Copyright 2013 Erwin Müller <erwin.mueller@deventm.org>
- *
+ * 
  * This file is part of globalpom-utils.
- *
+ * 
  * globalpom-utils is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or (at your
  * option) any later version.
- *
+ * 
  * globalpom-utils is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- *
+ * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpom-utils. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.anrisoftware.globalpom.reflection.exceptions;
 
-import org.apache.commons.lang3.exception.ContextedRuntimeException;
+import java.util.Map;
+
+import com.anrisoftware.globalpom.exceptions.Context;
 
 /**
  * Error while accessing fields or methods with reflection.
@@ -27,40 +29,67 @@ import org.apache.commons.lang3.exception.ContextedRuntimeException;
  * @since 1.4
  */
 @SuppressWarnings("serial")
-public class ReflectionError extends ContextedRuntimeException {
+public class ReflectionError extends RuntimeException {
+
+	private final Context<ReflectionError> context;
 
 	/**
-	 * For serialization.
-	 */
-	public ReflectionError() {
-		super();
-	}
-
-	/**
-	 * Sets the message and the cause of the error.
-	 * 
-	 * @param message
-	 *            the message of the error.
-	 * 
-	 * @param cause
-	 *            the {@link Throwable} cause of the error.
+	 * @see Exception#Exception(String, Throwable)
 	 */
 	public ReflectionError(String message, Throwable cause) {
 		super(message, cause);
+		this.context = new Context<ReflectionError>(this);
 	}
 
 	/**
-	 * Sets the message of the error, but with no cause.
-	 * 
-	 * @param message
-	 *            the message of the error.
+	 * @see Exception#Exception(String)
 	 */
 	public ReflectionError(String message) {
 		super(message);
+		this.context = new Context<ReflectionError>(this);
+	}
+
+	/**
+	 * @see Exception#Exception(String, Throwable)
+	 */
+	public ReflectionError(Object message, Throwable cause) {
+		super(message.toString(), cause);
+		this.context = new Context<ReflectionError>(this);
+	}
+
+	/**
+	 * @see Exception#Exception(String)
+	 */
+	public ReflectionError(Object message) {
+		super(message.toString());
+		this.context = new Context<ReflectionError>(this);
+	}
+
+	/**
+	 * @see Context#addContext(String, Object)
+	 */
+	public ReflectionError add(String name, Object value) {
+		context.addContext(name, value);
+		return this;
+	}
+
+	/**
+	 * @see Context#addContext(String, Object)
+	 */
+	public ReflectionError add(Object name, Object value) {
+		context.addContext(name.toString(), value);
+		return this;
+	}
+
+	/**
+	 * @see Context#getContext()
+	 */
+	public Map<String, Object> getContext() {
+		return context.getContext();
 	}
 
 	@Override
-	public ReflectionError addContextValue(String label, Object value) {
-		return (ReflectionError) super.addContextValue(label, value);
+	public String toString() {
+		return context.toString();
 	}
 }

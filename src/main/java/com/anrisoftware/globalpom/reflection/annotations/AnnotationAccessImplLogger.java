@@ -1,23 +1,33 @@
 /*
  * Copyright 2013 Erwin Müller <erwin.mueller@deventm.org>
- *
+ * 
  * This file is part of globalpom-utils.
- *
+ * 
  * globalpom-utils is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or (at your
  * option) any later version.
- *
+ * 
  * globalpom-utils is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- *
+ * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpom-utils. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.anrisoftware.globalpom.reflection.annotations;
 
+import static com.anrisoftware.globalpom.reflection.annotations.AnnotationAccessImplLogger._.accessible_object;
+import static com.anrisoftware.globalpom.reflection.annotations.AnnotationAccessImplLogger._.annotation;
+import static com.anrisoftware.globalpom.reflection.annotations.AnnotationAccessImplLogger._.exception_thrown;
+import static com.anrisoftware.globalpom.reflection.annotations.AnnotationAccessImplLogger._.exception_thrown_message;
+import static com.anrisoftware.globalpom.reflection.annotations.AnnotationAccessImplLogger._.illegal_access;
+import static com.anrisoftware.globalpom.reflection.annotations.AnnotationAccessImplLogger._.illegal_access_message;
+import static com.anrisoftware.globalpom.reflection.annotations.AnnotationAccessImplLogger._.name_;
+import static com.anrisoftware.globalpom.reflection.annotations.AnnotationAccessImplLogger._.no_annotation;
+import static com.anrisoftware.globalpom.reflection.annotations.AnnotationAccessImplLogger._.no_such_element;
+import static com.anrisoftware.globalpom.reflection.annotations.AnnotationAccessImplLogger._.no_such_element_message;
 import static org.apache.commons.lang3.Validate.notNull;
 
 import java.lang.annotation.Annotation;
@@ -39,16 +49,39 @@ import com.anrisoftware.globalpom.reflection.exceptions.ReflectionError;
 @Singleton
 class AnnotationAccessImplLogger extends AbstractLogger {
 
-	private static final String ACCESSIBLE_OBJECT_MESSAGE = "Accessible object {} must have annotation {}.";
-	private static final String ACCESSIBLE_OBJECT = "accessible object";
-	private static final String ANNOTATION = "annotation";
-	private static final String NAME = "name";
-	private static final String EXCEPTION_THROWN = "Exception thrown in element";
-	private static final String ILLEGAL_ACCESS = "Illegal access to element";
-	private static final String NO_SUCH_ELEMENT = "No such element found";
-	private static final String EXCEPTION_THROWN_MESSAGE = "Exception thrown in element '{}' in @{} {}.";
-	private static final String ILLEGAL_ACCESS_MESSAGE = "Illegal access to element '%s' in @{}/{}.";
-	private static final String NO_SUCH_ELEMENT_MESSAGE = "No such element '{}' found in @{}/{}.";
+	enum _ {
+
+		no_annotation("Accessible object %s must have annotation %s."),
+
+		accessible_object("accessible object"),
+
+		annotation("annotation"),
+
+		name_("name"),
+
+		exception_thrown("Exception thrown in element"),
+
+		illegal_access("Illegal access to element"),
+
+		no_such_element("No such element found"),
+
+		exception_thrown_message("Exception thrown in element '{}' in @{} {}."),
+
+		illegal_access_message("Illegal access to element '{}' in @{}/{}."),
+
+		no_such_element_message("No such element '{}' found in @{}/{}.");
+
+		private String name;
+
+		private _(String name) {
+			this.name = name;
+		}
+
+		@Override
+		public String toString() {
+			return name;
+		}
+	}
 
 	/**
 	 * Creates logger for {@link AnnotationAccessImpl}.
@@ -62,11 +95,10 @@ class AnnotationAccessImplLogger extends AbstractLogger {
 			Class<? extends Annotation> annotationClass,
 			AccessibleObject accessible, String name) {
 		return logException(
-				new ReflectionError(NO_SUCH_ELEMENT, e)
-						.addContextValue(NAME, name)
-						.addContextValue(ANNOTATION, annotationClass)
-						.addContextValue(ACCESSIBLE_OBJECT, accessible),
-				NO_SUCH_ELEMENT_MESSAGE, name, annotationClass.getName(),
+				new ReflectionError(no_such_element, e).add(name_, name)
+						.add(annotation, annotationClass)
+						.add(accessible_object, accessible),
+				no_such_element_message, name, annotationClass.getName(),
 				accessible);
 	}
 
@@ -74,11 +106,10 @@ class AnnotationAccessImplLogger extends AbstractLogger {
 			Class<? extends Annotation> annotationClass,
 			AccessibleObject accessible, String name) {
 		return logException(
-				new ReflectionError(ILLEGAL_ACCESS, e)
-						.addContextValue(NAME, name)
-						.addContextValue(ANNOTATION, annotationClass)
-						.addContextValue(ACCESSIBLE_OBJECT, accessible),
-				ILLEGAL_ACCESS_MESSAGE, name, annotationClass.getName(),
+				new ReflectionError(illegal_access, e).add(name_, name)
+						.add(annotation, annotationClass)
+						.add(accessible_object, accessible),
+				illegal_access_message, name, annotationClass.getName(),
 				accessible);
 	}
 
@@ -86,17 +117,16 @@ class AnnotationAccessImplLogger extends AbstractLogger {
 			Class<? extends Annotation> annotationClass,
 			AccessibleObject accessible, String name) {
 		return logException(
-				new ReflectionError(EXCEPTION_THROWN, e)
-						.addContextValue(NAME, name)
-						.addContextValue(ANNOTATION, annotationClass)
-						.addContextValue(ACCESSIBLE_OBJECT, accessible),
-				EXCEPTION_THROWN_MESSAGE, name, annotationClass.getName(),
+				new ReflectionError(exception_thrown, e).add(name_, name)
+						.add(annotation, annotationClass)
+						.add(accessible_object, accessible),
+				exception_thrown_message, name, annotationClass.getName(),
 				accessible);
 	}
 
 	void checkAnnotation(Annotation a,
 			Class<? extends Annotation> annotationClass,
 			AccessibleObject accessible) {
-		notNull(a, ACCESSIBLE_OBJECT_MESSAGE, accessible, annotationClass);
+		notNull(a, no_annotation.toString(), accessible, annotationClass);
 	}
 }

@@ -1,22 +1,34 @@
 /*
  * Copyright 2013 Erwin Müller <erwin.mueller@deventm.org>
- *
+ * 
  * This file is part of globalpom-utils.
- *
+ * 
  * globalpom-utils is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or (at your
  * option) any later version.
- *
+ * 
  * globalpom-utils is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- *
+ * 
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpom-utils. If not, see <http://www.gnu.org/licenses/>.
  */
 package com.anrisoftware.globalpom.reflection.beans;
+
+import static com.anrisoftware.globalpom.reflection.beans.BeanFactoryImplLogger._.exception_thrown;
+import static com.anrisoftware.globalpom.reflection.beans.BeanFactoryImplLogger._.exception_thrown_message;
+import static com.anrisoftware.globalpom.reflection.beans.BeanFactoryImplLogger._.find;
+import static com.anrisoftware.globalpom.reflection.beans.BeanFactoryImplLogger._.find_message;
+import static com.anrisoftware.globalpom.reflection.beans.BeanFactoryImplLogger._.illegal_access;
+import static com.anrisoftware.globalpom.reflection.beans.BeanFactoryImplLogger._.illegal_access_message;
+import static com.anrisoftware.globalpom.reflection.beans.BeanFactoryImplLogger._.instantiate;
+import static com.anrisoftware.globalpom.reflection.beans.BeanFactoryImplLogger._.instantiate_message;
+import static com.anrisoftware.globalpom.reflection.beans.BeanFactoryImplLogger._.name_;
+import static com.anrisoftware.globalpom.reflection.beans.BeanFactoryImplLogger._.no_standard;
+import static com.anrisoftware.globalpom.reflection.beans.BeanFactoryImplLogger._.no_standard_message;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -31,18 +43,45 @@ import com.anrisoftware.globalpom.reflection.exceptions.ReflectionError;
  */
 class BeanFactoryImplLogger extends AbstractLogger {
 
-	private static final String NAME = "name";
-	private static final String FIND_MESSAGE = "Cannot find the class '{}'.";
-	private static final String FIND = "Cannot find the class";
-	private static final String INSTANTIATE_MESSAGE = "Can not instantiate {}.";
-	private static final String INSTANTIATE = "Can not instantiate";
-	private static final String NO_STANDARD_MESSAGE = "No standard constructor found for {}.";
-	private static final String NO_STANDARD = "No standard constructor found";
-	private static final String EXCEPTION_THROWN_MESSAGE = "Exception thrown in the standard constructor of {}.";
-	private static final String EXCEPTION_THROWN = "Exception thrown in the standard constructor";
-	private static final String TYPE = "type";
-	private static final String ILLEGAL_ACCESS = "Illegal access to the standard constructor";
-	private static final String ILLEGAL_ACCESS_MESSAGE = "Illegal access to the standard constructor of {}.";
+	enum _ {
+
+		name_("name"),
+
+		find_message("Cannot find the class '{}'."),
+
+		find("Cannot find the class"),
+
+		instantiate_message("Can not instantiate {}."),
+
+		instantiate("Can not instantiate"),
+
+		no_standard_message("No standard constructor found for {}."),
+
+		no_standard("No standard constructor found"),
+
+		exception_thrown_message(
+				"Exception thrown in the standard constructor of {}."),
+
+		exception_thrown("Exception thrown in the standard constructor"),
+
+		type("type"),
+
+		illegal_access("Illegal access to the standard constructor"),
+
+		illegal_access_message(
+				"Illegal access to the standard constructor of {}.");
+
+		private String name;
+
+		private _(String name) {
+			this.name = name;
+		}
+
+		@Override
+		public String toString() {
+			return name;
+		}
+	}
 
 	/**
 	 * Creates logger for {@link BeanAccessImpl}.
@@ -53,33 +92,32 @@ class BeanFactoryImplLogger extends AbstractLogger {
 
 	ReflectionError illegalAccessError(IllegalAccessException e, Class<?> type) {
 		return logException(
-				new ReflectionError(ILLEGAL_ACCESS, e).addContextValue(TYPE,
-						type), ILLEGAL_ACCESS_MESSAGE, type);
+				new ReflectionError(illegal_access, e).add(type, type),
+				illegal_access_message, type);
 	}
 
 	ReflectionError invocationTargetError(InvocationTargetException e,
 			Class<?> type) {
 		return logException(
-				new ReflectionError(EXCEPTION_THROWN, e.getCause()).addContextValue(
-						TYPE, type), EXCEPTION_THROWN_MESSAGE, type);
+				new ReflectionError(exception_thrown, e.getCause()).add(type,
+						type), exception_thrown_message, type);
 	}
 
 	ReflectionError noSuchCtorError(NoSuchMethodException e, Class<?> type) {
 		return logException(
-				new ReflectionError(NO_STANDARD, e.getCause()).addContextValue(
-						TYPE, type), NO_STANDARD_MESSAGE, type);
+				new ReflectionError(no_standard, e.getCause()).add(type, type),
+				no_standard_message, type);
 	}
 
 	ReflectionError instantiationError(InstantiationException e, Class<?> type) {
 		return logException(
-				new ReflectionError(INSTANTIATE, e.getCause()).addContextValue(
-						TYPE, type), INSTANTIATE_MESSAGE, type);
+				new ReflectionError(instantiate, e.getCause()).add(type, type),
+				instantiate_message, type);
 	}
 
 	ReflectionError classNotFoundError(ClassNotFoundException e, String name) {
-		return logException(
-				new ReflectionError(FIND, e).addContextValue(NAME, name),
-				FIND_MESSAGE, name);
+		return logException(new ReflectionError(find, e).add(name_, name),
+				find_message, name);
 	}
 
 }
