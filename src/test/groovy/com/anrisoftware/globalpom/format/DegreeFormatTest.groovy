@@ -29,7 +29,7 @@ import org.junit.Test
  * @see DegreeSexagesimalFormat
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.8
+ * @since 1.9
  */
 class DegreeFormatTest {
 

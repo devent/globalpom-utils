@@ -32,7 +32,7 @@ import com.anrisoftware.globalpom.log.AbstractLogger;
  * Logging messages for {@link DegreeSexagesimalFormat}.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.8
+ * @since 1.9
  */
 class DegreeSexagesimalFormatLogger extends AbstractLogger {
 
