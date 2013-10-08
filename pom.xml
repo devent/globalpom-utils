@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.anrisoftware.globalpom</groupId>
 		<artifactId>globalpom-groovy</artifactId>
-		<version>1.19</version>
+		<version>1.20-SNAPSHOT</version>
 		<relativePath />
 	</parent>
 
@@ -53,7 +53,7 @@
 			<dependency>
 				<groupId>com.anrisoftware.globalpom</groupId>
 				<artifactId>globalpom-groovytestutils</artifactId>
-				<version>1.20.1</version>
+				<version>1.21-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.anrisoftware.globalpom</groupId>
@@ -123,10 +123,26 @@
 		<dependency>
 			<groupId>commons-transaction</groupId>
 			<artifactId>commons-transaction</artifactId>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- format degree -->
+		<dependency>
+			<groupId>org.jscience</groupId>
+			<artifactId>jscience</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- measurement -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-math3</artifactId>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 
