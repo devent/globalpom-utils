@@ -18,11 +18,13 @@
  */
 package com.anrisoftware.globalpom.format.degree;
 
+import static com.anrisoftware.globalpom.format.degree.Direction.N;
 import static com.anrisoftware.globalpom.measurement.RoundToSignificantFigures.roundToDecimal;
 import static com.google.inject.Guice.createInjector;
 import static java.lang.Double.parseDouble;
 import static java.util.regex.Pattern.compile;
 import static javax.measure.unit.NonSI.DEGREE_ANGLE;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
@@ -36,6 +38,7 @@ import java.util.regex.Pattern;
 import javax.inject.Inject;
 import javax.measure.quantity.Angle;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.util.FastMath;
 import org.jscience.physics.amount.Amount;
 
@@ -100,8 +103,8 @@ public class DegreeSexagesimalFormat extends Format {
 	}
 
 	private static final Pattern PATTERN = compile(String.format(
-			"^((\\d+)%s)((\\d+)%s)?((\\d+(\\.\\d*)?)%s)?$", DEGREE_SUB,
-			MIN_SUB, SEC_SUB));
+			"^((\\d+)%s)((\\d+)%s)?((\\d+(\\.\\d*)?)%s)?(\\s[NSEW])?$",
+			DEGREE_SUB, MIN_SUB, SEC_SUB));
 
 	private static final double MIN = 1d / 60d;
 
@@ -165,7 +168,7 @@ public class DegreeSexagesimalFormat extends Format {
 	 * <h2>Format</h2>
 	 * <p>
 	 * <ul>
-	 * <li>{@code "D°M'S.s""}
+	 * <li>{@code "D°M'S.s" [NSEW]"}
 	 * </ul>
 	 * 
 	 * @return the parsed {@link Amount}.
@@ -225,11 +228,17 @@ public class DegreeSexagesimalFormat extends Format {
 		double degree = parseDoubleSave(matcher.group(2));
 		double min = parseDoubleSave(matcher.group(4)) * MIN;
 		double sec = parseDoubleSave(matcher.group(6)) * SEC;
-		return Amount.valueOf(roundToDecimal(degree + min + sec, decimal), 0,
-				DEGREE_ANGLE);
+		Direction direction = parseDirectionSave(matcher.group(8));
+		double value = (degree + min + sec) * direction.getDirection();
+		return Amount.valueOf(roundToDecimal(value, decimal), 0, DEGREE_ANGLE);
+	}
+
+	private Direction parseDirectionSave(String string) {
+		string = StringUtils.trim(string);
+		return isEmpty(string) ? N : Direction.valueOf(string.toUpperCase());
 	}
 
 	private double parseDoubleSave(String string) {
-		return string == null ? 0 : string.isEmpty() ? 0 : parseDouble(string);
+		return isEmpty(string) ? 0 : parseDouble(string);
 	}
 }

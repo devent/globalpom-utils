@@ -39,10 +39,14 @@ class DegreeFormatTest {
 		[format: "40°12'", value: Amount.valueOf(40.2d, DEGREE_ANGLE)],
 	]
 
-	static outputs = [
+	static parses = [
 		[input: "40°11'15\"", value: Amount.valueOf(40.1875d, DEGREE_ANGLE), decimal: 4],
 		[input: "40°11'15.13\"", value: Amount.valueOf(40.18753611d, DEGREE_ANGLE), decimal: 8],
 		[input: "40°12'", value: Amount.valueOf(40.2d, DEGREE_ANGLE), decimal: 1],
+		[input: "40°11'15\" N", value: Amount.valueOf(40.1875d, DEGREE_ANGLE), decimal: 4],
+		[input: "40°11'15\" S", value: Amount.valueOf(-40.1875d, DEGREE_ANGLE), decimal: 4],
+		[input: "40°11'15\" E", value: Amount.valueOf(40.1875d, DEGREE_ANGLE), decimal: 4],
+		[input: "40°11'15\" W", value: Amount.valueOf(-40.1875d, DEGREE_ANGLE), decimal: 4],
 	]
 
 	@Test
@@ -56,7 +60,7 @@ class DegreeFormatTest {
 
 	@Test
 	void "parse degree sexagesimal"() {
-		outputs.each {
+		parses.each {
 			def value = create(it.decimal).parse it.input
 			assert isValidFormat(it.input)
 			assert value == it.value
