@@ -58,6 +58,7 @@ class DegreeFormatTest {
 	void "parse degree sexagesimal"() {
 		outputs.each {
 			def value = create(it.decimal).parse it.input
+			assert isValidFormat(it.input)
 			assert value == it.value
 		}
 	}

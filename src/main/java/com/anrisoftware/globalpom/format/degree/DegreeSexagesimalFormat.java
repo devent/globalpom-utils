@@ -82,8 +82,21 @@ public class DegreeSexagesimalFormat extends Format {
 
 	private static class InjectorInstance {
 		static final DegreeSexagesimalFormatFactory factory = createInjector(
-				new DegreeSexagesimalFormatModule()).getInstance(
+				new DegreeFormatModule()).getInstance(
 				DegreeSexagesimalFormatFactory.class);
+	}
+
+	/**
+	 * Tests whether the input string is a valid sexagesimal degree format.
+	 * 
+	 * @param string
+	 *            the {@link String} to test.
+	 * 
+	 * @return {@code true} if the input string is a valid sexagesimal degree
+	 *         format.
+	 */
+	public static boolean isValidFormat(String string) {
+		return PATTERN.matcher(string).matches();
 	}
 
 	private static final Pattern PATTERN = compile(String.format(

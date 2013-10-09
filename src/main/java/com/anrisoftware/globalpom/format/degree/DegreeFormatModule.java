@@ -30,7 +30,7 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
  */
-public class DegreeSexagesimalFormatModule extends AbstractModule {
+public class DegreeFormatModule extends AbstractModule {
 
 	@Override
 	protected void configure() {

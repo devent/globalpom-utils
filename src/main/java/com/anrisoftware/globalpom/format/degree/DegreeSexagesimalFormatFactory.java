@@ -19,7 +19,7 @@
 package com.anrisoftware.globalpom.format.degree;
 
 /**
- * Creates the duration format.
+ * Creates the angular degree format.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
@@ -27,14 +27,14 @@ package com.anrisoftware.globalpom.format.degree;
 public interface DegreeSexagesimalFormatFactory {
 
 	/**
-	 * Creates duration format.
+	 * Creates angular degree format.
 	 * 
 	 * @return the {@link DegreeSexagesimalFormat}.
 	 */
 	DegreeSexagesimalFormat create();
 
 	/**
-	 * Creates duration format.
+	 * Creates angular degree format.
 	 * 
 	 * @param decimal
 	 *            the least significant decimal.
