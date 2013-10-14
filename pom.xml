@@ -134,6 +134,14 @@
 			<artifactId>commons-math3</artifactId>
 			<optional>true</optional>
 		</dependency>
+
+		<!-- data -->
+		<dependency>
+			<groupId>com.googlecode.efficient-java-matrix-library</groupId>
+			<artifactId>ejml</artifactId>
+			<optional>true</optional>
+		</dependency>
+
 	</dependencies>
 
 </project>
