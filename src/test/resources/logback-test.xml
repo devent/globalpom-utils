@@ -1,38 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright 2013 Erwin Müller <erwin.mueller@deventm.org>
+    Copyright 2013-2013 Erwin Müller <erwin.mueller@deventm.org>
 
-    This file is part of globalpom-utils.
+    This file is part of prefdialog-csvimportdialog.
 
-    globalpom-utils is free software: you can redistribute it and/or modify it
+    prefdialog-csvimportdialog is free software: you can redistribute it and/or modify it
     under the terms of the GNU Lesser General Public License as published by the
     Free Software Foundation, either version 3 of the License, or (at your
     option) any later version.
 
-    globalpom-utils is distributed in the hope that it will be useful, but
+    prefdialog-csvimportdialog is distributed in the hope that it will be useful, but
     WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
     FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
     details.
 
     You should have received a copy of the GNU Lesser General Public License
-    along with globalpom-utils. If not, see <http://www.gnu.org/licenses/>.
+    along with prefdialog-csvimportdialog. If not, see <http://www.gnu.org/licenses/>.
 
 -->
 <configuration scan="true">
 
-    <appender name="TESTING_STYLE" class="ch.qos.logback.core.ConsoleAppender">
-        <target>System.err</target>
-        <encoder>
-            <pattern>[%level] %-4relative [%thread] %logger{0} - %msg%n%rEx{short}</pattern>
-            <immediateFlush>false</immediateFlush>
-        </encoder>
-    </appender>
+	<property resource="logback.properties"/>
 
-    <root level="ERROR">
-        <appender-ref ref="TESTING_STYLE" />
-    </root>
+	<appender name="MVN_STYLE" class="ch.qos.logback.core.ConsoleAppender">
+		<target>System.err</target>
+		<encoder>
+			<pattern>[%-5level] %-4relative [%thread] %logger{15} - %msg %n</pattern>
+			<immediateFlush>false</immediateFlush>
+		</encoder>
+	</appender>
 
-    <logger name="com.anrisoftware.globalpom" level="ALL" />
+	<appender name="FILE_DAILY"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${java.io.tmpdir}/${project.name}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>[%-5level] %-4relative [%thread] %logger{15} - %msg %n</pattern>
+			<immediateFlush>true</immediateFlush>
+		</encoder>
+	</appender>
+
+	<root level="ERROR">
+		<appender-ref ref="MVN_STYLE" />
+	</root>
+
+	<logger name="com.anrisoftware" level="ERROR" />
+	<logger name="com.anrisoftware.globalpom" level="ALL" />
 
 </configuration>
