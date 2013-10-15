@@ -22,7 +22,7 @@ package com.anrisoftware.globalpom.properties;
  * Event when a list item was removed.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.0
+ * @since 1.9
  */
 @SuppressWarnings("serial")
 public class ListItemRemovedEvent extends ListPropertyChangeEvent {
