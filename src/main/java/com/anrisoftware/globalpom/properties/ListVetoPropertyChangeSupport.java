@@ -46,14 +46,21 @@ public class ListVetoPropertyChangeSupport {
 		this.support = support;
 	}
 
+	public VetoableChangeListener[] getVetoableChangeListeners() {
+		return support.getVetoableChangeListeners();
+	}
 
+	public VetoableChangeListener[] getVetoableChangeListeners(
+			String propertyName) {
+		return support.getVetoableChangeListeners(propertyName);
+	}
 
 	public void addVetoableChangeListener(VetoableChangeListener listener) {
 		support.addVetoableChangeListener(listener);
 	}
 
-	public VetoableChangeListener[] getVetoableChangeListeners() {
-		return support.getVetoableChangeListeners();
+	public void removeVetoableChangeListener(VetoableChangeListener listener) {
+		support.removeVetoableChangeListener(listener);
 	}
 
 	public void addVetoableChangeListener(String propertyName,
@@ -61,9 +68,9 @@ public class ListVetoPropertyChangeSupport {
 		support.addVetoableChangeListener(propertyName, listener);
 	}
 
-	public VetoableChangeListener[] getVetoableChangeListeners(
-			String propertyName) {
-		return support.getVetoableChangeListeners(propertyName);
+	public void removeVetoableChangeListener(String propertyName,
+			VetoableChangeListener listener) {
+		support.removeVetoableChangeListener(propertyName, listener);
 	}
 
 	public void fireVetoableChange(String propertyName, Object oldValue,
@@ -92,8 +99,7 @@ public class ListVetoPropertyChangeSupport {
 	 */
 	public void fireListItemAddedChange(String propertyName, int index0,
 			int index1, Object newValue) throws PropertyVetoException {
-		fireVetoableChange(new ListItemAddedEvent(sourceBean,
-				propertyName,
+		fireVetoableChange(new ListItemAddedEvent(sourceBean, propertyName,
 				index0, index1, newValue));
 	}
 
