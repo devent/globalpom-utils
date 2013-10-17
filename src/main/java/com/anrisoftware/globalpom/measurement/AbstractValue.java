@@ -25,6 +25,7 @@ import static java.lang.Math.min;
 import static java.lang.String.format;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.math3.util.FastMath;
 
 /**
  * Implements exact value's operators.
@@ -188,6 +189,23 @@ public abstract class AbstractValue implements Value {
 	 */
 	protected abstract double divUncertainty(Value divisor);
 
+	@Override
+	public Value log() {
+		double value = FastMath.log(this.value);
+		double uncertainty = logUncertainty();
+		int sig = significant;
+		int dec = decimal;
+		return createValue(value, sig, uncertainty, dec);
+	}
+
+	/**
+	 * Logarithm the uncertainty of this value.
+	 * 
+	 * @return the logarithm uncertainly or {@link Double#NaN} if the value is
+	 *         exact.
+	 */
+	protected abstract double logUncertainty();
+
 	/**
 	 * Create a new value.
 	 * 
@@ -217,10 +235,18 @@ public abstract class AbstractValue implements Value {
 	}
 
 	public String getUncertaintyString() {
-		return format(format("%%.%df", getSignificant()), getUncertainty());
+		long sig = getSignificant() + 1;
+		if (sig < 0) {
+			sig = 5;
+		}
+		return format(format("%%.%df", sig), getUncertainty());
 	}
 
 	public String getValueString() {
-		return format(format("%%.%df", getSignificant()), getValue());
+		long sig = getSignificant() + 1;
+		if (sig < 0) {
+			sig = 5;
+		}
+		return format(format("%%.%df", sig), getValue());
 	}
 }

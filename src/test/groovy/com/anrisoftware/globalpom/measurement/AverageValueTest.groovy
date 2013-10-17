@@ -20,107 +20,31 @@ package com.anrisoftware.globalpom.measurement
 
 import static com.anrisoftware.globalpom.utils.TestUtils.*
 import static org.apache.commons.math3.util.FastMath.*
+import groovy.util.logging.Slf4j
 
 import org.junit.Test
 
-import com.anrisoftware.globalpom.measurement.Value;
-
 /**
  * @see AverageValue
+ * @see AverageValueData
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.0
  */
+@Slf4j
 class AverageValueTest extends ValueTestBase {
 
 	@Test
-	void "add average average"() {
-		Value x = averageValueFactory.create 5, 1, 0.2d, 1
-		Value y = averageValueFactory.create 6, 2, 0.12d, 2
-		Value z = x.add y
-
-		epsilon = 10**-9
-		assertDecimalEquals z.value, 5d+6d
-		assert !z.exact
-		assertDecimalEquals z.uncertainty, 0.32d
-
-		z = z.roundedValue
-		assert z.significant == 1
-		assert z.decimal == 1
-		assertDecimalEquals z.value, 11d
-		assertDecimalEquals z.uncertainty, 0.3d
-	}
-
-	@Test
-	void "add average exact"() {
-		Value x = averageValueFactory.create 5, 1, 0.2d, 1
-		Value y = exactAverageValueFactory.create 6
-		Value z = x.add y
-
-		epsilon = 10**-9
-		assertDecimalEquals z.value, 11d
-		assert !z.exact
-		assertDecimalEquals z.uncertainty, 0.2d
-
-		z = z.roundedValue
-		assert z.significant == 1
-		assert z.decimal == 1
-		assertDecimalEquals z.value, 11d
-		assertDecimalEquals z.uncertainty, 0.2d
-	}
-
-	@Test
-	void "add exact average"() {
-		Value x = exactAverageValueFactory.create 6
-		Value y = averageValueFactory.create 5, 1, 0.2d, 1
-		Value z = x.add y
-
-		epsilon = 10**-9
-		assertDecimalEquals z.value, 11d
-		assert !z.exact
-		assertDecimalEquals z.uncertainty, 0.2d
-
-		z = z.roundedValue
-		assert z.significant == 1
-		assert z.decimal == 1
-		assertDecimalEquals z.value, 11d
-		assertDecimalEquals z.uncertainty, 0.2d
-	}
-
-	@Test
-	void "sub average average"() {
-		Value x = averageValueFactory.create 5, 1, 0.2d, 1
-		Value y = averageValueFactory.create 6, 2, 0.12d, 2
-		Value z = x.sub y
-
-		epsilon = 10**-9
-		assertDecimalEquals z.value, -1d
-		assert !z.exact
-		assertDecimalEquals z.uncertainty, 0.32d
-
-		z = z.roundedValue
-		assert z.significant == 1
-		assert z.decimal == 1
-		assertDecimalEquals z.value, -1d
-		assertDecimalEquals z.uncertainty, 0.3d
-	}
-
-	@Test
-	void "sub average exact"() {
-		Value x = averageValueFactory.create 5, 1, 0.2d, 1
-		Value y = exactAverageValueFactory.create 6
-		Value z = x.sub y
-
-		epsilon = 10**-9
-		assertDecimalEquals z.value, -1d
-		assert !z.exact
-		assertDecimalEquals z.uncertainty, 0.2d
-
-		z = z.roundedValue
-		assert z.significant == 1
-		assert z.decimal == 1
-		assertDecimalEquals z.value, -1d
-		assertDecimalEquals z.uncertainty, 0.2d
+	void "average value"() {
+		averageValueData.each {
+			epsilon = it.epsilon
+			def x = it.x
+			def y = it.y
+			def f = it.f(x, y)
+			log.info "$it.name x:=$x; y:=$y; $it.func=$f"
+			it.result(f)
+			it.rounded(f)
+		}
 	}
 
 	@Test

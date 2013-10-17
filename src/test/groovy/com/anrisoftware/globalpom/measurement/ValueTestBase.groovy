@@ -41,6 +41,10 @@ class ValueTestBase {
 
 	static Value π
 
+	static List averageValueData
+
+	static List exactAverageValueData
+
 	@BeforeClass
 	static void createFactories() {
 		TestUtils.toStringStyle
@@ -48,5 +52,7 @@ class ValueTestBase {
 		exactAverageValueFactory = injector.getInstance ExactAverageValueFactory
 		averageValueFactory = injector.getInstance AverageValueFactory
 		π = injector.getInstance(AveragePiProvider).get()
+		averageValueData = new AverageValueData().create(averageValueFactory, exactAverageValueFactory)
+		exactAverageValueData = new ExactAverageValueData().create(averageValueFactory, exactAverageValueFactory)
 	}
 }

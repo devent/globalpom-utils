@@ -19,29 +19,31 @@
 package com.anrisoftware.globalpom.measurement
 
 import static com.anrisoftware.globalpom.utils.TestUtils.*
+import groovy.util.logging.Slf4j
 
 import org.junit.Test
 
-import com.anrisoftware.globalpom.measurement.Value;
-
 /**
  * @see ExactAverageValue
+ * @see ExactAverageValueData
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.0
  */
+@Slf4j
 class ExactAvergaeValueTest extends ValueTestBase {
 
 	@Test
-	void "add exact exact"() {
-		Value valuea = exactAverageValueFactory.create 5
-		Value valueb = exactAverageValueFactory.create 6
-		Value valuec = valuea.add valueb
-		Value z = valuec.roundedValue
-		assert valuec.value == 11
-		assert valuec.exact
-		assert z.value == 11
-		assert z.exact
+	void "exact value"() {
+		exactAverageValueData.each {
+			epsilon = it.epsilon
+			def x = it.x
+			def y = it.y
+			def f = it.f(x, y)
+			log.info "$it.name x:=$x; y:=$y; $it.func=$f"
+			it.result(f)
+			it.rounded(f)
+		}
 	}
 
 	@Test

@@ -18,12 +18,18 @@
  */
 package com.anrisoftware.globalpom.measurement;
 
+import static com.anrisoftware.globalpom.measurement.ValueFactory.DECIMAL;
+import static com.anrisoftware.globalpom.measurement.ValueFactory.SIGNIFICANT;
+import static com.anrisoftware.globalpom.measurement.ValueFactory.UNCERTAINTY;
+import static com.anrisoftware.globalpom.measurement.ValueFactory.VALUE;
+import static com.anrisoftware.globalpom.measurement.ValueFactory.VALUE_FACTORY;
+
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 /**
  * Value that calculates error propagation using basic minimal and maximal.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
  */
@@ -33,11 +39,11 @@ public class BaseValue extends AbstractValue {
 	 * @see BaseValueFactory#create(double, int, double, int, ValueFactory)
 	 */
 	@AssistedInject
-	BaseValue(@Assisted("value") double value,
-			@Assisted("significant") int significant,
-			@Assisted("uncertainty") double uncertainty,
-			@Assisted("decimal") int decimal,
-			@Assisted("valueFactory") ValueFactory valueFactory) {
+	BaseValue(@Assisted(VALUE) double value,
+			@Assisted(SIGNIFICANT) int significant,
+			@Assisted(UNCERTAINTY) double uncertainty,
+			@Assisted(DECIMAL) int decimal,
+			@Assisted(VALUE_FACTORY) ValueFactory valueFactory) {
 		super(value, significant, uncertainty, decimal, valueFactory);
 	}
 
@@ -45,10 +51,10 @@ public class BaseValue extends AbstractValue {
 	 * @see BaseValueFactory#create(double, int, double, int)
 	 */
 	@AssistedInject
-	BaseValue(@Assisted("value") double value,
-			@Assisted("significant") int significant,
-			@Assisted("uncertainty") double uncertainty,
-			@Assisted("decimal") int decimal, BaseValueFactory valueFactory) {
+	BaseValue(@Assisted(VALUE) double value,
+			@Assisted(SIGNIFICANT) int significant,
+			@Assisted(UNCERTAINTY) double uncertainty,
+			@Assisted(DECIMAL) int decimal, BaseValueFactory valueFactory) {
 		super(value, significant, uncertainty, decimal, valueFactory);
 	}
 
@@ -72,4 +78,8 @@ public class BaseValue extends AbstractValue {
 		return divisor.getValue();
 	}
 
+	@Override
+	protected double logUncertainty() {
+		return getUncertainty();
+	}
 }

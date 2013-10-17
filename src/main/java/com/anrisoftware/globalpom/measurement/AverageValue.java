@@ -18,6 +18,12 @@
  */
 package com.anrisoftware.globalpom.measurement;
 
+import static com.anrisoftware.globalpom.measurement.ValueFactory.DECIMAL;
+import static com.anrisoftware.globalpom.measurement.ValueFactory.SIGNIFICANT;
+import static com.anrisoftware.globalpom.measurement.ValueFactory.UNCERTAINTY;
+import static com.anrisoftware.globalpom.measurement.ValueFactory.VALUE;
+import static com.anrisoftware.globalpom.measurement.ValueFactory.VALUE_FACTORY;
+
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -33,11 +39,11 @@ public class AverageValue extends AbstractValue {
 	 * @see AverageValueFactory#create(double, int, double, int, ValueFactory)
 	 */
 	@AssistedInject
-	AverageValue(@Assisted("value") double value,
-			@Assisted("significant") int significant,
-			@Assisted("uncertainty") double uncertainty,
-			@Assisted("decimal") int decimal,
-			@Assisted("valueFactory") ValueFactory valueFactory) {
+	AverageValue(@Assisted(VALUE) double value,
+			@Assisted(SIGNIFICANT) int significant,
+			@Assisted(UNCERTAINTY) double uncertainty,
+			@Assisted(DECIMAL) int decimal,
+			@Assisted(VALUE_FACTORY) ValueFactory valueFactory) {
 		super(value, significant, uncertainty, decimal, valueFactory);
 	}
 
@@ -45,10 +51,10 @@ public class AverageValue extends AbstractValue {
 	 * @see AverageValueFactory#create(double, int, double, int)
 	 */
 	@AssistedInject
-	AverageValue(@Assisted("value") double value,
-			@Assisted("significant") int significant,
-			@Assisted("uncertainty") double uncertainty,
-			@Assisted("decimal") int decimal, AverageValueFactory valueFactory) {
+	AverageValue(@Assisted(VALUE) double value,
+			@Assisted(SIGNIFICANT) int significant,
+			@Assisted(UNCERTAINTY) double uncertainty,
+			@Assisted(DECIMAL) int decimal, AverageValueFactory valueFactory) {
 		super(value, significant, uncertainty, decimal, valueFactory);
 	}
 
@@ -77,15 +83,24 @@ public class AverageValue extends AbstractValue {
 	protected double divUncertainty(Value divisor) {
 		double uncertaintya = getUncertainty();
 		double uncertaintyb = divisor.getUncertainty();
+		double valuea = getValue();
 		if (isExact()) {
-			return getValue() * uncertaintyb;
+			return valuea * uncertaintyb;
 		}
 		if (divisor.isExact()) {
 			return uncertaintya * divisor.getValue();
 		}
-		double valuea = getValue();
 		double valueb = divisor.getValue();
 		return uncertaintya / valuea + uncertaintyb / valueb;
 	}
 
+	@Override
+	protected double logUncertainty() {
+		double uncertaintya = getUncertainty();
+		if (isExact()) {
+			return uncertaintya;
+		}
+		double valuea = getValue();
+		return uncertaintya / valuea;
+	}
 }

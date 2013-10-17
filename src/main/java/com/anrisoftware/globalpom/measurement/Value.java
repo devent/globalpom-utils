@@ -108,4 +108,11 @@ public interface Value {
 	 * @return the result {@link Value}.
 	 */
 	Value div(Value divisor);
+
+	/**
+	 * Calculates the natural logarithm of the value.
+	 * 
+	 * @return the value.
+	 */
+	Value log();
 }

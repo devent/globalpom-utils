@@ -18,6 +18,11 @@
  */
 package com.anrisoftware.globalpom.measurement;
 
+import static com.anrisoftware.globalpom.measurement.ValueFactory.DECIMAL;
+import static com.anrisoftware.globalpom.measurement.ValueFactory.SIGNIFICANT;
+import static com.anrisoftware.globalpom.measurement.ValueFactory.UNCERTAINTY;
+import static com.anrisoftware.globalpom.measurement.ValueFactory.VALUE;
+import static com.anrisoftware.globalpom.measurement.ValueFactory.VALUE_FACTORY;
 import static java.lang.Double.NaN;
 import static java.lang.Integer.MAX_VALUE;
 
@@ -39,11 +44,11 @@ public class ExactAverageValue extends AbstractValue {
 	 *      ValueFactory)
 	 */
 	@AssistedInject
-	ExactAverageValue(@Assisted("value") double value,
-			@Assisted("significant") int significant,
-			@Assisted("uncertainty") double uncertainty,
-			@Assisted("decimal") int decimal,
-			@Assisted("valueFactory") ValueFactory valueFactory) {
+	ExactAverageValue(@Assisted(VALUE) double value,
+			@Assisted(SIGNIFICANT) int significant,
+			@Assisted(UNCERTAINTY) double uncertainty,
+			@Assisted(DECIMAL) int decimal,
+			@Assisted(VALUE_FACTORY) ValueFactory valueFactory) {
 		super(value, MAX_VALUE, NaN, MAX_VALUE, valueFactory);
 	}
 
@@ -105,6 +110,12 @@ public class ExactAverageValue extends AbstractValue {
 		if (!divisor.isExact()) {
 			uncertainty = getValue() * uncertainty;
 		}
+		return uncertainty;
+	}
+
+	@Override
+	protected double logUncertainty() {
+		double uncertainty = getUncertainty();
 		return uncertainty;
 	}
 
