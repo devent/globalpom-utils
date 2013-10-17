@@ -30,6 +30,23 @@ class ExactAverageValueData {
 				},
 			],
 			[
+				name: "add exact double exact",
+				func: "f(x,y):=x+y",
+				epsilon: 10**-9,
+				x: ex.create(5),
+				y: 6d,
+				f: { x, y -> x.add y },
+				result: {  Value f ->
+					assertDecimalEquals f.value, 11d
+					assert f.exact
+				},
+				rounded: {  Value f ->
+					f = f.roundedValue
+					assert f.exact
+					assertDecimalEquals f.value, 11d
+				},
+			],
+			[
 				name: "log exact",
 				func: "f(x,y):=logx",
 				epsilon: 10**-8,

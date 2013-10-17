@@ -35,26 +35,38 @@ import org.apache.commons.math3.util.FastMath;
  */
 public abstract class AbstractValue implements Value {
 
+	private static final String FORMAT = "%%.%df";
+
+	private static final String SIGNIFICANT = "significant";
+
+	private static final String UNCERTAINTY = "uncertainty";
+
+	private static final String VALUE = "value";
+
 	private final double value;
 
 	private final int significant;
 
 	private final double uncertainty;
 
-	private final ValueFactory factory;
-
 	private final int decimal;
+
+	private final ValueFactory valueFactory;
 
 	/**
 	 * @see ValueFactory#create(double, int, double, int, ValueFactory)
 	 */
-	protected AbstractValue(double value, int significant, double uncertainty,
-			int decimal, ValueFactory factory) {
+	protected AbstractValue(double value, int sig, double un, int dec,
+			ValueFactory valueFactory) {
 		this.value = value;
-		this.significant = significant;
-		this.uncertainty = uncertainty;
-		this.decimal = decimal;
-		this.factory = factory;
+		this.significant = sig;
+		this.uncertainty = un;
+		this.decimal = dec;
+		this.valueFactory = valueFactory;
+	}
+
+	public ValueFactory getValueFactory() {
+		return valueFactory;
 	}
 
 	@Override
@@ -110,6 +122,11 @@ public abstract class AbstractValue implements Value {
 	}
 
 	@Override
+	public Value add(double addend) {
+		return add(createValue(addend));
+	}
+
+	@Override
 	public Value add(Value addend) {
 		double value = this.value + addend.getValue();
 		double uncertainty = addUncertainty(addend);
@@ -128,6 +145,11 @@ public abstract class AbstractValue implements Value {
 	 *         exact.
 	 */
 	protected abstract double addUncertainty(Value addend);
+
+	@Override
+	public Value sub(double subtrahend) {
+		return sub(createValue(subtrahend));
+	}
 
 	@Override
 	public Value sub(Value subtrahend) {
@@ -150,6 +172,11 @@ public abstract class AbstractValue implements Value {
 	protected abstract double subUncertainty(Value subtrahend);
 
 	@Override
+	public Value mul(double factor) {
+		return mul(createValue(factor));
+	}
+
+	@Override
 	public Value mul(Value factor) {
 		double value = this.value * factor.getValue();
 		double uncertainty = mulUncertainty(factor);
@@ -168,6 +195,11 @@ public abstract class AbstractValue implements Value {
 	 *         exact.
 	 */
 	protected abstract double mulUncertainty(Value factor);
+
+	@Override
+	public Value div(double divisor) {
+		return div(createValue(divisor));
+	}
 
 	@Override
 	public Value div(Value divisor) {
@@ -224,14 +256,24 @@ public abstract class AbstractValue implements Value {
 	 * @return the {@link Value}.
 	 */
 	protected Value createValue(double value, int sig, double un, int dec) {
-		return factory.create(value, sig, un, dec, factory);
+		return valueFactory.create(value, sig, un, dec, valueFactory);
 	}
+
+	/**
+	 * Create a new exact value.
+	 * 
+	 * @param value
+	 *            the value.
+	 * 
+	 * @return the exact {@link Value}.
+	 */
+	protected abstract Value createValue(double value);
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append("value", getValueString())
-				.append("uncertainty", getUncertaintyString())
-				.append("significant", getSignificant()).toString();
+		return new ToStringBuilder(this).append(VALUE, getValueString())
+				.append(UNCERTAINTY, getUncertaintyString())
+				.append(SIGNIFICANT, getSignificant()).toString();
 	}
 
 	public String getUncertaintyString() {
@@ -239,7 +281,7 @@ public abstract class AbstractValue implements Value {
 		if (sig < 0) {
 			sig = 5;
 		}
-		return format(format("%%.%df", sig), getUncertainty());
+		return format(format(FORMAT, sig), getUncertainty());
 	}
 
 	public String getValueString() {
@@ -247,6 +289,6 @@ public abstract class AbstractValue implements Value {
 		if (sig < 0) {
 			sig = 5;
 		}
-		return format(format("%%.%df", sig), getValue());
+		return format(format(FORMAT, sig), getValue());
 	}
 }

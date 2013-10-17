@@ -23,6 +23,8 @@ import static com.anrisoftware.globalpom.measurement.ValueFactory.SIGNIFICANT;
 import static com.anrisoftware.globalpom.measurement.ValueFactory.UNCERTAINTY;
 import static com.anrisoftware.globalpom.measurement.ValueFactory.VALUE;
 import static com.anrisoftware.globalpom.measurement.ValueFactory.VALUE_FACTORY;
+import static java.lang.Double.NaN;
+import static java.lang.Integer.MAX_VALUE;
 
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -60,26 +62,32 @@ public class BaseValue extends AbstractValue {
 
 	@Override
 	protected double addUncertainty(Value addend) {
-		return addend.getValue();
+		return getUncertainty();
 	}
 
 	@Override
 	protected double subUncertainty(Value subtrahend) {
-		return subtrahend.getValue();
+		return getUncertainty();
 	}
 
 	@Override
 	protected double mulUncertainty(Value factor) {
-		return factor.getValue();
+		return getUncertainty();
 	}
 
 	@Override
 	protected double divUncertainty(Value divisor) {
-		return divisor.getValue();
+		return getUncertainty();
 	}
 
 	@Override
 	protected double logUncertainty() {
 		return getUncertainty();
+	}
+
+	@Override
+	protected Value createValue(double value) {
+		ValueFactory factory = getValueFactory();
+		return factory.create(value, MAX_VALUE, NaN, MAX_VALUE, factory);
 	}
 }

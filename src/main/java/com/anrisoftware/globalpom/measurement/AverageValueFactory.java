@@ -18,8 +18,6 @@
  */
 package com.anrisoftware.globalpom.measurement;
 
-import com.google.inject.assistedinject.Assisted;
-
 /**
  * Factory to create value that calculates error propagation using simpler
  * average errors.
@@ -29,11 +27,4 @@ import com.google.inject.assistedinject.Assisted;
  */
 public interface AverageValueFactory extends ValueFactory {
 
-	/**
-	 * @see ValueFactory#create(double, int, double, int, ValueFactory)
-	 */
-	Value create(@Assisted("value") double value,
-			@Assisted("significant") int significant,
-			@Assisted("uncertainty") double uncertainty,
-			@Assisted("decimal") int decimal);
 }

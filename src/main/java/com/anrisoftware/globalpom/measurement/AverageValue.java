@@ -24,6 +24,8 @@ import static com.anrisoftware.globalpom.measurement.ValueFactory.UNCERTAINTY;
 import static com.anrisoftware.globalpom.measurement.ValueFactory.VALUE;
 import static com.anrisoftware.globalpom.measurement.ValueFactory.VALUE_FACTORY;
 
+import javax.inject.Inject;
+
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -34,6 +36,9 @@ import com.google.inject.assistedinject.AssistedInject;
  * @since 1.9
  */
 public class AverageValue extends AbstractValue {
+
+	@Inject
+	private ExactAverageValueFactory exactFactory;
 
 	/**
 	 * @see AverageValueFactory#create(double, int, double, int, ValueFactory)
@@ -51,10 +56,11 @@ public class AverageValue extends AbstractValue {
 	 * @see AverageValueFactory#create(double, int, double, int)
 	 */
 	@AssistedInject
-	AverageValue(@Assisted(VALUE) double value,
+	AverageValue(AverageValueFactory valueFactory,
+			@Assisted(VALUE) double value,
 			@Assisted(SIGNIFICANT) int significant,
 			@Assisted(UNCERTAINTY) double uncertainty,
-			@Assisted(DECIMAL) int decimal, AverageValueFactory valueFactory) {
+			@Assisted(DECIMAL) int decimal) {
 		super(value, significant, uncertainty, decimal, valueFactory);
 	}
 
@@ -103,4 +109,10 @@ public class AverageValue extends AbstractValue {
 		double valuea = getValue();
 		return uncertaintya / valuea;
 	}
+
+	@Override
+	protected Value createValue(double value) {
+		return exactFactory.create(value, getValueFactory());
+	}
+
 }

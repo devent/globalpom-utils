@@ -28,11 +28,11 @@ import com.google.inject.assistedinject.Assisted;
  */
 public interface ValueFactory {
 
-	public static final String VALUE_FACTORY = "valueFactory";
 	public static final String DECIMAL = "decimal";
 	public static final String UNCERTAINTY = "uncertainty";
 	public static final String SIGNIFICANT = "significant";
 	public static final String VALUE = "value";
+	public static final String VALUE_FACTORY = "valueFactory";
 
 	/**
 	 * Creates a new value with an uncertainty.
@@ -49,15 +49,23 @@ public interface ValueFactory {
 	 * @param decimal
 	 *            the least significant decimal.
 	 * 
-	 * @param valueFactory
-	 *            the {@link ValueFactory} to create values in the mathematical
-	 *            operations.
-	 * 
 	 * @return the {@link Value}.
+	 */
+	Value create(@Assisted(VALUE) double value,
+			@Assisted(SIGNIFICANT) int significant,
+			@Assisted(UNCERTAINTY) double uncertainty,
+			@Assisted(DECIMAL) int decimal);
+
+	/**
+	 * @param valueFactory
+	 *            the {@link ValueFactory} to create the value for calculations.
+	 * 
+	 * @see ValueFactory#create(double, int, double, int)
 	 */
 	Value create(@Assisted(VALUE) double value,
 			@Assisted(SIGNIFICANT) int significant,
 			@Assisted(UNCERTAINTY) double uncertainty,
 			@Assisted(DECIMAL) int decimal,
 			@Assisted(VALUE_FACTORY) ValueFactory valueFactory);
+
 }

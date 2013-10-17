@@ -73,41 +73,81 @@ public interface Value {
 	 * Calculates the addition of this value with the addend.
 	 * 
 	 * @param addend
-	 *            the addend.
+	 *            the {@link Value} addend.
 	 * 
 	 * @return the result {@link Value}.
 	 */
 	Value add(Value addend);
 
 	/**
+	 * Calculates the addition of this value with the addend.
+	 * 
+	 * @param addend
+	 *            the exact addend.
+	 * 
+	 * @return the result {@link Value}.
+	 */
+	Value add(double addend);
+
+	/**
 	 * Calculates the subtraction of this value with the subtrahend.
 	 * 
 	 * @param subtrahend
-	 *            the subtrahend.
+	 *            the {@link Value} subtrahend.
 	 * 
 	 * @return the result {@link Value}.
 	 */
 	Value sub(Value subtrahend);
 
 	/**
+	 * Calculates the subtraction of this value with the subtrahend.
+	 * 
+	 * @param subtrahend
+	 *            the exact subtrahend.
+	 * 
+	 * @return the result {@link Value}.
+	 */
+	Value sub(double subtrahend);
+
+	/**
 	 * Calculates the multiplication of this value with the factor.
 	 * 
 	 * @param factor
-	 *            the factor.
+	 *            the {@link Value} factor.
 	 * 
 	 * @return the result {@link Value}.
 	 */
 	Value mul(Value factor);
 
 	/**
+	 * Calculates the multiplication of this value with the factor.
+	 * 
+	 * @param factor
+	 *            the exact factor.
+	 * 
+	 * @return the result {@link Value}.
+	 */
+	Value mul(double factor);
+
+	/**
 	 * Calculates the division of this value with the divisor.
 	 * 
 	 * @param divisor
-	 *            the divisor.
+	 *            the {@link Value} divisor.
 	 * 
 	 * @return the result {@link Value}.
 	 */
 	Value div(Value divisor);
+
+	/**
+	 * Calculates the division of this value with the divisor.
+	 * 
+	 * @param divisor
+	 *            the exact divisor.
+	 * 
+	 * @return the result {@link Value}.
+	 */
+	Value div(double divisor);
 
 	/**
 	 * Calculates the natural logarithm of the value.

@@ -40,6 +40,18 @@ import com.google.inject.assistedinject.AssistedInject;
 public class ExactAverageValue extends AbstractValue {
 
 	/**
+	 * @see ExactAverageValueFactory#create(double, int, double, int)
+	 */
+	@AssistedInject
+	ExactAverageValue(AverageValueFactory valueFactory,
+			@Assisted(VALUE) double value,
+			@Assisted(SIGNIFICANT) int significant,
+			@Assisted(UNCERTAINTY) double uncertainty,
+			@Assisted(DECIMAL) int decimal) {
+		super(value, MAX_VALUE, NaN, MAX_VALUE, valueFactory);
+	}
+
+	/**
 	 * @see ExactAverageValueFactory#create(double, int, double, int,
 	 *      ValueFactory)
 	 */
@@ -65,7 +77,7 @@ public class ExactAverageValue extends AbstractValue {
 	 * @see ExactAverageValueFactory#create(double)
 	 */
 	@AssistedInject
-	ExactAverageValue(@Assisted double value, AverageValueFactory valueFactory) {
+	ExactAverageValue(AverageValueFactory valueFactory, @Assisted double value) {
 		super(value, MAX_VALUE, NaN, MAX_VALUE, valueFactory);
 	}
 
@@ -117,6 +129,12 @@ public class ExactAverageValue extends AbstractValue {
 	protected double logUncertainty() {
 		double uncertainty = getUncertainty();
 		return uncertainty;
+	}
+
+	@Override
+	protected Value createValue(double value) {
+		ValueFactory factory = getValueFactory();
+		return factory.create(value, MAX_VALUE, NaN, MAX_VALUE, factory);
 	}
 
 	@Override

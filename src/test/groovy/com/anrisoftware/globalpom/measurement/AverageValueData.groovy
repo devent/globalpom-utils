@@ -39,7 +39,28 @@ class AverageValueData {
 				epsilon: 10**-9,
 				x: av.create(5, 1, 0.2d, 1),
 				y: ex.create(6),
-				f: { Value x, Value y -> x.add y },
+				f: { x, y -> x.add y },
+				result: {  Value f ->
+					epsilon = 10**-9
+					assertDecimalEquals f.value, 11d
+					assert !f.exact
+					assertDecimalEquals f.uncertainty, 0.2d
+				},
+				rounded: {  Value f ->
+					f = f.roundedValue
+					assert f.significant == 1
+					assert f.decimal == 1
+					assertDecimalEquals f.value, 11d
+					assertDecimalEquals f.uncertainty, 0.2d
+				},
+			],
+			[
+				name: "add average double exact",
+				func: "f(x,y):=x+y",
+				epsilon: 10**-9,
+				x: av.create(5, 1, 0.2d, 1),
+				y: 6d,
+				f: { x, y -> x.add y },
 				result: {  Value f ->
 					epsilon = 10**-9
 					assertDecimalEquals f.value, 11d
@@ -118,6 +139,27 @@ class AverageValueData {
 				},
 			],
 			[
+				name: "sub average double exact",
+				func: "f(x,y):=x-y",
+				epsilon: 10**-9,
+				x: av.create(5, 1, 0.2d, 1),
+				y: 6d,
+				f: { x, y -> x.sub y },
+				result: {  Value f ->
+					epsilon = 10**-9
+					assertDecimalEquals f.value, -1d
+					assert !f.exact
+					assertDecimalEquals f.uncertainty, 0.2d
+				},
+				rounded: {  Value f ->
+					f = f.roundedValue
+					assert f.significant == 1
+					assert f.decimal == 1
+					assertDecimalEquals f.value, -1d
+					assertDecimalEquals f.uncertainty, 0.2d
+				},
+			],
+			[
 				name: "log average",
 				func: "f(x):=logx",
 				epsilon: 10**-9,
@@ -166,6 +208,27 @@ class AverageValueData {
 				x: av.create(0.5d, 1, 0.2d, 1),
 				y: ex.create(2d),
 				f: { Value x, Value y -> x.log() mul y },
+				result: {  Value f ->
+					epsilon = 10**-7
+					assertDecimalEquals f.value, -1.3862944d
+					assert !f.exact
+					assertDecimalEquals f.uncertainty, 0.8d
+				},
+				rounded: {  Value f ->
+					f = f.roundedValue
+					assert f.significant == 1
+					assert f.decimal == 1
+					assertDecimalEquals f.value, -1.4d
+					assertDecimalEquals f.uncertainty, 0.8d
+				},
+			],
+			[
+				name: "log average mul exactly",
+				func: "f(x):=logx*2",
+				epsilon: 10**-9,
+				x: av.create(0.5d, 1, 0.2d, 1),
+				y: 2d,
+				f: { x, y -> x.log() mul y },
 				result: {  Value f ->
 					epsilon = 10**-7
 					assertDecimalEquals f.value, -1.3862944d
