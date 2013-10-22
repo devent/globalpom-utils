@@ -27,7 +27,7 @@ import java.beans.PropertyChangeEvent;
  * @since 1.9
  */
 @SuppressWarnings("serial")
-class ListPropertyChangeEvent extends PropertyChangeEvent {
+public abstract class ListPropertyChangeEvent extends PropertyChangeEvent {
 
 	private final int index0;
 
@@ -67,4 +67,11 @@ class ListPropertyChangeEvent extends PropertyChangeEvent {
 	public int getIndex1() {
 		return index1;
 	}
+
+	/**
+	 * Returns the type of list change event.
+	 * 
+	 * @return the {@link ListPropertyChange}.
+	 */
+	public abstract ListPropertyChange getType();
 }

@@ -36,4 +36,8 @@ public class ListItemChangedEvent extends ListPropertyChangeEvent {
 		super(source, propertyName, index0, index1, oldValue, newValue);
 	}
 
+	@Override
+	public ListPropertyChange getType() {
+		return ListPropertyChange.CHANGED;
+	}
 }

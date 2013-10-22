@@ -36,4 +36,8 @@ public class ListItemRemovedEvent extends ListPropertyChangeEvent {
 		super(source, propertyName, index0, index1, oldValue, null);
 	}
 
+	@Override
+	public ListPropertyChange getType() {
+		return ListPropertyChange.REMOVED;
+	}
 }
