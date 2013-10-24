@@ -138,14 +138,16 @@ public class DegreeSexagesimalFormat extends Format {
 	@Override
 	public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos) {
 		if (obj instanceof Amount) {
-			formatFormat(buff, (Amount<Angle>) obj);
+			formatFormat(buff, ((Amount<Angle>) obj).doubleValue(DEGREE_ANGLE));
+		}
+		if (obj instanceof Number) {
+			formatFormat(buff, ((Number) obj).doubleValue());
 		}
 		return buff;
 	}
 
-	private void formatFormat(StringBuffer buff, Amount<Angle> obj) {
+	private void formatFormat(StringBuffer buff, double value) {
 		NumberFormat format = DecimalFormat.getNumberInstance();
-		double value = obj.doubleValue(DEGREE_ANGLE);
 		double degree = (long) value;
 		double dmin = (value - degree) / MIN;
 		double min = roundToDecimal((long) dmin, decimal);
