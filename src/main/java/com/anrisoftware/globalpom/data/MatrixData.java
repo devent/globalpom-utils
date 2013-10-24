@@ -29,6 +29,11 @@ public class MatrixData implements Data, Serializable {
 	}
 
 	@Override
+	public Matrix64F getMatrix() {
+		return matrix;
+	}
+
+	@Override
 	public void reshape(int numRows, int numCols, boolean saveValues) {
 		matrix.reshape(numRows, numCols, saveValues);
 	}

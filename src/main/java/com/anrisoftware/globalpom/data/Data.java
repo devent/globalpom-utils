@@ -12,6 +12,13 @@ import org.ejml.data.MatrixIterator;
 public interface Data {
 
 	/**
+	 * Returns the matrix of the data.
+	 * 
+	 * @return the {@link Matrix64F}.
+	 */
+	Matrix64F getMatrix();
+
+	/**
 	 * @see Matrix64F#reshape(int, int, boolean)
 	 */
 	void reshape(int numRows, int numCols, boolean saveValues);
