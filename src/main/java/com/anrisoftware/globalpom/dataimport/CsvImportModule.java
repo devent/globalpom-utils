@@ -27,6 +27,7 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
  * 
  * @see CsvImporter
  * @see CsvImporterFactory
+ * @see DefaultCsvImportPropertiesFactory
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
@@ -37,6 +38,10 @@ public class CsvImportModule extends AbstractModule {
 	protected void configure() {
 		install(new FactoryModuleBuilder().implement(CsvImporter.class,
 				CsvImporterImpl.class).build(CsvImporterFactory.class));
+		install(new FactoryModuleBuilder().implement(
+				DefaultCsvImportProperties.class,
+				DefaultCsvImportProperties.class).build(
+				DefaultCsvImportPropertiesFactory.class));
 	}
 
 }
