@@ -8,6 +8,7 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
  * 
  * @see MatrixDataFactory
  * @see MatrixDataCsvImportFactory
+ * @see DefaultDataBeanFactory
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
@@ -21,6 +22,8 @@ public class DataModule extends AbstractModule {
 		install(new FactoryModuleBuilder().implement(MatrixDataCsvImport.class,
 				MatrixDataCsvImport.class).build(
 				MatrixDataCsvImportFactory.class));
+		install(new FactoryModuleBuilder().implement(DefaultDataBean.class,
+				DefaultDataBean.class).build(DefaultDataBeanFactory.class));
 	}
 
 }
