@@ -12,18 +12,6 @@ import java.beans.PropertyChangeSupport;
 public interface DataBean extends Data {
 
 	/**
-	 * @see PropertyChangeSupport#addPropertyChangeListener(PropertyChangeListener)
-	 * @see DataProperty
-	 */
-	void addPropertyChangeListener(PropertyChangeListener listener);
-
-	/**
-	 * @see PropertyChangeSupport#removePropertyChangeListener(PropertyChangeListener)
-	 * @see DataProperty
-	 */
-	void removePropertyChangeListener(PropertyChangeListener listener);
-
-	/**
 	 * @see PropertyChangeSupport#addPropertyChangeListener(String,
 	 *      PropertyChangeListener)
 	 * @see DataProperty

@@ -138,16 +138,6 @@ public class DefaultDataBean implements DataBean {
 	}
 
 	@Override
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		p.addPropertyChangeListener(listener);
-	}
-
-	@Override
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		p.removePropertyChangeListener(listener);
-	}
-
-	@Override
 	public void addPropertyChangeListener(DataProperty property,
 			PropertyChangeListener listener) {
 		p.addPropertyChangeListener(property.toString(), listener);
