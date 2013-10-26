@@ -29,6 +29,9 @@ import com.google.inject.assistedinject.AssistedInject;
 public class MatrixDataCsvImport implements Callable<MatrixDataCsvImport>,
 		Data, Serializable {
 
+	@Inject
+	private MatrixDataCsvImportLogger log;
+
 	private final Format format;
 
 	@Inject
@@ -64,6 +67,7 @@ public class MatrixDataCsvImport implements Callable<MatrixDataCsvImport>,
 		List<double[]> rows = parseValues();
 		Matrix64F matrix = createMatrix(rows);
 		this.data = dataFactory.create(matrix);
+		log.importedData(this, importer);
 		this.importer = null;
 		return this;
 	}
