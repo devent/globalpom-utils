@@ -14,4 +14,15 @@ public interface DefaultCsvImportPropertiesFactory {
 	 * @return the {@link DefaultCsvImportProperties}.
 	 */
 	DefaultCsvImportProperties create();
+
+	/**
+	 * Creates the default CSV importer properties which values are copied from
+	 * the specified properties.
+	 * 
+	 * @param properties
+	 *            the {@link CsvImportProperties}.
+	 * 
+	 * @return the {@link DefaultCsvImportProperties}.
+	 */
+	DefaultCsvImportProperties create(CsvImportProperties properties);
 }

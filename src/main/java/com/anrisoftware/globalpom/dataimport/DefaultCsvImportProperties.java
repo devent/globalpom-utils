@@ -28,6 +28,8 @@ import java.nio.charset.Charset;
 import java.util.Locale;
 
 import com.anrisoftware.globalpom.charset.SerializableCharset;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 /**
  * Mutable CSV import properties.
@@ -58,6 +60,22 @@ public class DefaultCsvImportProperties implements CsvImportProperties,
 	/**
 	 * Sets system based default values.
 	 */
+	@AssistedInject
+	public DefaultCsvImportProperties(@Assisted CsvImportProperties properties) {
+		setCharset(properties.getCharset());
+		setEndOfLineSymbols(properties.getEndOfLineSymbols());
+		setFile(properties.getFile());
+		setLocale(properties.getLocale());
+		setNumCols(properties.getNumCols());
+		setQuote(properties.getQuote());
+		setSeparator(properties.getSeparator());
+		setStartRow(properties.getStartRow());
+	}
+
+	/**
+	 * Sets system based default values.
+	 */
+	@AssistedInject
 	public DefaultCsvImportProperties() {
 		this.file = new File("").toURI();
 		this.charset = decorate(Charset.defaultCharset());
