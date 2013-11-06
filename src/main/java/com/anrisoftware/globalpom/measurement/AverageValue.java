@@ -26,6 +26,8 @@ import static com.anrisoftware.globalpom.measurement.ValueFactory.VALUE_FACTORY;
 
 import javax.inject.Inject;
 
+import org.apache.commons.math3.util.FastMath;
+
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -108,6 +110,16 @@ public class AverageValue extends AbstractValue {
 		}
 		double valuea = getValue();
 		return uncertaintya / valuea;
+	}
+
+	@Override
+	protected double expUncertainty() {
+		double uncertaintya = getUncertainty();
+		if (isExact()) {
+			return uncertaintya;
+		}
+		double valuea = getValue();
+		return uncertaintya / FastMath.exp(valuea);
 	}
 
 	@Override

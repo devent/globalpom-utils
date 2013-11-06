@@ -23,6 +23,7 @@ import static com.anrisoftware.globalpom.measurement.RoundToSignificantFigures.r
 import static java.lang.Double.isNaN;
 import static java.lang.Math.min;
 import static java.lang.String.format;
+import static org.apache.commons.math3.util.FastMath.abs;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.math3.util.FastMath;
@@ -90,7 +91,7 @@ public abstract class AbstractValue implements Value {
 
 	private int roundedSignificantFigure() {
 		int sig = this.significant;
-		double v = getUncertainty();
+		double v = abs(getUncertainty());
 		while (v < 0.0) {
 			v *= 10;
 		}
@@ -237,6 +238,17 @@ public abstract class AbstractValue implements Value {
 	 *         exact.
 	 */
 	protected abstract double logUncertainty();
+
+	@Override
+	public Value exp() {
+		double value = FastMath.exp(this.value);
+		double uncertainty = expUncertainty();
+		int sig = significant;
+		int dec = decimal;
+		return createValue(value, sig, uncertainty, dec);
+	}
+
+	protected abstract double expUncertainty();
 
 	/**
 	 * Create a new value.

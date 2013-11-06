@@ -243,6 +243,50 @@ class AverageValueData {
 					assertDecimalEquals f.uncertainty, 0.8d
 				},
 			],
+			[
+				name: "exp average",
+				func: "f(x):=exp^0.5",
+				epsilon: 10**-9,
+				x: av.create(0.5d, 1, 0.2d, 1),
+				y: null,
+				f: { x, y -> x.exp() },
+				result: {  Value f ->
+					epsilon = 10**-7
+					assertDecimalEquals f.value, 1.6487213d
+					assert !f.exact
+					assertDecimalEquals f.uncertainty, 0.12130613d
+				},
+				rounded: {  Value f ->
+					epsilon = 10**-7
+					f = f.roundedValue
+					assert f.significant == 1
+					assert f.decimal == 1
+					assertDecimalEquals f.value, 1.6d
+					assertDecimalEquals f.uncertainty, 0.1d
+				},
+			],
+			[
+				name: "exp average negative",
+				func: "f(x):=exp^-0.5",
+				epsilon: 10**-9,
+				x: av.create(-0.5d, 1, 0.2d, 1),
+				y: null,
+				f: { x, y -> x.exp() },
+				result: {  Value f ->
+					epsilon = 10**-8
+					assertDecimalEquals f.value, 0.60653066d
+					assert !f.exact
+					assertDecimalEquals f.uncertainty, 0.32974425d
+				},
+				rounded: {  Value f ->
+					epsilon = 10**-8
+					f = f.roundedValue
+					assert f.significant == 1
+					assert f.decimal == 1
+					assertDecimalEquals f.value, 0.6d
+					assertDecimalEquals f.uncertainty, 0.3d
+				},
+			],
 		]
 	}
 }

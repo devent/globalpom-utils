@@ -63,6 +63,23 @@ class ExactAverageValueData {
 					assertDecimalEquals f.value, -0.69314718d
 				},
 			],
+			[
+				name: "exp exact",
+				func: "f(x):=e^x",
+				epsilon: 10**-7,
+				x: ex.create(0.5d),
+				y: null,
+				f: { Value x, Value y -> x.exp() },
+				result: {  Value f ->
+					assertDecimalEquals f.value, 1.6487213d
+					assert f.exact
+				},
+				rounded: {  Value f ->
+					f = f.roundedValue
+					assert f.exact
+					assertDecimalEquals f.value, 1.6487213d
+				},
+			],
 		]
 	}
 }

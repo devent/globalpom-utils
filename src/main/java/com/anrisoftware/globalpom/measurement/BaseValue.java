@@ -86,6 +86,12 @@ public class BaseValue extends AbstractValue {
 	}
 
 	@Override
+	protected double expUncertainty() {
+		double uncertainty = getUncertainty();
+		return uncertainty;
+	}
+
+	@Override
 	protected Value createValue(double value) {
 		ValueFactory factory = getValueFactory();
 		return factory.create(value, MAX_VALUE, NaN, MAX_VALUE, factory);

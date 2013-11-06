@@ -152,7 +152,14 @@ public interface Value {
 	/**
 	 * Calculates the natural logarithm of the value.
 	 * 
-	 * @return the value.
+	 * @return the {@link Value}.
 	 */
 	Value log();
+
+	/**
+	 * Calculates the Euler's number e raised to the power of this value.
+	 * 
+	 * @return the {@link Value}.
+	 */
+	Value exp();
 }
