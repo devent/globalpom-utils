@@ -250,6 +250,6 @@ class AverageValueTest extends ValueTestBase {
 	@Test
 	void "to string"() {
 		Value x = averageValueFactory.create 2.0, 1, 0.2, 1
-		assert x.toString() == "AverageValue[value=2.0,uncertainty=0.2,significant=1]"
+		assert x.toString() == "AverageValue[value=2.00,uncertainty=0.20,significant=1]"
 	}
 }
