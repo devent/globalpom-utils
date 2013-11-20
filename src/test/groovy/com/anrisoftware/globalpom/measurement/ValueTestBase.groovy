@@ -20,7 +20,6 @@ package com.anrisoftware.globalpom.measurement
 
 import org.junit.BeforeClass
 
-import com.anrisoftware.globalpom.constants.AveragePiProvider
 import com.anrisoftware.globalpom.utils.TestUtils
 import com.google.inject.Guice
 import com.google.inject.Injector
@@ -29,7 +28,7 @@ import com.google.inject.Injector
  * Creates the value factories.
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.0
+ * @since 1.9
  */
 class ValueTestBase {
 
@@ -39,20 +38,29 @@ class ValueTestBase {
 
 	static AverageValueFactory averageValueFactory
 
+	static StandardValueFactory standardValueFactory
+
+	static ExactStandardValueFactory exactStandardValueFactory
+
 	static Value π
 
 	static List averageValueData
 
 	static List exactAverageValueData
 
+	static List standardValueData
+
 	@BeforeClass
 	static void createFactories() {
 		TestUtils.toStringStyle
 		injector = Guice.createInjector new MeasurementModule()
-		exactAverageValueFactory = injector.getInstance ExactAverageValueFactory
-		averageValueFactory = injector.getInstance AverageValueFactory
-		π = injector.getInstance(AveragePiProvider).get()
-		averageValueData = new AverageValueData().create(averageValueFactory, exactAverageValueFactory)
-		exactAverageValueData = new ExactAverageValueData().create(averageValueFactory, exactAverageValueFactory)
+		standardValueFactory = injector.getInstance StandardValueFactory
+		exactStandardValueFactory = injector.getInstance ExactStandardValueFactory
+		standardValueData = new StandardValueData().create(standardValueFactory, exactStandardValueFactory)
+		//		exactAverageValueFactory = injector.getInstance ExactAverageValueFactory
+		//		averageValueFactory = injector.getInstance AverageValueFactory
+		//		π = injector.getInstance(AveragePiProvider).get()
+		//		averageValueData = new AverageValueData().create(averageValueFactory, exactAverageValueFactory)
+		//		exactAverageValueData = new ExactAverageValueData().create(averageValueFactory, exactAverageValueFactory)
 	}
 }

@@ -130,7 +130,7 @@ public abstract class AbstractValue implements Value {
 	@Override
 	public Value add(Value addend) {
 		double value = this.value + addend.getValue();
-		double uncertainty = addUncertainty(addend);
+		double uncertainty = addUncertainty(addend, value);
 		int sig = min(significant, addend.getSignificant());
 		int dec = min(decimal, addend.getDecimal());
 		return createValue(value, sig, uncertainty, dec);
@@ -142,10 +142,13 @@ public abstract class AbstractValue implements Value {
 	 * @param addend
 	 *            the {@link Value} addend.
 	 * 
+	 * @param sum
+	 *            the value of the sum.
+	 * 
 	 * @return the added uncertainly or {@link Double#NaN} if the value is
 	 *         exact.
 	 */
-	protected abstract double addUncertainty(Value addend);
+	protected abstract double addUncertainty(Value addend, double sum);
 
 	@Override
 	public Value sub(double subtrahend) {
@@ -155,7 +158,7 @@ public abstract class AbstractValue implements Value {
 	@Override
 	public Value sub(Value subtrahend) {
 		double value = this.value - subtrahend.getValue();
-		double uncertainty = subUncertainty(subtrahend);
+		double uncertainty = subUncertainty(subtrahend, value);
 		int sig = min(significant, subtrahend.getSignificant());
 		int dec = min(decimal, subtrahend.getDecimal());
 		return createValue(value, sig, uncertainty, dec);
@@ -167,10 +170,12 @@ public abstract class AbstractValue implements Value {
 	 * @param subtrahend
 	 *            the {@link Value} subtrahend.
 	 * 
-	 * @return the subtracted uncertainly or {@link Double#NaN} if the value is
-	 *         exact.
+	 * @param diff
+	 *            the value of the difference.
+	 * 
+	 * @return the subtracted uncertainly.
 	 */
-	protected abstract double subUncertainty(Value subtrahend);
+	protected abstract double subUncertainty(Value subtrahend, double diff);
 
 	@Override
 	public Value mul(double factor) {
@@ -180,7 +185,7 @@ public abstract class AbstractValue implements Value {
 	@Override
 	public Value mul(Value factor) {
 		double value = this.value * factor.getValue();
-		double uncertainty = mulUncertainty(factor);
+		double uncertainty = mulUncertainty(factor, value);
 		int sig = min(significant, factor.getSignificant());
 		int dec = min(decimal, factor.getDecimal());
 		return createValue(value, sig, uncertainty, dec);
@@ -192,10 +197,12 @@ public abstract class AbstractValue implements Value {
 	 * @param factor
 	 *            the {@link Value} factor.
 	 * 
-	 * @return the multiplied uncertainly or {@link Double#NaN} if the value is
-	 *         exact.
+	 * @param product
+	 *            the value of the product.
+	 * 
+	 * @return the multiplied uncertainly.
 	 */
-	protected abstract double mulUncertainty(Value factor);
+	protected abstract double mulUncertainty(Value factor, double product);
 
 	@Override
 	public Value div(double divisor) {
@@ -205,7 +212,7 @@ public abstract class AbstractValue implements Value {
 	@Override
 	public Value div(Value divisor) {
 		double value = this.value / divisor.getValue();
-		double uncertainty = divUncertainty(divisor);
+		double uncertainty = divUncertainty(divisor, value);
 		int sig = min(significant, divisor.getSignificant());
 		int dec = min(decimal, divisor.getDecimal());
 		return createValue(value, sig, uncertainty, dec);
@@ -217,15 +224,17 @@ public abstract class AbstractValue implements Value {
 	 * @param divisor
 	 *            the {@link Value} divisor.
 	 * 
-	 * @return the divided uncertainly or {@link Double#NaN} if the value is
-	 *         exact.
+	 * @param quotient
+	 *            the value of the quotient.
+	 * 
+	 * @return the divided uncertainly.
 	 */
-	protected abstract double divUncertainty(Value divisor);
+	protected abstract double divUncertainty(Value divisor, double quotient);
 
 	@Override
 	public Value log() {
 		double value = FastMath.log(this.value);
-		double uncertainty = logUncertainty();
+		double uncertainty = logUncertainty(value);
 		int sig = significant;
 		int dec = decimal;
 		return createValue(value, sig, uncertainty, dec);
@@ -234,21 +243,31 @@ public abstract class AbstractValue implements Value {
 	/**
 	 * Logarithm the uncertainty of this value.
 	 * 
-	 * @return the logarithm uncertainly or {@link Double#NaN} if the value is
-	 *         exact.
+	 * @param exponent
+	 *            the value of the exponent.
+	 * 
+	 * @return the logarithm uncertainly.
 	 */
-	protected abstract double logUncertainty();
+	protected abstract double logUncertainty(double exponent);
 
 	@Override
 	public Value exp() {
 		double value = FastMath.exp(this.value);
-		double uncertainty = expUncertainty();
+		double uncertainty = expUncertainty(value);
 		int sig = significant;
 		int dec = decimal;
 		return createValue(value, sig, uncertainty, dec);
 	}
 
-	protected abstract double expUncertainty();
+	/**
+	 * Power to the basis of e the uncertainty of this value.
+	 * 
+	 * @param power
+	 *            the value of the power.
+	 * 
+	 * @return the power uncertainly.
+	 */
+	protected abstract double expUncertainty(double power);
 
 	/**
 	 * Create a new value.
