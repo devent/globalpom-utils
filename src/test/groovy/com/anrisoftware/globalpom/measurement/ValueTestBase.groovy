@@ -34,19 +34,9 @@ class ValueTestBase {
 
 	static Injector injector
 
-	static ExactAverageValueFactory exactAverageValueFactory
-
-	static AverageValueFactory averageValueFactory
-
 	static StandardValueFactory standardValueFactory
 
 	static ExactStandardValueFactory exactStandardValueFactory
-
-	static Value π
-
-	static List averageValueData
-
-	static List exactAverageValueData
 
 	static List standardValueData
 
@@ -57,10 +47,5 @@ class ValueTestBase {
 		standardValueFactory = injector.getInstance StandardValueFactory
 		exactStandardValueFactory = injector.getInstance ExactStandardValueFactory
 		standardValueData = new StandardValueData().create(standardValueFactory, exactStandardValueFactory)
-		//		exactAverageValueFactory = injector.getInstance ExactAverageValueFactory
-		//		averageValueFactory = injector.getInstance AverageValueFactory
-		//		π = injector.getInstance(AveragePiProvider).get()
-		//		averageValueData = new AverageValueData().create(averageValueFactory, exactAverageValueFactory)
-		//		exactAverageValueData = new ExactAverageValueData().create(averageValueFactory, exactAverageValueFactory)
 	}
 }

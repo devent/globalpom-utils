@@ -26,10 +26,6 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
  * 
  * @see StandardValueFactory
  * @see ExactStandardValueFactory
- * @see AvergaeValueFactory
- * @see ExactAvergaeValueFactory
- * @see BaseValueFactory
- * @see ExactBaseValueFactory
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
@@ -43,12 +39,6 @@ public class MeasurementModule extends AbstractModule {
 				.build(ExactStandardValueFactory.class));
 		install(new FactoryModuleBuilder().implement(Value.class,
 				StandardValue.class).build(StandardValueFactory.class));
-		// install(new FactoryModuleBuilder().implement(Value.class,
-		// ExactAverageValue.class).build(ExactAverageValueFactory.class));
-		// install(new FactoryModuleBuilder().implement(Value.class,
-		// AverageValue.class).build(AverageValueFactory.class));
-		// install(new FactoryModuleBuilder().implement(Value.class,
-		// BaseValue.class).build(BaseValueFactory.class));
 	}
 
 }
