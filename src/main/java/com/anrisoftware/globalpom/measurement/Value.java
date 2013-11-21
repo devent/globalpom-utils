@@ -162,4 +162,25 @@ public interface Value {
 	 * @return the {@link Value}.
 	 */
 	Value exp();
+
+	/**
+	 * Compares this value and the specified value for equality. Two values are
+	 * equal if they do not differ from each other by more then three standard
+	 * deviations.
+	 */
+	@Override
+	boolean equals(Object obj);
+
+	/**
+	 * Compares this value and the specified value for equality. Two values are
+	 * equal if they do not differ from each other by more then the specified
+	 * standard deviations.
+	 * 
+	 * @param dev
+	 *            the standard deviations the values can differ from each other
+	 *            to be unequal.
+	 * 
+	 * @see #equals(Object)
+	 */
+	boolean equals(Object obj, double dev);
 }

@@ -39,6 +39,8 @@ import org.apache.commons.math3.util.FastMath;
  */
 public abstract class AbstractValue implements Value {
 
+	private static final double EPSILON = 10e-9;
+
 	private final double value;
 
 	private final int significant;
@@ -297,6 +299,38 @@ public abstract class AbstractValue implements Value {
 	 * @return the exact {@link Value}.
 	 */
 	protected abstract Value createValue(double value);
+
+	@Override
+	public boolean equals(Object obj) {
+		return equals(obj, 3.0);
+	}
+
+	@Override
+	public boolean equals(Object obj, double dev) {
+		if (obj == null) {
+			return false;
+		}
+		if (obj == this) {
+			return true;
+		}
+		if (!(obj instanceof Value)) {
+			return false;
+		}
+		Value rhs = (Value) obj;
+		return rhs.isExact() ? equalExact(this, rhs)
+				: equalsUncertain(rhs, dev);
+	}
+
+	private boolean equalsUncertain(Value rhs, double dev) {
+		Value delta = this.sub(rhs).getRoundedValue();
+		double deltavalue = delta.getValue();
+		double deltaunc = delta.getUncertainty();
+		return deltavalue - (deltaunc * dev) <= 0.0;
+	}
+
+	private boolean equalExact(AbstractValue lhs, Value rhs) {
+		return lhs.getValue() - rhs.getValue() < EPSILON;
+	}
 
 	@Override
 	public String toString() {
