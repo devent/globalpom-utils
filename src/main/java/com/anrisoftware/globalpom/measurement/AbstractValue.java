@@ -22,8 +22,11 @@ import static com.anrisoftware.globalpom.measurement.RoundToSignificantFigures.r
 import static com.anrisoftware.globalpom.measurement.RoundToSignificantFigures.roundToSignificant;
 import static java.lang.Double.isNaN;
 import static java.lang.Math.min;
-import static java.lang.String.format;
 import static org.apache.commons.math3.util.FastMath.abs;
+
+import java.text.DecimalFormat;
+
+import javax.inject.Inject;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.math3.util.FastMath;
@@ -36,14 +39,6 @@ import org.apache.commons.math3.util.FastMath;
  */
 public abstract class AbstractValue implements Value {
 
-	private static final String FORMAT = "%%.%df";
-
-	private static final String SIGNIFICANT = "significant";
-
-	private static final String UNCERTAINTY = "uncertainty";
-
-	private static final String VALUE = "value";
-
 	private final double value;
 
 	private final int significant;
@@ -53,6 +48,9 @@ public abstract class AbstractValue implements Value {
 	private final int decimal;
 
 	private final ValueFactory valueFactory;
+
+	@Inject
+	private ValueToString toString;
 
 	/**
 	 * @see ValueFactory#create(double, int, double, int, ValueFactory)
@@ -302,24 +300,9 @@ public abstract class AbstractValue implements Value {
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(VALUE, getValueString())
-				.append(UNCERTAINTY, getUncertaintyString())
-				.append(SIGNIFICANT, getSignificant()).toString();
+		StringBuffer buff = new StringBuffer();
+		toString.format(buff, this, new DecimalFormat("#.#########"));
+		return new ToStringBuilder(this).append(buff.toString()).build();
 	}
 
-	public String getUncertaintyString() {
-		long sig = getSignificant() + 1;
-		if (sig < 0) {
-			sig = 5;
-		}
-		return format(format(FORMAT, sig), getUncertainty());
-	}
-
-	public String getValueString() {
-		long sig = getSignificant() + 1;
-		if (sig < 0) {
-			sig = 5;
-		}
-		return format(format(FORMAT, sig), getValue());
-	}
 }

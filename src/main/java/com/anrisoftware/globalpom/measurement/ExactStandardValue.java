@@ -26,8 +26,6 @@ import static com.anrisoftware.globalpom.measurement.ValueFactory.VALUE_FACTORY;
 import static java.lang.Double.NaN;
 import static java.lang.Integer.MAX_VALUE;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -143,13 +141,4 @@ public class ExactStandardValue extends AbstractValue {
 		return factory.create(value, MAX_VALUE, NaN, MAX_VALUE, factory);
 	}
 
-	@Override
-	public String toString() {
-		return new ToStringBuilder(this).append(getValueString()).toString();
-	}
-
-	@Override
-	public String getValueString() {
-		return String.format("%f", getValue());
-	}
 }

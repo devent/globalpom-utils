@@ -21,7 +21,6 @@ package com.anrisoftware.globalpom.measurement;
 import static com.anrisoftware.globalpom.measurement.ValueFactory.DECIMAL;
 import static com.anrisoftware.globalpom.measurement.ValueFactory.SIGNIFICANT;
 import static com.anrisoftware.globalpom.measurement.ValueFactory.UNCERTAINTY;
-import static com.anrisoftware.globalpom.measurement.ValueFactory.VALUE;
 import static com.anrisoftware.globalpom.measurement.ValueFactory.VALUE_FACTORY;
 
 import javax.inject.Inject;
@@ -36,6 +35,8 @@ import com.google.inject.assistedinject.AssistedInject;
  * @since 1.10
  */
 public class StandardValue extends AbstractValue {
+
+	private static final String VALUE = "value";
 
 	@Inject
 	private ExactStandardValueFactory exactFactory;
@@ -133,5 +134,4 @@ public class StandardValue extends AbstractValue {
 	protected Value createValue(double value) {
 		return exactFactory.create(value, getValueFactory());
 	}
-
 }
