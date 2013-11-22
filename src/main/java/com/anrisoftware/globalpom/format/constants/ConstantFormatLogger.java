@@ -16,29 +16,30 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpom-utils. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.format.measurement;
+package com.anrisoftware.globalpom.format.constants;
 
-import static com.anrisoftware.globalpom.format.measurement.ValueFormatLogger._.unparseable;
-import static com.anrisoftware.globalpom.format.measurement.ValueFormatLogger._.unparseable_message;
+import static com.anrisoftware.globalpom.format.constants.ConstantFormatLogger._.unparseable;
+import static com.anrisoftware.globalpom.format.constants.ConstantFormatLogger._.unparseable_message;
 
 import java.text.ParseException;
 import java.text.ParsePosition;
+import java.util.regex.Matcher;
 
 import com.anrisoftware.globalpom.log.AbstractLogger;
 
 /**
- * Logging messages for {@link ValueFormat.class}.
+ * Logging messages for {@link ConstantFormat.class}.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
-class ValueFormatLogger extends AbstractLogger {
+class ConstantFormatLogger extends AbstractLogger {
 
 	enum _ {
 
-		unparseable("Unparseable value"),
+		unparseable("Unparseable physical constant"),
 
-		unparseable_message("Unparseable value: '{}'.");
+		unparseable_message("Unparseable physical constant: '{}'.");
 
 		private String name;
 
@@ -53,14 +54,24 @@ class ValueFormatLogger extends AbstractLogger {
 	}
 
 	/**
-	 * Create logger for {@link ValueFormat.class}.
+	 * Create logger for {@link ConstantFormat.class}.
 	 */
-	public ValueFormatLogger() {
-		super(ValueFormat.class);
+	public ConstantFormatLogger() {
+		super(ConstantFormat.class);
 	}
 
 	ParseException errorParseValue(String source, ParsePosition pos) {
 		return logException(
+				new ParseException(unparseable.toString(), pos.getErrorIndex()),
+				unparseable_message.toString(), source);
+	}
+
+	void checkString(Matcher matcher, String source, ParsePosition pos)
+			throws ParseException {
+		if (matcher.matches()) {
+			return;
+		}
+		throw logException(
 				new ParseException(unparseable.toString(), pos.getErrorIndex()),
 				unparseable_message.toString(), source);
 	}

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpom-utils. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.format.measurement;
+package com.anrisoftware.globalpom.format.constants;
 
 import static com.google.inject.Guice.createInjector;
 
@@ -25,43 +25,43 @@ import com.google.inject.Injector;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /**
- * Installs the value format factory.
+ * Installs the constants format factory.
  * 
- * @see ValueFormatFactory
+ * @see ConstantFormatFactory
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
-public class ValueFormatModule extends AbstractModule {
+public class ConstantFormatModule extends AbstractModule {
 
 	/**
 	 * @see #getFactory()
 	 */
-	public static ValueFormatFactory getValueFormatFactory() {
+	public static ConstantFormatFactory getValueFormatFactory() {
 		return getFactory();
 	}
 
 	/**
 	 * Returns the values format factory.
 	 * 
-	 * @return the {@link ValueFormatFactory}.
+	 * @return the {@link ConstantFormatFactory}.
 	 */
-	public static ValueFormatFactory getFactory() {
+	public static ConstantFormatFactory getFactory() {
 		return InjectorInstance.factory;
 	}
 
 	private static class InjectorInstance {
 
-		static final Injector injector = createInjector(new ValueFormatModule());
+		static final Injector injector = createInjector(new ConstantFormatModule());
 
-		static final ValueFormatFactory factory = injector
-				.getInstance(ValueFormatFactory.class);
+		static final ConstantFormatFactory factory = injector
+				.getInstance(ConstantFormatFactory.class);
 	}
 
 	@Override
 	protected void configure() {
-		install(new FactoryModuleBuilder().implement(ValueFormat.class,
-				ValueFormat.class).build(ValueFormatFactory.class));
+		install(new FactoryModuleBuilder().implement(ConstantFormat.class,
+				ConstantFormat.class).build(ConstantFormatFactory.class));
 	}
 
 }
