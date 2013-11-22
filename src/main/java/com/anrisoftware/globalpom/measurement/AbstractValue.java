@@ -39,6 +39,9 @@ import org.apache.commons.math3.util.FastMath;
  */
 public abstract class AbstractValue implements Value {
 
+	private static final DecimalFormat VALUE_FORMAT = new DecimalFormat(
+			"#.#########");
+
 	private static final double EPSILON = 10e-9;
 
 	private final double value;
@@ -335,7 +338,7 @@ public abstract class AbstractValue implements Value {
 	@Override
 	public String toString() {
 		StringBuffer buff = new StringBuffer();
-		toString.format(buff, this, new DecimalFormat("#.#########"));
+		toString.format(buff, this, VALUE_FORMAT);
 		return new ToStringBuilder(this).append(buff.toString()).build();
 	}
 

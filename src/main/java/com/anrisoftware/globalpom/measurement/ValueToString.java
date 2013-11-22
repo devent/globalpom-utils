@@ -2,6 +2,7 @@ package com.anrisoftware.globalpom.measurement;
 
 import static org.apache.commons.lang3.StringUtils.repeat;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -11,7 +12,8 @@ import java.text.NumberFormat;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
-public class ValueToString {
+@SuppressWarnings("serial")
+public class ValueToString implements Serializable {
 
 	/**
 	 * Formats the specified point.
