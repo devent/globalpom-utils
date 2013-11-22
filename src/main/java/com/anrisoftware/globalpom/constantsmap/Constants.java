@@ -1,0 +1,49 @@
+package com.anrisoftware.globalpom.constantsmap;
+
+import java.text.ParseException;
+
+import javax.inject.Inject;
+
+import com.anrisoftware.globalpom.constants.Constant;
+import com.anrisoftware.globalpom.format.constants.ConstantFormat;
+import com.google.inject.assistedinject.Assisted;
+
+/**
+ * Provides physical constants.
+ * 
+ * @author Erwin Mueller, erwin.mueller@deventm.org
+ * @since 1.10
+ */
+public class Constants {
+
+	private final ConstantFormat format;
+
+	@Inject
+	private ConstantsResourceProvider resource;
+
+	/**
+	 * Sets the constant format to parse physical constants.
+	 * 
+	 * @param format
+	 *            the {@link ConstantFormat}.
+	 */
+	@Inject
+	Constants(@Assisted ConstantFormat format) {
+		this.format = format;
+	}
+
+	/**
+	 * Returns the constant with the specified name.
+	 * 
+	 * @param name
+	 *            the constant name.
+	 * 
+	 * @return the physical {@link Constant} constant.
+	 * 
+	 * @throws ParseException
+	 *             if there was an error parse the physical constant.
+	 */
+	public Constant<?> getConstant(String name) throws ParseException {
+		return resource.get().getTypedProperty(name, format);
+	}
+}
