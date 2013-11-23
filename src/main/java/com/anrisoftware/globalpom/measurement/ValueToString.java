@@ -58,12 +58,14 @@ public class ValueToString implements Serializable {
 
 	private void formatValue(StringBuffer buff, Value value, NumberFormat format) {
 		value = value.getRoundedValue();
+		double v = value.getValue();
 		double u = value.getUncertainty();
 		int sig = value.getSignificant();
 		int dec = value.getDecimal();
-		String pattern = "0." + repeat('0', dec);
+		String pattern = "0." + repeat('0', dec) + "E00";
 		NumberFormat valueFormat = new DecimalFormat(pattern);
-		buff.append(valueFormat.format(value.getValue()));
+		valueFormat.setMaximumFractionDigits(9);
+		buff.append(valueFormat.format(v));
 		buff.append("(").append(u).append(");").append(sig).append(";")
 				.append(dec).append(";");
 	}

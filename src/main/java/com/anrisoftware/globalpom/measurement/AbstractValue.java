@@ -87,8 +87,9 @@ public abstract class AbstractValue implements Value {
 		if (isExact()) {
 			return createValue(v, sig, un, dec);
 		} else {
-			return createValue(roundToDecimal(v, dec), sig,
-					roundToSignificant(un, sig), dec);
+			double value = roundToDecimal(v, dec);
+			double signi = roundToSignificant(un, sig);
+			return createValue(value, sig, signi, dec);
 		}
 	}
 

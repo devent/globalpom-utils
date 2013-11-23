@@ -18,17 +18,17 @@
  */
 package com.anrisoftware.globalpom.measurement;
 
+import static java.math.BigDecimal.ROUND_HALF_UP;
 import static org.apache.commons.math3.util.FastMath.abs;
 import static org.apache.commons.math3.util.FastMath.ceil;
 import static org.apache.commons.math3.util.FastMath.log10;
 import static org.apache.commons.math3.util.FastMath.pow;
 import static org.apache.commons.math3.util.FastMath.round;
 
+import java.math.BigDecimal;
+
 /**
- * Rounds the value to the significant figures. Algorithm takes from <a href=
- * "http://stackoverflow.com/questions/202302/rounding-to-an-arbitrary-number-of-significant-digits"
- * >rounding to an arbitrary number of significant digits
- * [stackoverflow.com]</a>
+ * Rounds the value to the significant figures.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
@@ -37,6 +37,11 @@ public class RoundToSignificantFigures {
 
 	/**
 	 * Rounds the value to the significant figures.
+	 * <p>
+	 * Algorithm takes from <a href=
+	 * "http://stackoverflow.com/questions/202302/rounding-to-an-arbitrary-number-of-significant-digits"
+	 * >rounding to an arbitrary number of significant digits
+	 * [stackoverflow.com]</a>
 	 * 
 	 * @param value
 	 *            the value.
@@ -59,6 +64,11 @@ public class RoundToSignificantFigures {
 
 	/**
 	 * Rounds the value to the decimal places.
+	 * <p>
+	 * Algorithm takes from <a href=
+	 * "http://stackoverflow.com/questions/153724/how-to-round-a-number-to-n-decimal-places-in-java"
+	 * >How to round a number to n decimal places in Java
+	 * [stackoverflow.com]</a>
 	 * 
 	 * @param value
 	 *            the value.
@@ -69,6 +79,7 @@ public class RoundToSignificantFigures {
 	 * @return the rounded value.
 	 */
 	public static double roundToDecimal(double value, int decimal) {
-		return round(value * pow(10, decimal)) / pow(10, decimal);
+		return BigDecimal.valueOf(value).setScale(decimal, ROUND_HALF_UP)
+				.doubleValue();
 	}
 }

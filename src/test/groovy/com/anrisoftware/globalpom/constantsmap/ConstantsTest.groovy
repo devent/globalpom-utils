@@ -19,6 +19,7 @@
 package com.anrisoftware.globalpom.constantsmap
 
 import static com.anrisoftware.globalpom.utils.TestUtils.*
+import static javax.measure.unit.SI.*
 import static org.apache.commons.math3.util.FastMath.*
 import groovy.util.logging.Slf4j
 
@@ -40,14 +41,21 @@ class ConstantsTest extends ConstantsTestBase {
 		def valueFormat = valueFormatFactory.create(value, exact)
 		def format = formatFactory.create(constantFactory, valueFormat)
 		def constants = constantsFactory.create(format)
-		def c = constants.getConstant("speed_light")
+
+		assertConstant constants, name: "speed_light", epsilon: 10e-3, value: 299792458.0d, unit: METERS_PER_SECOND
+		assertConstant constants, name: "planck_constant", epsilon: 10e-42, value: 6.62606957E-34, unit: JOULE.times(SECOND)
+		assertConstant constants, name: "planck_constant_reduced", epsilon: 10e-34, value: 1.054571726E-34, unit: JOULE.times(SECOND)
+		assertConstant constants, name: "electron_charge", epsilon: 10e-28, value: 1.602176565E-19, unit: COULOMB
+		assertConstant constants, name: "atomic_mass", epsilon: 10e-36, value: 1.660538921E-27, unit: KILOGRAM
+		assertConstant constants, name: "electron_mass", epsilon: 10e-39, value: 9.10938291E-31, unit: KILOGRAM
+		assertConstant constants, name: "proton_mass", epsilon: 10e-36, value: 1.672621777E-27, unit: KILOGRAM
+	}
+
+	void assertConstant(Map args, Constants constants) {
+		def c = constants.getConstant args.name
 		log.info "Loaded constant: {}", c
-		assertDecimalEquals c.value, 299792458.0d
-		assert c.unit == SI.METERS_PER_SECOND
-		c = constants.getConstant("atomic_mass")
-		log.info "Loaded constant: {}", c
-		epsilon = 1e-27
-		assertDecimalEquals c.value, 1.660538921E-27
-		assert c.unit == SI.KILOGRAM
+		epsilon = args.epsilon
+		assertDecimalEquals c.value, args.value
+		assert c.unit == args.unit
 	}
 }
