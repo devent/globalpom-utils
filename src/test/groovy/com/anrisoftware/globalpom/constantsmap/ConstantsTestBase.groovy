@@ -18,8 +18,13 @@
  */
 package com.anrisoftware.globalpom.constantsmap
 
+import static com.anrisoftware.globalpom.utils.TestUtils.*
+import static javax.measure.unit.SI.*
+import groovy.util.logging.Slf4j
+
 import org.junit.BeforeClass
 
+import com.anrisoftware.globalpom.constants.Constant
 import com.anrisoftware.globalpom.constants.ConstantsModule
 import com.anrisoftware.globalpom.constants.StandardConstantFactory
 import com.anrisoftware.globalpom.format.constants.ConstantFormatFactory
@@ -39,6 +44,7 @@ import com.google.inject.Injector
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
+@Slf4j
 class ConstantsTestBase {
 
 	static Injector injector
@@ -67,5 +73,27 @@ class ConstantsTestBase {
 		valueFormatFactory = injector.getInstance ValueFormatFactory
 		value = injector.getInstance StandardValueFactory
 		exact = injector.getInstance ExactStandardValueFactory
+	}
+
+	static assertConstants(Constants constants) {
+		assertConstantName constants, name: "speed_light", epsilon: 10e-3, value: 299792458.0d, unit: METERS_PER_SECOND
+		assertConstantName constants, name: "planck_constant", epsilon: 10e-42, value: 6.62606957E-34, unit: JOULE.times(SECOND)
+		assertConstantName constants, name: "planck_constant_reduced", epsilon: 10e-34, value: 1.054571726E-34, unit: JOULE.times(SECOND)
+		assertConstantName constants, name: "electron_charge", epsilon: 10e-28, value: 1.602176565E-19, unit: COULOMB
+		assertConstantName constants, name: "atomic_mass", epsilon: 10e-36, value: 1.660538921E-27, unit: KILOGRAM
+		assertConstantName constants, name: "electron_mass", epsilon: 10e-39, value: 9.10938291E-31, unit: KILOGRAM
+		assertConstantName constants, name: "proton_mass", epsilon: 10e-36, value: 1.672621777E-27, unit: KILOGRAM
+	}
+
+	static assertConstantName(Map args, Constants constants) {
+		def c = constants.getConstant args.name
+		assertConstant args, c
+	}
+
+	static assertConstant(Map args, Constant c) {
+		log.info "Loaded constant: {}", c
+		epsilon = args.epsilon
+		assertDecimalEquals c.value, args.value
+		assert c.unit == args.unit
 	}
 }

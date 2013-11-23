@@ -18,14 +18,14 @@
  */
 package com.anrisoftware.globalpom.constantsmap
 
-import static com.anrisoftware.globalpom.utils.TestUtils.*
+import static com.anrisoftware.globalpom.constantsmap.ConstantsTestBase.*
 import static javax.measure.unit.SI.*
 import static org.apache.commons.math3.util.FastMath.*
 import groovy.util.logging.Slf4j
 
-import javax.measure.unit.SI
-
 import org.junit.Test
+
+import com.anrisoftware.globalpom.constants.Constant
 
 /**
  * @see Constants
@@ -41,21 +41,56 @@ class ConstantsTest extends ConstantsTestBase {
 		def valueFormat = valueFormatFactory.create(value, exact)
 		def format = formatFactory.create(constantFactory, valueFormat)
 		def constants = constantsFactory.create(format)
-
-		assertConstant constants, name: "speed_light", epsilon: 10e-3, value: 299792458.0d, unit: METERS_PER_SECOND
-		assertConstant constants, name: "planck_constant", epsilon: 10e-42, value: 6.62606957E-34, unit: JOULE.times(SECOND)
-		assertConstant constants, name: "planck_constant_reduced", epsilon: 10e-34, value: 1.054571726E-34, unit: JOULE.times(SECOND)
-		assertConstant constants, name: "electron_charge", epsilon: 10e-28, value: 1.602176565E-19, unit: COULOMB
-		assertConstant constants, name: "atomic_mass", epsilon: 10e-36, value: 1.660538921E-27, unit: KILOGRAM
-		assertConstant constants, name: "electron_mass", epsilon: 10e-39, value: 9.10938291E-31, unit: KILOGRAM
-		assertConstant constants, name: "proton_mass", epsilon: 10e-36, value: 1.672621777E-27, unit: KILOGRAM
+		assertConstants constants
 	}
 
-	void assertConstant(Map args, Constants constants) {
-		def c = constants.getConstant args.name
-		log.info "Loaded constant: {}", c
-		epsilon = args.epsilon
-		assertDecimalEquals c.value, args.value
-		assert c.unit == args.unit
+	@Test
+	void "standard constants provider"() {
+		StandardConstantsProvider provider = injector.getInstance StandardConstantsProvider
+		def constants = provider.get()
+		assertConstants constants
+	}
+
+	@Test
+	void "standard light speed provider"() {
+		def c = injector.getInstance(StandardSpeedLightProvider).get()
+		assertConstant c, epsilon: 10e-3, value: 299792458.0d, unit: METERS_PER_SECOND
+	}
+
+	@Test
+	void "standard planck constant provider"() {
+		def c = injector.getInstance(StandardPlanckConstantProvider).get()
+		assertConstant c, epsilon: 10e-42, value: 6.62606957E-34, unit: JOULE.times(SECOND)
+	}
+
+	@Test
+	void "carbon 12"() {
+		Constant u = injector.getInstance(StandardAtomicMassProvider).get()
+		Constant mp = injector.getInstance(StandardProtonMassProvider).get()
+		def u12 = u.mul 12.0
+		log.info "C12 := {}, rounded := {}", u12, u12.roundedValue
+		def c12 = u12.div mp
+		def logc12 = c12.log()
+		def logc12value = logc12.roundedValue logc12.significant, 8
+		log.info "log(C12) := {}, rounded := {}", logc12, logc12value
+		assertConstant logc12, epsilon: 10e-9, value: 2.477656529E00, unit: KILOGRAM
+		assertConstant logc12value, epsilon: 10e-8, value: 2.47765653E00, unit: KILOGRAM
+	}
+
+	@Test
+	void "carbon 12 compact"() {
+		Constant u = injector.getInstance(StandardAtomicMassProvider).get()
+		Constant mp = injector.getInstance(StandardProtonMassProvider).get()
+		def logc12 = u.mul 12.0 div mp log()
+		def logc12value = logc12.roundedValue logc12.significant, 8
+		log.info "log(C12) := {}, rounded := {}", logc12, logc12value
+		assertConstant logc12, epsilon: 10e-9, value: 2.477656529E00, unit: KILOGRAM
+		assertConstant logc12value, epsilon: 10e-8, value: 2.47765653E00, unit: KILOGRAM
+	}
+
+	@Test
+	void "C12 mass provider"() {
+		def c = injector.getInstance(StandardC12MassProvider).get()
+		assertConstant c, epsilon: 10e-35, value: 1.992646705E-26, unit: KILOGRAM
 	}
 }

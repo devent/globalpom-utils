@@ -60,6 +60,12 @@ public abstract class AbstractConstant<Q extends Quantity> implements
 	}
 
 	@Override
+	public Value roundedValue(int sig, int dec) {
+		Value result = value.roundedValue(sig, dec);
+		return createConstant(result, unit);
+	}
+
+	@Override
 	public int getSignificant() {
 		return value.getSignificant();
 	}

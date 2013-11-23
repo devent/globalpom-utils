@@ -81,9 +81,14 @@ public abstract class AbstractValue implements Value {
 	@Override
 	public Value getRoundedValue() {
 		int sig = roundedSignificantFigure();
+		int dec = this.decimal;
+		return roundedValue(sig, dec);
+	}
+
+	@Override
+	public Value roundedValue(int sig, int dec) {
 		double v = this.value;
 		double un = this.uncertainty;
-		int dec = this.decimal;
 		if (isExact()) {
 			return createValue(v, sig, un, dec);
 		} else {

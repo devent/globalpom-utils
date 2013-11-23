@@ -41,6 +41,19 @@ public interface Value {
 	Value getRoundedValue();
 
 	/**
+	 * Returns the value rounded to the significant figures.
+	 * 
+	 * @param sig
+	 *            the significant figures.
+	 * 
+	 * @param dec
+	 *            the decimal places.
+	 * 
+	 * @return the rounded {@link Value}.
+	 */
+	Value roundedValue(int sig, int dec);
+
+	/**
 	 * Returns the significant figures of the value.
 	 * 
 	 * @return the significant figures.
