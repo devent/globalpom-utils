@@ -84,7 +84,7 @@ class ValueFormatTest {
 		formats  = [
 			[format: "5", value: exactValueFactory.create(5.0d)],
 			[format: "0.0123", value: exactValueFactory.create(0.0123d)],
-			[format: "5.0(0.2);1;1;", value: valueFactory.create(5.0d, 1, 0.2d, 1)],
+			[format: "5.0E00(0.2);1;1;", value: valueFactory.create(5.0d, 1, 0.2d, 1)],
 		]
 		parses = [
 			[input: "5", value: exactValueFactory.create(5.0d)],

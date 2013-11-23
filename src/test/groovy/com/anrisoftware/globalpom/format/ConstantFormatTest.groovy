@@ -101,7 +101,7 @@ class ConstantFormatTest {
 		formats  = [
 			[format: "5;m/s;", value: constantFactory.create(exactValueFactory.create(5.0d), SI.METERS_PER_SECOND)],
 			[format: "0.0123;m/s;", value: constantFactory.create(exactValueFactory.create(0.0123d), SI.METERS_PER_SECOND)],
-			[format: "5.0(0.2);1;1;m/s;", value: constantFactory.create(valueFactory.create(5.0d, 1, 0.2d, 1), SI.METERS_PER_SECOND)],
+			[format: "5.0E00(0.2);1;1;m/s;", value: constantFactory.create(valueFactory.create(5.0d, 1, 0.2d, 1), SI.METERS_PER_SECOND)],
 		]
 		parses = [
 			[input: "5;m/s;", value: constantFactory.create(exactValueFactory.create(5.0d), SI.METERS_PER_SECOND)],

@@ -40,19 +40,19 @@ class StandardConstantTest extends ConstantTestBase {
 		def factor = exact.create(2.0)
 		def value = value.create(5.0, 1, 0.1, 1)
 		def constant = standardConstantFactory.create(value, SI.METERS_PER_SECOND)
-		assert constant.toString() == "StandardConstant[5.0(0.1);1;1;m/s;]"
+		assert constant.toString() == "StandardConstant[5.0E00(0.1);1;1;m/s;]"
 		constant = constant.add factor
-		assert constant.toString() == "StandardConstant[7.0(0.1);1;1;m/s;]"
+		assert constant.toString() == "StandardConstant[7.0E00(0.1);1;1;m/s;]"
 		constant = constant.mul factor
-		assert constant.toString() == "StandardConstant[14.0(0.2);1;1;m/s;]"
+		assert constant.toString() == "StandardConstant[1.4E01(0.2);1;1;m/s;]"
 		constant = constant.sub factor
-		assert constant.toString() == "StandardConstant[12.0(0.2);1;1;m/s;]"
+		assert constant.toString() == "StandardConstant[1.2E01(0.2);1;1;m/s;]"
 		constant = constant.div factor
-		assert constant.toString() == "StandardConstant[6.0(0.1);1;1;m/s;]"
+		assert constant.toString() == "StandardConstant[6.0E00(0.1);1;1;m/s;]"
 		constant = constant.log()
-		assert constant.toString() == "StandardConstant[1.8(0.02);1;1;m/s;]"
+		assert constant.toString() == "StandardConstant[1.8E00(0.02);1;1;m/s;]"
 		constant = constant.exp()
-		assert constant.toString() == "StandardConstant[6.0(0.1);1;1;m/s;]"
+		assert constant.toString() == "StandardConstant[6.0E00(0.1);1;1;m/s;]"
 	}
 
 	@Test
