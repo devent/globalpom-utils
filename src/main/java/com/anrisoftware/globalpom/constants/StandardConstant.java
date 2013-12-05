@@ -34,9 +34,6 @@ import com.google.inject.assistedinject.Assisted;
  */
 public class StandardConstant<Q extends Quantity> extends AbstractConstant<Q> {
 
-	@Inject
-	private StandardConstantFactory constantFactory;
-
 	/**
 	 * @see StandardConstantFactory#create(Value, Unit)
 	 */
@@ -44,11 +41,5 @@ public class StandardConstant<Q extends Quantity> extends AbstractConstant<Q> {
 	@Inject
 	StandardConstant(@Assisted Value value, @Assisted Unit<?> unit) {
 		super(value, (Unit<Q>) unit);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	protected Constant<Q> createConstant(Value value, Unit<Q> unit) {
-		return constantFactory.create(value, unit);
 	}
 }

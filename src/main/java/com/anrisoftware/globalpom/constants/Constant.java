@@ -16,43 +16,10 @@ import com.anrisoftware.globalpom.measurement.Value;
  */
 public interface Constant<Q extends Quantity> extends Value {
 
-	/**
-	 * The physical unit of the constant.
-	 * 
-	 * @return the {@link Unit}.
-	 */
+	    /**
+     * The physical unit of the constant.
+     * 
+     * @return the {@link Unit}.
+     */
 	Unit<Q> getUnit();
-
-	@Override
-	Constant<Q> getRoundedValue();
-
-	@Override
-	Constant<Q> add(Value addend);
-
-	@Override
-	Constant<Q> add(double addend);
-
-	@Override
-	Constant<Q> sub(Value subtrahend);
-
-	@Override
-	Constant<Q> sub(double subtrahend);
-
-	@Override
-	Constant<Q> mul(Value factor);
-
-	@Override
-	Constant<Q> mul(double factor);
-
-	@Override
-	Constant<Q> div(Value divisor);
-
-	@Override
-	Constant<Q> div(double divisor);
-
-	@Override
-	Constant<Q> log();
-
-	@Override
-	Constant<Q> exp();
 }

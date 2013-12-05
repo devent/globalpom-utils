@@ -27,6 +27,10 @@ public class StandardValueMath {
 		return sa * z;
 	}
 
+    public static double reciprocalUncertaintly(double a, double sa, double z) {
+        return z * sa / a;
+    }
+
 	private static double pow2(double value) {
 		return value * value;
 	}

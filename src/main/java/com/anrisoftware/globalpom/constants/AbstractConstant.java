@@ -29,15 +29,15 @@ public abstract class AbstractConstant<Q extends Quantity> implements
 	@Inject
 	private ValueToString toString;
 
-	/**
-	 * Sets the specified value and unit of the constant.
-	 * 
-	 * @param value
-	 *            the {@link Value}.
-	 * 
-	 * @param unit
-	 *            the {@link Unit}.
-	 */
+	                /**
+     * Sets the specified value and unit of the constant.
+     * 
+     * @param value
+     *            the {@link Value}.
+     * 
+     * @param unit
+     *            the {@link Unit}.
+     */
 	protected AbstractConstant(Value value, Unit<Q> unit) {
 		this.value = value;
 		this.unit = unit;
@@ -54,15 +54,13 @@ public abstract class AbstractConstant<Q extends Quantity> implements
 	}
 
 	@Override
-	public Constant<Q> getRoundedValue() {
-		Value result = value.getRoundedValue();
-		return createConstant(result, unit);
+    public Value getRoundedValue() {
+        return value.getRoundedValue();
 	}
 
 	@Override
 	public Value roundedValue(int sig, int dec) {
-		Value result = value.roundedValue(sig, dec);
-		return createConstant(result, unit);
+        return value.roundedValue(sig, dec);
 	}
 
 	@Override
@@ -86,77 +84,59 @@ public abstract class AbstractConstant<Q extends Quantity> implements
 	}
 
 	@Override
-	public Constant<Q> add(Value addend) {
-		Value result = value.add(addend);
-		return createConstant(result, unit);
+    public Value add(Value addend) {
+        return value.add(addend);
 	}
 
 	@Override
-	public Constant<Q> add(double addend) {
-		Value result = value.add(addend);
-		return createConstant(result, unit);
+    public Value add(double addend) {
+        return value.add(addend);
 	}
 
 	@Override
-	public Constant<Q> sub(Value subtrahend) {
-		Value result = value.sub(subtrahend);
-		return createConstant(result, unit);
+    public Value sub(Value subtrahend) {
+        return value.sub(subtrahend);
 	}
 
 	@Override
-	public Constant<Q> sub(double subtrahend) {
-		Value result = value.sub(subtrahend);
-		return createConstant(result, unit);
+    public Value sub(double subtrahend) {
+        return value.sub(subtrahend);
 	}
 
 	@Override
-	public Constant<Q> mul(Value factor) {
-		Value result = value.mul(factor);
-		return createConstant(result, unit);
+    public Value mul(Value factor) {
+        return value.mul(factor);
 	}
 
 	@Override
-	public Constant<Q> mul(double factor) {
-		Value result = value.mul(factor);
-		return createConstant(result, unit);
+    public Value mul(double factor) {
+        return value.mul(factor);
 	}
 
 	@Override
-	public Constant<Q> div(Value divisor) {
-		Value result = value.div(divisor);
-		return createConstant(result, unit);
+    public Value div(Value divisor) {
+        return value.div(divisor);
 	}
 
 	@Override
-	public Constant<Q> div(double divisor) {
-		Value result = value.div(divisor);
-		return createConstant(result, unit);
+    public Value div(double divisor) {
+        return value.div(divisor);
 	}
 
 	@Override
-	public Constant<Q> log() {
-		Value result = value.log();
-		return createConstant(result, unit);
+    public Value reciprocal() {
+        return value.reciprocal();
+    }
+
+    @Override
+    public Value log() {
+        return value.log();
 	}
 
 	@Override
-	public Constant<Q> exp() {
-		Value result = value.exp();
-		return createConstant(result, unit);
+    public Value exp() {
+        return value.exp();
 	}
-
-	/**
-	 * Creates the specified value and unit of the constant.
-	 * 
-	 * @param value
-	 *            the {@link Value}.
-	 * 
-	 * @param unit
-	 *            the {@link Unit}.
-	 * 
-	 * @return the {@link Constant}.
-	 */
-	protected abstract Constant<Q> createConstant(Value value, Unit<Q> unit);
 
 	@Override
 	public boolean equals(Object obj) {

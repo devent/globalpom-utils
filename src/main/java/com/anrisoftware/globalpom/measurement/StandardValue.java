@@ -112,6 +112,14 @@ public class StandardValue extends AbstractValue {
 	}
 
 	@Override
+    protected double reciprocalUncertainty(double value) {
+        double a = getValue();
+        double z = value;
+        double sa = getUncertainty();
+        return StandardValueMath.reciprocalUncertaintly(a, sa, z);
+    }
+
+    @Override
 	protected double logUncertainty(double exponent) {
 		double sa = getUncertainty();
 		if (isExact()) {

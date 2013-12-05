@@ -26,154 +26,161 @@ package com.anrisoftware.globalpom.measurement;
  */
 public interface Value {
 
-	/**
-	 * Returns the value.
-	 * 
-	 * @return the value.
-	 */
+	    /**
+     * Returns the value.
+     * 
+     * @return the value.
+     */
 	double getValue();
 
-	/**
-	 * Returns the value rounded to the significant figures.
-	 * 
-	 * @return the rounded {@link Value}.
-	 */
+	    /**
+     * Returns the value rounded to the significant figures.
+     * 
+     * @return the rounded {@link Value}.
+     */
 	Value getRoundedValue();
 
-	/**
-	 * Returns the value rounded to the significant figures.
-	 * 
-	 * @param sig
-	 *            the significant figures.
-	 * 
-	 * @param dec
-	 *            the decimal places.
-	 * 
-	 * @return the rounded {@link Value}.
-	 */
+	    /**
+     * Returns the value rounded to the significant figures.
+     * 
+     * @param sig
+     *            the significant figures.
+     * 
+     * @param dec
+     *            the decimal places.
+     * 
+     * @return the rounded {@link Value}.
+     */
 	Value roundedValue(int sig, int dec);
 
-	/**
-	 * Returns the significant figures of the value.
-	 * 
-	 * @return the significant figures.
-	 */
+	    /**
+     * Returns the significant figures of the value.
+     * 
+     * @return the significant figures.
+     */
 	int getSignificant();
 
-	/**
-	 * Returns the least significant decimal.
-	 * 
-	 * @return the least significant decimal.
-	 */
+	    /**
+     * Returns the least significant decimal.
+     * 
+     * @return the least significant decimal.
+     */
 	int getDecimal();
 
-	/**
-	 * Returns the uncertainty of the value.
-	 * 
-	 * @return the uncertainty or {@link Double#NaN} if the value is exact.
-	 */
+	    /**
+     * Returns the uncertainty of the value.
+     * 
+     * @return the uncertainty or {@link Double#NaN} if the value is exact.
+     */
 	double getUncertainty();
 
-	/**
-	 * Returns whether the value is exact. If the value is exact then
-	 * {@link #getUncertainty()} will return {@link Double#NaN}.
-	 * 
-	 * @return {@code true} if the value is exact.
-	 */
+	    /**
+     * Returns whether the value is exact. If the value is exact then
+     * {@link #getUncertainty()} will return {@link Double#NaN}.
+     * 
+     * @return {@code true} if the value is exact.
+     */
 	boolean isExact();
 
-	/**
-	 * Calculates the addition of this value with the addend.
-	 * 
-	 * @param addend
-	 *            the {@link Value} addend.
-	 * 
-	 * @return the result {@link Value}.
-	 */
+	    /**
+     * Calculates the addition of this value with the addend.
+     * 
+     * @param addend
+     *            the {@link Value} addend.
+     * 
+     * @return the result {@link Value}.
+     */
 	Value add(Value addend);
 
-	/**
-	 * Calculates the addition of this value with the addend.
-	 * 
-	 * @param addend
-	 *            the exact addend.
-	 * 
-	 * @return the result {@link Value}.
-	 */
+	    /**
+     * Calculates the addition of this value with the addend.
+     * 
+     * @param addend
+     *            the exact addend.
+     * 
+     * @return the result {@link Value}.
+     */
 	Value add(double addend);
 
-	/**
-	 * Calculates the subtraction of this value with the subtrahend.
-	 * 
-	 * @param subtrahend
-	 *            the {@link Value} subtrahend.
-	 * 
-	 * @return the result {@link Value}.
-	 */
+	    /**
+     * Calculates the subtraction of this value with the subtrahend.
+     * 
+     * @param subtrahend
+     *            the {@link Value} subtrahend.
+     * 
+     * @return the result {@link Value}.
+     */
 	Value sub(Value subtrahend);
 
-	/**
-	 * Calculates the subtraction of this value with the subtrahend.
-	 * 
-	 * @param subtrahend
-	 *            the exact subtrahend.
-	 * 
-	 * @return the result {@link Value}.
-	 */
+	    /**
+     * Calculates the subtraction of this value with the subtrahend.
+     * 
+     * @param subtrahend
+     *            the exact subtrahend.
+     * 
+     * @return the result {@link Value}.
+     */
 	Value sub(double subtrahend);
 
-	/**
-	 * Calculates the multiplication of this value with the factor.
-	 * 
-	 * @param factor
-	 *            the {@link Value} factor.
-	 * 
-	 * @return the result {@link Value}.
-	 */
+	    /**
+     * Calculates the multiplication of this value with the factor.
+     * 
+     * @param factor
+     *            the {@link Value} factor.
+     * 
+     * @return the result {@link Value}.
+     */
 	Value mul(Value factor);
 
-	/**
-	 * Calculates the multiplication of this value with the factor.
-	 * 
-	 * @param factor
-	 *            the exact factor.
-	 * 
-	 * @return the result {@link Value}.
-	 */
+	    /**
+     * Calculates the multiplication of this value with the factor.
+     * 
+     * @param factor
+     *            the exact factor.
+     * 
+     * @return the result {@link Value}.
+     */
 	Value mul(double factor);
 
-	/**
-	 * Calculates the division of this value with the divisor.
-	 * 
-	 * @param divisor
-	 *            the {@link Value} divisor.
-	 * 
-	 * @return the result {@link Value}.
-	 */
+	    /**
+     * Calculates the division of this value with the divisor.
+     * 
+     * @param divisor
+     *            the {@link Value} divisor.
+     * 
+     * @return the result {@link Value}.
+     */
 	Value div(Value divisor);
 
-	/**
-	 * Calculates the division of this value with the divisor.
-	 * 
-	 * @param divisor
-	 *            the exact divisor.
-	 * 
-	 * @return the result {@link Value}.
-	 */
+	    /**
+     * Calculates the division of this value with the divisor.
+     * 
+     * @param divisor
+     *            the exact divisor.
+     * 
+     * @return the result {@link Value}.
+     */
 	Value div(double divisor);
 
-	/**
-	 * Calculates the natural logarithm of the value.
-	 * 
-	 * @return the {@link Value}.
-	 */
-	Value log();
+    /**
+     * Calculates the reciprocal of this value.
+     * 
+     * @return the result {@link Value}.
+     */
+    Value reciprocal();
 
 	/**
-	 * Calculates the Euler's number e raised to the power of this value.
-	 * 
-	 * @return the {@link Value}.
-	 */
+     * Calculates the natural logarithm of the value.
+     * 
+     * @return the {@link Value}.
+     */
+	Value log();
+
+	    /**
+     * Calculates the Euler's number e raised to the power of this value.
+     * 
+     * @return the {@link Value}.
+     */
 	Value exp();
 
 	/**
@@ -184,16 +191,16 @@ public interface Value {
 	@Override
 	boolean equals(Object obj);
 
-	/**
-	 * Compares this value and the specified value for equality. Two values are
-	 * equal if they do not differ from each other by more then the specified
-	 * standard deviations.
-	 * 
-	 * @param dev
-	 *            the standard deviations the values can differ from each other
-	 *            to be unequal.
-	 * 
-	 * @see #equals(Object)
-	 */
+	    /**
+     * Compares this value and the specified value for equality. Two values are
+     * equal if they do not differ from each other by more then the specified
+     * standard deviations.
+     * 
+     * @param dev
+     *            the standard deviations the values can differ from each other
+     *            to be unequal.
+     * 
+     * @see #equals(Object)
+     */
 	boolean equals(Object obj, double dev);
 }

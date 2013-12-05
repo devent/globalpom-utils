@@ -39,313 +39,332 @@ import org.apache.commons.math3.util.FastMath;
  */
 public abstract class AbstractValue implements Value {
 
-	private static final DecimalFormat VALUE_FORMAT = new DecimalFormat(
-			"#.#########");
+    private static final DecimalFormat VALUE_FORMAT = new DecimalFormat(
+            "#.#########");
 
-	private static final double EPSILON = 10e-9;
+    private static final double EPSILON = 10e-9;
 
-	private final double value;
+    private final double value;
 
-	private final int significant;
+    private final int significant;
 
-	private final double uncertainty;
+    private final double uncertainty;
 
-	private final int decimal;
+    private final int decimal;
 
-	private final ValueFactory valueFactory;
+    private final ValueFactory valueFactory;
 
-	@Inject
-	private ValueToString toString;
+    @Inject
+    private ValueToString toString;
 
-	/**
-	 * @see ValueFactory#create(double, int, double, int, ValueFactory)
-	 */
-	protected AbstractValue(double value, int sig, double un, int dec,
-			ValueFactory valueFactory) {
-		this.value = value;
-		this.significant = sig;
-		this.uncertainty = un;
-		this.decimal = dec;
-		this.valueFactory = valueFactory;
-	}
+    /**
+     * @see ValueFactory#create(double, int, double, int, ValueFactory)
+     */
+    protected AbstractValue(double value, int sig, double un, int dec,
+            ValueFactory valueFactory) {
+        this.value = value;
+        this.significant = sig;
+        this.uncertainty = un;
+        this.decimal = dec;
+        this.valueFactory = valueFactory;
+    }
 
-	public ValueFactory getValueFactory() {
-		return valueFactory;
-	}
+    public ValueFactory getValueFactory() {
+        return valueFactory;
+    }
 
-	@Override
-	public double getValue() {
-		return value;
-	}
+    @Override
+    public double getValue() {
+        return value;
+    }
 
-	@Override
-	public Value getRoundedValue() {
-		int sig = roundedSignificantFigure();
-		int dec = this.decimal;
-		return roundedValue(sig, dec);
-	}
+    @Override
+    public Value getRoundedValue() {
+        int sig = roundedSignificantFigure();
+        int dec = this.decimal;
+        return roundedValue(sig, dec);
+    }
 
-	@Override
-	public Value roundedValue(int sig, int dec) {
-		double v = this.value;
-		double un = this.uncertainty;
-		if (isExact()) {
-			return createValue(v, sig, un, dec);
-		} else {
-			double value = roundToDecimal(v, dec);
-			double signi = roundToSignificant(un, sig);
-			return createValue(value, sig, signi, dec);
-		}
-	}
+    @Override
+    public Value roundedValue(int sig, int dec) {
+        double v = this.value;
+        double un = this.uncertainty;
+        if (isExact()) {
+            return createValue(v, sig, un, dec);
+        } else {
+            double value = roundToDecimal(v, dec);
+            double signi = roundToSignificant(un, sig);
+            return createValue(value, sig, signi, dec);
+        }
+    }
 
-	private int roundedSignificantFigure() {
-		int sig = this.significant;
-		double v = abs(getUncertainty());
-		while (v < 0.0) {
-			v *= 10;
-		}
-		if (v >= 1.0) {
-			return sig + 1;
-		} else {
-			return sig;
-		}
-	}
+    private int roundedSignificantFigure() {
+        int sig = this.significant;
+        double v = abs(getUncertainty());
+        while (v < 0.0) {
+            v *= 10;
+        }
+        if (v >= 1.0) {
+            return sig + 1;
+        } else {
+            return sig;
+        }
+    }
 
-	@Override
-	public int getSignificant() {
-		return significant;
-	}
+    @Override
+    public int getSignificant() {
+        return significant;
+    }
 
-	@Override
-	public double getUncertainty() {
-		return uncertainty;
-	}
+    @Override
+    public double getUncertainty() {
+        return uncertainty;
+    }
 
-	@Override
-	public boolean isExact() {
-		return isNaN(uncertainty);
-	}
+    @Override
+    public boolean isExact() {
+        return isNaN(uncertainty);
+    }
 
-	@Override
-	public int getDecimal() {
-		return decimal;
-	}
+    @Override
+    public int getDecimal() {
+        return decimal;
+    }
 
-	@Override
-	public Value add(double addend) {
-		return add(createValue(addend));
-	}
+    @Override
+    public Value add(double addend) {
+        return add(createValue(addend));
+    }
 
-	@Override
-	public Value add(Value addend) {
-		double value = this.value + addend.getValue();
-		double uncertainty = addUncertainty(addend, value);
-		int sig = min(significant, addend.getSignificant());
-		int dec = min(decimal, addend.getDecimal());
-		return createValue(value, sig, uncertainty, dec);
-	}
+    @Override
+    public Value add(Value addend) {
+        double value = this.value + addend.getValue();
+        double uncertainty = addUncertainty(addend, value);
+        int sig = min(significant, addend.getSignificant());
+        int dec = min(decimal, addend.getDecimal());
+        return createValue(value, sig, uncertainty, dec);
+    }
 
-	/**
-	 * Adds the uncertainty of this value and the addend.
-	 * 
-	 * @param addend
-	 *            the {@link Value} addend.
-	 * 
-	 * @param sum
-	 *            the value of the sum.
-	 * 
-	 * @return the added uncertainly or {@link Double#NaN} if the value is
-	 *         exact.
-	 */
-	protected abstract double addUncertainty(Value addend, double sum);
+    /**
+     * Adds the uncertainty of this value and the addend.
+     * 
+     * @param addend
+     *            the {@link Value} addend.
+     * 
+     * @param sum
+     *            the value of the sum.
+     * 
+     * @return the added uncertainly or {@link Double#NaN} if the value is
+     *         exact.
+     */
+    protected abstract double addUncertainty(Value addend, double sum);
 
-	@Override
-	public Value sub(double subtrahend) {
-		return sub(createValue(subtrahend));
-	}
+    @Override
+    public Value sub(double subtrahend) {
+        return sub(createValue(subtrahend));
+    }
 
-	@Override
-	public Value sub(Value subtrahend) {
-		double value = this.value - subtrahend.getValue();
-		double uncertainty = subUncertainty(subtrahend, value);
-		int sig = min(significant, subtrahend.getSignificant());
-		int dec = min(decimal, subtrahend.getDecimal());
-		return createValue(value, sig, uncertainty, dec);
-	}
+    @Override
+    public Value sub(Value subtrahend) {
+        double value = this.value - subtrahend.getValue();
+        double uncertainty = subUncertainty(subtrahend, value);
+        int sig = min(significant, subtrahend.getSignificant());
+        int dec = min(decimal, subtrahend.getDecimal());
+        return createValue(value, sig, uncertainty, dec);
+    }
 
-	/**
-	 * Subtracts the uncertainty of this value and the subtrahend.
-	 * 
-	 * @param subtrahend
-	 *            the {@link Value} subtrahend.
-	 * 
-	 * @param diff
-	 *            the value of the difference.
-	 * 
-	 * @return the subtracted uncertainly.
-	 */
-	protected abstract double subUncertainty(Value subtrahend, double diff);
+    /**
+     * Subtracts the uncertainty of this value and the subtrahend.
+     * 
+     * @param subtrahend
+     *            the {@link Value} subtrahend.
+     * 
+     * @param diff
+     *            the value of the difference.
+     * 
+     * @return the subtracted uncertainly.
+     */
+    protected abstract double subUncertainty(Value subtrahend, double diff);
 
-	@Override
-	public Value mul(double factor) {
-		return mul(createValue(factor));
-	}
+    @Override
+    public Value mul(double factor) {
+        return mul(createValue(factor));
+    }
 
-	@Override
-	public Value mul(Value factor) {
-		double value = this.value * factor.getValue();
-		double uncertainty = mulUncertainty(factor, value);
-		int sig = min(significant, factor.getSignificant());
-		int dec = min(decimal, factor.getDecimal());
-		return createValue(value, sig, uncertainty, dec);
-	}
+    @Override
+    public Value mul(Value factor) {
+        double value = this.value * factor.getValue();
+        double uncertainty = mulUncertainty(factor, value);
+        int sig = min(significant, factor.getSignificant());
+        int dec = min(decimal, factor.getDecimal());
+        return createValue(value, sig, uncertainty, dec);
+    }
 
-	/**
-	 * Multiplies the uncertainty of this value and the factor.
-	 * 
-	 * @param factor
-	 *            the {@link Value} factor.
-	 * 
-	 * @param product
-	 *            the value of the product.
-	 * 
-	 * @return the multiplied uncertainly.
-	 */
-	protected abstract double mulUncertainty(Value factor, double product);
+    /**
+     * Multiplies the uncertainty of this value and the factor.
+     * 
+     * @param factor
+     *            the {@link Value} factor.
+     * 
+     * @param product
+     *            the value of the product.
+     * 
+     * @return the multiplied uncertainly.
+     */
+    protected abstract double mulUncertainty(Value factor, double product);
 
-	@Override
-	public Value div(double divisor) {
-		return div(createValue(divisor));
-	}
+    @Override
+    public Value div(double divisor) {
+        return div(createValue(divisor));
+    }
 
-	@Override
-	public Value div(Value divisor) {
-		double value = this.value / divisor.getValue();
-		double uncertainty = divUncertainty(divisor, value);
-		int sig = min(significant, divisor.getSignificant());
-		int dec = min(decimal, divisor.getDecimal());
-		return createValue(value, sig, uncertainty, dec);
-	}
+    @Override
+    public Value div(Value divisor) {
+        double value = this.value / divisor.getValue();
+        double uncertainty = divUncertainty(divisor, value);
+        int sig = min(significant, divisor.getSignificant());
+        int dec = min(decimal, divisor.getDecimal());
+        return createValue(value, sig, uncertainty, dec);
+    }
 
-	/**
-	 * Divides the uncertainty of this value and the divisor.
-	 * 
-	 * @param divisor
-	 *            the {@link Value} divisor.
-	 * 
-	 * @param quotient
-	 *            the value of the quotient.
-	 * 
-	 * @return the divided uncertainly.
-	 */
-	protected abstract double divUncertainty(Value divisor, double quotient);
+    /**
+     * Divides the uncertainty of this value and the divisor.
+     * 
+     * @param divisor
+     *            the {@link Value} divisor.
+     * 
+     * @param quotient
+     *            the value of the quotient.
+     * 
+     * @return the divided uncertainly.
+     */
+    protected abstract double divUncertainty(Value divisor, double quotient);
 
-	@Override
-	public Value log() {
-		double value = FastMath.log(this.value);
-		double uncertainty = logUncertainty(value);
-		int sig = significant;
-		int dec = decimal;
-		return createValue(value, sig, uncertainty, dec);
-	}
+    @Override
+    public Value reciprocal() {
+        double value = 1.0 / this.value;
+        double uncertainty = reciprocalUncertainty(value);
+        int sig = significant;
+        int dec = decimal;
+        return createValue(value, sig, uncertainty, dec);
+    }
 
-	/**
-	 * Logarithm the uncertainty of this value.
-	 * 
-	 * @param exponent
-	 *            the value of the exponent.
-	 * 
-	 * @return the logarithm uncertainly.
-	 */
-	protected abstract double logUncertainty(double exponent);
+    /**
+     * Calculates the uncertainty of this value as reciprocal.
+     * 
+     * @param value
+     *            the value.
+     * 
+     * @return the reciprocal uncertainly.
+     */
+    protected abstract double reciprocalUncertainty(double value);
 
-	@Override
-	public Value exp() {
-		double value = FastMath.exp(this.value);
-		double uncertainty = expUncertainty(value);
-		int sig = significant;
-		int dec = decimal;
-		return createValue(value, sig, uncertainty, dec);
-	}
+    @Override
+    public Value log() {
+        double value = FastMath.log(this.value);
+        double uncertainty = logUncertainty(value);
+        int sig = significant;
+        int dec = decimal;
+        return createValue(value, sig, uncertainty, dec);
+    }
 
-	/**
-	 * Power to the basis of e the uncertainty of this value.
-	 * 
-	 * @param power
-	 *            the value of the power.
-	 * 
-	 * @return the power uncertainly.
-	 */
-	protected abstract double expUncertainty(double power);
+    /**
+     * Logarithm the uncertainty of this value.
+     * 
+     * @param exponent
+     *            the value of the exponent.
+     * 
+     * @return the logarithm uncertainly.
+     */
+    protected abstract double logUncertainty(double exponent);
 
-	/**
-	 * Create a new value.
-	 * 
-	 * @param value
-	 *            the value.
-	 * 
-	 * @param sig
-	 *            the significant figures of the value.
-	 * 
-	 * @param un
-	 *            the uncertainty or {@link Double#NaN} for an exact number.
-	 * 
-	 * @param dec
-	 *            the least significant decimal places.
-	 * 
-	 * @return the {@link Value}.
-	 */
-	protected Value createValue(double value, int sig, double un, int dec) {
-		return valueFactory.create(value, sig, un, dec, valueFactory);
-	}
+    @Override
+    public Value exp() {
+        double value = FastMath.exp(this.value);
+        double uncertainty = expUncertainty(value);
+        int sig = significant;
+        int dec = decimal;
+        return createValue(value, sig, uncertainty, dec);
+    }
 
-	/**
-	 * Create a new exact value.
-	 * 
-	 * @param value
-	 *            the value.
-	 * 
-	 * @return the exact {@link Value}.
-	 */
-	protected abstract Value createValue(double value);
+    /**
+     * Power to the basis of e the uncertainty of this value.
+     * 
+     * @param power
+     *            the value of the power.
+     * 
+     * @return the power uncertainly.
+     */
+    protected abstract double expUncertainty(double power);
 
-	@Override
-	public boolean equals(Object obj) {
-		return equals(obj, 3.0);
-	}
+    /**
+     * Create a new value.
+     * 
+     * @param value
+     *            the value.
+     * 
+     * @param sig
+     *            the significant figures of the value.
+     * 
+     * @param un
+     *            the uncertainty or {@link Double#NaN} for an exact number.
+     * 
+     * @param dec
+     *            the least significant decimal places.
+     * 
+     * @return the {@link Value}.
+     */
+    protected Value createValue(double value, int sig, double un, int dec) {
+        return valueFactory.create(value, sig, un, dec, valueFactory);
+    }
 
-	@Override
-	public boolean equals(Object obj, double dev) {
-		if (obj == null) {
-			return false;
-		}
-		if (obj == this) {
-			return true;
-		}
-		if (!(obj instanceof Value)) {
-			return false;
-		}
-		Value rhs = (Value) obj;
-		return rhs.isExact() ? equalExact(this, rhs)
-				: equalsUncertain(rhs, dev);
-	}
+    /**
+     * Create a new exact value.
+     * 
+     * @param value
+     *            the value.
+     * 
+     * @return the exact {@link Value}.
+     */
+    protected abstract Value createValue(double value);
 
-	private boolean equalsUncertain(Value rhs, double dev) {
-		Value delta = this.sub(rhs).getRoundedValue();
-		double deltavalue = delta.getValue();
-		double deltaunc = delta.getUncertainty();
-		return deltavalue - (deltaunc * dev) <= 0.0;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        return equals(obj, 3.0);
+    }
 
-	private boolean equalExact(AbstractValue lhs, Value rhs) {
-		return lhs.getValue() - rhs.getValue() < EPSILON;
-	}
+    @Override
+    public boolean equals(Object obj, double dev) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Value)) {
+            return false;
+        }
+        Value rhs = (Value) obj;
+        return rhs.isExact() ? equalExact(this, rhs)
+                : equalsUncertain(rhs, dev);
+    }
 
-	@Override
-	public String toString() {
-		StringBuffer buff = new StringBuffer();
-		toString.format(buff, this, VALUE_FORMAT);
-		return new ToStringBuilder(this).append(buff.toString()).build();
-	}
+    private boolean equalsUncertain(Value rhs, double dev) {
+        Value delta = this.sub(rhs).getRoundedValue();
+        double deltavalue = delta.getValue();
+        double deltaunc = delta.getUncertainty();
+        return deltavalue - (deltaunc * dev) <= 0.0;
+    }
+
+    private boolean equalExact(AbstractValue lhs, Value rhs) {
+        return lhs.getValue() - rhs.getValue() < EPSILON;
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer buff = new StringBuffer();
+        toString.format(buff, this, VALUE_FORMAT);
+        return new ToStringBuilder(this).append(buff.toString()).build();
+    }
 
 }
