@@ -26,6 +26,8 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
  * 
  * @see InitFileParserFactory
  * @see DefaultInitFileAttributesFactory
+ * @see SectionFormatterFactory
+ * @see SectionFactory
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.0
@@ -42,6 +44,9 @@ public class InitFileParserModule extends AbstractModule {
                 DefaultInitFileAttributes.class,
                 DefaultInitFileAttributes.class).build(
                 DefaultInitFileAttributesFactory.class));
+        install(new FactoryModuleBuilder().implement(SectionFormatter.class,
+                SectionFormatterImpl.class)
+                .build(SectionFormatterFactory.class));
     }
 
 }

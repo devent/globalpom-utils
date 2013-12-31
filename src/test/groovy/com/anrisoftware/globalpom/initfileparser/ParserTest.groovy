@@ -18,10 +18,11 @@
  */
 package com.anrisoftware.globalpom.initfileparser
 
+import static com.anrisoftware.globalpom.utils.TestUtils.*
+
 import org.junit.BeforeClass
 import org.junit.Test
 
-import com.anrisoftware.globalpom.utils.TestUtils
 import com.google.inject.Guice
 import com.google.inject.Injector
 
@@ -53,6 +54,23 @@ class ParserTest {
         assert sections[0].properties.size() == 5
     }
 
+    @Test
+    void "format section"() {
+        def attributes = attributesFactory.create()
+        def formatter = sectionFormatterFactory.create(attributes)
+        def name = "Foo"
+        def properties = new Properties()
+        properties.setProperty "value_a", "a"
+        properties.setProperty "value_b", "b"
+        def section = sectionFactory.create(name, properties)
+        def str = formatter.format section
+        assertStringContent str,
+                """[Foo]
+value_b = b
+value_a = a
+"""
+    }
+
     static URL inifile = ParserTest.class.getResource("inifile.txt")
 
     static URL inifileNoSection = ParserTest.class.getResource("inifile_no_section.txt")
@@ -63,11 +81,17 @@ class ParserTest {
 
     static DefaultInitFileAttributesFactory attributesFactory
 
+    static SectionFormatterFactory sectionFormatterFactory
+
+    static SectionFactory sectionFactory
+
     @BeforeClass
     static void createFactory() {
-        TestUtils.toStringStyle
+        toStringStyle
         injector = Guice.createInjector(new InitFileParserModule())
         parserFactory = injector.getInstance InitFileParserFactory
         attributesFactory = injector.getInstance DefaultInitFileAttributesFactory
+        sectionFormatterFactory = injector.getInstance SectionFormatterFactory
+        sectionFactory = injector.getInstance SectionFactory
     }
 }

@@ -51,6 +51,21 @@ public interface InitFileAttributes {
     char getPropertyDelimiter();
 
     /**
+     * Returns the new line characters, for example {@code "\n".}
+     * 
+     * @return the new line {@link String} characters.
+     */
+    String getNewLine();
+
+    /**
+     * Returns to add whitespace between the property delimiter so the property
+     * is like {@code "key = value".}
+     * 
+     * @return {@code true} to add whitespace.
+     */
+    boolean isWhitespaceBetweenPropertyDelimiter();
+
+    /**
      * Returns the name of the default section. The section is used when a
      * property is found with no previous section declaration.
      * 

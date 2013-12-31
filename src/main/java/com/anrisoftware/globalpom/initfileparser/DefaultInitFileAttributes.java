@@ -41,6 +41,10 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
 
     private String defaultSectionName;
 
+    private boolean whitespaceBetweenPropertyDelimiter;
+
+    private String newLine;
+
     /**
      * @see DefaultInitFileAttributesFactory#create()
      */
@@ -50,6 +54,8 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
         this.comment = '#';
         this.propertyDelimiter = '=';
         this.defaultSectionName = "Default";
+        this.whitespaceBetweenPropertyDelimiter = true;
+        this.newLine = System.getProperty("line.separator");
     }
 
     /**
@@ -61,6 +67,9 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
         this.comment = attributes.getComment();
         this.propertyDelimiter = attributes.getPropertyDelimiter();
         this.defaultSectionName = attributes.getDefaultSectionName();
+        this.whitespaceBetweenPropertyDelimiter = attributes
+                .isWhitespaceBetweenPropertyDelimiter();
+        this.newLine = attributes.getNewLine();
     }
 
     public void setSectionBrackets(char[] brackets) {
@@ -97,5 +106,23 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
     @Override
     public String getDefaultSectionName() {
         return defaultSectionName;
+    }
+
+    public void setWhitespaceBetweenPropertyDelimiter(boolean whitespace) {
+        this.whitespaceBetweenPropertyDelimiter = whitespace;
+    }
+
+    @Override
+    public boolean isWhitespaceBetweenPropertyDelimiter() {
+        return whitespaceBetweenPropertyDelimiter;
+    }
+
+    public void setNewLine(String newLine) {
+        this.newLine = newLine;
+    }
+
+    @Override
+    public String getNewLine() {
+        return newLine;
     }
 }
