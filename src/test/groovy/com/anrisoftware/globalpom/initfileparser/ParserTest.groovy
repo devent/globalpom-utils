@@ -55,6 +55,22 @@ class ParserTest {
     }
 
     @Test
+    void "parse INI-file, multi-line property"() {
+        def attributes = attributesFactory.create()
+        def parser = parserFactory.create(inifileMultiLine, attributes)()
+        List sections = parser.inject([]) { acc, val -> acc << val }
+        assert sections.size() == 4
+        assert sections[0].name == "ssh"
+        assert sections[0].properties.size() == 6
+        assert sections[0].properties.getProperty("enabled") == "true"
+        assert sections[0].properties.getProperty("port") == "ssh"
+        assert sections[0].properties.getProperty("filter") == "sshd"
+        assert sections[0].properties.getProperty("logpath") == "/var/log/auth.log"
+        assert sections[0].properties.getProperty("maxretry") == "6"
+        assert sections[0].properties.getProperty("action_mw") == "%(banaction)s[name=%(__name__)s, port=\"%(port)s\", protocol=\"%(protocol)s]%(mta)s-whois[name=%(__name__)s, dest=\"%(destemail)s\", protocol=\"%(protocol)s]"
+    }
+
+    @Test
     void "format section"() {
         def attributes = attributesFactory.create()
         def formatter = sectionFormatterFactory.create(attributes)
@@ -74,6 +90,8 @@ value_a = a
     static URL inifile = ParserTest.class.getResource("inifile.txt")
 
     static URL inifileNoSection = ParserTest.class.getResource("inifile_no_section.txt")
+
+    static URL inifileMultiLine = ParserTest.class.getResource("inifile_multiline.txt")
 
     static Injector injector
 

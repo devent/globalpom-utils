@@ -45,6 +45,8 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
 
     private String newLine;
 
+    private boolean allowMultiLineProperties;
+
     /**
      * @see DefaultInitFileAttributesFactory#create()
      */
@@ -56,6 +58,7 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
         this.defaultSectionName = "Default";
         this.whitespaceBetweenPropertyDelimiter = true;
         this.newLine = System.getProperty("line.separator");
+        this.allowMultiLineProperties = true;
     }
 
     /**
@@ -70,6 +73,7 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
         this.whitespaceBetweenPropertyDelimiter = attributes
                 .isWhitespaceBetweenPropertyDelimiter();
         this.newLine = attributes.getNewLine();
+        this.allowMultiLineProperties = attributes.isAllowMultiLineProperties();
     }
 
     public void setSectionBrackets(char[] brackets) {
@@ -125,4 +129,14 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
     public String getNewLine() {
         return newLine;
     }
+
+    public void setAllowMultiLineProperties(boolean allow) {
+        this.allowMultiLineProperties = allow;
+    }
+
+    @Override
+    public boolean isAllowMultiLineProperties() {
+        return allowMultiLineProperties;
+    }
+
 }

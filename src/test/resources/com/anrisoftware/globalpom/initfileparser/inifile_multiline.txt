@@ -1,0 +1,42 @@
+# ssh
+[ssh]
+
+enabled = true
+port    = ssh
+filter  = sshd
+logpath  = /var/log/auth.log
+maxretry = 6
+action_mw = %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s]
+              %(mta)s-whois[name=%(__name__)s, dest="%(destemail)s", protocol="%(protocol)s]
+
+# xinetd-fail
+[xinetd-fail]
+
+enabled   = false
+filter    = xinetd-fail
+port      = all
+banaction = iptables-multiport-log
+logpath   = /var/log/daemon.log
+maxretry  = 2
+
+# ssh-ddos
+[ssh-ddos]
+
+enabled = false
+port    = ssh
+filter  = sshd-ddos
+logpath  = /var/log/auth.log
+maxretry = 6
+
+#
+# HTTP servers
+#
+
+[apache]
+
+enabled = false
+port    = http,https
+filter  = apache-auth
+logpath = /var/log/apache*/*error.log
+maxretry = 6
+

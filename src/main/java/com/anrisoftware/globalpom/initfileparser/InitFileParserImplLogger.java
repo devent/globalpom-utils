@@ -20,6 +20,8 @@ package com.anrisoftware.globalpom.initfileparser;
 
 import static com.anrisoftware.globalpom.initfileparser.InitFileParserImplLogger._.line_iterator_error;
 import static com.anrisoftware.globalpom.initfileparser.InitFileParserImplLogger._.line_iterator_error_message;
+import static com.anrisoftware.globalpom.initfileparser.InitFileParserImplLogger._.multiline_property_error;
+import static com.anrisoftware.globalpom.initfileparser.InitFileParserImplLogger._.multiline_property_error_message;
 import static com.anrisoftware.globalpom.initfileparser.InitFileParserImplLogger._.open_stream_error;
 import static com.anrisoftware.globalpom.initfileparser.InitFileParserImplLogger._.open_stream_error_message;
 import static com.anrisoftware.globalpom.initfileparser.InitFileParserImplLogger._.resource;
@@ -46,7 +48,12 @@ class InitFileParserImplLogger extends AbstractLogger {
 
         line_iterator_error("Error read resource"),
 
-        line_iterator_error_message("Error read resource '{}'.");
+        line_iterator_error_message("Error read resource '{}'."),
+
+        multiline_property_error("Multi-line properties are not allowed"),
+
+        multiline_property_error_message(
+                "Multi-line properties are not allowed for resource '{}'.");
 
         private String name;
 
@@ -81,5 +88,11 @@ class InitFileParserImplLogger extends AbstractLogger {
                 new InitFileParserException(line_iterator_error, e).add(
                         resource, parser.getResource()),
                 line_iterator_error_message, parser.getResource());
+    }
+
+    InitFileParserException errorMultiLineProperty(InitFileParserImpl parser) {
+        return logException(new InitFileParserException(
+                multiline_property_error).add(resource, parser.getResource()),
+                multiline_property_error_message, parser.getResource());
     }
 }

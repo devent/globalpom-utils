@@ -147,8 +147,15 @@
 			<groupId>net.sf.supercsv</groupId>
 			<artifactId>super-csv</artifactId>
 			<version>2.1.0</version>
+			<optional>true</optional>
 		</dependency>
 
+		<!-- INI file parser -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 
 </project>

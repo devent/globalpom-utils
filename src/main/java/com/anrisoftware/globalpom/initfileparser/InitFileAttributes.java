@@ -72,4 +72,11 @@ public interface InitFileAttributes {
      * @return the {@link String} name of the default section.
      */
     String getDefaultSectionName();
+
+    /**
+     * Returns to allow multi-line properties.
+     * 
+     * @return {@code true} to allow multi-line properties.
+     */
+    boolean isAllowMultiLineProperties();
 }

@@ -24,6 +24,7 @@ import static org.apache.commons.lang3.StringUtils.contains;
 import static org.apache.commons.lang3.StringUtils.endsWith;
 import static org.apache.commons.lang3.StringUtils.replaceChars;
 import static org.apache.commons.lang3.StringUtils.startsWith;
+import static org.apache.commons.lang3.StringUtils.stripEnd;
 import static org.apache.commons.lang3.StringUtils.stripStart;
 
 import java.io.File;
@@ -155,6 +156,8 @@ class InitFileParserImpl implements InitFileParser {
 
     private class It implements Iterator<Section> {
 
+        private static final String BLANK = " ";
+
         private final LineIterator lines;
 
         private final String comment;
@@ -168,6 +171,8 @@ class InitFileParserImpl implements InitFileParser {
         private final String delimiter;
 
         private final String defaultSectionName;
+
+        private final boolean allowMultiLineProperties;
 
         private Section section;
 
@@ -185,12 +190,18 @@ class InitFileParserImpl implements InitFileParser {
             this.closeSection = Character.toString(attributes
                     .getSectionBrackets()[1]);
             this.sectionBrackets = openSection + closeSection;
+            this.allowMultiLineProperties = attributes
+                    .isAllowMultiLineProperties();
         }
 
         @Override
         public boolean hasNext() {
             if (section == null) {
-                section = readNextSection(lines);
+                try {
+                    section = readNextSection(lines);
+                } catch (InitFileParserException e) {
+                    throw new RuntimeException(e);
+                }
             }
             return section != null;
         }
@@ -207,7 +218,8 @@ class InitFileParserImpl implements InitFileParser {
             throw new UnsupportedOperationException();
         }
 
-        private Section readNextSection(LineIterator lines) {
+        private Section readNextSection(LineIterator lines)
+                throws InitFileParserException {
             if (nextSectionName != null) {
                 String name = nextSectionName;
                 nextSectionName = null;
@@ -235,21 +247,29 @@ class InitFileParserImpl implements InitFileParser {
         }
 
         private Section createSection(String name, LineIterator lines,
-                String line) {
+                String line) throws InitFileParserException {
             Properties properties = new Properties();
             if (line != null) {
                 putProperty(line, properties);
             }
+            String lastProperty = null;
             while (lines.hasNext()) {
-                line = lines.next().trim();
+                line = stripEnd(lines.next(), null);
                 if (line.isEmpty()) {
                     continue;
                 }
                 if (lineIsComment(line)) {
                     continue;
                 }
+                if (lineIsMultiLine(line, lastProperty)) {
+                    checkMultiLineAllowed();
+                    String value = properties.getProperty(lastProperty);
+                    value += line.trim();
+                    properties.setProperty(lastProperty, value);
+                    continue;
+                }
                 if (lineIsProperty(line)) {
-                    putProperty(line, properties);
+                    lastProperty = putProperty(line, properties);
                     continue;
                 }
                 if (lineStartsSection(line)) {
@@ -260,11 +280,22 @@ class InitFileParserImpl implements InitFileParser {
             return sectionFactory.create(name, properties);
         }
 
-        private void putProperty(String line, Properties properties) {
+        private void checkMultiLineAllowed() throws InitFileParserException {
+            if (!allowMultiLineProperties) {
+                throw log.errorMultiLineProperty(InitFileParserImpl.this);
+            }
+        }
+
+        private boolean lineIsMultiLine(String line, String lastProperty) {
+            return line.startsWith(BLANK) && lastProperty != null;
+        }
+
+        private String putProperty(String line, Properties properties) {
             int i = line.indexOf(delimiter);
             String property = line.substring(0, i).trim();
             String value = stripStart(line.substring(i + 1), null);
             properties.put(property, value);
+            return property;
         }
 
         private boolean lineIsComment(String line) {
