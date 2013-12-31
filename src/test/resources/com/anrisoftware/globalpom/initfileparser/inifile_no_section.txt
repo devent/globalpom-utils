@@ -1,0 +1,37 @@
+enabled = true
+port    = ssh
+filter  = sshd
+logpath  = /var/log/auth.log
+maxretry = 6
+
+# xinetd-fail
+[xinetd-fail]
+
+enabled   = false
+filter    = xinetd-fail
+port      = all
+banaction = iptables-multiport-log
+logpath   = /var/log/daemon.log
+maxretry  = 2
+
+# ssh-ddos
+[ssh-ddos]
+
+enabled = false
+port    = ssh
+filter  = sshd-ddos
+logpath  = /var/log/auth.log
+maxretry = 6
+
+#
+# HTTP servers
+#
+
+[apache]
+
+enabled = false
+port    = http,https
+filter  = apache-auth
+logpath = /var/log/apache*/*error.log
+maxretry = 6
+
