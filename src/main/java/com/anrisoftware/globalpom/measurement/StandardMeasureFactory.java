@@ -18,30 +18,13 @@
  */
 package com.anrisoftware.globalpom.measurement;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
-
 /**
- * Install measured values factories.
- * 
- * @see StandardValueFactory
- * @see ExactStandardValueFactory
- * @see StandardMeasureFactory
+ * Factory to create measurement that calculates error propagation using
+ * standard uncertainty.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.9
+ * @since 1.10
  */
-public class MeasurementModule extends AbstractModule {
-
-    @Override
-    protected void configure() {
-        install(new FactoryModuleBuilder().implement(Value.class,
-                ExactStandardValue.class)
-                .build(ExactStandardValueFactory.class));
-        install(new FactoryModuleBuilder().implement(Value.class,
-                StandardValue.class).build(StandardValueFactory.class));
-        install(new FactoryModuleBuilder().implement(Measure.class,
-                StandardMeasure.class).build(StandardMeasureFactory.class));
-    }
+public interface StandardMeasureFactory extends MeasureFactory {
 
 }

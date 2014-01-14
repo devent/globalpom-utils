@@ -32,20 +32,26 @@ import com.google.inject.Injector
  */
 class ValueTestBase {
 
-	static Injector injector
+    static Injector injector
 
-	static StandardValueFactory standardValueFactory
+    static StandardValueFactory standardValueFactory
 
-	static ExactStandardValueFactory exactStandardValueFactory
+    static ExactStandardValueFactory exactStandardValueFactory
 
-	static List standardValueData
+    static StandardMeasureFactory standardMeasureFactory
 
-	@BeforeClass
-	static void createFactories() {
-		TestUtils.toStringStyle
-		injector = Guice.createInjector new MeasurementModule()
-		standardValueFactory = injector.getInstance StandardValueFactory
-		exactStandardValueFactory = injector.getInstance ExactStandardValueFactory
-		standardValueData = new StandardValueData().create(standardValueFactory, exactStandardValueFactory)
-	}
+    static List standardValueData
+
+    static List standardMeasureData
+
+    @BeforeClass
+    static void createFactories() {
+        TestUtils.toStringStyle
+        injector = Guice.createInjector new MeasurementModule()
+        standardValueFactory = injector.getInstance StandardValueFactory
+        exactStandardValueFactory = injector.getInstance ExactStandardValueFactory
+        standardMeasureFactory = injector.getInstance StandardMeasureFactory
+        standardValueData = new StandardValueData().create(standardValueFactory, exactStandardValueFactory)
+        standardMeasureData = new StandardMeasureData().create(standardMeasureFactory, standardValueFactory, exactStandardValueFactory)
+    }
 }

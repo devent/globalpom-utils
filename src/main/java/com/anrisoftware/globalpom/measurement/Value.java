@@ -26,21 +26,21 @@ package com.anrisoftware.globalpom.measurement;
  */
 public interface Value {
 
-	    /**
+    /**
      * Returns the value.
      * 
      * @return the value.
      */
-	double getValue();
+    double getValue();
 
-	    /**
+    /**
      * Returns the value rounded to the significant figures.
      * 
      * @return the rounded {@link Value}.
      */
-	Value getRoundedValue();
+    Value getRoundedValue();
 
-	    /**
+    /**
      * Returns the value rounded to the significant figures.
      * 
      * @param sig
@@ -51,38 +51,38 @@ public interface Value {
      * 
      * @return the rounded {@link Value}.
      */
-	Value roundedValue(int sig, int dec);
+    Value roundedValue(int sig, int dec);
 
-	    /**
+    /**
      * Returns the significant figures of the value.
      * 
      * @return the significant figures.
      */
-	int getSignificant();
+    int getSignificant();
 
-	    /**
+    /**
      * Returns the least significant decimal.
      * 
      * @return the least significant decimal.
      */
-	int getDecimal();
+    int getDecimal();
 
-	    /**
+    /**
      * Returns the uncertainty of the value.
      * 
      * @return the uncertainty or {@link Double#NaN} if the value is exact.
      */
-	double getUncertainty();
+    double getUncertainty();
 
-	    /**
+    /**
      * Returns whether the value is exact. If the value is exact then
      * {@link #getUncertainty()} will return {@link Double#NaN}.
      * 
      * @return {@code true} if the value is exact.
      */
-	boolean isExact();
+    boolean isExact();
 
-	    /**
+    /**
      * Calculates the addition of this value with the addend.
      * 
      * @param addend
@@ -90,9 +90,9 @@ public interface Value {
      * 
      * @return the result {@link Value}.
      */
-	Value add(Value addend);
+    Value add(Value addend);
 
-	    /**
+    /**
      * Calculates the addition of this value with the addend.
      * 
      * @param addend
@@ -100,9 +100,9 @@ public interface Value {
      * 
      * @return the result {@link Value}.
      */
-	Value add(double addend);
+    Value add(double addend);
 
-	    /**
+    /**
      * Calculates the subtraction of this value with the subtrahend.
      * 
      * @param subtrahend
@@ -110,9 +110,9 @@ public interface Value {
      * 
      * @return the result {@link Value}.
      */
-	Value sub(Value subtrahend);
+    Value sub(Value subtrahend);
 
-	    /**
+    /**
      * Calculates the subtraction of this value with the subtrahend.
      * 
      * @param subtrahend
@@ -120,9 +120,9 @@ public interface Value {
      * 
      * @return the result {@link Value}.
      */
-	Value sub(double subtrahend);
+    Value sub(double subtrahend);
 
-	    /**
+    /**
      * Calculates the multiplication of this value with the factor.
      * 
      * @param factor
@@ -130,9 +130,9 @@ public interface Value {
      * 
      * @return the result {@link Value}.
      */
-	Value mul(Value factor);
+    Value mul(Value factor);
 
-	    /**
+    /**
      * Calculates the multiplication of this value with the factor.
      * 
      * @param factor
@@ -140,9 +140,9 @@ public interface Value {
      * 
      * @return the result {@link Value}.
      */
-	Value mul(double factor);
+    Value mul(double factor);
 
-	    /**
+    /**
      * Calculates the division of this value with the divisor.
      * 
      * @param divisor
@@ -150,9 +150,9 @@ public interface Value {
      * 
      * @return the result {@link Value}.
      */
-	Value div(Value divisor);
+    Value div(Value divisor);
 
-	    /**
+    /**
      * Calculates the division of this value with the divisor.
      * 
      * @param divisor
@@ -160,7 +160,7 @@ public interface Value {
      * 
      * @return the result {@link Value}.
      */
-	Value div(double divisor);
+    Value div(double divisor);
 
     /**
      * Calculates the reciprocal of this value.
@@ -169,29 +169,29 @@ public interface Value {
      */
     Value reciprocal();
 
-	/**
+    /**
      * Calculates the natural logarithm of the value.
      * 
      * @return the {@link Value}.
      */
-	Value log();
+    Value log();
 
-	    /**
+    /**
      * Calculates the Euler's number e raised to the power of this value.
      * 
      * @return the {@link Value}.
      */
-	Value exp();
+    Value exp();
 
-	/**
-	 * Compares this value and the specified value for equality. Two values are
-	 * equal if they do not differ from each other by more then three standard
-	 * deviations.
-	 */
-	@Override
-	boolean equals(Object obj);
+    /**
+     * Compares this value and the specified value for equality. Two values are
+     * equal if they do not differ from each other by more then three standard
+     * deviations.
+     */
+    @Override
+    boolean equals(Object obj);
 
-	    /**
+    /**
      * Compares this value and the specified value for equality. Two values are
      * equal if they do not differ from each other by more then the specified
      * standard deviations.
@@ -202,5 +202,5 @@ public interface Value {
      * 
      * @see #equals(Object)
      */
-	boolean equals(Object obj, double dev);
+    boolean equals(Object obj, double dev);
 }
