@@ -24,6 +24,8 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.MalformedURLException;
 import java.nio.charset.Charset;
+import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,98 +45,104 @@ import com.google.inject.assistedinject.Assisted;
  */
 class CsvImporterImpl implements CsvImporter {
 
-	private static final String FILE = "file";
+    private static final String FILE = "file";
 
-	private final CsvImportProperties properties;
+    private final CsvImportProperties properties;
 
-	private final CsvImporterImplLogger log;
+    private final CsvImporterImplLogger log;
 
-	private CsvListReader reader;
+    private CsvListReader reader;
 
-	private int readLines;
+    private int readLines;
 
-	private List<Object> values;
+    private List<String> nextValues;
 
-	@Inject
-	CsvImporterImpl(CsvImporterImplLogger logger,
-			@Assisted CsvImportProperties properties) {
-		this.log = logger;
-		this.properties = properties;
-		this.readLines = 0;
-	}
+    @Inject
+    CsvImporterImpl(CsvImporterImplLogger logger,
+            @Assisted CsvImportProperties properties) {
+        this.log = logger;
+        this.properties = properties;
+        this.readLines = 0;
+    }
 
-	@Override
-	public CsvImportProperties getProperties() {
-		return properties;
-	}
+    @Override
+    public CsvImportProperties getProperties() {
+        return properties;
+    }
 
-	@Override
-	public Map<String, Object> getMapValues() {
-		return null;
-	}
+    @Override
+    public Map<String, Object> mapValues(List<Column> columns)
+            throws ParseException {
+        List<String> values = this.nextValues;
+        Map<String, Object> map = new HashMap<String, Object>();
+        for (int i = 0; i < values.size(); i++) {
+            Object parsed = columns.get(i).parseValue(values.get(i));
+            String name = columns.get(i).getName();
+            map.put(name, parsed);
+        }
+        return map;
+    }
 
-	@Override
-	public List<Object> getValues() {
-		return values;
-	}
+    @Override
+    public List<String> getValues() {
+        return nextValues;
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public CsvImporter call() throws CsvImportException {
-		CsvListReader reader = getReader();
-		readHead(reader);
-		values = read(reader);
-		return this;
-	}
+    @Override
+    public CsvImporter call() throws CsvImportException {
+        CsvListReader reader = getReader();
+        readHead(reader);
+        this.nextValues = read(reader);
+        return this;
+    }
 
-	private void readHead(CsvListReader reader) throws CsvImportException {
-		for (; readLines < properties.getStartRow(); readLines++) {
-			read(reader);
-		}
-	}
+    private void readHead(CsvListReader reader) throws CsvImportException {
+        for (; readLines < properties.getStartRow(); readLines++) {
+            read(reader);
+        }
+    }
 
-	@SuppressWarnings("rawtypes")
-	private List read(CsvListReader reader) throws CsvImportException {
-		try {
-			return reader.read();
-		} catch (IOException e) {
-			throw log.errorRead(this, e);
-		}
-	}
+    private List<String> read(CsvListReader reader) throws CsvImportException {
+        try {
+            return reader.read();
+        } catch (IOException e) {
+            throw log.errorRead(this, e);
+        }
+    }
 
-	private CsvListReader getReader() throws CsvImportException {
-		if (reader == null) {
-			reader = createReader();
-		}
-		return reader;
-	}
+    private CsvListReader getReader() throws CsvImportException {
+        if (reader == null) {
+            reader = createReader();
+        }
+        return reader;
+    }
 
-	private CsvListReader createReader() throws CsvImportException {
-		char quote = properties.getQuote();
-		int separator = properties.getSeparator();
-		String end = properties.getEndOfLineSymbols();
-		return new CsvListReader(openFile(), new CsvPreference.Builder(quote,
-				separator, end).build());
-	}
+    private CsvListReader createReader() throws CsvImportException {
+        char quote = properties.getQuote();
+        int separator = properties.getSeparator();
+        String end = properties.getEndOfLineSymbols();
+        return new CsvListReader(openFile(), new CsvPreference.Builder(quote,
+                separator, end).build());
+    }
 
-	private Reader openFile() throws CsvImportException {
-		Charset cs = properties.getCharset();
-		return new InputStreamReader(openFileStream(), cs);
-	}
+    private Reader openFile() throws CsvImportException {
+        Charset cs = properties.getCharset();
+        return new InputStreamReader(openFileStream(), cs);
+    }
 
-	private InputStream openFileStream() throws CsvImportException {
-		try {
-			return properties.getFile().toURL().openStream();
-		} catch (MalformedURLException e) {
-			throw log.errorOpenFile(this, e);
-		} catch (IOException e) {
-			throw log.errorOpenFile(this, e);
-		}
-	}
+    private InputStream openFileStream() throws CsvImportException {
+        try {
+            return properties.getFile().toURL().openStream();
+        } catch (MalformedURLException e) {
+            throw log.errorOpenFile(this, e);
+        } catch (IOException e) {
+            throw log.errorOpenFile(this, e);
+        }
+    }
 
-	@Override
-	public String toString() {
-		return new ToStringBuilder(this).append(FILE, properties.getFile())
-				.toString();
-	}
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).append(FILE, properties.getFile())
+                .toString();
+    }
 }

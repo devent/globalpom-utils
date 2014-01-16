@@ -18,6 +18,7 @@
  */
 package com.anrisoftware.globalpom.dataimport;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -30,33 +31,39 @@ import java.util.concurrent.Callable;
  */
 public interface CsvImporter extends Callable<CsvImporter> {
 
-	/**
-	 * Returns the import properties.
-	 * 
-	 * @return the {@link CsvImportProperties}.
-	 */
-	CsvImportProperties getProperties();
+    /**
+     * Returns the import properties.
+     * 
+     * @return the {@link CsvImportProperties}.
+     */
+    CsvImportProperties getProperties();
 
-	/**
-	 * Returns the values of the read row with the column name as the map key
-	 * and the column value as the map value.
-	 * 
-	 * @return the column names and values {@link Map} of the read row or
-	 *         {@code null} if the end of file was reached.
-	 */
-	Map<String, Object> getMapValues();
+    /**
+     * Returns the values of the read row with the column name as the map key
+     * and the column value as the map value.
+     * 
+     * @param columns
+     *            the {@link List} of {@link Column} columns.
+     * 
+     * @return the column names and values {@link Map} of the read row or
+     *         {@code null} if the end of file was reached.
+     * 
+     * @throws ParseException
+     *             if the columns could not be parsed.
+     */
+    Map<String, Object> mapValues(List<Column> columns) throws ParseException;
 
-	/**
-	 * Returns the values of the read row.
-	 * 
-	 * @return the values {@link List} of the read row or {@code null} if the
-	 *         end of file was reached.
-	 */
-	List<Object> getValues();
+    /**
+     * Returns the values of the read row.
+     * 
+     * @return the values {@link List} of the read row or {@code null} if the
+     *         end of file was reached.
+     */
+    List<String> getValues();
 
-	/**
-	 * Reads the next row of the CSV formatted data.
-	 */
-	@Override
-	CsvImporter call() throws CsvImportException;
+    /**
+     * Reads the next row of the CSV formatted data.
+     */
+    @Override
+    CsvImporter call() throws CsvImportException;
 }

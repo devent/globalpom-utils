@@ -38,123 +38,123 @@ import com.google.inject.assistedinject.AssistedInject;
  */
 @SuppressWarnings("serial")
 public class DefaultCsvImportProperties implements CsvImportProperties,
-		Serializable {
+        Serializable {
 
-	private URI file;
+    private URI file;
 
-	private SerializableCharset charset;
+    private SerializableCharset charset;
 
-	private Locale locale;
+    private Locale locale;
 
-	private char separator;
+    private char separator;
 
-	private char quote;
+    private char quote;
 
-	private String endOfLineSymbols;
+    private String endOfLineSymbols;
 
-	private int startRow;
+    private int startRow;
 
-	private int numCols;
+    private int numCols;
 
-	/**
-	 * Sets system based default values.
-	 */
-	@AssistedInject
-	public DefaultCsvImportProperties(@Assisted CsvImportProperties properties) {
-		setCharset(properties.getCharset());
-		setEndOfLineSymbols(properties.getEndOfLineSymbols());
-		setFile(properties.getFile());
-		setLocale(properties.getLocale());
-		setNumCols(properties.getNumCols());
-		setQuote(properties.getQuote());
-		setSeparator(properties.getSeparator());
-		setStartRow(properties.getStartRow());
-	}
+    /**
+     * Sets system based default values.
+     */
+    @AssistedInject
+    public DefaultCsvImportProperties(@Assisted CsvImportProperties properties) {
+        setCharset(properties.getCharset());
+        setEndOfLineSymbols(properties.getEndOfLineSymbols());
+        setFile(properties.getFile());
+        setLocale(properties.getLocale());
+        setNumCols(properties.getNumCols());
+        setQuote(properties.getQuote());
+        setSeparator(properties.getSeparator());
+        setStartRow(properties.getStartRow());
+    }
 
-	/**
-	 * Sets system based default values.
-	 */
-	@AssistedInject
-	public DefaultCsvImportProperties() {
-		this.file = new File("").toURI();
-		this.charset = decorate(Charset.defaultCharset());
-		this.locale = Locale.US;
-		this.separator = ',';
-		this.quote = '"';
-		this.endOfLineSymbols = System.getProperty("line.separator");
-		this.startRow = 0;
-		this.numCols = 0;
-	}
+    /**
+     * Sets system based default values.
+     */
+    @AssistedInject
+    public DefaultCsvImportProperties() {
+        this.file = new File("").toURI();
+        this.charset = decorate(Charset.defaultCharset());
+        this.locale = Locale.US;
+        this.separator = ',';
+        this.quote = '"';
+        this.endOfLineSymbols = System.getProperty("line.separator");
+        this.startRow = 0;
+        this.numCols = 0;
+    }
 
-	public void setFile(URI file) {
-		this.file = file;
-	}
+    public void setFile(URI file) {
+        this.file = file;
+    }
 
-	@Override
-	public URI getFile() {
-		return file;
-	}
+    @Override
+    public URI getFile() {
+        return file;
+    }
 
-	public void setCharset(Charset charset) {
-		this.charset = decorate(charset);
-	}
+    public void setCharset(Charset charset) {
+        this.charset = decorate(charset);
+    }
 
-	@Override
-	public Charset getCharset() {
-		return charset.getCharset();
-	}
+    @Override
+    public Charset getCharset() {
+        return charset.getCharset();
+    }
 
-	public void setLocale(Locale locale) {
-		this.locale = locale;
-	}
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
 
-	@Override
-	public Locale getLocale() {
-		return locale;
-	}
+    @Override
+    public Locale getLocale() {
+        return locale;
+    }
 
-	public void setSeparator(char separator) {
-		this.separator = separator;
-	}
+    public void setSeparator(char separator) {
+        this.separator = separator;
+    }
 
-	@Override
-	public char getSeparator() {
-		return separator;
-	}
+    @Override
+    public char getSeparator() {
+        return separator;
+    }
 
-	public void setQuote(char quote) {
-		this.quote = quote;
-	}
+    public void setQuote(char quote) {
+        this.quote = quote;
+    }
 
-	@Override
-	public char getQuote() {
-		return quote;
-	}
+    @Override
+    public char getQuote() {
+        return quote;
+    }
 
-	public void setEndOfLineSymbols(String symbols) {
-		this.endOfLineSymbols = symbols;
-	}
+    public void setEndOfLineSymbols(String symbols) {
+        this.endOfLineSymbols = symbols;
+    }
 
-	@Override
-	public String getEndOfLineSymbols() {
-		return endOfLineSymbols;
-	}
+    @Override
+    public String getEndOfLineSymbols() {
+        return endOfLineSymbols;
+    }
 
-	public void setStartRow(int row) {
-		this.startRow = row;
-	}
+    public void setStartRow(int row) {
+        this.startRow = row;
+    }
 
-	@Override
-	public int getStartRow() {
-		return startRow;
-	}
+    @Override
+    public int getStartRow() {
+        return startRow;
+    }
 
-	public void setNumCols(int numCols) {
-		this.numCols = numCols;
-	}
+    public void setNumCols(int numCols) {
+        this.numCols = numCols;
+    }
 
-	@Override
-	public int getNumCols() {
-		return numCols;
-	}
+    @Override
+    public int getNumCols() {
+        return numCols;
+    }
 }

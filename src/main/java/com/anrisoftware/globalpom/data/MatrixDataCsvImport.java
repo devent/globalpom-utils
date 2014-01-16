@@ -101,7 +101,7 @@ public class MatrixDataCsvImport implements Callable<MatrixDataCsvImport>,
 		int columns = importer.getProperties().getNumCols();
 		List<double[]> list = new ArrayList<double[]>(1024);
 		double[] values;
-		List<Object> row;
+        List<String> row;
 		while ((row = importer.call().getValues()) != null) {
 			values = parseRow(columns, row);
 			list.add(values);
@@ -109,7 +109,7 @@ public class MatrixDataCsvImport implements Callable<MatrixDataCsvImport>,
 		return list;
 	}
 
-	private double[] parseRow(int columns, List<Object> row)
+    private double[] parseRow(int columns, List<String> row)
 			throws ParseException {
 		double[] values = new double[columns];
 		for (int i = 0; i < columns; i++) {
