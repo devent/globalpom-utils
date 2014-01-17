@@ -24,7 +24,7 @@ package com.anrisoftware.globalpom.measurement;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
  */
-public interface Value {
+public interface Value extends Comparable<Object> {
 
     /**
      * Returns the value.
@@ -182,6 +182,67 @@ public interface Value {
      * @return the {@link Value}.
      */
     Value exp();
+
+    /**
+     * Calculates the absolute value of this value.
+     * 
+     * @return the {@link Value}.
+     */
+    Value abs();
+
+    /**
+     * Compares this value to the specified value using three standard
+     * deviations.
+     * 
+     * @param v
+     *            the {@link Value}.
+     * 
+     * @return {@code -1} if {@code this<value;} {@code 0} if
+     *         {@code this=value;} {@code 1} if {@code this>value.}
+     */
+    int compare(Value v);
+
+    /**
+     * Compares this value to the specified value.
+     * 
+     * @param v
+     *            the {@link Value}.
+     * 
+     * @param dev
+     *            the standard deviations the values can differ from each other
+     *            to be unequal.
+     * 
+     * @return {@code -1} if {@code this<value;} {@code 0} if
+     *         {@code this=value;} {@code 1} if {@code this>value.}
+     */
+    int compare(Value v, double dev);
+
+    /**
+     * Compares this value to the specified exact value using three standard
+     * deviations.
+     * 
+     * @param v
+     *            the exact {@link Number}.
+     * 
+     * @return {@code -1} if {@code this<value;} {@code 0} if
+     *         {@code this=value;} {@code 1} if {@code this>value.}
+     */
+    int compare(Number v);
+
+    /**
+     * Compares this value to the specified exact value.
+     * 
+     * @param v
+     *            the exact {@link Number}.
+     * 
+     * @param dev
+     *            the standard deviations the values can differ from each other
+     *            to be unequal.
+     * 
+     * @return {@code -1} if {@code this<value;} {@code 0} if
+     *         {@code this=value;} {@code 1} if {@code this>value.}
+     */
+    int compare(Number v, double dev);
 
     /**
      * Compares this value and the specified value for equality. Two values are

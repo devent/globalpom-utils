@@ -22,7 +22,6 @@ import static com.anrisoftware.globalpom.measurement.RoundToSignificantFigures.r
 import static com.anrisoftware.globalpom.measurement.RoundToSignificantFigures.roundToSignificant;
 import static java.lang.Double.isNaN;
 import static java.lang.Math.min;
-import static org.apache.commons.math3.util.FastMath.abs;
 
 import java.text.DecimalFormat;
 
@@ -38,6 +37,8 @@ import org.apache.commons.math3.util.FastMath;
  * @since 1.9
  */
 public abstract class AbstractValue implements Value {
+
+    private static final double DEFAULT_DIV = 3.0;
 
     private static final DecimalFormat VALUE_FORMAT = new DecimalFormat(
             "#.#########");
@@ -100,7 +101,7 @@ public abstract class AbstractValue implements Value {
 
     private int roundedSignificantFigure() {
         int sig = this.significant;
-        double v = abs(getUncertainty());
+        double v = FastMath.abs(getUncertainty());
         while (v < 0.0) {
             v *= 10;
         }
@@ -297,6 +298,25 @@ public abstract class AbstractValue implements Value {
      */
     protected abstract double expUncertainty(double power);
 
+    @Override
+    public Value abs() {
+        double value = FastMath.abs(this.value);
+        double uncertainty = absUncertainty(value);
+        int sig = significant;
+        int dec = decimal;
+        return createValue(value, sig, uncertainty, dec);
+    }
+
+    /**
+     * Absolute uncertainty of this value.
+     * 
+     * @param value
+     *            the absolute value.
+     * 
+     * @return the uncertainly.
+     */
+    protected abstract double absUncertainty(double value);
+
     /**
      * Create a new value.
      * 
@@ -329,8 +349,50 @@ public abstract class AbstractValue implements Value {
     protected abstract Value createValue(double value);
 
     @Override
+    public int compareTo(Object o) {
+        if (o instanceof Value) {
+            return compare((Value) o);
+        }
+        if (o instanceof Number) {
+            return compare((Number) o);
+        }
+        throw new ClassCastException();
+    }
+
+    @Override
+    public int compare(Value value) {
+        return compare(value, DEFAULT_DIV);
+    }
+
+    @Override
+    public int compare(Value value, double dev) {
+        if (equals(value, dev)) {
+            return 0;
+        }
+        Value delta = this.sub(value).getRoundedValue();
+        double deltavalue = delta.getValue();
+        double deltaunc = delta.getUncertainty();
+        double d = deltavalue - (deltaunc * dev);
+        if (d < 0.0) {
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+
+    @Override
+    public int compare(Number value) {
+        return compare(value, DEFAULT_DIV);
+    }
+
+    @Override
+    public int compare(Number value, double dev) {
+        return compare(createValue(value.doubleValue()), dev);
+    }
+
+    @Override
     public boolean equals(Object obj) {
-        return equals(obj, 3.0);
+        return equals(obj, DEFAULT_DIV);
     }
 
     @Override
@@ -341,23 +403,29 @@ public abstract class AbstractValue implements Value {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof Value)) {
-            return false;
-        }
-        Value rhs = (Value) obj;
-        return rhs.isExact() ? equalExact(this, rhs)
+        Value rhs = asValue(obj);
+        return rhs == null ? false : rhs.isExact() ? equalExact(this, rhs)
                 : equalsUncertain(rhs, dev);
+    }
+
+    private Value asValue(Object obj) {
+        if (obj instanceof Value) {
+            return (Value) obj;
+        } else if (obj instanceof Number) {
+            return createValue(((Number) obj).doubleValue());
+        }
+        return null;
     }
 
     private boolean equalsUncertain(Value rhs, double dev) {
         Value delta = this.sub(rhs).getRoundedValue();
-        double deltavalue = delta.getValue();
+        double deltavalue = FastMath.abs(delta.getValue());
         double deltaunc = delta.getUncertainty();
         return deltavalue - (deltaunc * dev) <= 0.0;
     }
 
-    private boolean equalExact(AbstractValue lhs, Value rhs) {
-        return lhs.getValue() - rhs.getValue() < EPSILON;
+    private boolean equalExact(Value lhs, Value rhs) {
+        return FastMath.abs(lhs.getValue() - rhs.getValue()) < EPSILON;
     }
 
     @Override

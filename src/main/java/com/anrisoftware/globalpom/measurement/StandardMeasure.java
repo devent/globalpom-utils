@@ -199,6 +199,38 @@ public class StandardMeasure<UnitType extends Quantity> implements
         return measureFactory.create(value, unit, valueFactory);
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public Measure<UnitType> abs() {
+        Value value = this.value.abs();
+        return measureFactory.create(value, unit, valueFactory);
+    }
+
+    @Override
+    public int compare(Value value) {
+        return this.value.compare(value);
+    }
+
+    @Override
+    public int compare(Value value, double dev) {
+        return this.value.compare(value, dev);
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return value.compareTo(o);
+    }
+
+    @Override
+    public int compare(Number value) {
+        return this.value.compare(value);
+    }
+
+    @Override
+    public int compare(Number value, double dev) {
+        return this.value.compare(value, dev);
+    }
+
     @Override
     public boolean equals(Object obj) {
         return equals(obj, 3.0);

@@ -36,82 +36,82 @@ import com.google.inject.assistedinject.AssistedInject;
  */
 public class StandardValue extends AbstractValue {
 
-	private static final String VALUE = "value";
+    private static final String VALUE = "value";
 
-	@Inject
-	private ExactStandardValueFactory exactFactory;
+    @Inject
+    private ExactStandardValueFactory exactFactory;
 
-	/**
-	 * @see StandardValueFactory#create(double, int, double, int, ValueFactory)
-	 */
-	@AssistedInject
-	StandardValue(@Assisted(VALUE) double value,
-			@Assisted(SIGNIFICANT) int significant,
-			@Assisted(UNCERTAINTY) double uncertainty,
-			@Assisted(DECIMAL) int decimal,
-			@Assisted(VALUE_FACTORY) ValueFactory valueFactory) {
-		super(value, significant, uncertainty, decimal, valueFactory);
-	}
+    /**
+     * @see StandardValueFactory#create(double, int, double, int, ValueFactory)
+     */
+    @AssistedInject
+    StandardValue(@Assisted(VALUE) double value,
+            @Assisted(SIGNIFICANT) int significant,
+            @Assisted(UNCERTAINTY) double uncertainty,
+            @Assisted(DECIMAL) int decimal,
+            @Assisted(VALUE_FACTORY) ValueFactory valueFactory) {
+        super(value, significant, uncertainty, decimal, valueFactory);
+    }
 
-	/**
-	 * @see StandardValueFactory#create(double, int, double, int)
-	 */
-	@AssistedInject
-	StandardValue(StandardValueFactory valueFactory,
-			@Assisted(VALUE) double value,
-			@Assisted(SIGNIFICANT) int significant,
-			@Assisted(UNCERTAINTY) double uncertainty,
-			@Assisted(DECIMAL) int decimal) {
-		super(value, significant, uncertainty, decimal, valueFactory);
-	}
+    /**
+     * @see StandardValueFactory#create(double, int, double, int)
+     */
+    @AssistedInject
+    StandardValue(StandardValueFactory valueFactory,
+            @Assisted(VALUE) double value,
+            @Assisted(SIGNIFICANT) int significant,
+            @Assisted(UNCERTAINTY) double uncertainty,
+            @Assisted(DECIMAL) int decimal) {
+        super(value, significant, uncertainty, decimal, valueFactory);
+    }
 
-	@Override
-	protected double addUncertainty(Value addend, double sum) {
-		return subUncertainty(addend, sum);
-	}
+    @Override
+    protected double addUncertainty(Value addend, double sum) {
+        return subUncertainty(addend, sum);
+    }
 
-	@Override
-	protected double subUncertainty(Value subtrahend, double diff) {
-		double sa = getUncertainty();
-		double sb = subtrahend.getUncertainty();
-		if (subtrahend.isExact()) {
-			return sa;
-		} else {
-			return StandardValueMath.subUncertainty(sa, sb);
-		}
-	}
+    @Override
+    protected double subUncertainty(Value subtrahend, double diff) {
+        double sa = getUncertainty();
+        double sb = subtrahend.getUncertainty();
+        if (subtrahend.isExact()) {
+            return sa;
+        } else {
+            return StandardValueMath.subUncertainty(sa, sb);
+        }
+    }
 
-	@Override
-	protected double mulUncertainty(Value factor, double product) {
-		double sa = getUncertainty();
-		double sb = factor.getUncertainty();
-		double a = getValue();
-		if (isExact()) {
-			return a * sb;
-		}
-		if (factor.isExact()) {
-			return sa * factor.getValue();
-		}
-		double b = factor.getValue();
-		return StandardValueMath.mulUncertaintly(a, sa, b, sb, product);
-	}
+    @Override
+    protected double mulUncertainty(Value factor, double product) {
+        double sa = getUncertainty();
+        double sb = factor.getUncertainty();
+        double a = getValue();
+        if (isExact()) {
+            return a * sb;
+        }
+        if (factor.isExact()) {
+            return sa * factor.getValue();
+        }
+        double b = factor.getValue();
+        return StandardValueMath.mulUncertaintly(a, sa, b, sb, product);
+    }
 
-	@Override
-	protected double divUncertainty(Value divisor, double quotient) {
-		double sa = getUncertainty();
-		double sb = divisor.getUncertainty();
-		double a = getValue();
-		if (isExact()) {
-			return a / sb;
-		}
-		if (divisor.isExact()) {
-			return sa / divisor.getValue();
-		}
-		double b = divisor.getValue();
-		return StandardValueMath.mulUncertaintly(a, sa, b, sb, quotient);
-	}
+    @Override
+    protected double divUncertainty(Value divisor, double quotient) {
+        double sa = getUncertainty();
+        double sb = divisor.getUncertainty();
+        double a = getValue();
+        if (isExact()) {
+            return a / sb;
+        }
+        if (divisor.isExact()) {
+            return sa / divisor.getValue();
+        }
+        double b = divisor.getValue();
+        return StandardValueMath.mulUncertaintly(a, sa, b, sb, quotient);
+    }
 
-	@Override
+    @Override
     protected double reciprocalUncertainty(double value) {
         double a = getValue();
         double z = value;
@@ -120,26 +120,32 @@ public class StandardValue extends AbstractValue {
     }
 
     @Override
-	protected double logUncertainty(double exponent) {
-		double sa = getUncertainty();
-		if (isExact()) {
-			return sa;
-		}
-		double a = getValue();
-		return StandardValueMath.logUncertainty(a, sa);
-	}
+    protected double logUncertainty(double exponent) {
+        double sa = getUncertainty();
+        if (isExact()) {
+            return sa;
+        }
+        double a = getValue();
+        return StandardValueMath.logUncertainty(a, sa);
+    }
 
-	@Override
-	protected double expUncertainty(double power) {
-		double sa = getUncertainty();
-		if (isExact()) {
-			return sa;
-		}
-		return StandardValueMath.expUncertainty(sa, power);
-	}
+    @Override
+    protected double expUncertainty(double power) {
+        double sa = getUncertainty();
+        if (isExact()) {
+            return sa;
+        }
+        return StandardValueMath.expUncertainty(sa, power);
+    }
 
-	@Override
-	protected Value createValue(double value) {
-		return exactFactory.create(value, getValueFactory());
-	}
+    @Override
+    protected double absUncertainty(double value) {
+        double sa = getUncertainty();
+        return sa;
+    }
+
+    @Override
+    protected Value createValue(double value) {
+        return exactFactory.create(value, getValueFactory());
+    }
 }

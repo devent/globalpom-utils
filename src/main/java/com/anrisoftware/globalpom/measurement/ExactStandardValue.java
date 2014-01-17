@@ -142,6 +142,12 @@ public class ExactStandardValue extends AbstractValue {
 	}
 
 	@Override
+    protected double absUncertainty(double value) {
+        double uncertainty = getUncertainty();
+        return uncertainty;
+    }
+
+    @Override
 	protected Value createValue(double value) {
 		ValueFactory factory = getValueFactory();
 		return factory.create(value, MAX_VALUE, NaN, MAX_VALUE, factory);
