@@ -102,6 +102,26 @@ public abstract class AbstractConstant<Q extends Quantity> implements
     }
 
     @Override
+    public double getMinValue() {
+        return value.getMinValue();
+    }
+
+    @Override
+    public double minValue(double deviation) {
+        return value.minValue(deviation);
+    }
+
+    @Override
+    public double getMaxValue() {
+        return value.getMaxValue();
+    }
+
+    @Override
+    public double maxValue(double deviation) {
+        return value.maxValue(deviation);
+    }
+
+    @Override
     public Value add(Value addend) {
         return value.add(addend);
     }

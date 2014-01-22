@@ -123,6 +123,34 @@ public abstract class AbstractValue implements Value {
     }
 
     @Override
+    public double getMinValue() {
+        return minValue(DEFAULT_DIV);
+    }
+
+    @Override
+    public double minValue(double deviation) {
+        if (isExact()) {
+            return getValue();
+        } else {
+            return getValue() - (deviation * getUncertainty());
+        }
+    }
+
+    @Override
+    public double getMaxValue() {
+        return maxValue(DEFAULT_DIV);
+    }
+
+    @Override
+    public double maxValue(double deviation) {
+        if (isExact()) {
+            return getValue();
+        } else {
+            return getValue() + (deviation * getUncertainty());
+        }
+    }
+
+    @Override
     public boolean isExact() {
         return isNaN(uncertainty);
     }

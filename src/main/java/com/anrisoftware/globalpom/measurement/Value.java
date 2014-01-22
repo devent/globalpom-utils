@@ -83,6 +83,50 @@ public interface Value extends Comparable<Object> {
     boolean isExact();
 
     /**
+     * Returns the lower bound of this uncertain value with a default of three
+     * standard deviations.
+     * 
+     * @return the lower bound value.
+     * 
+     * @since 1.10
+     */
+    double getMinValue();
+
+    /**
+     * Returns the lower bound of this uncertain value.
+     * 
+     * @param deviation
+     *            the standard deviations of the measured value.
+     * 
+     * @return the lower bound value.
+     * 
+     * @since 1.10
+     */
+    double minValue(double deviation);
+
+    /**
+     * Returns the upper bound of this uncertain value with a default of three
+     * standard deviations.
+     * 
+     * @return the upper bound value.
+     * 
+     * @since 1.10
+     */
+    double getMaxValue();
+
+    /**
+     * Returns the upper bound of this uncertain value.
+     * 
+     * @param deviation
+     *            the standard deviations of the measured value.
+     * 
+     * @return the upper bound value.
+     * 
+     * @since 1.10
+     */
+    double maxValue(double deviation);
+
+    /**
      * Calculates the addition of this value with the addend.
      * 
      * @param addend
@@ -264,4 +308,5 @@ public interface Value extends Comparable<Object> {
      * @see #equals(Object)
      */
     boolean equals(Object obj, double dev);
+
 }

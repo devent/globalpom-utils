@@ -122,6 +122,26 @@ public class StandardMeasure<UnitType extends Quantity> implements
         return value.isExact();
     }
 
+    @Override
+    public double getMinValue() {
+        return value.getMinValue();
+    }
+
+    @Override
+    public double minValue(double deviation) {
+        return value.minValue(deviation);
+    }
+
+    @Override
+    public double getMaxValue() {
+        return value.getMaxValue();
+    }
+
+    @Override
+    public double maxValue(double deviation) {
+        return value.maxValue(deviation);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public Measure<UnitType> add(Value addend) {

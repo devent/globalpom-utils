@@ -498,14 +498,32 @@ class StandardValueData {
                 rounded: { },
             ],
             [
-                name: "compare uncertain and exact, default deviation",
-                func: "f(x, y):=x=y",
-                epsilon: 10**-8,
-                x: v.create(2.5d, 1, 0.2d, 1),
-                y: ex.create(2.5d),
-                f: { x, y -> x.compareTo(y) },
-                result: {  int com -> assert com == 0 },
-                rounded: { },
+                name: "uncertain bounds values",
+                func: "f(x):=x",
+                epsilon: 10**-2,
+                x: v.create(1.2d, 1, 0.1d, 1),
+                y: null,
+                f: { x, y -> x },
+                result: { },
+                rounded: { f ->
+                    f = f.roundedValue
+                    assertDecimalEquals f.minValue, 0.89d
+                    assertDecimalEquals f.maxValue, 1.50d
+                },
+            ],
+            [
+                name: "exact bounds values",
+                func: "f(x):=x",
+                epsilon: 10**-2,
+                x: ex.create(1.2d),
+                y: null,
+                f: { x, y -> x },
+                result: { },
+                rounded: { f ->
+                    f = f.roundedValue
+                    assertDecimalEquals f.minValue, 1.2d
+                    assertDecimalEquals f.maxValue, 1.2d
+                },
             ],
         ]
     }
