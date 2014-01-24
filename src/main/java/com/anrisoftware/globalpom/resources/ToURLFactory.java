@@ -16,35 +16,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpom-utils. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.resources
-
-import groovy.util.logging.Slf4j
-
-import org.junit.Test
+package com.anrisoftware.globalpom.resources;
 
 /**
- * @see ToURL
- *
+ * Factory to create the path to a URL converter.
+ * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.0
+ * @since 1.10
  */
-@Slf4j
-class ToURLTest {
+public interface ToURLFactory {
 
-    @Test
-    void "convert to URL"() {
-        inputs.each {
-            def url = ToURL.toURL(it.path)
-            log.info "Converted path '{}' to '{}'", it.path, url
-            assert url == it.url
-        }
-    }
-
-    static inputs = [
-        [path: "file.txt", url: new URL("file://file.txt")],
-        [path: "file://file.txt", url: new URL("file://file.txt")],
-        [path: new File("file.txt"), url: new File("file.txt").toURI().toURL()],
-        [path: new URL("file://file.txt"), url: new URL("file://file.txt")],
-        [path: new URI("file://file.txt"), url: new URL("file://file.txt")],
-    ]
+    /**
+     * Creates the path to a URL converter.
+     * 
+     * @return the {@link ToURL}.
+     */
+    ToURL create();
 }

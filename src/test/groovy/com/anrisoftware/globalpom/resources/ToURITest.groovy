@@ -18,25 +18,33 @@
  */
 package com.anrisoftware.globalpom.resources
 
+import groovy.util.logging.Slf4j
+
 import org.junit.Test
 
 /**
- * @see StringToURI
- * 
+ * @see ToURI
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.0
+ * @since 1.10
  */
+@Slf4j
 class ToURITest {
 
-	@Test
-	void "convert to URI"() {
-		inputs.each {
-			assert StringToURI.toURI(it.path) == it.uri
-		}
-	}
+    @Test
+    void "convert to URI"() {
+        inputs.each {
+            def uri = ToURI.toURI(it.path)
+            log.info "Converted path '{}' to '{}'", it.path, uri
+            assert uri == it.uri
+        }
+    }
 
-	static inputs = [
-		[path: "file.txt", uri: new URI("file://file.txt")],
-		[path: "file://file.txt", uri: new URI("file://file.txt")],
-	]
+    static inputs = [
+        [path: "file.txt", uri: new URI("file://file.txt")],
+        [path: "file://file.txt", uri: new URI("file://file.txt")],
+        [path: new File("file.txt"), uri: new File("file.txt").toURI()],
+        [path: new URL("file://file.txt"), uri: new URI("file://file.txt")],
+        [path: new URI("file://file.txt"), uri: new URI("file://file.txt")],
+    ]
 }

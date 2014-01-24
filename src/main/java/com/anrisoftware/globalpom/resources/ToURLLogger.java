@@ -34,44 +34,44 @@ import com.anrisoftware.globalpom.log.AbstractLogger;
 @Singleton
 class ToURLLogger extends AbstractLogger {
 
-	private static final String SCHEME = "scheme";
-	private static final String FILE = "file";
-	private static final String URI = "URI";
-	private static final String PATH = "path";
-	private static final String ERROR_CONVERT_MESSAGE = "Error convert path '{}' to URL.";
-	private static final String ERROR_CONVERT = "Error convert path";
-	private static final String ERROR_CONVERT_SCHEME_MESSAGE = "Error convert path '{}{}' to URL.";
+    private static final String SCHEME = "scheme";
+    private static final String FILE = "file";
+    private static final String URI = "URI";
+    private static final String PATH = "path";
+    private static final String ERROR_CONVERT_MESSAGE = "Error convert path '{}' to URL.";
+    private static final String ERROR_CONVERT = "Error convert path";
+    private static final String ERROR_CONVERT_SCHEME_MESSAGE = "Error convert path '{}{}' to URL.";
 
-	/**
-	 * Create logger for {@link ToURL}.
-	 */
-	public ToURLLogger() {
-		super(ToURL.class);
-	}
+    /**
+     * Create logger for {@link ToURL}.
+     */
+    public ToURLLogger() {
+        super(ToURL.class);
+    }
 
-	ConvertException errorConvert(Exception e, String path) {
-		return logException(
-				new ConvertException(ERROR_CONVERT, e).addContext(PATH, path),
-				ERROR_CONVERT_MESSAGE, path);
-	}
+    ConvertException errorConvert(Exception e, String path) {
+        return logException(
+                new ConvertException(ERROR_CONVERT, e).add(PATH, path),
+                ERROR_CONVERT_MESSAGE, path);
+    }
 
-	ConvertException errorConvert(Exception e, String path, String scheme) {
-		return logException(
-				new ConvertException(ERROR_CONVERT, e).addContext(PATH, path)
-						.addContext(SCHEME, scheme),
-				ERROR_CONVERT_SCHEME_MESSAGE, scheme, path);
-	}
+    ConvertException errorConvert(Exception e, String path, String scheme) {
+        return logException(
+                new ConvertException(ERROR_CONVERT, e).add(PATH, path).add(
+                        SCHEME, scheme), ERROR_CONVERT_SCHEME_MESSAGE, scheme,
+                path);
+    }
 
-	ConvertException errorConvert(Exception e, URI uri) {
-		return logException(
-				new ConvertException(ERROR_CONVERT, e).addContext(URI, uri),
-				ERROR_CONVERT_MESSAGE, uri);
-	}
+    ConvertException errorConvert(Exception e, URI uri) {
+        return logException(
+                new ConvertException(ERROR_CONVERT, e).add(URI, uri),
+                ERROR_CONVERT_MESSAGE, uri);
+    }
 
-	ConvertException errorConvert(Exception e, File file) {
-		return logException(
-				new ConvertException(ERROR_CONVERT, e).addContext(FILE, file),
-				ERROR_CONVERT_MESSAGE, file);
-	}
+    ConvertException errorConvert(Exception e, File file) {
+        return logException(
+                new ConvertException(ERROR_CONVERT, e).add(FILE, file),
+                ERROR_CONVERT_MESSAGE, file);
+    }
 
 }

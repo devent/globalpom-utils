@@ -31,20 +31,20 @@ import com.anrisoftware.globalpom.log.AbstractLogger;
 @Singleton
 class StringToURILogger extends AbstractLogger {
 
-	private static final String PATH = "path";
-	private static final String ERROR_CONVERT_MESSAGE = "Error convert path '%s' to URL.";
-	private static final String ERROR_CONVERT = "Error convert path";
+    private static final String PATH = "path";
+    private static final String ERROR_CONVERT_MESSAGE = "Error convert path '%s' to URL.";
+    private static final String ERROR_CONVERT = "Error convert path";
 
-	/**
-	 * Create logger for {@link StringToURI}.
-	 */
-	public StringToURILogger() {
-		super(StringToURI.class);
-	}
+    /**
+     * Create logger for {@link StringToURI}.
+     */
+    public StringToURILogger() {
+        super(StringToURI.class);
+    }
 
-	ConvertException errorConvert(Exception e, String path) {
-		return logException(
-				new ConvertException(ERROR_CONVERT, e).addContext(PATH,
-						path), ERROR_CONVERT_MESSAGE, path);
-	}
+    ConvertException errorConvert(Exception e, String path) {
+        return logException(
+                new ConvertException(ERROR_CONVERT, e).add(PATH, path),
+                ERROR_CONVERT_MESSAGE, path);
+    }
 }
