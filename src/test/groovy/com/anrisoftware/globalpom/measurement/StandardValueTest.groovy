@@ -34,16 +34,32 @@ import org.junit.Test
 @Slf4j
 class StandardValueTest extends ValueTestBase {
 
-	@Test
-	void "standard value"() {
-		standardValueData.each {
-			epsilon = it.epsilon
-			def x = it.x
-			def y = it.y
-			def f = it.f(x, y)
-			log.info "$it.name x:=$x; y:=$y; $it.func=$f"
-			it.result(f)
-			it.rounded(f)
-		}
-	}
+    @Test
+    void "standard value"() {
+        standardValueData.each {
+            epsilon = it.epsilon
+            def x = it.x
+            def y = it.y
+            def f = it.f(x, y)
+            log.info "$it.name x:=$x; y:=$y; $it.func=$f"
+            it.result(f)
+            it.rounded(f)
+        }
+    }
+
+    @Test
+    void "calculation test"() {
+        def x = standardValueFactory.create(1.672621777E-27, 2, 7.4E-35, 36)
+        def r = x.reciprocal()
+        assertDecimalEquals r.uncertainty, 26450642516395147000
+        //assertDecimalEquals r.roundedValue.uncertainty,    26000000000000000000
+        //assertDecimalEquals r.roundedValue.value,   597863790000000000000000000
+        def v = standardValueFactory.create(1.100000000E-01, 2, 0.11, 36)
+        def m = r.mul v
+        log.info "f(r,v):=r*v={}", m
+        def l = m.log()
+        log.info "f(m):=log(m)={}", l
+        assertDecimalEquals l.roundedValue.uncertainty, 1.0
+        assertDecimalEquals l.roundedValue.value, 59.45
+    }
 }

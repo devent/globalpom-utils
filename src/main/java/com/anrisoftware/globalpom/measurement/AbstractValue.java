@@ -81,7 +81,7 @@ public abstract class AbstractValue implements Value {
 
     @Override
     public Value getRoundedValue() {
-        int sig = roundedSignificantFigure();
+        int sig = this.significant;
         int dec = this.decimal;
         return roundedValue(sig, dec);
     }
@@ -93,14 +93,13 @@ public abstract class AbstractValue implements Value {
         if (isExact()) {
             return createValue(v, sig, un, dec);
         } else {
-            double value = roundToDecimal(v, dec);
-            double signi = roundToSignificant(un, sig);
+            double value = roundToDecimal(v, sig);
+            double signi = roundToSignificant(un, roundedSignificantFigure(sig));
             return createValue(value, sig, signi, dec);
         }
     }
 
-    private int roundedSignificantFigure() {
-        int sig = this.significant;
+    private int roundedSignificantFigure(int sig) {
         double v = FastMath.abs(getUncertainty());
         while (v < 0.0) {
             v *= 10;

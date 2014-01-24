@@ -37,120 +37,120 @@ import com.google.inject.assistedinject.AssistedInject;
  */
 public class ExactStandardValue extends AbstractValue {
 
-	/**
-	 * @see ExactStandardValueFactory#create(double, int, double, int)
-	 */
-	@AssistedInject
-	ExactStandardValue(StandardValueFactory valueFactory,
-			@Assisted(VALUE) double value,
-			@Assisted(SIGNIFICANT) int significant,
-			@Assisted(UNCERTAINTY) double uncertainty,
-			@Assisted(DECIMAL) int decimal) {
-		super(value, MAX_VALUE, NaN, MAX_VALUE, valueFactory);
-	}
+    /**
+     * @see ExactStandardValueFactory#create(double, int, double, int)
+     */
+    @AssistedInject
+    ExactStandardValue(StandardValueFactory valueFactory,
+            @Assisted(VALUE) double value,
+            @Assisted(SIGNIFICANT) int significant,
+            @Assisted(UNCERTAINTY) double uncertainty,
+            @Assisted(DECIMAL) int decimal) {
+        super(value, MAX_VALUE, NaN, MAX_VALUE, valueFactory);
+    }
 
-	/**
-	 * @see ExactStandardValueFactory#create(double, int, double, int,
-	 *      ValueFactory)
-	 */
-	@AssistedInject
-	ExactStandardValue(@Assisted(VALUE) double value,
-			@Assisted(SIGNIFICANT) int significant,
-			@Assisted(UNCERTAINTY) double uncertainty,
-			@Assisted(DECIMAL) int decimal,
-			@Assisted(VALUE_FACTORY) ValueFactory valueFactory) {
-		super(value, MAX_VALUE, NaN, MAX_VALUE, valueFactory);
-	}
+    /**
+     * @see ExactStandardValueFactory#create(double, int, double, int,
+     *      ValueFactory)
+     */
+    @AssistedInject
+    ExactStandardValue(@Assisted(VALUE) double value,
+            @Assisted(SIGNIFICANT) int significant,
+            @Assisted(UNCERTAINTY) double uncertainty,
+            @Assisted(DECIMAL) int decimal,
+            @Assisted(VALUE_FACTORY) ValueFactory valueFactory) {
+        super(value, MAX_VALUE, NaN, MAX_VALUE, valueFactory);
+    }
 
-	/**
-	 * @see ExactStandardValueFactory#create(double, ValueFactory)
-	 */
-	@AssistedInject
-	ExactStandardValue(@Assisted double value,
-			@Assisted ValueFactory valueFactory) {
-		super(value, MAX_VALUE, NaN, MAX_VALUE, valueFactory);
-	}
+    /**
+     * @see ExactStandardValueFactory#create(double, ValueFactory)
+     */
+    @AssistedInject
+    ExactStandardValue(@Assisted double value,
+            @Assisted ValueFactory valueFactory) {
+        super(value, MAX_VALUE, NaN, MAX_VALUE, valueFactory);
+    }
 
-	/**
-	 * @see ExactStandardValueFactory#create(double)
-	 */
-	@AssistedInject
-	ExactStandardValue(StandardValueFactory valueFactory, @Assisted double value) {
-		super(value, MAX_VALUE, NaN, MAX_VALUE, valueFactory);
-	}
+    /**
+     * @see ExactStandardValueFactory#create(double)
+     */
+    @AssistedInject
+    ExactStandardValue(StandardValueFactory valueFactory, @Assisted double value) {
+        super(value, MAX_VALUE, NaN, MAX_VALUE, valueFactory);
+    }
 
-	@Override
-	public Value getRoundedValue() {
-		double value = getValue();
-		return createValue(value, MAX_VALUE, NaN, MAX_VALUE);
-	}
+    @Override
+    public Value getRoundedValue() {
+        double value = getValue();
+        return createValue(value, MAX_VALUE, NaN, MAX_VALUE);
+    }
 
-	@Override
-	public int getSignificant() {
-		return MAX_VALUE;
-	}
+    @Override
+    public int getSignificant() {
+        return MAX_VALUE;
+    }
 
-	@Override
-	public boolean isExact() {
-		return true;
-	}
+    @Override
+    public boolean isExact() {
+        return true;
+    }
 
-	@Override
-	protected double addUncertainty(Value addend, double sum) {
-		return addend.getUncertainty();
-	}
+    @Override
+    protected double addUncertainty(Value addend, double sum) {
+        return addend.getUncertainty();
+    }
 
-	@Override
-	protected double subUncertainty(Value subtrahend, double diff) {
-		return subtrahend.getUncertainty();
-	}
+    @Override
+    protected double subUncertainty(Value subtrahend, double diff) {
+        return subtrahend.getUncertainty();
+    }
 
-	@Override
-	protected double mulUncertainty(Value factor, double product) {
-		double uncertainty = factor.getUncertainty();
-		if (!factor.isExact()) {
-			uncertainty = getValue() * uncertainty;
-		}
-		return uncertainty;
-	}
+    @Override
+    protected double mulUncertainty(Value factor, double product) {
+        double uncertainty = factor.getUncertainty();
+        if (!factor.isExact()) {
+            uncertainty = getValue() * uncertainty;
+        }
+        return uncertainty;
+    }
 
-	@Override
-	protected double divUncertainty(Value divisor, double quotient) {
-		double uncertainty = divisor.getUncertainty();
-		if (!divisor.isExact()) {
-			uncertainty = uncertainty / getValue();
-		}
-		return uncertainty;
-	}
+    @Override
+    protected double divUncertainty(Value divisor, double quotient) {
+        double uncertainty = divisor.getUncertainty();
+        if (!divisor.isExact()) {
+            uncertainty = uncertainty * uncertainty * quotient;
+        }
+        return uncertainty;
+    }
 
-	@Override
+    @Override
     protected double reciprocalUncertainty(double value) {
         double uncertainty = getUncertainty();
         return uncertainty;
     }
 
     @Override
-	protected double logUncertainty(double exponent) {
-		double uncertainty = getUncertainty();
-		return uncertainty;
-	}
+    protected double logUncertainty(double exponent) {
+        double uncertainty = getUncertainty();
+        return uncertainty;
+    }
 
-	@Override
-	protected double expUncertainty(double power) {
-		double uncertainty = getUncertainty();
-		return uncertainty;
-	}
+    @Override
+    protected double expUncertainty(double power) {
+        double uncertainty = getUncertainty();
+        return uncertainty;
+    }
 
-	@Override
+    @Override
     protected double absUncertainty(double value) {
         double uncertainty = getUncertainty();
         return uncertainty;
     }
 
     @Override
-	protected Value createValue(double value) {
-		ValueFactory factory = getValueFactory();
-		return factory.create(value, MAX_VALUE, NaN, MAX_VALUE, factory);
-	}
+    protected Value createValue(double value) {
+        ValueFactory factory = getValueFactory();
+        return factory.create(value, MAX_VALUE, NaN, MAX_VALUE, factory);
+    }
 
 }

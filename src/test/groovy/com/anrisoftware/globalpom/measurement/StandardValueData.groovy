@@ -51,6 +51,26 @@ class StandardValueData {
                 },
             ],
             [
+                name: "add uncertain uncertain",
+                func: "f(x,y):=x+y",
+                epsilon: 10**-8,
+                x: v.create(20.12345d, 1, 0.2d, 5),
+                y: v.create(20.56732d, 1, 0.2d, 5),
+                f: { Value x, Value y -> x.add y },
+                result: { Value f ->
+                    assert !f.exact
+                    assertDecimalEquals f.value, 40.69077
+                    assertDecimalEquals f.uncertainty, 0.2828427124746d
+                },
+                rounded: {  Value f ->
+                    f = f.roundedValue
+                    assert f.significant == 1
+                    assert f.decimal == 5
+                    assertDecimalEquals f.value, 40.7d
+                    assertDecimalEquals f.uncertainty, 0.3d
+                },
+            ],
+            [
                 name: "add uncertain exact",
                 func: "f(x,y):=x+y",
                 epsilon: 10**-8,
@@ -164,7 +184,7 @@ class StandardValueData {
                 },
                 rounded: { Value f ->
                     f = f.roundedValue
-                    assert f.significant == 2
+                    assert f.significant == 1
                     assert f.decimal == 1
                     assertDecimalEquals f.value, 30d
                     assertDecimalEquals f.uncertainty, 1.3d
@@ -184,7 +204,7 @@ class StandardValueData {
                 },
                 rounded: {  Value f ->
                     f = f.roundedValue
-                    assert f.significant == 2
+                    assert f.significant == 1
                     assert f.decimal == 1
                     assertDecimalEquals f.value, 30d
                     assertDecimalEquals f.uncertainty, 1.2d
@@ -204,7 +224,7 @@ class StandardValueData {
                 },
                 rounded: {  Value f ->
                     f = f.roundedValue
-                    assert f.significant == 2
+                    assert f.significant == 1
                     assert f.decimal == 1
                     assertDecimalEquals f.value, 30d
                     assertDecimalEquals f.uncertainty, 1.2d
@@ -260,14 +280,14 @@ class StandardValueData {
                 result: {  Value f ->
                     assert !f.exact
                     assertDecimalEquals f.value, 1.2d
-                    assertDecimalEquals f.uncertainty, 0.03333333d
+                    assertDecimalEquals f.uncertainty, 0.048d
                 },
                 rounded: { Value f ->
                     f = f.roundedValue
                     assert f.significant == 1
                     assert f.decimal == 1
                     assertDecimalEquals f.value, 1.2d
-                    assertDecimalEquals f.uncertainty, 0.03d
+                    assertDecimalEquals f.uncertainty, 0.05d
                 },
             ],
             [
@@ -381,7 +401,7 @@ class StandardValueData {
                 },
                 rounded: {  Value f ->
                     f = f.roundedValue
-                    assert f.significant == 2
+                    assert f.significant == 1
                     assert f.decimal == 1
                     assertDecimalEquals f.value, 148.4d
                     assertDecimalEquals f.uncertainty, 30.0d
