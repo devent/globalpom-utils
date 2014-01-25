@@ -54,7 +54,7 @@ class StandardConstantTest extends ConstantTestBase {
         cb = c.log()
         assert cb.toString() == "StandardValue[1.6E00(0.02);1;1;]"
         cb = c.exp()
-        assert cb.toString() == "StandardValue[1.484E02(15.0);2;1;]"
+        assert cb.toString() == "StandardValue[1.484E02(15.0);1;1;]"
     }
 
     @Test

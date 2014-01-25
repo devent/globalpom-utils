@@ -166,7 +166,7 @@ class StandardMeasureData {
                 },
                 rounded: { Value f ->
                     f = f.roundedValue
-                    assert f.significant == 2
+                    assert f.significant == 1
                     assert f.decimal == 1
                     assertDecimalEquals f.value, 30d
                     assertDecimalEquals f.uncertainty, 1.3d
@@ -186,7 +186,7 @@ class StandardMeasureData {
                 },
                 rounded: {  Value f ->
                     f = f.roundedValue
-                    assert f.significant == 2
+                    assert f.significant == 1
                     assert f.decimal == 1
                     assertDecimalEquals f.value, 30d
                     assertDecimalEquals f.uncertainty, 1.2d
@@ -206,7 +206,7 @@ class StandardMeasureData {
                 },
                 rounded: {  Value f ->
                     f = f.roundedValue
-                    assert f.significant == 2
+                    assert f.significant == 1
                     assert f.decimal == 1
                     assertDecimalEquals f.value, 30d
                     assertDecimalEquals f.uncertainty, 1.2d
@@ -262,14 +262,14 @@ class StandardMeasureData {
                 result: {  Value f ->
                     assert !f.exact
                     assertDecimalEquals f.value, 1.2d
-                    assertDecimalEquals f.uncertainty, 0.03333333d
+                    assertDecimalEquals f.uncertainty, 0.048d
                 },
                 rounded: { Value f ->
                     f = f.roundedValue
                     assert f.significant == 1
                     assert f.decimal == 1
                     assertDecimalEquals f.value, 1.2d
-                    assertDecimalEquals f.uncertainty, 0.03d
+                    assertDecimalEquals f.uncertainty, 0.05d
                 },
             ],
             [
@@ -366,7 +366,7 @@ class StandardMeasureData {
                 },
                 rounded: {  Value f ->
                     f = f.roundedValue
-                    assert f.significant == 2
+                    assert f.significant == 1
                     assert f.decimal == 1
                     assertDecimalEquals f.value, 148.4d
                     assertDecimalEquals f.uncertainty, 30.0d
