@@ -20,43 +20,39 @@ package com.anrisoftware.globalpom.data
 
 import static com.anrisoftware.globalpom.utils.TestUtils.*
 
+import org.ejml.ops.MatrixFeatures
+import org.ejml.simple.SimpleMatrix
 import org.junit.BeforeClass
 import org.junit.Test
 
-import com.anrisoftware.globalpom.dataimport.CsvImportModule
 import com.anrisoftware.globalpom.dataimport.CsvImporterFactory
-import com.anrisoftware.globalpom.dataimport.DefaultCsvImportProperties
 import com.google.inject.Guice
 import com.google.inject.Injector
 
 /**
- * @see MatrixDataCsvImport
+ * @see MatrixData
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.9
+ * @since 1.10
  */
-class MatrixDataCsvImportTest {
+class MatrixDataTest {
 
     @Test
-    void "import long numbers"() {
-        DefaultCsvImportProperties properties = injector.getInstance DefaultCsvImportProperties
-        properties.setFile LONG_DATA
-        properties.setStartRow 1
-        properties.setNumCols 8
-        properties.setSeparator ';' as char
-
-        def importer = importFactory.create properties
-        def data = matrixDataFactory.create(importer)()
-        assert data.numCols == 8
-        assert data.numRows == 104
-
-        assertDecimalEquals data.get(0, 0), 46
-        assertDecimalEquals data.get(0, 1), 13
+    void "serialize"() {
+        def matrix = SimpleMatrix.diag 1.0, 1.0, 1.0
+        def data = matrixDataFactory.create matrix.matrix
+        assert data.numCols == 3
+        assert data.numRows == 3
+        def dataB = reserialize data
+        assert data.numCols == dataB.numCols
+        assert data.numRows == dataB.numRows
+        assert MatrixFeatures.isEquals(data.matrix, dataB.matrix)
     }
+
 
     static Injector injector
 
-    static MatrixDataCsvImportFactory matrixDataFactory
+    static MatrixDataFactory matrixDataFactory
 
     static CsvImporterFactory importFactory
 
@@ -64,8 +60,7 @@ class MatrixDataCsvImportTest {
 
     @BeforeClass
     static void createFactory() {
-        injector = Guice.createInjector(new DataModule(), new CsvImportModule())
-        matrixDataFactory = injector.getInstance MatrixDataCsvImportFactory
-        importFactory = injector.getInstance CsvImporterFactory
+        injector = Guice.createInjector(new DataModule())
+        matrixDataFactory = injector.getInstance MatrixDataFactory
     }
 }
