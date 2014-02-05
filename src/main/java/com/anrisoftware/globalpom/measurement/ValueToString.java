@@ -24,6 +24,8 @@ import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import org.apache.commons.math3.util.FastMath;
+
 /**
  * Formats a value to string.
  * 
@@ -33,59 +35,113 @@ import java.text.NumberFormat;
 @SuppressWarnings("serial")
 public class ValueToString implements Serializable {
 
-	/**
-	 * Formats the specified point.
-	 * <p>
-	 * The format follows the pattern:
-	 * 
-	 * <pre>
-	 * &lt;value&gt;[(&lt;uncertainty&gt;);&lt;significant&gt;;&lt;decimal&gt;;]
-	 * </pre>
-	 * 
-	 * <p>
-	 * <h2>Examples</h2>
-	 * <p>
-	 * <ul>
-	 * <li>exact value: {@code 0.0123}
-	 * <li>uncertain value: {@code 5.0(0.2);1;1;}
-	 * </ul>
-	 * 
-	 * @param buff
-	 *            the {@link StringBuffer} buffer to append the formatted value.
-	 * 
-	 * @param value
-	 *            the {@link Value}.
-	 * 
-	 * @param format
-	 *            the {@link NumberFormat} to format the exact values.
-	 */
-	public StringBuffer format(StringBuffer buff, Value value,
-			NumberFormat format) {
-		if (value.isExact()) {
-			formatExactValue(buff, value, format);
-		} else {
-			formatValue(buff, value, format);
-		}
-		return buff;
-	}
+    private static final String DECIMAL_PATTERN = "0.#";
+    private static final String EXP = "E00";
+    private static final char ZERO = '0';
+    private static final String START_ZERO = "0.";
+    private static final String CLOSE = ");";
+    private static final String OPEN = "(";
+    private static final String SEP = ";";
 
-	private void formatExactValue(StringBuffer buff, Value value,
-			NumberFormat format) {
-		buff.append(format.format(value.getValue()));
-	}
+    /**
+     * Formats the specified point.
+     * <p>
+     * The format follows the pattern:
+     * 
+     * <pre>
+     * &lt;value&gt;[(&lt;uncertainty&gt;);&lt;significant&gt;;&lt;decimal&gt;;]
+     * </pre>
+     * 
+     * <p>
+     * <h2>Examples</h2>
+     * <p>
+     * <ul>
+     * <li>exact value: {@code 0.0123;}
+     * <li>uncertain value: {@code 5.0(0.2);1;1;}
+     * </ul>
+     * 
+     * @param buff
+     *            the {@link StringBuffer} buffer to append the formatted value.
+     * 
+     * @param value
+     *            the {@link Value}.
+     */
+    public StringBuffer format(StringBuffer buff, Value value) {
+        NumberFormat format = createFormat(value);
+        return format(buff, value, format);
+    }
 
-	private void formatValue(StringBuffer buff, Value value, NumberFormat format) {
-		value = value.getRoundedValue();
-		double v = value.getValue();
-		double u = value.getUncertainty();
-		int sig = value.getSignificant();
-		int dec = value.getDecimal();
-		String pattern = "0." + repeat('0', dec) + "E00";
-		NumberFormat valueFormat = new DecimalFormat(pattern);
-		valueFormat.setMaximumFractionDigits(9);
-		buff.append(valueFormat.format(v));
-		buff.append("(").append(u).append(");").append(sig).append(";")
-				.append(dec).append(";");
-	}
+    /**
+     * Formats the specified point.
+     * <p>
+     * The format follows the pattern:
+     * 
+     * <pre>
+     * &lt;value&gt;[(&lt;uncertainty&gt;);&lt;significant&gt;;&lt;decimal&gt;;]
+     * </pre>
+     * 
+     * <p>
+     * <h2>Examples</h2>
+     * <p>
+     * <ul>
+     * <li>exact value: {@code 0.0123;}
+     * <li>uncertain value: {@code 5.0(0.2);1;1;}
+     * </ul>
+     * 
+     * @param buff
+     *            the {@link StringBuffer} buffer to append the formatted value.
+     * 
+     * @param value
+     *            the {@link Value}.
+     * 
+     * @param format
+     *            the {@link NumberFormat} to format the exact values.
+     */
+    public StringBuffer format(StringBuffer buff, Value value,
+            NumberFormat format) {
+        if (value.isExact()) {
+            formatExactValue(buff, value, format);
+        } else {
+            formatValue(buff, value, format);
+        }
+        return buff;
+    }
 
+    private void formatExactValue(StringBuffer buff, Value value,
+            NumberFormat format) {
+        buff.append(format.format(value.getValue()));
+        buff.append(SEP);
+    }
+
+    private void formatValue(StringBuffer buff, Value value, NumberFormat format) {
+        double v = value.getValue();
+        double u = value.getUncertainty();
+        int sig = value.getSignificant();
+        int dec = value.getDecimal();
+        buff.append(format.format(v));
+        buff.append(OPEN).append(u).append(CLOSE).append(sig).append(SEP)
+                .append(dec).append(SEP);
+    }
+
+    /**
+     * Create number format based on the significant figures and decimal numbers
+     * of the specified value.
+     * 
+     * @param value
+     *            the {@link Value}.
+     * 
+     * @return the {@link NumberFormat}.
+     */
+    public static NumberFormat createFormat(Value value) {
+        if (value.isExact()) {
+            return new DecimalFormat(DECIMAL_PATTERN);
+        }
+        int sig = value.getSignificant();
+        int dec = value.getDecimal();
+        sig = FastMath.min(sig, 128);
+        String pattern = START_ZERO + repeat(ZERO, sig) + EXP;
+        NumberFormat format = new DecimalFormat(pattern);
+        format.setMaximumFractionDigits(dec);
+        return format;
+    }
 }

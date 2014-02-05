@@ -16,45 +16,44 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpom-utils. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.constantsmap;
+package com.anrisoftware.globalpom.constants;
 
 import java.text.ParseException;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.anrisoftware.globalpom.constants.Constant;
+import com.anrisoftware.globalpom.measurement.Measure;
 import com.google.inject.Provider;
 
 /**
- * Provides the physical constants of the planck constant {@code ℎ} that
+ * Provides the physical constants of the reduced planck constant {@code ℏ} that
  * calculates error propagation using standard uncertainty.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
 @Singleton
-public class StandardPlanckConstantProvider implements
- Provider<Constant<?>> {
+public class StandardPlanckConstantReducedProvider implements
+        Provider<Measure<?>> {
 
-	private static final String NAME = "planck_constant";
+    private static final String NAME = "planck_constant_reduced";
 
-	private Constant<?> constant;
+    private Measure<?> constant;
 
-	@Inject
-	void setStandardConstantsProvider(StandardConstantsProvider provider)
-			throws ParseException {
-		this.constant = getConstant(provider.get());
-	}
+    @Inject
+    void setStandardConstantsProvider(StandardConstantsProvider provider)
+            throws ParseException {
+        this.constant = getConstant(provider.get());
+    }
 
-	@Override
-	public Constant<?> get() {
-		return constant;
-	}
+    @Override
+    public Measure<?> get() {
+        return constant;
+    }
 
-	private Constant<?> getConstant(Constants constants)
-			throws ParseException {
-		return constants.getConstant(NAME);
-	}
+    private Measure<?> getConstant(Constants constants) throws ParseException {
+        return constants.getConstant(NAME);
+    }
 
 }

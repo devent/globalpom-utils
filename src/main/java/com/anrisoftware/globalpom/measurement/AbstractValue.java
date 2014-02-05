@@ -23,8 +23,6 @@ import static com.anrisoftware.globalpom.measurement.RoundToSignificantFigures.r
 import static java.lang.Double.isNaN;
 import static java.lang.Math.min;
 
-import java.text.DecimalFormat;
-
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -39,9 +37,6 @@ import org.apache.commons.math3.util.FastMath;
 public abstract class AbstractValue implements Value {
 
     private static final double DEFAULT_DIV = 3.0;
-
-    private static final DecimalFormat VALUE_FORMAT = new DecimalFormat(
-            "#.#########");
 
     private static final double EPSILON = 10e-9;
 
@@ -458,7 +453,7 @@ public abstract class AbstractValue implements Value {
     @Override
     public String toString() {
         StringBuffer buff = new StringBuffer();
-        toString.format(buff, this, VALUE_FORMAT);
+        toString.format(buff, this);
         return new ToStringBuilder(this).append(buff.toString()).build();
     }
 

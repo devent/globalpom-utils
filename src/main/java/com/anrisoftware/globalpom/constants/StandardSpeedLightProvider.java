@@ -16,46 +16,46 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpom-utils. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.constantsmap;
+package com.anrisoftware.globalpom.constants;
 
 import java.text.ParseException;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.measure.quantity.Mass;
+import javax.measure.quantity.Velocity;
 
-import com.anrisoftware.globalpom.constants.Constant;
+import com.anrisoftware.globalpom.measurement.Measure;
 import com.google.inject.Provider;
 
 /**
- * Provides the physical constants of the atomic mass {@code u} that calculates
- * error propagation using standard uncertainty.
+ * Provides the physical constants of the speed of light {@code c} that
+ * calculates error propagation using standard uncertainty.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
 @Singleton
-public class StandardAtomicMassProvider implements Provider<Constant<Mass>> {
+public class StandardSpeedLightProvider implements Provider<Measure<Velocity>> {
 
-	private static final String NAME = "atomic_mass";
+    private static final String NAME = "speed_light";
 
-	private Constant<Mass> constant;
+    private Measure<Velocity> constant;
 
-	@Inject
-	void setStandardConstantsProvider(StandardConstantsProvider provider)
-			throws ParseException {
-		this.constant = getConstant(provider.get());
-	}
+    @Inject
+    void setStandardConstantsProvider(StandardConstantsProvider provider)
+            throws ParseException {
+        this.constant = getConstant(provider.get());
+    }
 
-	@Override
-	public Constant<Mass> get() {
-		return constant;
-	}
+    @Override
+    public Measure<Velocity> get() {
+        return constant;
+    }
 
-	@SuppressWarnings("unchecked")
-	private Constant<Mass> getConstant(Constants constants)
-			throws ParseException {
-		return (Constant<Mass>) constants.getConstant(NAME);
-	}
+    @SuppressWarnings("unchecked")
+    private Measure<Velocity> getConstant(Constants constants)
+            throws ParseException {
+        return (Measure<Velocity>) constants.getConstant(NAME);
+    }
 
 }

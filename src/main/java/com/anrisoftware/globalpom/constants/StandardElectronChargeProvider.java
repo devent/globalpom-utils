@@ -18,26 +18,41 @@
  */
 package com.anrisoftware.globalpom.constants;
 
-import javax.measure.quantity.Quantity;
-import javax.measure.unit.Unit;
+import java.text.ParseException;
 
-import com.anrisoftware.globalpom.measurement.Value;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import com.anrisoftware.globalpom.measurement.Measure;
+import com.google.inject.Provider;
 
 /**
- * Physical constant.
- * 
- * @param <Q>
- *            the {@link Quantity} type.
+ * Provides the physical constants of the electron charge {@code e} that
+ * calculates error propagation using standard uncertainty.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
-public interface Constant<Q extends Quantity> extends Value {
+@Singleton
+public class StandardElectronChargeProvider implements Provider<Measure<?>> {
 
-	    /**
-     * The physical unit of the constant.
-     * 
-     * @return the {@link Unit}.
-     */
-	Unit<Q> getUnit();
+    private static final String NAME = "electron_charge";
+
+    private Measure<?> constant;
+
+    @Inject
+    void setStandardConstantsProvider(StandardConstantsProvider provider)
+            throws ParseException {
+        this.constant = getConstant(provider.get());
+    }
+
+    @Override
+    public Measure<?> get() {
+        return constant;
+    }
+
+    private Measure<?> getConstant(Constants constants) throws ParseException {
+        return constants.getConstant(NAME);
+    }
+
 }

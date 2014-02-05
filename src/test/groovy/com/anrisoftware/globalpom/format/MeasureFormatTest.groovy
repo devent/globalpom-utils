@@ -21,14 +21,19 @@ package com.anrisoftware.globalpom.format
 import static com.anrisoftware.globalpom.utils.TestUtils.*
 import groovy.util.logging.Slf4j
 
+import javax.measure.unit.SI
+
 import org.junit.BeforeClass
 import org.junit.Test
 
+import com.anrisoftware.globalpom.format.measurement.MeasureFormatFactory
 import com.anrisoftware.globalpom.format.measurement.MeasurementFormatModule
 import com.anrisoftware.globalpom.format.measurement.ValueFormatFactory
 import com.anrisoftware.globalpom.measurement.ExactStandardValueFactory
 import com.anrisoftware.globalpom.measurement.ExactValueFactory
+import com.anrisoftware.globalpom.measurement.MeasureFactory
 import com.anrisoftware.globalpom.measurement.MeasurementStandardModule
+import com.anrisoftware.globalpom.measurement.StandardMeasureFactory
 import com.anrisoftware.globalpom.measurement.StandardValueFactory
 import com.anrisoftware.globalpom.measurement.ValueFactory
 import com.anrisoftware.globalpom.utils.TestUtils
@@ -36,28 +41,30 @@ import com.google.inject.Guice
 import com.google.inject.Injector
 
 /**
- * @see ValueFormat
+ * @see MeasureFormat
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
 @Slf4j
-class ValueFormatTest {
+class MeasureFormatTest {
 
     @Test
-    void "format value"() {
+    void "format measurements"() {
+        def valueFormat = valueFormatFactory.create(valueFactory, exactValueFactory)
         formats.each {
-            def str = formatFactory.create(valueFactory, exactValueFactory).format(it.value)
+            def str = formatFactory.create(measureFactory, valueFormat).format(it.value)
             log.info "Format ${it.value} as '${str}'"
             assertStringContent str, it.format
         }
     }
 
     @Test
-    void "parse value"() {
+    void "parse measurements"() {
+        def valueFormat = valueFormatFactory.create(valueFactory, exactValueFactory)
         parses.each {
             log.info "Parse '{}'", it.input
-            def value = formatFactory.create(valueFactory, exactValueFactory).parse(it.input)
+            def value = formatFactory.create(measureFactory, valueFormat).parse(it.input)
             assert value == it.value
         }
     }
@@ -68,28 +75,35 @@ class ValueFormatTest {
 
     static Injector injector
 
-    static ValueFormatFactory formatFactory
+    static MeasureFormatFactory formatFactory
+
+    static ValueFormatFactory valueFormatFactory
 
     static ExactValueFactory exactValueFactory
 
     static ValueFactory valueFactory
 
+    static MeasureFactory measureFactory
+
     @BeforeClass
     static void createFactories() {
         TestUtils.toStringStyle
-        injector = Guice.createInjector(new MeasurementStandardModule(), new MeasurementFormatModule())
-        formatFactory = injector.getInstance(ValueFormatFactory)
+        injector = Guice.createInjector(
+                new MeasurementStandardModule(), new MeasurementFormatModule())
+        formatFactory = injector.getInstance(MeasureFormatFactory)
+        valueFormatFactory = injector.getInstance(ValueFormatFactory)
         exactValueFactory = injector.getInstance(ExactStandardValueFactory)
         valueFactory = injector.getInstance(StandardValueFactory)
+        measureFactory = injector.getInstance(StandardMeasureFactory)
         formats  = [
-            [format: "5;", value: exactValueFactory.create(5.0d)],
-            [format: "0.0123;", value: exactValueFactory.create(0.0123d)],
-            [format: "5(0.2);1;1;", value: valueFactory.create(5.0d, 1, 0.2d, 1)],
+            [format: "5;m/s;", value: measureFactory.create(exactValueFactory.create(5.0d), SI.METERS_PER_SECOND)],
+            [format: "0.0123;m/s;", value: measureFactory.create(exactValueFactory.create(0.0123d), SI.METERS_PER_SECOND)],
+            [format: "5(0.2);1;1;m/s;", value: measureFactory.create(valueFactory.create(5.0d, 1, 0.2d, 1), SI.METERS_PER_SECOND)],
         ]
         parses = [
-            [input: "5", value: exactValueFactory.create(5.0d)],
-            [input: "0.0123", value: exactValueFactory.create(0.0123d)],
-            [input: "5.0(0.2);1;1;", value: valueFactory.create(5.0d, 1, 0.2d, 1)],
+            [input: "5;m/s;", value: measureFactory.create(exactValueFactory.create(5.0d), SI.METERS_PER_SECOND)],
+            [input: "0.0123;m/s;", value: measureFactory.create(exactValueFactory.create(0.0123d), SI.METERS_PER_SECOND)],
+            [input: "5.0(0.2);1;1;m/s;", value: measureFactory.create(valueFactory.create(5.0d, 1, 0.2d, 1), SI.METERS_PER_SECOND)],
         ]
     }
 }

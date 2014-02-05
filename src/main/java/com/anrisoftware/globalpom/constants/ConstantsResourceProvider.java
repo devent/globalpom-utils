@@ -16,25 +16,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpom-utils. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.constantsmap;
+package com.anrisoftware.globalpom.constants;
 
-import com.anrisoftware.globalpom.format.constants.ConstantFormat;
+import java.net.URL;
+
+import com.anrisoftware.propertiesutils.AbstractContextPropertiesProvider;
 
 /**
- * Factory to create the constants.
+ * Provides physical constants resource {@code /constants_values.properties}.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
-public interface ConstantsFactory {
+@SuppressWarnings("serial")
+class ConstantsResourceProvider extends AbstractContextPropertiesProvider {
 
-	/**
-	 * Creates the constants with the specified physical constants formatter.
-	 * 
-	 * @param format
-	 *            the {@link ConstantFormat} physical constants formatter.
-	 * 
-	 * @return the {@link Constants}.
-	 */
-	Constants create(ConstantFormat format);
+    private static final URL RES = ConstantsResourceProvider.class
+            .getResource("/constants_values.properties");
+
+    ConstantsResourceProvider() {
+        super(ConstantsResourceProvider.class, RES);
+    }
+
 }

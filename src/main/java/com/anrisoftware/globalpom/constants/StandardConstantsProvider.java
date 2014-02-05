@@ -16,17 +16,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpom-utils. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.constantsmap;
+package com.anrisoftware.globalpom.constants;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.anrisoftware.globalpom.constants.StandardConstantFactory;
-import com.anrisoftware.globalpom.format.constants.ConstantFormat;
-import com.anrisoftware.globalpom.format.constants.ConstantFormatFactory;
+import com.anrisoftware.globalpom.format.measurement.MeasureFormat;
+import com.anrisoftware.globalpom.format.measurement.MeasureFormatFactory;
 import com.anrisoftware.globalpom.format.measurement.ValueFormat;
 import com.anrisoftware.globalpom.format.measurement.ValueFormatFactory;
 import com.anrisoftware.globalpom.measurement.ExactStandardValueFactory;
+import com.anrisoftware.globalpom.measurement.StandardMeasureFactory;
 import com.anrisoftware.globalpom.measurement.StandardValueFactory;
 import com.google.inject.Provider;
 
@@ -40,35 +40,35 @@ import com.google.inject.Provider;
 @Singleton
 public class StandardConstantsProvider implements Provider<Constants> {
 
-	@Inject
-	private ConstantFormatFactory formatFactory;
+    @Inject
+    private MeasureFormatFactory formatFactory;
 
-	@Inject
-	private StandardConstantFactory constantFactory;
+    @Inject
+    private StandardMeasureFactory constantFactory;
 
-	@Inject
-	private ValueFormatFactory valueFormatFactory;
+    @Inject
+    private ValueFormatFactory valueFormatFactory;
 
-	@Inject
-	private StandardValueFactory valueFactory;
+    @Inject
+    private StandardValueFactory valueFactory;
 
-	@Inject
-	private ExactStandardValueFactory exactFactory;
+    @Inject
+    private ExactStandardValueFactory exactFactory;
 
-	private Constants constants;
+    private Constants constants;
 
-	@Inject
-	void setConstantsFactory(ConstantsFactory constantsFactory) {
-		ValueFormat valueFormat;
-		ConstantFormat format;
-		valueFormat = valueFormatFactory.create(valueFactory, exactFactory);
-		format = formatFactory.create(constantFactory, valueFormat);
-		this.constants = constantsFactory.create(format);
-	}
+    @Inject
+    void setConstantsFactory(ConstantsFactory constantsFactory) {
+        ValueFormat valueFormat;
+        MeasureFormat format;
+        valueFormat = valueFormatFactory.create(valueFactory, exactFactory);
+        format = formatFactory.create(constantFactory, valueFormat);
+        this.constants = constantsFactory.create(format);
+    }
 
-	@Override
-	public Constants get() {
-		return constants;
-	}
+    @Override
+    public Constants get() {
+        return constants;
+    }
 
 }

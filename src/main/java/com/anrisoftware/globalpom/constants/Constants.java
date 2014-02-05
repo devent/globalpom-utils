@@ -16,14 +16,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpom-utils. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.constantsmap;
+package com.anrisoftware.globalpom.constants;
 
 import java.text.ParseException;
 
 import javax.inject.Inject;
 
-import com.anrisoftware.globalpom.constants.Constant;
-import com.anrisoftware.globalpom.format.constants.ConstantFormat;
+import com.anrisoftware.globalpom.format.measurement.MeasureFormat;
+import com.anrisoftware.globalpom.measurement.Measure;
 import com.google.inject.assistedinject.Assisted;
 
 /**
@@ -34,34 +34,34 @@ import com.google.inject.assistedinject.Assisted;
  */
 public class Constants {
 
-	private final ConstantFormat format;
+    private final MeasureFormat format;
 
-	@Inject
-	private ConstantsResourceProvider resource;
+    @Inject
+    private ConstantsResourceProvider resource;
 
-	/**
-	 * Sets the constant format to parse physical constants.
-	 * 
-	 * @param format
-	 *            the {@link ConstantFormat}.
-	 */
-	@Inject
-	Constants(@Assisted ConstantFormat format) {
-		this.format = format;
-	}
+    /**
+     * Sets the constant format to parse physical constants.
+     * 
+     * @param format
+     *            the {@link MeasureFormat}.
+     */
+    @Inject
+    Constants(@Assisted MeasureFormat format) {
+        this.format = format;
+    }
 
-	/**
-	 * Returns the constant with the specified name.
-	 * 
-	 * @param name
-	 *            the constant name.
-	 * 
-	 * @return the physical {@link Constant} constant.
-	 * 
-	 * @throws ParseException
-	 *             if there was an error parse the physical constant.
-	 */
-	public Constant<?> getConstant(String name) throws ParseException {
-		return resource.get().getTypedProperty(name, format);
-	}
+    /**
+     * Returns the constant with the specified name.
+     * 
+     * @param name
+     *            the constant name.
+     * 
+     * @return the physical {@link Measure} constant.
+     * 
+     * @throws ParseException
+     *             if there was an error parse the physical constant.
+     */
+    public Measure<?> getConstant(String name) throws ParseException {
+        return resource.get().getTypedProperty(name, format);
+    }
 }

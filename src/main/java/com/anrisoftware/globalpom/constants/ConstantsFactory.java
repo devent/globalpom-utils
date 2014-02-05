@@ -18,13 +18,23 @@
  */
 package com.anrisoftware.globalpom.constants;
 
+import com.anrisoftware.globalpom.format.measurement.MeasureFormat;
+
 /**
- * Factory to create physical constant that calculates error propagation using
- * standard uncertainty.
+ * Factory to create the constants.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
-public interface StandardConstantFactory extends ConstantFactory {
+public interface ConstantsFactory {
 
+	/**
+	 * Creates the constants with the specified physical constants formatter.
+	 * 
+	 * @param format
+	 *            the {@link MeasureFormat} physical constants formatter.
+	 * 
+	 * @return the {@link Constants}.
+	 */
+	Constants create(MeasureFormat format);
 }

@@ -16,16 +16,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpom-utils. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.constantsmap
+package com.anrisoftware.globalpom.constants
 
-import static com.anrisoftware.globalpom.constantsmap.ConstantsTestBase.*
+import static com.anrisoftware.globalpom.constants.ConstantsTestBase.*
 import static javax.measure.unit.SI.*
 import static org.apache.commons.math3.util.FastMath.*
 import groovy.util.logging.Slf4j
 
 import org.junit.Test
 
-import com.anrisoftware.globalpom.constants.Constant
+import com.anrisoftware.globalpom.measurement.Measure
 
 /**
  * @see Constants
@@ -54,19 +54,21 @@ class ConstantsTest extends ConstantsTestBase {
     @Test
     void "standard light speed provider"() {
         def c = injector.getInstance(StandardSpeedLightProvider).get()
+        log.info "Loaded constant: {}", c
         assertConstant c, epsilon: 10e-3, value: 299792458.0d, unit: METERS_PER_SECOND
     }
 
     @Test
     void "standard planck constant provider"() {
         def c = injector.getInstance(StandardPlanckConstantProvider).get()
+        log.info "Loaded constant: {}", c
         assertConstant c, epsilon: 10e-42, value: 6.62606957E-34, unit: JOULE.times(SECOND)
     }
 
     @Test
     void "carbon 12"() {
-        Constant u = injector.getInstance(StandardAtomicMassProvider).get()
-        Constant mp = injector.getInstance(StandardProtonMassProvider).get()
+        Measure u = injector.getInstance(StandardAtomicMassProvider).get()
+        Measure mp = injector.getInstance(StandardProtonMassProvider).get()
         def u12 = u.mul 12.0
         log.info "C12 := {}, rounded := {}", u12, u12.roundedValue
         def c12 = u12.div mp
@@ -79,8 +81,8 @@ class ConstantsTest extends ConstantsTestBase {
 
     @Test
     void "carbon 12 compact"() {
-        Constant u = injector.getInstance(StandardAtomicMassProvider).get()
-        Constant mp = injector.getInstance(StandardProtonMassProvider).get()
+        Measure u = injector.getInstance(StandardAtomicMassProvider).get()
+        Measure mp = injector.getInstance(StandardProtonMassProvider).get()
         def logc12 = u.mul 12.0 div mp log()
         def logc12value = logc12.roundedValue logc12.significant, 8
         log.info "log(C12) := {}, rounded := {}", logc12, logc12value

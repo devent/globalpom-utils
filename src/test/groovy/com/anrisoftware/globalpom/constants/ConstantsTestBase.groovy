@@ -16,22 +16,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpom-utils. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.constantsmap
+package com.anrisoftware.globalpom.constants
 
 import static com.anrisoftware.globalpom.utils.TestUtils.*
 import static javax.measure.unit.SI.*
-import groovy.util.logging.Slf4j
 
 import org.junit.BeforeClass
 
-import com.anrisoftware.globalpom.constants.ConstantsModule
-import com.anrisoftware.globalpom.constants.StandardConstantFactory
-import com.anrisoftware.globalpom.format.constants.ConstantFormatFactory
-import com.anrisoftware.globalpom.format.constants.ConstantFormatModule
+import com.anrisoftware.globalpom.format.measurement.MeasureFormatFactory
+import com.anrisoftware.globalpom.format.measurement.MeasurementFormatModule
 import com.anrisoftware.globalpom.format.measurement.ValueFormatFactory
-import com.anrisoftware.globalpom.format.measurement.ValueFormatModule
 import com.anrisoftware.globalpom.measurement.ExactStandardValueFactory
 import com.anrisoftware.globalpom.measurement.MeasurementStandardModule
+import com.anrisoftware.globalpom.measurement.StandardMeasureFactory
 import com.anrisoftware.globalpom.measurement.StandardValueFactory
 import com.anrisoftware.globalpom.measurement.Value
 import com.anrisoftware.globalpom.utils.TestUtils
@@ -44,16 +41,15 @@ import com.google.inject.Injector
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
-@Slf4j
 class ConstantsTestBase {
 
     static Injector injector
 
     static ConstantsFactory constantsFactory
 
-    static ConstantFormatFactory formatFactory
+    static MeasureFormatFactory formatFactory
 
-    static StandardConstantFactory constantFactory
+    static StandardMeasureFactory constantFactory
 
     static ValueFormatFactory valueFormatFactory
 
@@ -64,12 +60,11 @@ class ConstantsTestBase {
     @BeforeClass
     static void createFactories() {
         TestUtils.toStringStyle
-        injector = Guice.createInjector new ConstantsMapModule(), new ConstantsModule(),
-                new ConstantFormatModule(), new ValueFormatModule(),
-                new MeasurementStandardModule()
+        injector = Guice.createInjector new ConstantsMapModule(),
+                new MeasurementFormatModule(), new MeasurementStandardModule()
         constantsFactory = injector.getInstance ConstantsFactory
-        formatFactory = injector.getInstance ConstantFormatFactory
-        constantFactory = injector.getInstance StandardConstantFactory
+        formatFactory = injector.getInstance MeasureFormatFactory
+        constantFactory = injector.getInstance StandardMeasureFactory
         valueFormatFactory = injector.getInstance ValueFormatFactory
         value = injector.getInstance StandardValueFactory
         exact = injector.getInstance ExactStandardValueFactory
@@ -91,7 +86,6 @@ class ConstantsTestBase {
     }
 
     static assertConstant(Map args, Value c) {
-        log.info "Loaded constant: {}", c
         epsilon = args.epsilon
         assertDecimalEquals c.value, args.value
     }
