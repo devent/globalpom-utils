@@ -21,7 +21,7 @@ package com.anrisoftware.globalpom.constants
 import org.junit.BeforeClass
 
 import com.anrisoftware.globalpom.measurement.ExactStandardValueFactory
-import com.anrisoftware.globalpom.measurement.MeasurementModule
+import com.anrisoftware.globalpom.measurement.MeasurementStandardModule
 import com.anrisoftware.globalpom.measurement.StandardValueFactory
 import com.anrisoftware.globalpom.utils.TestUtils
 import com.google.inject.Guice
@@ -46,7 +46,7 @@ class ConstantTestBase {
 	@BeforeClass
 	static void createFactories() {
 		TestUtils.toStringStyle
-		injector = Guice.createInjector new ConstantsModule(), new MeasurementModule()
+		injector = Guice.createInjector new ConstantsModule(), new MeasurementStandardModule()
 		standardConstantFactory = injector.getInstance StandardConstantFactory
 		value = injector.getInstance StandardValueFactory
 		exact = injector.getInstance ExactStandardValueFactory

@@ -35,7 +35,7 @@ import com.anrisoftware.globalpom.format.measurement.ValueFormatFactory
 import com.anrisoftware.globalpom.format.measurement.ValueFormatModule
 import com.anrisoftware.globalpom.measurement.ExactStandardValueFactory
 import com.anrisoftware.globalpom.measurement.ExactValueFactory
-import com.anrisoftware.globalpom.measurement.MeasurementModule
+import com.anrisoftware.globalpom.measurement.MeasurementStandardModule
 import com.anrisoftware.globalpom.measurement.StandardValueFactory
 import com.anrisoftware.globalpom.measurement.ValueFactory
 import com.anrisoftware.globalpom.utils.TestUtils
@@ -91,7 +91,7 @@ class ConstantFormatTest {
 	static void createFactories() {
 		TestUtils.toStringStyle
 		injector = Guice.createInjector(
-				new MeasurementModule(), new ValueFormatModule(),
+				new MeasurementStandardModule(), new ValueFormatModule(),
 				new ConstantsModule(), new ConstantFormatModule())
 		formatFactory = injector.getInstance(ConstantFormatFactory)
 		valueFormatFactory = injector.getInstance(ValueFormatFactory)

@@ -85,4 +85,7 @@ public interface Measure<UnitType extends Quantity> extends Value {
     @Override
     Measure<UnitType> exp();
 
+    @Override
+    Measure<UnitType> abs();
+
 }

@@ -47,7 +47,7 @@ class ValueTestBase {
     @BeforeClass
     static void createFactories() {
         TestUtils.toStringStyle
-        injector = Guice.createInjector new MeasurementModule()
+        injector = Guice.createInjector new MeasurementStandardModule()
         standardValueFactory = injector.getInstance StandardValueFactory
         exactStandardValueFactory = injector.getInstance ExactStandardValueFactory
         standardMeasureFactory = injector.getInstance StandardMeasureFactory

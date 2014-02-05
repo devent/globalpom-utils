@@ -29,9 +29,9 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
  * @see StandardMeasureFactory
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.9
+ * @since 1.10
  */
-public class MeasurementModule extends AbstractModule {
+public class MeasurementStandardModule extends AbstractModule {
 
     @Override
     protected void configure() {
