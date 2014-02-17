@@ -18,6 +18,7 @@
  */
 package com.anrisoftware.globalpom.fileresourcemanager
 
+import org.apache.commons.io.FileUtils
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
@@ -35,39 +36,43 @@ import com.google.inject.Injector
  */
 class ResourceSaverTest {
 
-	@Test
-	void "save resource"() {
-		def storedir = tmp.newFolder()
-		def saver = factory.create(storedir)
-		saver.saveResource(resourceA, resourceB)
-		assert new File(storedir, "A").isFile()
-		assert new File(storedir, "B").isFile()
-	}
+    @Test
+    void "save resource"() {
+        def storedir = tmp.newFolder()
+        def fileA = new File(storedir, "A")
+        def fileB = new File(storedir, "B")
+        def saver = factory.create(storedir)
+        saver.saveResource(resourceA, resourceB)
+        assert fileA.isFile()
+        assert FileUtils.readFileToString(fileA) == "A\n"
+        assert fileB.isFile()
+        assert FileUtils.readFileToString(fileB) == "B\n"
+    }
 
-	def resourceA
+    def resourceA
 
-	def resourceB
+    def resourceB
 
-	@Rule
-	public TemporaryFolder tmp = new TemporaryFolder()
+    @Rule
+    public TemporaryFolder tmp = new TemporaryFolder()
 
-	static Injector injector
+    static Injector injector
 
-	static ResourceSaverFactory factory
+    static ResourceSaverFactory factory
 
-	@BeforeClass
-	static void createSaver() {
-		injector = getInjector()
-		factory = injector.getInstance ResourceSaverFactory
-	}
+    @BeforeClass
+    static void createSaver() {
+        injector = getInjector()
+        factory = injector.getInstance ResourceSaverFactory
+    }
 
-	@Before
-	void createResources() {
-		resourceA = new ResourceA()
-		resourceB = new ResourceB()
-	}
+    @Before
+    void createResources() {
+        resourceA = new ResourceA()
+        resourceB = new ResourceB()
+    }
 
-	static Injector getInjector() {
-		Guice.createInjector(new FileResourceManagerModule())
-	}
+    static Injector getInjector() {
+        Guice.createInjector(new FileResourceManagerModule())
+    }
 }

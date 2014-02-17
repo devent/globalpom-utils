@@ -28,15 +28,15 @@ package com.anrisoftware.globalpom.fileresourcemanager
  */
 class ResourceA implements Resource, Serializable {
 
-	@Override
-	public String getName() {
-		"A"
-	}
+    @Override
+    public String getName() {
+        "A"
+    }
 
-	@Override
-	public void save(OutputStream stream) throws Exception {
-		def out = new ObjectOutputStream(stream)
-		out.writeObject(this)
-		out.flush()
-	}
+    @Override
+    public void save(OutputStream stream) throws Exception {
+        def out = new PrintWriter(stream)
+        out.println name
+        out.flush()
+    }
 }
