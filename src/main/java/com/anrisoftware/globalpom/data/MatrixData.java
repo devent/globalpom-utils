@@ -22,6 +22,7 @@ import java.io.Serializable;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.ejml.data.Matrix64F;
 import org.ejml.data.MatrixIterator;
 
@@ -36,110 +37,114 @@ import com.google.inject.assistedinject.Assisted;
 @SuppressWarnings("serial")
 public class MatrixData implements Data, Serializable {
 
-	private final Matrix64F matrix;
+    private static final String COLUMNS = "columns";
+    private static final String ROWS = "rows";
 
-	/**
-	 * @see MatrixDataFactory#create(Matrix64F)
-	 */
-	@Inject
-	MatrixData(@Assisted Matrix64F matrix) {
-		this.matrix = matrix;
-	}
+    private final Matrix64F matrix;
 
-	@Override
-	public Matrix64F getMatrix() {
-		return matrix;
-	}
+    /**
+     * @see MatrixDataFactory#create(Matrix64F)
+     */
+    @Inject
+    MatrixData(@Assisted Matrix64F matrix) {
+        this.matrix = matrix;
+    }
 
-	@Override
-	public void reshape(int numRows, int numCols, boolean saveValues) {
-		matrix.reshape(numRows, numCols, saveValues);
-	}
+    @Override
+    public Matrix64F getMatrix() {
+        return matrix;
+    }
 
-	@Override
-	public void reshape(int numRows, int numCols) {
-		matrix.reshape(numRows, numCols);
-	}
+    @Override
+    public void reshape(int numRows, int numCols, boolean saveValues) {
+        matrix.reshape(numRows, numCols, saveValues);
+    }
 
-	@Override
-	public int hashCode() {
-		return matrix.hashCode();
-	}
+    @Override
+    public void reshape(int numRows, int numCols) {
+        matrix.reshape(numRows, numCols);
+    }
 
-	@Override
-	public double get(int row, int col) {
-		return matrix.get(row, col);
-	}
+    @Override
+    public int hashCode() {
+        return matrix.hashCode();
+    }
 
-	@Override
-	public double unsafe_get(int row, int col) {
-		return matrix.unsafe_get(row, col);
-	}
+    @Override
+    public double get(int row, int col) {
+        return matrix.get(row, col);
+    }
 
-	@Override
-	public void set(int row, int col, double val) {
-		matrix.set(row, col, val);
-	}
+    @Override
+    public double unsafe_get(int row, int col) {
+        return matrix.unsafe_get(row, col);
+    }
 
-	@Override
-	public void unsafe_set(int row, int col, double val) {
-		matrix.unsafe_set(row, col, val);
-	}
+    @Override
+    public void set(int row, int col, double val) {
+        matrix.set(row, col, val);
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		return matrix.equals(obj);
-	}
+    @Override
+    public void unsafe_set(int row, int col, double val) {
+        matrix.unsafe_set(row, col, val);
+    }
 
-	@Override
-	public MatrixIterator iterator(boolean rowMajor, int minRow, int minCol,
-			int maxRow, int maxCol) {
-		return matrix.iterator(rowMajor, minRow, minCol, maxRow, maxCol);
-	}
+    @Override
+    public boolean equals(Object obj) {
+        return matrix.equals(obj);
+    }
 
-	@Override
-	public int getNumRows() {
-		return matrix.getNumRows();
-	}
+    @Override
+    public MatrixIterator iterator(boolean rowMajor, int minRow, int minCol,
+            int maxRow, int maxCol) {
+        return matrix.iterator(rowMajor, minRow, minCol, maxRow, maxCol);
+    }
 
-	@Override
-	public int getNumCols() {
-		return matrix.getNumCols();
-	}
+    @Override
+    public int getNumRows() {
+        return matrix.getNumRows();
+    }
 
-	@Override
-	public void setNumRows(int numRows) {
-		matrix.setNumRows(numRows);
-	}
+    @Override
+    public int getNumCols() {
+        return matrix.getNumCols();
+    }
 
-	@Override
-	public void setNumCols(int numCols) {
-		matrix.setNumCols(numCols);
-	}
+    @Override
+    public void setNumRows(int numRows) {
+        matrix.setNumRows(numRows);
+    }
 
-	@Override
-	public int getNumElements() {
-		return matrix.getNumElements();
-	}
+    @Override
+    public void setNumCols(int numCols) {
+        matrix.setNumCols(numCols);
+    }
 
-	@Override
-	public void set(Matrix64F A) {
-		matrix.set(A);
-	}
+    @Override
+    public int getNumElements() {
+        return matrix.getNumElements();
+    }
 
-	@Override
-	public <T extends Matrix64F> T copy() {
-		return matrix.copy();
-	}
+    @Override
+    public void set(Matrix64F A) {
+        matrix.set(A);
+    }
 
-	@Override
-	public void print() {
-		matrix.print();
-	}
+    @Override
+    public <T extends Matrix64F> T copy() {
+        return matrix.copy();
+    }
 
-	@Override
-	public String toString() {
-		return matrix.toString();
-	}
+    @Override
+    public void print() {
+        matrix.print();
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).append(ROWS, getNumRows())
+                .append(COLUMNS, getNumCols()).toString();
+    }
 
 }
