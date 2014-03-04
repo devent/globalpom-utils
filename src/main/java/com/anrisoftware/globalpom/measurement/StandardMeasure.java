@@ -18,6 +18,8 @@
  */
 package com.anrisoftware.globalpom.measurement;
 
+import java.io.Serializable;
+
 import javax.measure.quantity.Quantity;
 import javax.measure.unit.Unit;
 
@@ -33,8 +35,9 @@ import com.google.inject.assistedinject.AssistedInject;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
+@SuppressWarnings("serial")
 public final class StandardMeasure<UnitType extends Quantity> extends
-        AbstractMeasure<UnitType> {
+        AbstractMeasure<UnitType> implements Serializable {
 
     /**
      * @see StandardMeasureFactory#create(Unit, Value)
