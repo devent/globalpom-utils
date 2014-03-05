@@ -22,7 +22,11 @@ import static com.anrisoftware.globalpom.utils.TestUtils.*
 import static org.apache.commons.math3.util.FastMath.*
 import groovy.util.logging.Slf4j
 
+import javax.measure.unit.SI
+
 import org.junit.Test
+
+import com.thoughtworks.xstream.XStream
 
 /**
  * @see StandardMeasure
@@ -45,5 +49,25 @@ class StandardMeasureTest extends ValueTestBase {
             it.result(f)
             it.rounded(f)
         }
+    }
+
+    @Test
+    void "serialize"() {
+        def value = standardValueFactory.create(5.0, 1, 0.1, 1)
+        def measure = standardMeasureFactory.create value, SI.METER
+        def measureB = standardMeasureFactory.create reserialize(measure)
+        assertDecimalEquals measureB.value, 5.0
+        def v = measureB.mul 1.0
+    }
+
+    @Test
+    void "xstream, serialize"() {
+        def xstream = new XStream()
+        def value = standardValueFactory.create(5.0, 1, 0.1, 1)
+        def measure = standardMeasureFactory.create value, SI.METER
+        def xml = xstream.toXML measure
+        def measureB = standardMeasureFactory.create xstream.fromXML(xml)
+        assertDecimalEquals measureB.value, 5.0
+        def v = measureB.mul 1.0
     }
 }

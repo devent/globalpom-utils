@@ -23,6 +23,8 @@ import static com.anrisoftware.globalpom.measurement.RoundToSignificantFigures.r
 import static java.lang.Double.isNaN;
 import static java.lang.Math.min;
 
+import java.io.Serializable;
+
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -34,7 +36,8 @@ import org.apache.commons.math3.util.FastMath;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
  */
-public abstract class AbstractValue implements Value {
+@SuppressWarnings("serial")
+public abstract class AbstractValue implements Value, Serializable {
 
     private static final double DEFAULT_DIV = 3.0;
 
@@ -48,10 +51,18 @@ public abstract class AbstractValue implements Value {
 
     private final int decimal;
 
-    private final ValueFactory valueFactory;
+    private transient ValueFactory valueFactory;
 
     @Inject
     private ValueToString toString;
+
+    /**
+     * @see ValueFactory#create(Value, ValueFactory)
+     */
+    protected AbstractValue(Value value, ValueFactory valueFactory) {
+        this(value.getValue(), value.getSignificant(), value.getUncertainty(),
+                value.getDecimal(), valueFactory);
+    }
 
     /**
      * @see ValueFactory#create(double, int, double, int, ValueFactory)
@@ -63,6 +74,10 @@ public abstract class AbstractValue implements Value {
         this.uncertainty = un;
         this.decimal = dec;
         this.valueFactory = valueFactory;
+    }
+
+    public void setValueFactory(ValueFactory factory) {
+        this.valueFactory = factory;
     }
 
     public ValueFactory getValueFactory() {

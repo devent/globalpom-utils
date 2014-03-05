@@ -28,44 +28,67 @@ import com.google.inject.assistedinject.Assisted;
  */
 public interface ValueFactory {
 
-	public static final String DECIMAL = "decimal";
-	public static final String UNCERTAINTY = "uncertainty";
-	public static final String SIGNIFICANT = "significant";
-	public static final String VALUE = "value";
-	public static final String VALUE_FACTORY = "valueFactory";
+    public static final String DECIMAL = "decimal";
+    public static final String UNCERTAINTY = "uncertainty";
+    public static final String SIGNIFICANT = "significant";
+    public static final String VALUE = "value";
+    public static final String VALUE_FACTORY = "valueFactory";
 
-	/**
-	 * Creates a new value with an uncertainty.
-	 * 
-	 * @param value
-	 *            the value.
-	 * 
-	 * @param significant
-	 *            the significant figures of the value.
-	 * 
-	 * @param uncertainty
-	 *            the uncertainty of the value.
-	 * 
-	 * @param decimal
-	 *            the least significant decimal.
-	 * 
-	 * @return the {@link Value}.
-	 */
-	Value create(@Assisted(VALUE) double value,
-			@Assisted(SIGNIFICANT) int significant,
-			@Assisted(UNCERTAINTY) double uncertainty,
-			@Assisted(DECIMAL) int decimal);
+    /**
+     * Creates a new value with an uncertainty.
+     * 
+     * @param value
+     *            the value.
+     * 
+     * @param significant
+     *            the significant figures of the value.
+     * 
+     * @param uncertainty
+     *            the uncertainty of the value.
+     * 
+     * @param decimal
+     *            the least significant decimal.
+     * 
+     * @return the {@link Value}.
+     */
+    Value create(@Assisted(VALUE) double value,
+            @Assisted(SIGNIFICANT) int significant,
+            @Assisted(UNCERTAINTY) double uncertainty,
+            @Assisted(DECIMAL) int decimal);
 
-	/**
-	 * @param valueFactory
-	 *            the {@link ValueFactory} to create the value for calculations.
-	 * 
-	 * @see ValueFactory#create(double, int, double, int)
-	 */
-	Value create(@Assisted(VALUE) double value,
-			@Assisted(SIGNIFICANT) int significant,
-			@Assisted(UNCERTAINTY) double uncertainty,
-			@Assisted(DECIMAL) int decimal,
-			@Assisted(VALUE_FACTORY) ValueFactory valueFactory);
+    /**
+     * @param valueFactory
+     *            the {@link ValueFactory} to create the value for calculations.
+     * 
+     * @see ValueFactory#create(double, int, double, int)
+     */
+    Value create(@Assisted(VALUE) double value,
+            @Assisted(SIGNIFICANT) int significant,
+            @Assisted(UNCERTAINTY) double uncertainty,
+            @Assisted(DECIMAL) int decimal,
+            @Assisted(VALUE_FACTORY) ValueFactory valueFactory);
+
+    /**
+     * Creates a new value from the specified value.
+     * 
+     * @param value
+     *            the {@link Value}.
+     * 
+     * @return the {@link Value}.
+     */
+    Value create(Value value);
+
+    /**
+     * Creates a new value from the specified value.
+     * 
+     * @param value
+     *            the {@link Value}.
+     * 
+     * @param valueFactory
+     *            the {@link ValueFactory} to create the value for calculations.
+     * 
+     * @return the {@link Value}.
+     */
+    Value create(Value value, @Assisted(VALUE_FACTORY) ValueFactory valueFactory);
 
 }

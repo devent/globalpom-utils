@@ -24,6 +24,8 @@ import groovy.util.logging.Slf4j
 
 import org.junit.Test
 
+import com.thoughtworks.xstream.XStream
+
 /**
  * @see StandardValue
  * @see StandardValueData
@@ -61,5 +63,59 @@ class StandardValueTest extends ValueTestBase {
         log.info "f(m):=log(m)={}", l
         assertDecimalEquals l.roundedValue.uncertainty, 1.0
         assertDecimalEquals l.roundedValue.value, 59.45
+    }
+
+    @Test
+    void "serialize, inject members"() {
+        def value = standardValueFactory.create(5.0, 1, 0.1, 1)
+        StandardValue valueB = reserialize(value)
+        injector.injectMembers valueB
+        assertDecimalEquals valueB.value, 5.0
+        def v = valueB.mul 1.0
+    }
+
+    @Test
+    void "serialize"() {
+        def value = standardValueFactory.create(5.0, 1, 0.1, 1)
+        StandardValue valueB = standardValueFactory.create reserialize(value)
+        assertDecimalEquals valueB.value, 5.0
+        def v = valueB.mul 1.0
+    }
+
+    @Test
+    void "xstream, serialize"() {
+        def xstream = new XStream()
+        def value = standardValueFactory.create(5.0, 1, 0.1, 1)
+        def xml = xstream.toXML value
+        StandardValue valueB = standardValueFactory.create xstream.fromXML(xml)
+        assertDecimalEquals valueB.value, 5.0
+        def v = valueB.mul 1.0
+    }
+
+    @Test
+    void "serialize exact standard value, inject members"() {
+        def value = exactStandardValueFactory.create(5.0)
+        ExactStandardValue valueB = reserialize(value)
+        injector.injectMembers valueB
+        assertDecimalEquals valueB.value, 5.0
+        def v = valueB.mul 1.0
+    }
+
+    @Test
+    void "serialize exact standard value"() {
+        def value = exactStandardValueFactory.create(5.0)
+        ExactStandardValue valueB = exactStandardValueFactory.create reserialize(value)
+        assertDecimalEquals valueB.value, 5.0
+        def v = valueB.mul 1.0
+    }
+
+    @Test
+    void "xstream, serialize exact standard value"() {
+        def xstream = new XStream()
+        def value = exactStandardValueFactory.create(5.0)
+        def xml = xstream.toXML value
+        ExactStandardValue valueB = exactStandardValueFactory.create xstream.fromXML(xml)
+        assertDecimalEquals valueB.value, 5.0
+        def v = valueB.mul 1.0
     }
 }

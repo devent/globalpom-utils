@@ -59,4 +59,29 @@ public interface MeasureFactory {
     @SuppressWarnings("rawtypes")
     Measure create(Value value, Unit unit, ValueFactory valueFactory);
 
+    /**
+     * Creates the measurement from the value and unit of the specified measure.
+     * 
+     * @param measure
+     *            the {@link Measure}.
+     * 
+     * @return the {@link Measure}.
+     */
+    @SuppressWarnings("rawtypes")
+    Measure create(Measure measure);
+
+    /**
+     * Creates the measurement from the value and unit of the specified measure.
+     * 
+     * @param measure
+     *            the {@link Measure}.
+     * 
+     * @param valueFactory
+     *            the {@link ValueFactory}.
+     * 
+     * @return the {@link Measure}.
+     */
+    @SuppressWarnings("rawtypes")
+    Measure create(Measure measure, ValueFactory valueFactory);
+
 }

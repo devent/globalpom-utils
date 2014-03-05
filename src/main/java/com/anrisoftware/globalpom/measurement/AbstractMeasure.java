@@ -18,6 +18,8 @@
  */
 package com.anrisoftware.globalpom.measurement;
 
+import java.io.Serializable;
+
 import javax.measure.quantity.Quantity;
 import javax.measure.unit.Unit;
 
@@ -33,17 +35,30 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
+@SuppressWarnings("serial")
 public abstract class AbstractMeasure<UnitType extends Quantity> implements
-        Measure<UnitType> {
+        Measure<UnitType>, Serializable {
 
     private final Unit<UnitType> unit;
 
     private final Value value;
 
-    private final ValueFactory valueFactory;
+    private transient ValueFactory valueFactory;
 
-    private final MeasureFactory measureFactory;
+    private transient MeasureFactory measureFactory;
 
+    /**
+     * @see MeasureFactory#create(Measure, ValueFactory)
+     */
+    protected AbstractMeasure(Measure<UnitType> measure,
+            ValueFactory valueFactory, MeasureFactory measureFactory) {
+        this(measure.getUnit(), measure.getMeasureValue(), valueFactory,
+                measureFactory);
+    }
+
+    /**
+     * @see MeasureFactory#create(Value, Unit, ValueFactory)
+     */
     protected AbstractMeasure(Unit<UnitType> unit, Value value,
             ValueFactory valueFactory, MeasureFactory measureFactory) {
         this.unit = unit;
@@ -52,6 +67,14 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
         this.value = valueFactory.create(value.getValue(),
                 value.getSignificant(), value.getUncertainty(),
                 value.getDecimal(), valueFactory);
+    }
+
+    public void setValueFactory(ValueFactory factory) {
+        this.valueFactory = factory;
+    }
+
+    public void setMeasureFactory(MeasureFactory factory) {
+        this.measureFactory = factory;
     }
 
     @Override

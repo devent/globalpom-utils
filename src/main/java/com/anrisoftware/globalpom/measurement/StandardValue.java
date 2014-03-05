@@ -34,12 +34,12 @@ import com.google.inject.assistedinject.AssistedInject;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
+@SuppressWarnings("serial")
 public class StandardValue extends AbstractValue {
 
     private static final String VALUE = "value";
 
-    @Inject
-    private ExactStandardValueFactory exactFactory;
+    private transient ExactStandardValueFactory exactFactory;
 
     /**
      * @see StandardValueFactory#create(double, int, double, int, ValueFactory)
@@ -63,6 +63,33 @@ public class StandardValue extends AbstractValue {
             @Assisted(UNCERTAINTY) double uncertainty,
             @Assisted(DECIMAL) int decimal) {
         super(value, significant, uncertainty, decimal, valueFactory);
+    }
+
+    /**
+     * @see StandardValueFactory#create(Value)
+     */
+    @AssistedInject
+    StandardValue(StandardValueFactory valueFactory, @Assisted Value value) {
+        super(value, valueFactory);
+    }
+
+    /**
+     * @see StandardValueFactory#create(Value, ValueFactory)
+     */
+    @AssistedInject
+    StandardValue(@Assisted Value value,
+            @Assisted(VALUE_FACTORY) ValueFactory valueFactory) {
+        super(value, valueFactory);
+    }
+
+    @Inject
+    public void setExactFactory(ExactStandardValueFactory factory) {
+        this.exactFactory = factory;
+    }
+
+    @Inject
+    public void setValueFactory(StandardValueFactory factory) {
+        super.setValueFactory(factory);
     }
 
     @Override

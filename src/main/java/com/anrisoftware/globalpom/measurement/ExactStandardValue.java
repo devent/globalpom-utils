@@ -26,6 +26,8 @@ import static com.anrisoftware.globalpom.measurement.ValueFactory.VALUE_FACTORY;
 import static java.lang.Double.NaN;
 import static java.lang.Integer.MAX_VALUE;
 
+import javax.inject.Inject;
+
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -35,6 +37,7 @@ import com.google.inject.assistedinject.AssistedInject;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
+@SuppressWarnings("serial")
 public class ExactStandardValue extends AbstractValue {
 
     /**
@@ -77,6 +80,28 @@ public class ExactStandardValue extends AbstractValue {
     @AssistedInject
     ExactStandardValue(StandardValueFactory valueFactory, @Assisted double value) {
         super(value, MAX_VALUE, NaN, MAX_VALUE, valueFactory);
+    }
+
+    /**
+     * @see ExactStandardValue#create(Value)
+     */
+    @AssistedInject
+    ExactStandardValue(StandardValueFactory valueFactory, @Assisted Value value) {
+        super(value, valueFactory);
+    }
+
+    /**
+     * @see ExactStandardValue#create(Value, ValueFactory)
+     */
+    @AssistedInject
+    ExactStandardValue(@Assisted Value value,
+            @Assisted(VALUE_FACTORY) ValueFactory valueFactory) {
+        super(value, valueFactory);
+    }
+
+    @Inject
+    public void setValueFactory(StandardValueFactory factory) {
+        super.setValueFactory(factory);
     }
 
     @Override

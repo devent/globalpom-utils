@@ -20,6 +20,7 @@ package com.anrisoftware.globalpom.measurement;
 
 import java.io.Serializable;
 
+import javax.inject.Inject;
 import javax.measure.quantity.Quantity;
 import javax.measure.unit.Unit;
 
@@ -61,4 +62,35 @@ public final class StandardMeasure<UnitType extends Quantity> extends
         super(unit, value, valueFactory, measureFactory);
     }
 
+    /**
+     * @see StandardMeasureFactory#create(Measure)
+     */
+    @SuppressWarnings("unchecked")
+    @AssistedInject
+    StandardMeasure(StandardMeasureFactory measureFactory,
+            StandardValueFactory valueFactory,
+            @SuppressWarnings("rawtypes") @Assisted Measure measure) {
+        super(measure, valueFactory, measureFactory);
+    }
+
+    /**
+     * @see StandardMeasureFactory#create(Measure, ValueFactory)
+     */
+    @SuppressWarnings("unchecked")
+    @AssistedInject
+    StandardMeasure(@SuppressWarnings("rawtypes") @Assisted Measure measure,
+            @Assisted ValueFactory valueFactory,
+            StandardMeasureFactory measureFactory) {
+        super(measure, valueFactory, measureFactory);
+    }
+
+    @Inject
+    public void setValueFactory(StandardValueFactory factory) {
+        super.setValueFactory(factory);
+    }
+
+    @Inject
+    public void setMeasureFactory(StandardMeasureFactory factory) {
+        super.setMeasureFactory(factory);
+    }
 }
