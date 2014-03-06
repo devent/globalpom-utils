@@ -91,11 +91,6 @@ public class MatrixData implements Data, Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return matrix.equals(obj);
-    }
-
-    @Override
     public MatrixIterator iterator(boolean rowMajor, int minRow, int minCol,
             int maxRow, int maxCol) {
         return matrix.iterator(rowMajor, minRow, minCol, maxRow, maxCol);
