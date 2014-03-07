@@ -110,17 +110,7 @@ public class StandardValue extends AbstractValue {
 
     @Override
     protected double mulUncertainty(Value factor, double product) {
-        double sa = getUncertainty();
-        double sb = factor.getUncertainty();
-        double a = getValue();
-        if (isExact()) {
-            return a * sb;
-        }
-        if (factor.isExact()) {
-            return sa * factor.getValue();
-        }
-        double b = factor.getValue();
-        return StandardValueMath.mulUncertaintly(a, sa, b, sb, product);
+        return divUncertainty(factor, product);
     }
 
     @Override
@@ -128,13 +118,13 @@ public class StandardValue extends AbstractValue {
         double sa = getUncertainty();
         double sb = divisor.getUncertainty();
         double a = getValue();
+        double b = divisor.getValue();
         if (isExact()) {
-            return a / sb;
+            return StandardValueMath.mulUncertaintly(b, sb, quotient);
         }
         if (divisor.isExact()) {
-            return sa / divisor.getValue();
+            return StandardValueMath.mulUncertaintly(a, sa, quotient);
         }
-        double b = divisor.getValue();
         return StandardValueMath.mulUncertaintly(a, sa, b, sb, quotient);
     }
 

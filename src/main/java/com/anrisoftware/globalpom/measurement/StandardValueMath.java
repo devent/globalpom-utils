@@ -28,29 +28,33 @@ import static org.apache.commons.math3.util.FastMath.sqrt;
  */
 public class StandardValueMath {
 
-	public static double subUncertainty(double sa, double sb) {
-		return sqrt(pow2(sa) + pow2(sb));
-	}
+    public static double subUncertainty(double sa, double sb) {
+        return sqrt(pow2(sa) + pow2(sb));
+    }
 
-	public static double mulUncertaintly(double a, double sa, double b,
-			double sb, double z) {
-		return sqrt(pow2(sa / a) + pow2(sb / b)) * z;
-	}
+    public static double mulUncertaintly(double a, double sa, double b,
+            double sb, double z) {
+        return sqrt(pow2(sa / a) + pow2(sb / b)) * z;
+    }
 
-	public static double logUncertainty(double a, double sa) {
-		return sa / a;
-	}
+    public static double mulUncertaintly(double b, double sb, double z) {
+        return sqrt(pow2(sb / b)) * z;
+    }
 
-	public static double expUncertainty(double sa, double z) {
-		return sa * z;
-	}
+    public static double logUncertainty(double a, double sa) {
+        return sa / a;
+    }
+
+    public static double expUncertainty(double sa, double z) {
+        return sa * z;
+    }
 
     public static double reciprocalUncertaintly(double a, double sa, double z) {
         return z * sa / a;
     }
 
-	private static double pow2(double value) {
-		return value * value;
-	}
+    private static double pow2(double value) {
+        return value * value;
+    }
 
 }
