@@ -466,6 +466,11 @@ public abstract class AbstractValue implements Value, Serializable {
     }
 
     @Override
+    public int hashCode() {
+        return new Double(value).hashCode();
+    }
+
+    @Override
     public String toString() {
         StringBuffer buff = new StringBuffer();
         toString.format(buff, this);

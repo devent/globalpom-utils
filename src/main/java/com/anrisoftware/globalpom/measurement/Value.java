@@ -309,4 +309,9 @@ public interface Value extends Comparable<Object> {
      */
     boolean equals(Object obj, double dev);
 
+    /**
+     * Returns the hash code from the value.
+     */
+    @Override
+    int hashCode();
 }
