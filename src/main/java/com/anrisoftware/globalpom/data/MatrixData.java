@@ -23,8 +23,8 @@ import java.io.Serializable;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.ejml.data.Matrix64F;
 import org.ejml.data.MatrixIterator;
+import org.ejml.data.ReshapeMatrix64F;
 
 import com.google.inject.assistedinject.Assisted;
 
@@ -40,18 +40,18 @@ public class MatrixData implements Data, Serializable {
     private static final String COLUMNS = "columns";
     private static final String ROWS = "rows";
 
-    private final Matrix64F matrix;
+    private final ReshapeMatrix64F matrix;
 
     /**
-     * @see MatrixDataFactory#create(Matrix64F)
+     * @see MatrixDataFactory#create(ReshapeMatrix64F)
      */
     @Inject
-    MatrixData(@Assisted Matrix64F matrix) {
+    MatrixData(@Assisted ReshapeMatrix64F matrix) {
         this.matrix = matrix;
     }
 
     @Override
-    public Matrix64F getMatrix() {
+    public ReshapeMatrix64F getMatrix() {
         return matrix;
     }
 
@@ -122,12 +122,12 @@ public class MatrixData implements Data, Serializable {
     }
 
     @Override
-    public void set(Matrix64F A) {
+    public void set(ReshapeMatrix64F A) {
         matrix.set(A);
     }
 
     @Override
-    public <T extends Matrix64F> T copy() {
+    public <T extends ReshapeMatrix64F> T copy() {
         return matrix.copy();
     }
 

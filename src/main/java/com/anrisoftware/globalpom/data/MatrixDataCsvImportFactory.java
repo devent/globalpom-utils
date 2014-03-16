@@ -20,7 +20,7 @@ package com.anrisoftware.globalpom.data;
 
 import java.text.Format;
 
-import org.ejml.data.Matrix64F;
+import org.ejml.data.ReshapeMatrix64F;
 
 import com.anrisoftware.globalpom.dataimport.CsvImporter;
 
@@ -32,27 +32,29 @@ import com.anrisoftware.globalpom.dataimport.CsvImporter;
  */
 public interface MatrixDataCsvImportFactory {
 
-	/**
-	 * Imports data from the specified importer.
-	 * 
-	 * @param importer
-	 *            the {@link CsvImporter}.
-	 * 
-	 * @return the {@link MatrixDataCsvImport}.
-	 */
-	MatrixDataCsvImport create(CsvImporter importer);
+    /**
+     * Imports data from the specified importer.
+     * 
+     * @param importer
+     *            the {@link CsvImporter}.
+     * 
+     * @return the {@link MatrixDataCsvImport}.
+     */
+    MatrixDataCsvImport create(CsvImporter importer);
 
-	/**
-	 * Creates new matrix data with the specified matrix.
-	 * 
-	 * @param matrix
-	 *            the {@link Matrix64F}
-	 * 
-	 * @param format
-	 *            the {@link Format} to parse the text to double values.
-	 * 
-	 * @return the {@link MatrixData}.
-	 */
-	MatrixData create(Matrix64F matrix, Format format);
+    /**
+     * Creates new matrix data with the specified matrix.
+     * 
+     * @param matrix
+     *            the {@link ReshapeMatrix64F}
+     * 
+     * @param format
+     *            the {@link Format} to parse the text to double values.
+     * 
+     * @return the {@link MatrixData}.
+     * 
+     * @since 1.10
+     */
+    MatrixData create(ReshapeMatrix64F matrix, Format format);
 
 }

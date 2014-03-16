@@ -27,8 +27,8 @@ import java.beans.PropertyChangeSupport;
 
 import javax.inject.Inject;
 
-import org.ejml.data.Matrix64F;
 import org.ejml.data.MatrixIterator;
+import org.ejml.data.ReshapeMatrix64F;
 
 import com.anrisoftware.globalpom.properties.ListPropertyChangeSupport;
 import com.google.inject.assistedinject.Assisted;
@@ -58,7 +58,7 @@ public class DefaultDataBean implements DataBean {
     }
 
     @Override
-    public Matrix64F getMatrix() {
+    public ReshapeMatrix64F getMatrix() {
         return data.getMatrix();
     }
 
@@ -140,13 +140,13 @@ public class DefaultDataBean implements DataBean {
     }
 
     @Override
-    public void set(Matrix64F A) {
+    public void set(ReshapeMatrix64F A) {
         data.set(A);
         lp.fireListItemChangedChange(DATA, 0, getNumRows(), null, A);
     }
 
     @Override
-    public <T extends Matrix64F> T copy() {
+    public <T extends ReshapeMatrix64F> T copy() {
         return data.copy();
     }
 

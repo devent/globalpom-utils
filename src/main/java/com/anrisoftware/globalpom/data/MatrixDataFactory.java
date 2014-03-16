@@ -18,7 +18,7 @@
  */
 package com.anrisoftware.globalpom.data;
 
-import org.ejml.data.Matrix64F;
+import org.ejml.data.ReshapeMatrix64F;
 
 /**
  * Factory to create new matrix data.
@@ -28,13 +28,15 @@ import org.ejml.data.Matrix64F;
  */
 public interface MatrixDataFactory {
 
-	/**
-	 * Creates new matrix data with the specified matrix.
-	 * 
-	 * @param matrix
-	 *            the {@link Matrix64F}
-	 * 
-	 * @return the {@link MatrixData}.
-	 */
-	MatrixData create(Matrix64F matrix);
+    /**
+     * Creates new matrix data with the specified matrix.
+     * 
+     * @param matrix
+     *            the {@link ReshapeMatrix64F}
+     * 
+     * @return the {@link MatrixData}.
+     * 
+     * @since 1.10
+     */
+    MatrixData create(ReshapeMatrix64F matrix);
 }

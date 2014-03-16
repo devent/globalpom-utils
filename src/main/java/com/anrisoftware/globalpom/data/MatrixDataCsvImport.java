@@ -28,8 +28,8 @@ import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
-import org.ejml.data.Matrix64F;
 import org.ejml.data.MatrixIterator;
+import org.ejml.data.ReshapeMatrix64F;
 import org.ejml.simple.SimpleMatrix;
 
 import com.anrisoftware.globalpom.dataimport.CsvImportException;
@@ -83,14 +83,14 @@ public class MatrixDataCsvImport implements Callable<MatrixDataCsvImport>,
 	@Override
 	public MatrixDataCsvImport call() throws CsvImportException, ParseException {
 		List<double[]> rows = parseValues();
-		Matrix64F matrix = createMatrix(rows);
+        ReshapeMatrix64F matrix = createMatrix(rows);
 		this.data = dataFactory.create(matrix);
 		log.importedData(this, importer);
 		this.importer = null;
 		return this;
 	}
 
-	private Matrix64F createMatrix(List<double[]> rows) {
+    private ReshapeMatrix64F createMatrix(List<double[]> rows) {
 		SimpleMatrix matrix = new SimpleMatrix(rows.toArray(new double[][] {}));
 		return matrix.getMatrix();
 	}
@@ -120,7 +120,7 @@ public class MatrixDataCsvImport implements Callable<MatrixDataCsvImport>,
 	}
 
 	@Override
-	public Matrix64F getMatrix() {
+    public ReshapeMatrix64F getMatrix() {
 		return data.getMatrix();
 	}
 
@@ -186,12 +186,12 @@ public class MatrixDataCsvImport implements Callable<MatrixDataCsvImport>,
 	}
 
 	@Override
-	public void set(Matrix64F A) {
+    public void set(ReshapeMatrix64F A) {
 		data.set(A);
 	}
 
 	@Override
-	public <T extends Matrix64F> T copy() {
+    public <T extends ReshapeMatrix64F> T copy() {
 		return data.copy();
 	}
 
