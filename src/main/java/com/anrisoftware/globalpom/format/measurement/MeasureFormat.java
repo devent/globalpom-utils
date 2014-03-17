@@ -30,6 +30,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
+import javax.measure.quantity.Quantity;
 import javax.measure.unit.Unit;
 import javax.measure.unit.UnitFormat;
 
@@ -42,7 +43,7 @@ import com.google.inject.assistedinject.AssistedInject;
 
 /**
  * Formats and parses physical {@link Measure} measurement.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
@@ -89,11 +90,11 @@ public class MeasureFormat extends Format {
      * Formats the specified measurement.
      * <p>
      * The format follows the pattern:
-     * 
+     *
      * <pre>
      * &lt;value&gt;[(&lt;uncertainty&gt;);&lt;significant&gt;;&lt;decimal&gt;;&lt;unit&gt;;]
      * </pre>
-     * 
+     *
      * <p>
      * <h2>Examples</h2>
      * <p>
@@ -101,7 +102,7 @@ public class MeasureFormat extends Format {
      * <li>exact value: {@code 0.0123;m/s}
      * <li>uncertain value: {@code 5.0(0.2);1;1;m/s;}
      * </ul>
-     * 
+     *
      * @param obj
      *            the {@link Measure}.
      */
@@ -128,11 +129,11 @@ public class MeasureFormat extends Format {
      * Parses the specified string to physical measurement.
      * <p>
      * The format follows the pattern:
-     * 
+     *
      * <pre>
      * &lt;value&gt;[(&lt;uncertainty&gt;);&lt;significant&gt;;&lt;decimal&gt;;&lt;unit&gt;;]
      * </pre>
-     * 
+     *
      * <p>
      * <h2>Examples</h2>
      * <p>
@@ -140,24 +141,36 @@ public class MeasureFormat extends Format {
      * <li>exact value: {@code 0.0123;m/s}
      * <li>uncertain value: {@code 5.0(0.2);1;1;m/s;}
      * </ul>
-     * 
+     *
      * @return the parsed {@link Measure}.
-     * 
+     *
+     * @param <UnitType>
+     *            the {@link Quantity} of the unit.
+     *
      * @throws ParseException
      *             if the string cannot be parsed to a value.
+     *
+     * @since 1.11
      */
-    public Measure<?> parse(String source) throws ParseException {
+    public <UnitType extends Quantity> Measure<UnitType> parse(String source)
+            throws ParseException {
         ParsePosition pos = new ParsePosition(0);
         Measure<?> result = parse(source, pos);
         if (pos.getIndex() == 0) {
             throw log.errorParseValue(source, pos);
         }
-        return result;
+        return toUnitType(result);
+    }
+
+    @SuppressWarnings("unchecked")
+    private <UnitType extends Quantity> Measure<UnitType> toUnitType(
+            Measure<?> result) {
+        return (Measure<UnitType>) result;
     }
 
     /**
      * @see #parse(String)
-     * 
+     *
      * @param pos
      *            the index {@link ParsePosition} position from where to start
      *            parsing.
