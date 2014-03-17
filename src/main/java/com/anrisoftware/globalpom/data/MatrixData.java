@@ -20,13 +20,13 @@ package com.anrisoftware.globalpom.data;
 
 import java.io.Serializable;
 
-import javax.inject.Inject;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.ejml.data.DenseMatrix64F;
 import org.ejml.data.MatrixIterator;
 import org.ejml.data.ReshapeMatrix64F;
 
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 /**
  * Default generic data.
@@ -43,9 +43,17 @@ public class MatrixData implements Data, Serializable {
     private final ReshapeMatrix64F matrix;
 
     /**
+     * @see MatrixDataFactory#create()
+     */
+    @AssistedInject
+    MatrixData() {
+        this.matrix = new DenseMatrix64F(1, 1);
+    }
+
+    /**
      * @see MatrixDataFactory#create(ReshapeMatrix64F)
      */
-    @Inject
+    @AssistedInject
     MatrixData(@Assisted ReshapeMatrix64F matrix) {
         this.matrix = matrix;
     }

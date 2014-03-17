@@ -35,8 +35,8 @@ public class DataModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		install(new FactoryModuleBuilder().implement(MatrixData.class,
-				MatrixData.class).build(MatrixDataFactory.class));
+        install(new FactoryModuleBuilder().implement(Data.class,
+                MatrixData.class).build(MatrixDataFactory.class));
 		install(new FactoryModuleBuilder().implement(MatrixDataCsvImport.class,
 				MatrixDataCsvImport.class).build(
 				MatrixDataCsvImportFactory.class));

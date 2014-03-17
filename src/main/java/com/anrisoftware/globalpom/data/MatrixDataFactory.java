@@ -26,7 +26,7 @@ import org.ejml.data.ReshapeMatrix64F;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
  */
-public interface MatrixDataFactory {
+public interface MatrixDataFactory extends DataFactory {
 
     /**
      * Creates new matrix data with the specified matrix.
@@ -34,9 +34,9 @@ public interface MatrixDataFactory {
      * @param matrix
      *            the {@link ReshapeMatrix64F}
      * 
-     * @return the {@link MatrixData}.
+     * @return the {@link Data}.
      * 
-     * @since 1.10
+     * @since 1.11
      */
-    MatrixData create(ReshapeMatrix64F matrix);
+    Data create(ReshapeMatrix64F matrix);
 }

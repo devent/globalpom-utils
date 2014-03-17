@@ -26,6 +26,8 @@ import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.Locale;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import com.anrisoftware.globalpom.charset.SerializableCharset;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -39,6 +41,8 @@ import com.google.inject.assistedinject.AssistedInject;
 @SuppressWarnings("serial")
 public class DefaultCsvImportProperties implements CsvImportProperties,
         Serializable {
+
+    private static final String FILE = "file";
 
     private URI file;
 
@@ -156,5 +160,10 @@ public class DefaultCsvImportProperties implements CsvImportProperties,
     @Override
     public int getNumCols() {
         return numCols;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).append(FILE, file).toString();
     }
 }
