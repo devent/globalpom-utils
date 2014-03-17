@@ -90,19 +90,19 @@ public class MeasureFormat extends Format {
      * Formats the specified measurement.
      * <p>
      * The format follows the pattern:
-     *
+     * 
      * <pre>
      * &lt;value&gt;[(&lt;uncertainty&gt;);&lt;significant&gt;;&lt;decimal&gt;;&lt;unit&gt;;]
      * </pre>
-     *
+     * 
      * <p>
      * <h2>Examples</h2>
      * <p>
      * <ul>
-     * <li>exact value: {@code 0.0123;m/s}
+     * <li>exact value: {@code 0.0123;m/s;}
      * <li>uncertain value: {@code 5.0(0.2);1;1;m/s;}
      * </ul>
-     *
+     * 
      * @param obj
      *            the {@link Measure}.
      */
@@ -129,27 +129,27 @@ public class MeasureFormat extends Format {
      * Parses the specified string to physical measurement.
      * <p>
      * The format follows the pattern:
-     *
+     * 
      * <pre>
      * &lt;value&gt;[(&lt;uncertainty&gt;);&lt;significant&gt;;&lt;decimal&gt;;&lt;unit&gt;;]
      * </pre>
-     *
+     * 
      * <p>
      * <h2>Examples</h2>
      * <p>
      * <ul>
-     * <li>exact value: {@code 0.0123;m/s}
+     * <li>exact value: {@code 0.0123;m/s;}
      * <li>uncertain value: {@code 5.0(0.2);1;1;m/s;}
      * </ul>
-     *
+     * 
      * @return the parsed {@link Measure}.
-     *
+     * 
      * @param <UnitType>
      *            the {@link Quantity} of the unit.
-     *
+     * 
      * @throws ParseException
      *             if the string cannot be parsed to a value.
-     *
+     * 
      * @since 1.11
      */
     public <UnitType extends Quantity> Measure<UnitType> parse(String source)
