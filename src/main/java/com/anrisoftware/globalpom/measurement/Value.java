@@ -140,11 +140,35 @@ public interface Value extends Comparable<Object> {
      * Calculates the addition of this value with the addend.
      * 
      * @param addend
+     *            the {@link Value} addend.
+     * 
+     * @return the result {@link Value}.
+     * 
+     * @since 1.11
+     */
+    Value plus(Value addend);
+
+    /**
+     * Calculates the addition of this value with the addend.
+     * 
+     * @param addend
      *            the exact addend.
      * 
      * @return the result {@link Value}.
      */
     Value add(double addend);
+
+    /**
+     * Calculates the addition of this value with the addend.
+     * 
+     * @param addend
+     *            the exact addend.
+     * 
+     * @return the result {@link Value}.
+     * 
+     * @since 1.11
+     */
+    Value plus(double addend);
 
     /**
      * Calculates the subtraction of this value with the subtrahend.
@@ -160,11 +184,35 @@ public interface Value extends Comparable<Object> {
      * Calculates the subtraction of this value with the subtrahend.
      * 
      * @param subtrahend
+     *            the {@link Value} subtrahend.
+     * 
+     * @return the result {@link Value}.
+     * 
+     * @since 1.11
+     */
+    Value minus(Value subtrahend);
+
+    /**
+     * Calculates the subtraction of this value with the subtrahend.
+     * 
+     * @param subtrahend
      *            the exact subtrahend.
      * 
      * @return the result {@link Value}.
      */
     Value sub(double subtrahend);
+
+    /**
+     * Calculates the subtraction of this value with the subtrahend.
+     * 
+     * @param subtrahend
+     *            the exact subtrahend.
+     * 
+     * @return the result {@link Value}.
+     * 
+     * @since 1.11
+     */
+    Value minus(double subtrahend);
 
     /**
      * Calculates the multiplication of this value with the factor.
@@ -180,11 +228,35 @@ public interface Value extends Comparable<Object> {
      * Calculates the multiplication of this value with the factor.
      * 
      * @param factor
+     *            the {@link Value} factor.
+     * 
+     * @return the result {@link Value}.
+     * 
+     * @since 1.11
+     */
+    Value multiply(Value factor);
+
+    /**
+     * Calculates the multiplication of this value with the factor.
+     * 
+     * @param factor
      *            the exact factor.
      * 
      * @return the result {@link Value}.
      */
     Value mul(double factor);
+
+    /**
+     * Calculates the multiplication of this value with the factor.
+     * 
+     * @param factor
+     *            the exact factor.
+     * 
+     * @return the result {@link Value}.
+     * 
+     * @since 1.11
+     */
+    Value multiply(double factor);
 
     /**
      * Calculates the division of this value with the divisor.

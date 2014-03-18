@@ -170,17 +170,27 @@ public abstract class AbstractValue implements Value, Serializable {
     }
 
     @Override
-    public Value add(double addend) {
-        return add(createValue(addend));
-    }
-
-    @Override
     public Value add(Value addend) {
         double value = this.value + addend.getValue();
         double uncertainty = addUncertainty(addend, value);
         int sig = min(significant, addend.getSignificant());
         int dec = min(decimal, addend.getDecimal());
         return createValue(value, sig, uncertainty, dec);
+    }
+
+    @Override
+    public Value plus(Value addend) {
+        return add(addend);
+    }
+
+    @Override
+    public Value add(double addend) {
+        return add(createValue(addend));
+    }
+
+    @Override
+    public Value plus(double addend) {
+        return add(addend);
     }
 
     /**
@@ -198,17 +208,27 @@ public abstract class AbstractValue implements Value, Serializable {
     protected abstract double addUncertainty(Value addend, double sum);
 
     @Override
-    public Value sub(double subtrahend) {
-        return sub(createValue(subtrahend));
-    }
-
-    @Override
     public Value sub(Value subtrahend) {
         double value = this.value - subtrahend.getValue();
         double uncertainty = subUncertainty(subtrahend, value);
         int sig = min(significant, subtrahend.getSignificant());
         int dec = min(decimal, subtrahend.getDecimal());
         return createValue(value, sig, uncertainty, dec);
+    }
+
+    @Override
+    public Value minus(Value subtrahend) {
+        return sub(subtrahend);
+    }
+
+    @Override
+    public Value sub(double subtrahend) {
+        return sub(createValue(subtrahend));
+    }
+
+    @Override
+    public Value minus(double subtrahend) {
+        return sub(subtrahend);
     }
 
     /**
@@ -225,17 +245,27 @@ public abstract class AbstractValue implements Value, Serializable {
     protected abstract double subUncertainty(Value subtrahend, double diff);
 
     @Override
-    public Value mul(double factor) {
-        return mul(createValue(factor));
-    }
-
-    @Override
     public Value mul(Value factor) {
         double value = this.value * factor.getValue();
         double uncertainty = mulUncertainty(factor, value);
         int sig = min(significant, factor.getSignificant());
         int dec = min(decimal, factor.getDecimal());
         return createValue(value, sig, uncertainty, dec);
+    }
+
+    @Override
+    public Value multiply(Value factor) {
+        return mul(factor);
+    }
+
+    @Override
+    public Value mul(double factor) {
+        return mul(createValue(factor));
+    }
+
+    @Override
+    public Value multiply(double factor) {
+        return mul(factor);
     }
 
     /**

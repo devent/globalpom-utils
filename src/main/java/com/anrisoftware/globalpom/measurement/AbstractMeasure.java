@@ -153,11 +153,21 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
         return measureFactory.create(value, unit, valueFactory);
     }
 
+    @Override
+    public Value plus(Value addend) {
+        return add(addend);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public Measure<UnitType> add(double addend) {
         Value value = this.value.add(addend);
         return measureFactory.create(value, unit, valueFactory);
+    }
+
+    @Override
+    public Value plus(double addend) {
+        return add(addend);
     }
 
     @SuppressWarnings("unchecked")
@@ -167,11 +177,21 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
         return measureFactory.create(value, unit, valueFactory);
     }
 
+    @Override
+    public Value minus(Value subtrahend) {
+        return sub(subtrahend);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public Measure<UnitType> sub(double subtrahend) {
         Value value = this.value.sub(subtrahend);
         return measureFactory.create(value, unit, valueFactory);
+    }
+
+    @Override
+    public Value minus(double subtrahend) {
+        return sub(subtrahend);
     }
 
     @SuppressWarnings("unchecked")
@@ -181,11 +201,21 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
         return measureFactory.create(value, unit, valueFactory);
     }
 
+    @Override
+    public Value multiply(Value factor) {
+        return mul(factor);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public Measure<UnitType> mul(double factor) {
         Value value = this.value.mul(factor);
         return measureFactory.create(value, unit, valueFactory);
+    }
+
+    @Override
+    public Value multiply(double factor) {
+        return mul(factor);
     }
 
     @SuppressWarnings("unchecked")

@@ -54,6 +54,26 @@ class StandardValueData {
                 name: "add uncertain uncertain",
                 func: "f(x,y):=x+y",
                 epsilon: 10**-8,
+                x: v.create(5.0d, 1, 0.2d, 1),
+                y: v.create(6.00d, 2, 0.12d, 2),
+                f: { Value x, Value y -> x + y },
+                result: {  Value f ->
+                    assert !f.exact
+                    assertDecimalEquals f.value, 5.0d+6.00d
+                    assertDecimalEquals f.uncertainty, 0.23323808d
+                },
+                rounded: {  Value f ->
+                    f = f.roundedValue
+                    assert f.significant == 1
+                    assert f.decimal == 1
+                    assertDecimalEquals f.value, 11d
+                    assertDecimalEquals f.uncertainty, 0.2d
+                },
+            ],
+            [
+                name: "add uncertain uncertain",
+                func: "f(x,y):=x+y",
+                epsilon: 10**-8,
                 x: v.create(20.12345d, 1, 0.2d, 5),
                 y: v.create(20.56732d, 1, 0.2d, 5),
                 f: { Value x, Value y -> x.add y },
@@ -91,6 +111,26 @@ class StandardValueData {
                 },
             ],
             [
+                name: "add uncertain exact",
+                func: "f(x,y):=x+y",
+                epsilon: 10**-8,
+                x: v.create(5.0d, 1, 0.2d, 1),
+                y: ex.create(6),
+                f: { x, y -> x + y },
+                result: { Value f ->
+                    assert !f.exact
+                    assertDecimalEquals f.value, 11d
+                    assertDecimalEquals f.uncertainty, 0.2d
+                },
+                rounded: {  Value f ->
+                    f = f.roundedValue
+                    assert f.significant == 1
+                    assert f.decimal == 1
+                    assertDecimalEquals f.value, 11d
+                    assertDecimalEquals f.uncertainty, 0.2d
+                },
+            ],
+            [
                 name: "add exact uncertain",
                 func: "f(x,y):=x+y",
                 epsilon: 10**-8,
@@ -111,12 +151,52 @@ class StandardValueData {
                 },
             ],
             [
+                name: "add exact uncertain",
+                func: "f(x,y):=x+y",
+                epsilon: 10**-8,
+                x: ex.create(6),
+                y: v.create(5.0d, 1, 0.2d, 1),
+                f: { Value x, Value y -> y + x },
+                result: { Value f ->
+                    assert !f.exact
+                    assertDecimalEquals f.value, 11d
+                    assertDecimalEquals f.uncertainty, 0.2d
+                },
+                rounded: {  Value f ->
+                    f = f.roundedValue
+                    assert f.significant == 1
+                    assert f.decimal == 1
+                    assertDecimalEquals f.value, 11d
+                    assertDecimalEquals f.uncertainty, 0.2d
+                },
+            ],
+            [
                 name: "sub uncertain uncertain",
                 func: "f(x,y):=x-y",
                 epsilon: 10**-8,
                 x: v.create(5.0d, 1, 0.2d, 1),
                 y: v.create(6.00d, 2, 0.12d, 2),
                 f: { Value x, Value y -> x.sub y },
+                result: {  Value f ->
+                    assert !f.exact
+                    assertDecimalEquals f.value, -1d
+                    assertDecimalEquals f.uncertainty, 0.23323808d
+                },
+                rounded: { Value f ->
+                    f = f.roundedValue
+                    assert f.significant == 1
+                    assert f.decimal == 1
+                    assertDecimalEquals f.value, -1d
+                    assertDecimalEquals f.uncertainty, 0.2d
+                },
+            ],
+            [
+                name: "sub uncertain uncertain",
+                func: "f(x,y):=x-y",
+                epsilon: 10**-8,
+                x: v.create(5.0d, 1, 0.2d, 1),
+                y: v.create(6.00d, 2, 0.12d, 2),
+                f: { Value x, Value y -> x - y },
                 result: {  Value f ->
                     assert !f.exact
                     assertDecimalEquals f.value, -1d
@@ -191,6 +271,26 @@ class StandardValueData {
                 },
             ],
             [
+                name: "mul uncertain uncertain",
+                func: "f(x,y):=x*y",
+                epsilon: 10**-8,
+                x: v.create(5.0d, 1, 0.2d, 1),
+                y: v.create(6.00d, 2, 0.12d, 2),
+                f: { Value x, Value y -> x * y },
+                result: {  Value f ->
+                    assert !f.exact
+                    assertDecimalEquals f.value, 30d
+                    assertDecimalEquals f.uncertainty, 1.34164079d
+                },
+                rounded: { Value f ->
+                    f = f.roundedValue
+                    assert f.significant == 1
+                    assert f.decimal == 1
+                    assertDecimalEquals f.value, 30d
+                    assertDecimalEquals f.uncertainty, 1.3d
+                },
+            ],
+            [
                 name: "mul uncertain exact",
                 func: "f(x,y):=x*y",
                 epsilon: 10**-8,
@@ -237,6 +337,26 @@ class StandardValueData {
                 x: v.create(5.0d, 1, 0.2d, 1),
                 y: v.create(6.00d, 2, 0.12d, 2),
                 f: { Value x, Value y -> x.div y },
+                result: {  Value f ->
+                    assert !f.exact
+                    assertDecimalEquals f.value, 0.8333333333d
+                    assertDecimalEquals f.uncertainty, 0.03726780d
+                },
+                rounded: { Value f ->
+                    f = f.roundedValue
+                    assert f.significant == 1
+                    assert f.decimal == 1
+                    assertDecimalEquals f.value, 0.8d
+                    assertDecimalEquals f.uncertainty, 0.04d
+                },
+            ],
+            [
+                name: "div uncertain uncertain",
+                func: "f(x,y):=x/y",
+                epsilon: 10**-8,
+                x: v.create(5.0d, 1, 0.2d, 1),
+                y: v.create(6.00d, 2, 0.12d, 2),
+                f: { Value x, Value y -> x / y },
                 result: {  Value f ->
                     assert !f.exact
                     assertDecimalEquals f.value, 0.8333333333d
