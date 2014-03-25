@@ -24,6 +24,7 @@ import static com.anrisoftware.globalpom.data.DataProperty.ROWS;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
 
 import javax.inject.Inject;
 
@@ -39,13 +40,14 @@ import com.google.inject.assistedinject.Assisted;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
  */
-public class DefaultDataBean implements DataBean {
+@SuppressWarnings("serial")
+public class DefaultDataBean implements DataBean, Serializable {
 
     private final Data data;
 
-    private final PropertyChangeSupport p;
+    private transient PropertyChangeSupport p;
 
-    private final ListPropertyChangeSupport lp;
+    private transient ListPropertyChangeSupport lp;
 
     /**
      * @see DefaultDataBeanFactory#create(Data)
@@ -53,8 +55,13 @@ public class DefaultDataBean implements DataBean {
     @Inject
     DefaultDataBean(@Assisted Data data) {
         this.data = data;
+        readResolve();
+    }
+
+    private Object readResolve() {
         this.p = new PropertyChangeSupport(this);
         this.lp = new ListPropertyChangeSupport(this, p);
+        return this;
     }
 
     @Override

@@ -22,7 +22,7 @@ import java.beans.PropertyChangeEvent;
 
 /**
  * Event when a list property have been changed.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
  */
@@ -36,10 +36,10 @@ public abstract class ListPropertyChangeEvent extends PropertyChangeEvent {
 	/**
 	 * @see PropertyChangeEvent#PropertyChangeEvent(Object, String, Object,
 	 *      Object)
-	 * 
+	 *
 	 * @param index0
 	 *            the first index where the list was changed.
-	 * 
+	 *
 	 * @param index1
 	 *            the last index where the list was changed.
 	 */
@@ -52,7 +52,7 @@ public abstract class ListPropertyChangeEvent extends PropertyChangeEvent {
 
 	/**
 	 * Returns the first index where the list was changed.
-	 * 
+	 *
 	 * @return the first index.
 	 */
 	public int getIndex0() {
@@ -61,7 +61,7 @@ public abstract class ListPropertyChangeEvent extends PropertyChangeEvent {
 
 	/**
 	 * Returns the last index where the list was changed.
-	 * 
+	 *
 	 * @return the last index.
 	 */
 	public int getIndex1() {
@@ -70,7 +70,7 @@ public abstract class ListPropertyChangeEvent extends PropertyChangeEvent {
 
 	/**
 	 * Returns the type of list change event.
-	 * 
+	 *
 	 * @return the {@link ListPropertyChange}.
 	 */
 	public abstract ListPropertyChange getType();
