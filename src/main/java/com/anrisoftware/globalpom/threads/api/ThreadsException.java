@@ -22,25 +22,84 @@ import java.util.Map;
 
 import com.anrisoftware.globalpom.exceptions.Context;
 
+/**
+ * Threads exception.
+ * 
+ * @author Erwin Mueller, erwin.mueller@deventm.org
+ * @since 1.0
+ */
 @SuppressWarnings("serial")
 public class ThreadsException extends Exception {
 
-	private Context<ThreadsException> context;
+    private final Context<ThreadsException> context;
 
-	public ThreadsException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    /**
+     * @see Exception#Exception(String, Throwable)
+     */
+    public ThreadsException(String message, Throwable cause) {
+        super(message, cause);
+        this.context = new Context<ThreadsException>(this);
+    }
 
-	public ThreadsException(String message) {
-		super(message);
-	}
+    /**
+     * @see Exception#Exception(String)
+     */
+    public ThreadsException(String message) {
+        super(message);
+        this.context = new Context<ThreadsException>(this);
+    }
 
-	public ThreadsException addContext(String name, Object value) {
-		return context.addContext(name, value);
-	}
+    /**
+     * @see Exception#Exception(String, Throwable)
+     */
+    public ThreadsException(Object message, Throwable cause) {
+        super(message.toString(), cause);
+        this.context = new Context<ThreadsException>(this);
+    }
 
-	public Map<String, Object> getContext() {
-		return context.getContext();
-	}
+    /**
+     * @see Exception#Exception(String)
+     */
+    public ThreadsException(Object message) {
+        super(message.toString());
+        this.context = new Context<ThreadsException>(this);
+    }
 
+    /**
+     * @see Context#addContext(String, Object)
+     */
+    public ThreadsException add(String name, Object value) {
+        context.addContext(name, value);
+        return this;
+    }
+
+    /**
+     * @see Context#addContext(String, Object)
+     */
+    public ThreadsException add(Object name, Object value) {
+        context.addContext(name.toString(), value);
+        return this;
+    }
+
+    /**
+     * @see Context#getContext()
+     */
+    public Map<String, Object> getContext() {
+        return context.getContext();
+    }
+
+    @Override
+    public String getMessage() {
+        return context.message(super.getMessage());
+    }
+
+    @Override
+    public String getLocalizedMessage() {
+        return context.localizedMessage(super.getMessage());
+    }
+
+    @Override
+    public String toString() {
+        return context.toString();
+    }
 }

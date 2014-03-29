@@ -41,8 +41,6 @@ import com.anrisoftware.globalpom.threads.api.Threads;
 import com.anrisoftware.globalpom.threads.api.ThreadsException;
 import com.anrisoftware.globalpom.threads.watchdog.ThreadsWatchdog;
 import com.anrisoftware.propertiesutils.ContextProperties;
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
 
 /**
  * Loads the thread pool properties from a properties file.
@@ -52,239 +50,204 @@ import com.google.inject.assistedinject.AssistedInject;
  */
 public class PropertiesThreads implements Threads {
 
-	private final PropertiesThreadsLogger log;
+    @Inject
+    private PropertiesThreadsLogger log;
 
-	private final CachedThreadingPropertiesFactory cachedFactory;
+    @Inject
+    private CachedThreadingPropertiesFactory cachedFactory;
 
-	private final ThreadingPropertiesFactory propertiesFactory;
+    @Inject
+    private ThreadingPropertiesFactory propertiesFactory;
 
-	private final FixedThreadingPropertiesFactory fixedFactory;
+    @Inject
+    private FixedThreadingPropertiesFactory fixedFactory;
 
-	private final SingleThreadingPropertiesFactory singleFactory;
+    @Inject
+    private SingleThreadingPropertiesFactory singleFactory;
 
-	private final ThreadsWatchdog watchdog;
+    @Inject
+    private ThreadsWatchdog watchdog;
 
-	private ContextProperties properties;
+    private ContextProperties properties;
 
-	private String name;
+    private String name;
 
-	private ExecutorService executor;
+    private ExecutorService executor;
 
-	/**
-	 * @see PropertiesThreadsFactory#create(Properties, String)
-	 */
-	@AssistedInject
-	PropertiesThreads(PropertiesThreadsLogger logger,
-			ThreadingPropertiesFactory propertiesFactory,
-			ThreadsWatchdog threadsWatchdog,
-			CachedThreadingPropertiesFactory cachedThreadingPropertiesFactory,
-			FixedThreadingPropertiesFactory fixedThreadingPropertiesFactory,
-			SingleThreadingPropertiesFactory singleThreadingPropertiesFactory,
-			@Assisted Properties properties, @Assisted String name)
-			throws ThreadsException {
-		this(logger, propertiesFactory, threadsWatchdog,
-				cachedThreadingPropertiesFactory,
-				fixedThreadingPropertiesFactory,
-				singleThreadingPropertiesFactory);
-		setProperties(properties);
-		setName(name);
-	}
+    /**
+     * Sets the properties for the thread pool.
+     * 
+     * @param properties
+     *            the {@link Properties}.
+     */
+    public void setProperties(Properties properties) {
+        log.checkProperties(this, properties);
+        this.properties = new ContextProperties(this, properties);
+    }
 
-	/**
-	 * @see PropertiesThreadsFactory#create()
-	 */
-	@Inject
-	@AssistedInject
-	PropertiesThreads(PropertiesThreadsLogger logger,
-			ThreadingPropertiesFactory propertiesFactory,
-			ThreadsWatchdog threadsWatchdog,
-			CachedThreadingPropertiesFactory cachedThreadingPropertiesFactory,
-			FixedThreadingPropertiesFactory fixedThreadingPropertiesFactory,
-			SingleThreadingPropertiesFactory singleThreadingPropertiesFactory) {
-		this.log = logger;
-		this.propertiesFactory = propertiesFactory;
-		this.watchdog = threadsWatchdog;
-		this.cachedFactory = cachedThreadingPropertiesFactory;
-		this.fixedFactory = fixedThreadingPropertiesFactory;
-		this.singleFactory = singleThreadingPropertiesFactory;
-	}
+    @Override
+    public void setName(String name) throws ThreadsException {
+        log.checkName(this, name);
+        String oldValue = this.name;
+        this.name = name;
+        if (!name.equals(oldValue)) {
+            executor = createExecutor();
+            watchdog.setExecutor(executor);
+        }
+    }
 
-	/**
-	 * Sets the properties for the thread pool.
-	 * 
-	 * @param properties
-	 *            the {@link Properties}.
-	 */
-	public void setProperties(Properties properties) {
-		this.properties = new ContextProperties(this, properties);
-	}
+    @Override
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public void setName(String name) throws ThreadsException {
-		log.checkName(this, name);
-		String oldValue = this.name;
-		this.name = name;
-		if (!name.equals(oldValue)) {
-			executor = createExecutor();
-			watchdog.setExecutor(executor);
-		}
-	}
+    private ExecutorService createExecutor() throws ThreadsException {
+        ThreadingProperties p = propertiesFactory.create(properties, name);
+        ThreadFactory factory = p.getThreadFactory(null);
+        ThreadingPolicy policy = p.getPolicy();
+        switch (policy) {
+        case CACHED:
+            return createCachedPool(factory);
+        case FIXED:
+            return createFixedPool(factory);
+        case SINGLE:
+            return createSinglePool(factory);
+        default:
+            throw log.invalidPolicy(this, policy);
+        }
+    }
 
-	@Override
-	public String getName() {
-		return name;
-	}
+    private ExecutorService createSinglePool(ThreadFactory factory) {
+        return singleFactory.create(properties, name).createExecutorService(
+                factory);
+    }
 
-	private ExecutorService createExecutor() throws ThreadsException {
-		ThreadingProperties p = propertiesFactory.create(properties, name);
-		ThreadFactory factory = p.getThreadFactory(null);
-		ThreadingPolicy policy = p.getPolicy();
-		switch (policy) {
-		case CACHED:
-			return createCachedPool(factory);
-		case FIXED:
-			return createFixedPool(factory);
-		case SINGLE:
-			return createSinglePool(factory);
-		default:
-			throw log.invalidPolicy(this, policy);
-		}
-	}
+    private ExecutorService createCachedPool(ThreadFactory factory) {
+        return cachedFactory.create(properties, name).createExecutorService(
+                factory);
+    }
 
-	private ExecutorService createSinglePool(ThreadFactory factory) {
-		return singleFactory.create(properties, name).createExecutorService(
-				factory);
-	}
+    private ExecutorService createFixedPool(ThreadFactory factory) {
+        FixedThreadingProperties fixedProperties = fixedFactory.create(
+                properties, name);
+        int maxThreads = fixedProperties.getMaxThreads();
+        return fixedProperties.createExecutorService(factory, maxThreads);
+    }
 
-	private ExecutorService createCachedPool(ThreadFactory factory) {
-		return cachedFactory.create(properties, name).createExecutorService(
-				factory);
-	}
+    /**
+     * Unsupported.
+     */
+    @Override
+    public void execute(Runnable command) {
+        throw new UnsupportedOperationException();
+    }
 
-	private ExecutorService createFixedPool(ThreadFactory factory) {
-		FixedThreadingProperties fixedProperties = fixedFactory.create(
-				properties, name);
-		int maxThreads = fixedProperties.getMaxThreads();
-		return fixedProperties.createExecutorService(factory, maxThreads);
-	}
+    @Override
+    public void shutdown() {
+        executor.shutdown();
+    }
 
-	/**
-	 * Unsupported.
-	 */
-	@Override
-	public void execute(Runnable command) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public List<Runnable> shutdownNow() {
+        return executor.shutdownNow();
+    }
 
-	@Override
-	public void shutdown() {
-		executor.shutdown();
-	}
+    @Override
+    public boolean isShutdown() {
+        return executor.isShutdown();
+    }
 
-	@Override
-	public List<Runnable> shutdownNow() {
-		return executor.shutdownNow();
-	}
+    @Override
+    public boolean isTerminated() {
+        return executor.isTerminated();
+    }
 
-	@Override
-	public boolean isShutdown() {
-		return executor.isShutdown();
-	}
+    @Override
+    public boolean awaitTermination(long timeout, TimeUnit unit)
+            throws InterruptedException {
+        return executor.awaitTermination(timeout, unit);
+    }
 
-	@Override
-	public boolean isTerminated() {
-		return executor.isTerminated();
-	}
+    @Override
+    public <T> Future<T> submit(Callable<T> task) {
+        return watchdog.submit(task);
+    }
 
-	@Override
-	public boolean awaitTermination(long timeout, TimeUnit unit)
-			throws InterruptedException {
-		return executor.awaitTermination(timeout, unit);
-	}
+    @Override
+    public <V> ListenableFuture<V> submit(Callable<V> callable,
+            PropertyChangeListener... listeners) {
+        return watchdog.submit(callable, listeners);
+    }
 
-	@Override
-	public <T> Future<T> submit(Callable<T> task) {
-		return watchdog.submit(task);
-	}
+    @Override
+    public <T> Future<T> submit(Runnable task, T result) {
+        return watchdog.submit(task, result);
+    }
 
-	@Override
-	public <V> ListenableFuture<V> submit(Callable<V> callable,
-			PropertyChangeListener... listeners) {
-		return watchdog.submit(callable, listeners);
-	}
+    @Override
+    public <V> ListenableFuture<V> submit(Runnable runable, V result,
+            PropertyChangeListener... listeners) {
+        return watchdog.submit(runable, result, listeners);
+    }
 
-	@Override
-	public <T> Future<T> submit(Runnable task, T result) {
-		return watchdog.submit(task, result);
-	}
+    @Override
+    public Future<?> submit(Runnable runable) {
+        return watchdog.submit(runable, null);
+    }
 
-	@Override
-	public <V> ListenableFuture<V> submit(Runnable runable, V result,
-			PropertyChangeListener... listeners) {
-		return watchdog.submit(runable, result, listeners);
-	}
+    /**
+     * Unsupported.
+     */
+    @Override
+    public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
+            throws InterruptedException {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public Future<?> submit(Runnable runable) {
-		return watchdog.submit(runable, null);
-	}
+    @Override
+    public <T> List<Future<T>> invokeAll(
+            Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
+            throws InterruptedException {
+        return executor.invokeAll(tasks, timeout, unit);
+    }
 
-	/**
-	 * Unsupported.
-	 */
-	@Override
-	public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
-			throws InterruptedException {
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * Unsupported.
+     */
+    @Override
+    public <T> T invokeAny(Collection<? extends Callable<T>> tasks)
+            throws InterruptedException, ExecutionException {
+        throw new UnsupportedOperationException();
+    }
 
-	/**
-	 * Unsupported.
-	 */
-	@Override
-	public <T> List<Future<T>> invokeAll(
-			Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
-			throws InterruptedException {
-		return executor.invokeAll(tasks, timeout, unit);
-	}
+    /**
+     * Unsupported.
+     */
+    @Override
+    public <T> T invokeAny(Collection<? extends Callable<T>> tasks,
+            long timeout, TimeUnit unit) throws InterruptedException,
+            ExecutionException, TimeoutException {
+        throw new UnsupportedOperationException();
+    }
 
-	/**
-	 * Unsupported.
-	 */
-	@Override
-	public <T> T invokeAny(Collection<? extends Callable<T>> tasks)
-			throws InterruptedException, ExecutionException {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public List<Future<?>> getTasks() {
+        return watchdog.getTasks();
+    }
 
-	/**
-	 * Unsupported.
-	 */
-	@Override
-	public <T> T invokeAny(Collection<? extends Callable<T>> tasks,
-			long timeout, TimeUnit unit) throws InterruptedException,
-			ExecutionException, TimeoutException {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public void waitForTasks() throws InterruptedException {
+        watchdog.waitForTasks();
+    }
 
-	@Override
-	public List<Future<?>> getTasks() {
-		return watchdog.getTasks();
-	}
+    @Override
+    public List<Future<?>> waitForTasks(Duration timeout)
+            throws InterruptedException {
+        return watchdog.waitForTasks(timeout);
+    }
 
-	@Override
-	public void waitForTasks() throws InterruptedException {
-		watchdog.waitForTasks();
-	}
-
-	@Override
-	public List<Future<?>> waitForTasks(Duration timeout)
-			throws InterruptedException {
-		return watchdog.waitForTasks(timeout);
-	}
-
-	@Override
-	public String toString() {
-		return new ToStringBuilder(this).append("name", name).toString();
-	}
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).append("name", name).toString();
+    }
 }

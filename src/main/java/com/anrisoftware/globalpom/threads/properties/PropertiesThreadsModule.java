@@ -22,27 +22,32 @@ import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /**
- * Install the threads based on loaded properties.
+ * Install the properties threads factory.
+ * 
+ * @see PropertiesThreadsFactory
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.5
  */
 public class PropertiesThreadsModule extends AbstractModule {
 
-	@Override
-	protected void configure() {
-		install(new FactoryModuleBuilder().implement(PropertiesThreads.class,
-				PropertiesThreads.class).build(PropertiesThreadsFactory.class));
-		install(new FactoryModuleBuilder().implement(ThreadingProperties.class,
-				ThreadingProperties.class).build(
-				ThreadingPropertiesFactory.class));
-		install(new CachedThreadingModule());
-		install(new FactoryModuleBuilder().implement(
-				FixedThreadingProperties.class, FixedThreadingProperties.class)
-				.build(FixedThreadingPropertiesFactory.class));
-		install(new FactoryModuleBuilder().implement(
-				SingleThreadingProperties.class,
-				SingleThreadingProperties.class).build(
-				SingleThreadingPropertiesFactory.class));
-	}
+    @Override
+    protected void configure() {
+        install(new FactoryModuleBuilder().implement(PropertiesThreads.class,
+                PropertiesThreads.class).build(PropertiesThreadsFactory.class));
+        install(new FactoryModuleBuilder().implement(ThreadingProperties.class,
+                ThreadingProperties.class).build(
+                ThreadingPropertiesFactory.class));
+        install(new FactoryModuleBuilder().implement(
+                CachedThreadingProperties.class,
+                CachedThreadingProperties.class).build(
+                CachedThreadingPropertiesFactory.class));
+        install(new FactoryModuleBuilder().implement(
+                FixedThreadingProperties.class, FixedThreadingProperties.class)
+                .build(FixedThreadingPropertiesFactory.class));
+        install(new FactoryModuleBuilder().implement(
+                SingleThreadingProperties.class,
+                SingleThreadingProperties.class).build(
+                SingleThreadingPropertiesFactory.class));
+    }
 }

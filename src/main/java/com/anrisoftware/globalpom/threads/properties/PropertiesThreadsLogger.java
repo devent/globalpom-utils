@@ -18,9 +18,15 @@
  */
 package com.anrisoftware.globalpom.threads.properties;
 
+import static com.anrisoftware.globalpom.threads.properties.PropertiesThreadsLogger._.invalid_policy;
+import static com.anrisoftware.globalpom.threads.properties.PropertiesThreadsLogger._.invalid_policy_message;
+import static com.anrisoftware.globalpom.threads.properties.PropertiesThreadsLogger._.name_null;
+import static com.anrisoftware.globalpom.threads.properties.PropertiesThreadsLogger._.policy_name;
+import static com.anrisoftware.globalpom.threads.properties.PropertiesThreadsLogger._.properties_null;
 import static org.apache.commons.lang3.Validate.notBlank;
+import static org.apache.commons.lang3.Validate.notNull;
 
-import javax.inject.Singleton;
+import java.util.Properties;
 
 import com.anrisoftware.globalpom.log.AbstractLogger;
 import com.anrisoftware.globalpom.threads.api.ThreadingPolicy;
@@ -32,29 +38,51 @@ import com.anrisoftware.globalpom.threads.api.ThreadsException;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.5
  */
-@Singleton
 class PropertiesThreadsLogger extends AbstractLogger {
 
-	private static final String NAME_NULL = "The name must be not null or empty.";
-	private static final String POLICY = "policy";
-	private static final String INVALID_POLICY_MESSAGE = "Invalid thread pool policy {}.";
-	private static final String INVALID_POLICY = "Invalid thread pool policy";
+    enum _ {
 
-	/**
-	 * Create logger for {@link PropertiesThreads}.
-	 */
-	public PropertiesThreadsLogger() {
-		super(PropertiesThreads.class);
-	}
+        invalid_policy("Invalid thread pool policy"),
 
-	ThreadsException invalidPolicy(PropertiesThreads threads,
-			ThreadingPolicy policy) {
-		return logException(
-				new ThreadsException(INVALID_POLICY).addContext(POLICY, policy),
-				INVALID_POLICY_MESSAGE, policy);
-	}
+        invalid_policy_message("Invalid thread pool policy {}."),
 
-	void checkName(PropertiesThreads threads, String name) {
-		notBlank(name, NAME_NULL);
-	}
+        policy_name("policy"),
+
+        name_null("name"),
+
+        properties_null("properties");
+
+        private String name;
+
+        private _(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
+
+    /**
+     * Create logger for {@link PropertiesThreads}.
+     */
+    public PropertiesThreadsLogger() {
+        super(PropertiesThreads.class);
+    }
+
+    ThreadsException invalidPolicy(PropertiesThreads threads,
+            ThreadingPolicy policy) {
+        return logException(
+                new ThreadsException(invalid_policy).add(policy_name, policy),
+                invalid_policy_message, policy);
+    }
+
+    void checkName(PropertiesThreads threads, String name) {
+        notBlank(name, name_null.toString());
+    }
+
+    void checkProperties(PropertiesThreads threads, Properties properties) {
+        notNull(properties, properties_null.toString());
+    }
 }

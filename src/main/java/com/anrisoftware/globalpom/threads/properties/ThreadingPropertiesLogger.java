@@ -18,11 +18,23 @@
  */
 package com.anrisoftware.globalpom.threads.properties;
 
+import static com.anrisoftware.globalpom.threads.properties.ThreadingPropertiesLogger._.error_default_ctor;
+import static com.anrisoftware.globalpom.threads.properties.ThreadingPropertiesLogger._.error_default_ctor_message;
+import static com.anrisoftware.globalpom.threads.properties.ThreadingPropertiesLogger._.illegal_access;
+import static com.anrisoftware.globalpom.threads.properties.ThreadingPropertiesLogger._.illegal_access_message;
+import static com.anrisoftware.globalpom.threads.properties.ThreadingPropertiesLogger._.instantiation_error;
+import static com.anrisoftware.globalpom.threads.properties.ThreadingPropertiesLogger._.instantiation_error_message;
+import static com.anrisoftware.globalpom.threads.properties.ThreadingPropertiesLogger._.name_;
+import static com.anrisoftware.globalpom.threads.properties.ThreadingPropertiesLogger._.no_default_constructor;
+import static com.anrisoftware.globalpom.threads.properties.ThreadingPropertiesLogger._.no_default_constructor_message;
+import static com.anrisoftware.globalpom.threads.properties.ThreadingPropertiesLogger._.thread_factory_not_found;
+import static com.anrisoftware.globalpom.threads.properties.ThreadingPropertiesLogger._.thread_factory_not_found_message;
+import static com.anrisoftware.globalpom.threads.properties.ThreadingPropertiesLogger._.thread_factory_null;
+import static com.anrisoftware.globalpom.threads.properties.ThreadingPropertiesLogger._.threading_policy_null;
+import static com.anrisoftware.globalpom.threads.properties.ThreadingPropertiesLogger._.type_;
 import static org.apache.commons.lang3.Validate.notNull;
 
 import java.util.concurrent.ThreadFactory;
-
-import javax.inject.Singleton;
 
 import com.anrisoftware.globalpom.log.AbstractLogger;
 import com.anrisoftware.globalpom.threads.api.ThreadingPolicy;
@@ -34,69 +46,100 @@ import com.anrisoftware.globalpom.threads.api.ThreadsException;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.5
  */
-@Singleton
 class ThreadingPropertiesLogger extends AbstractLogger {
 
-	private static final String INSTANTIATION_ERROR_MESSAGE = "Instantiation error of thread factory {}.";
-	private static final String INSTANTIATION_ERROR = "Instantiation error of thread factory";
-	private static final String ERROR_DEFAULT_CTOR_MESSAGE = "Error in default constructor of thread factory {}.";
-	private static final String ERROR_DEFAULT_CTOR = "Error in default constructor of thread factory";
-	private static final String ILLEGAL_ACCESS_MESSAGE = "Illegal access to default constructor of thread factory {}.";
-	private static final String ILLEGAL_ACCESS = "Illegal access to default constructor of thread factory";
-	private static final String NAME = "name";
-	private static final String THREAD_FACTORY_NOT_FOUND_MESSAGE = "Thread factory {} not found";
-	private static final String THREAD_FACTORY_NOT_FOUND = "Thread factory not found";
-	private static final String THREAD_FACTORY_NULL = "No thread factory found.";
-	private static final String THREADING_POLICY_NULL = "No threading policy found.";
-	private static final String TYPE = "type";
-	private static final String NO_DEFAULT_CONSTRUCTOR_MESSAGE = "No default constructor for type {} available.";
-	private static final String NO_DEFAULT_CONSTRUCTOR = "No default constructor available";
+    enum _ {
 
-	/**
-	 * Create logger for {@link ThreadingProperties}.
-	 */
-	public ThreadingPropertiesLogger() {
-		super(ThreadingProperties.class);
-	}
+        instantiation_error_message("Instantiation error of thread factory {}."),
 
-	ThreadsException threadFactoryNotFound(ClassNotFoundException e,
-			String value) {
-		return logException(
-				new ThreadsException(THREAD_FACTORY_NOT_FOUND, e).addContext(
-						NAME, value), THREAD_FACTORY_NOT_FOUND_MESSAGE, value);
-	}
+        instantiation_error("Instantiation error of thread factory"),
 
-	ThreadsException noDefaultCtor(NoSuchMethodException e, Class<?> type) {
-		return logException(
-				new ThreadsException(NO_DEFAULT_CONSTRUCTOR, e).addContext(
-						TYPE, type), NO_DEFAULT_CONSTRUCTOR_MESSAGE, type);
-	}
+        error_default_ctor_message(
+                "Error in default constructor of thread factory {}."),
 
-	ThreadsException illegalAccessCtor(IllegalAccessException e, Class<?> type) {
-		return logException(
-				new ThreadsException(ILLEGAL_ACCESS, e).addContext(TYPE, type),
-				ILLEGAL_ACCESS_MESSAGE, type);
-	}
+        error_default_ctor("Error in default constructor of thread factory"),
 
-	ThreadsException exceptionCtor(Throwable e, Class<?> type) {
-		return logException(
-				new ThreadsException(ERROR_DEFAULT_CTOR, e).addContext(TYPE,
-						type), ERROR_DEFAULT_CTOR_MESSAGE, type);
-	}
+        illegal_access_message(
+                "Illegal access to default constructor of thread factory {}."),
 
-	ThreadsException instantiationErrorFactory(InstantiationException e,
-			Class<?> type) {
-		return logException(
-				new ThreadsException(INSTANTIATION_ERROR, e).addContext(TYPE,
-						type), INSTANTIATION_ERROR_MESSAGE, type);
-	}
+        illegal_access(
+                "Illegal access to default constructor of thread factory"),
 
-	void checkPolicy(ThreadingProperties p, ThreadingPolicy value) {
-		notNull(value, THREADING_POLICY_NULL);
-	}
+        name_("name"),
 
-	void checkThreadFactory(ThreadingProperties p, ThreadFactory value) {
-		notNull(value, THREAD_FACTORY_NULL);
-	}
+        thread_factory_not_found_message("Thread factory {} not found"),
+
+        thread_factory_not_found("Thread factory not found"),
+
+        thread_factory_null("No thread factory found."),
+
+        threading_policy_null("No threading policy found."),
+
+        type_("type"),
+
+        no_default_constructor_message(
+                "No default constructor for type {} available."),
+
+        no_default_constructor("No default constructor available");
+
+        private String name;
+
+        private _(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
+
+    /**
+     * Create logger for {@link ThreadingProperties}.
+     */
+    public ThreadingPropertiesLogger() {
+        super(ThreadingProperties.class);
+    }
+
+    ThreadsException threadFactoryNotFound(ClassNotFoundException e,
+            String value) {
+        return logException(
+                new ThreadsException(thread_factory_not_found, e).add(name_,
+                        value), thread_factory_not_found_message, value);
+    }
+
+    ThreadsException noDefaultCtor(NoSuchMethodException e, Class<?> type) {
+        return logException(
+                new ThreadsException(no_default_constructor, e)
+                        .add(type_, type),
+                no_default_constructor_message, type);
+    }
+
+    ThreadsException illegalAccessCtor(IllegalAccessException e, Class<?> type) {
+        return logException(
+                new ThreadsException(illegal_access, e).add(type_, type),
+                illegal_access_message, type);
+    }
+
+    ThreadsException exceptionCtor(Throwable e, Class<?> type) {
+        return logException(
+                new ThreadsException(error_default_ctor, e).add(type_, type),
+                error_default_ctor_message, type);
+    }
+
+    ThreadsException instantiationErrorFactory(InstantiationException e,
+            Class<?> type) {
+        return logException(
+                new ThreadsException(instantiation_error, e).add(type_, type),
+                instantiation_error_message, type);
+    }
+
+    void checkPolicy(ThreadingProperties p, ThreadingPolicy value) {
+        notNull(value, threading_policy_null.toString());
+    }
+
+    void checkThreadFactory(ThreadingProperties p, ThreadFactory value) {
+        notNull(value, thread_factory_null.toString());
+    }
 
 }
