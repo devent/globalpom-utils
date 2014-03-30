@@ -81,6 +81,11 @@
 			<artifactId>xstream</artifactId>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-exec</artifactId>
+            <scope>test</scope>
+        </dependency>
 
 		<!-- compile dependencies -->
 		<dependency>
@@ -159,6 +164,13 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<optional>true</optional>
+		</dependency>
+
+        <!-- exec -->
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>ST4</artifactId>
+            <optional>true</optional>
 		</dependency>
 	</dependencies>
 
