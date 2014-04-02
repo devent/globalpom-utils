@@ -1,7 +1,9 @@
 package com.anrisoftware.globalpom.exec.core;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.ProcessBuilder.Redirect;
 import java.util.List;
 
@@ -20,6 +22,12 @@ import com.anrisoftware.globalpom.exec.pipeoutputs.PipeCommandOutputFactory;
 import com.anrisoftware.globalpom.threads.api.Threads;
 import com.google.inject.assistedinject.Assisted;
 
+/**
+ * Executes command task.
+ * 
+ * @author Erwin Mueller, erwin.mueller@deventm.org
+ * @since 1.11
+ */
 class DefaultProcessTask implements ProcessTask {
 
     private static final String EXECUTABLE = "executable";
@@ -122,7 +130,9 @@ class DefaultProcessTask implements ProcessTask {
             this.error = commandErrorFactory.create(errorStream);
         }
         if (input == null) {
-            this.input = commandInputFactory.create();
+            byte[] bytes = "".getBytes();
+            InputStream stream = new ByteArrayInputStream(bytes);
+            this.input = commandInputFactory.create(stream);
         }
         input.setOutput(process.getOutputStream());
         output.setInput(process.getInputStream());
@@ -134,6 +144,11 @@ class DefaultProcessTask implements ProcessTask {
 
     private boolean checkExitCodes(int ret, int[] exitCodes) {
         return ArrayUtils.contains(exitCodes, ret);
+    }
+
+    @Override
+    public Process getProcess() {
+        return process;
     }
 
     @Override

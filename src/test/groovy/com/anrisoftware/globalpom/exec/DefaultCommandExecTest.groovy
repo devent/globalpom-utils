@@ -21,6 +21,7 @@ import com.anrisoftware.globalpom.exec.command.CommandLine
 import com.anrisoftware.globalpom.exec.command.CommandLineFactory
 import com.anrisoftware.globalpom.exec.command.CommandLineModule
 import com.anrisoftware.globalpom.exec.core.DefaultProcessModule
+import com.anrisoftware.globalpom.exec.pipeoutputs.PipeCommandInput
 import com.anrisoftware.globalpom.exec.pipeoutputs.PipeCommandInputFactory
 import com.anrisoftware.globalpom.exec.pipeoutputs.PipeCommandOutputFactory
 import com.anrisoftware.globalpom.exec.pipeoutputs.PipeOutputsModule
@@ -197,6 +198,40 @@ class DefaultCommandExecTest {
             log.info "Read {}", b
             buff[i++] = b
         }
+        task.get()
+        assert new String(buff) == "TextTextText"
+    }
+
+    @Test
+    void "read input"() {
+        def file = createCommand "command.sh", readInputCommand, tmp
+        def threads = injector.getInstance PropertiesThreads
+        threads.setProperties properties
+        threads.setName "cached"
+        CommandLine line = commandLineFactory.create(file).add(1)
+        CommandExec exec = commandExecFactory.create()
+
+        def sink = new PipedInputStream()
+        def outputBuffer = new PipedOutputStream(sink)
+        def listener = {
+            log.info "Task property changed: {}", it
+            outputBuffer.close()
+        } as PropertyChangeListener
+
+        exec.setCommandInput PipeCommandInput.fromString(injector, "Text\nText\nText\n")
+        exec.setCommandOutput pipeCommandOutputFactory.create(outputBuffer)
+        exec.setThreads threads
+        Future task = exec.exec line, listener
+
+        byte[] buff = new byte[4*3]
+        int i = 0, b
+        while ((b = sink.read()) != -1) {
+            log.info "Read {}", b
+            buff[i++] = b
+        }
+        task.get()
+
+        log.info "Read '{}'.", new String(buff)
         assert new String(buff) == "TextTextText"
     }
 
@@ -217,6 +252,8 @@ class DefaultCommandExecTest {
     static outputErrorCommand = DefaultCommandExecTest.class.getResource("output_error_command.txt")
 
     static exitCodeCommand = DefaultCommandExecTest.class.getResource("exitcode_command.txt")
+
+    static readInputCommand = DefaultCommandExecTest.class.getResource("read_command.txt")
 
     static properties
 

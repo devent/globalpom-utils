@@ -34,6 +34,13 @@ public class PipeCommandOutput implements CommandOutput {
         this.stream = stream;
     }
 
+    /**
+     * Sets the stream that is filled with the piped to the output of the
+     * command.
+     * 
+     * @param stream
+     *            the {@link OutputStream}.
+     */
     public void setPipe(OutputStream stream) {
         this.output = stream;
     }
