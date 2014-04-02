@@ -1,5 +1,6 @@
 package com.anrisoftware.globalpom.exec
 
+import static com.anrisoftware.globalpom.utils.TestUtils.*
 import groovy.util.logging.Slf4j
 
 import org.junit.BeforeClass
@@ -20,6 +21,12 @@ import com.google.inject.Injector
  */
 @Slf4j
 class CommandLineTest {
+
+    @Test
+    void "add null argument"() {
+        CommandLine line = commandLineFactory.create "foo"
+        shouldFailWith(NullPointerException) { line.add null }
+    }
 
     @Test
     void "add quoted argument"() {
@@ -44,9 +51,9 @@ class CommandLineTest {
         line.add "ddd=<zzz>"
         line.add "aaa=<xxx> bbb=<yyy>"
         line.add '"aaa ccc" bbb=<yyy>'
-        line.sub "xxx", "xxxvalue"
-        line.sub "yyy", "yyyvalue"
-        line.sub "zzz", "zzz value"
+        line.addSub "xxx", "xxxvalue"
+        line.addSub "yyy", "yyyvalue"
+        line.addSub "zzz", "zzz value"
 
         log.info "Command line: {}", line
         assert line.executable == "foo"
@@ -67,9 +74,9 @@ class CommandLineTest {
         line.add "ddd={zzz}"
         line.add "aaa={xxx} bbb={yyy}"
         line.add '"aaa ccc" bbb={yyy}'
-        line.sub "xxx", "xxxvalue"
-        line.sub "yyy", "yyyvalue"
-        line.sub "zzz", "zzz value"
+        line.addSub "xxx", "xxxvalue"
+        line.addSub "yyy", "yyyvalue"
+        line.addSub "zzz", "zzz value"
 
         log.info "Command line: {}", line
         assert line.executable == "foo"

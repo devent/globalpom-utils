@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
@@ -22,7 +24,7 @@ import com.google.inject.assistedinject.AssistedInject;
  * Quotes command line arguments.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.0
+ * @since 1.11
  */
 public class CommandLine {
 
@@ -39,6 +41,9 @@ public class CommandLine {
     private final String executable;
 
     private final Map<String, Object> substitutions;
+
+    @Inject
+    private CommandLineLogger log;
 
     private STGroup stgroup;
 
@@ -100,11 +105,11 @@ public class CommandLine {
      * Adds the specified command line arguments.
      * 
      * @param arguments
-     *            the {@link String} array arguments.
+     *            the {@link Object} array arguments.
      * 
      * @return this {@link CommandLine}.
      */
-    public CommandLine add(String... arguments) {
+    public CommandLine add(Object... arguments) {
         return add(true, arguments);
     }
 
@@ -115,12 +120,12 @@ public class CommandLine {
      *            set to {@code true} to quote the argument.
      * 
      * @param arguments
-     *            the {@link String} array arguments.
+     *            the {@link Object} array arguments.
      * 
      * @return this {@link CommandLine}.
      */
-    public CommandLine add(boolean quote, String... arguments) {
-        for (String argument : arguments) {
+    public CommandLine add(boolean quote, Object... arguments) {
+        for (Object argument : arguments) {
             add(quote, argument);
         }
         return this;
@@ -130,11 +135,11 @@ public class CommandLine {
      * Adds the specified command line argument.
      * 
      * @param arguments
-     *            the {@link String} argument.
+     *            the {@link Object} argument.
      * 
      * @return this {@link CommandLine}.
      */
-    public CommandLine add(String argument) {
+    public CommandLine add(Object argument) {
         return add(true, argument);
     }
 
@@ -153,14 +158,15 @@ public class CommandLine {
      * </p>
      * 
      * @param argument
-     *            the {@link String} argument.
+     *            the {@link Object} argument.
      * 
      * @param quote
      *            set to {@code true} to quote the argument.
      * 
      * @return this {@link CommandLine}.
      */
-    public CommandLine add(boolean quote, String argument) {
+    public CommandLine add(boolean quote, Object argument) {
+        log.checkArgument(this, argument);
         arguments.add(new Argument(argument, quote));
         return this;
     }
@@ -179,7 +185,7 @@ public class CommandLine {
      * 
      * @return this {@link CommandLine}.
      */
-    public CommandLine sub(String name, Object value) {
+    public CommandLine addSub(String name, Object value) {
         this.substitutions.put(name, value);
         createStGroup();
         return this;
@@ -236,8 +242,8 @@ public class CommandLine {
 
         private final boolean quote;
 
-        public Argument(String argument, boolean quote) {
-            this.argument = argument;
+        public Argument(Object argument, boolean quote) {
+            this.argument = String.valueOf(argument);
             this.quote = quote;
         }
 
