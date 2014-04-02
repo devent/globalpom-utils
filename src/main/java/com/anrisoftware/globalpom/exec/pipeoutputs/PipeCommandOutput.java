@@ -10,9 +10,13 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import com.anrisoftware.globalpom.exec.api.CommandOutput;
 import com.google.inject.assistedinject.Assisted;
 
+/**
+ * Pipes the read data from the output of the command to a stream.
+ * 
+ * @author Erwin Mueller, erwin.mueller@deventm.org
+ * @since 1.11
+ */
 public class PipeCommandOutput implements CommandOutput {
-
-    private static final int BUFFER_SIZE = 0;
 
     @Inject
     private PipeCommandOutputFactory outputFactory;
@@ -21,12 +25,15 @@ public class PipeCommandOutput implements CommandOutput {
 
     private OutputStream output;
 
+    private int bufferSize;
+
     /**
      * @see PipeCommandOutputFactory#create(OutputStream)
      */
     @Inject
     PipeCommandOutput(@Assisted OutputStream output) {
         this.output = output;
+        this.bufferSize = 1024;
     }
 
     @Override
@@ -45,6 +52,16 @@ public class PipeCommandOutput implements CommandOutput {
         this.output = stream;
     }
 
+    /**
+     * Sets the buffer size.
+     * 
+     * @param size
+     *            the size in bytes.
+     */
+    public void setBufferSize(int size) {
+        this.bufferSize = size;
+    }
+
     @Override
     public PipeCommandOutput clone() {
         PipeCommandOutput commandOutput = outputFactory.create(output);
@@ -54,10 +71,10 @@ public class PipeCommandOutput implements CommandOutput {
 
     @Override
     public CommandOutput call() throws Exception {
-        byte[] buffer = new byte[BUFFER_SIZE];
-        int b;
-        while ((b = stream.read()) != -1) {
-            output.write(b);
+        byte[] buffer = new byte[bufferSize];
+        for (int s = stream.read(buffer); s != -1; s = stream.read(buffer)) {
+            output.write(buffer, 0, s);
+            output.flush();
         }
         return this;
     }
