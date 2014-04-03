@@ -1,5 +1,7 @@
 package com.anrisoftware.globalpom.exec.pipeoutputs;
 
+import static com.anrisoftware.globalpom.exec.pipeoutputs.PipeOutputsModule.getPipeCommandOutputFactory;
+
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -17,6 +19,13 @@ import com.google.inject.assistedinject.Assisted;
  * @since 1.11
  */
 public class PipeCommandOutput implements CommandOutput {
+
+    /**
+     * @see PipeCommandOutputFactory#create(OutputStream)
+     */
+    public static PipeCommandOutput createPipeCommandOutput(OutputStream stream) {
+        return getPipeCommandOutputFactory().create(stream);
+    }
 
     @Inject
     private PipeCommandOutputFactory outputFactory;

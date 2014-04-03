@@ -1,5 +1,7 @@
 package com.anrisoftware.globalpom.exec.core;
 
+import static com.anrisoftware.globalpom.exec.core.DefaultProcessModule.getCommandExecFactory;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
@@ -12,6 +14,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.anrisoftware.globalpom.exec.api.CommandExec;
 import com.anrisoftware.globalpom.exec.api.CommandExecException;
+import com.anrisoftware.globalpom.exec.api.CommandExecFactory;
 import com.anrisoftware.globalpom.exec.api.CommandInput;
 import com.anrisoftware.globalpom.exec.api.CommandOutput;
 import com.anrisoftware.globalpom.exec.api.ProcessTask;
@@ -26,6 +29,13 @@ import com.anrisoftware.globalpom.threads.api.Threads;
  * @since 1.11
  */
 public class DefaultCommandExec implements CommandExec {
+
+    /**
+     * @see CommandExecFactory#create()
+     */
+    public static CommandExec createCommandExec() {
+        return getCommandExecFactory().create();
+    }
 
     @Inject
     private DefaultCommandExecLogger log;

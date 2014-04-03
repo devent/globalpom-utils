@@ -3,7 +3,10 @@ package com.anrisoftware.globalpom.exec.core;
 import com.anrisoftware.globalpom.exec.api.CommandExec;
 import com.anrisoftware.globalpom.exec.api.CommandExecFactory;
 import com.anrisoftware.globalpom.exec.api.ProcessTask;
+import com.anrisoftware.globalpom.exec.pipeoutputs.PipeOutputsModule;
 import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /**
@@ -15,6 +18,20 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
  * @since 1.11
  */
 public class DefaultProcessModule extends AbstractModule {
+
+    /**
+     * Returns the command exec factory.
+     * 
+     * @return the {@link CommandExecFactory}.
+     */
+    public static CommandExecFactory getCommandExecFactory() {
+        return instance.injector.getInstance(CommandExecFactory.class);
+    }
+
+    private static class instance {
+        static final Injector injector = Guice.createInjector(
+                new DefaultProcessModule(), new PipeOutputsModule());
+    }
 
     @Override
     protected void configure() {

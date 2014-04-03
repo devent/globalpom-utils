@@ -1,5 +1,7 @@
 package com.anrisoftware.globalpom.exec.pipeoutputs;
 
+import static com.anrisoftware.globalpom.exec.pipeoutputs.PipeOutputsModule.getPipeCommandInputFactory;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -9,6 +11,7 @@ import javax.inject.Inject;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.anrisoftware.globalpom.exec.api.CommandInput;
+import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.assistedinject.Assisted;
 
@@ -19,6 +22,25 @@ import com.google.inject.assistedinject.Assisted;
  * @since 1.11
  */
 public class PipeCommandInput implements CommandInput {
+
+    /**
+     * @see PipeCommandInputFactory#create(InputStream)
+     */
+    public static PipeCommandInput createPipeCommandInput(InputStream stream) {
+        return getPipeCommandInputFactory().create(stream);
+    }
+
+    /**
+     * Pipes the string content to the standard input of the command.
+     * 
+     * @param string
+     *            the {@link String}.
+     * 
+     * @return the {@link PipeCommandInput}.
+     */
+    public static PipeCommandInput fromString(String string) {
+        return fromString(Guice.createInjector(new PipeOutputsModule()), string);
+    }
 
     /**
      * Pipes the string content to the standard input of the command.

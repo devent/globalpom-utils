@@ -1,5 +1,8 @@
 package com.anrisoftware.globalpom.exec
 
+import static com.anrisoftware.globalpom.exec.command.CommandLine.*
+import static com.anrisoftware.globalpom.exec.core.DefaultCommandExec.*
+import static com.anrisoftware.globalpom.threads.properties.PropertiesThreads.*
 import static com.anrisoftware.globalpom.utils.TestUtils.*
 import groovy.util.logging.Slf4j
 
@@ -34,7 +37,7 @@ import com.google.inject.Guice
 import com.google.inject.Injector
 
 /**
- * @see CommandLine
+ * @see DefaultCommandLine
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.11
@@ -63,6 +66,23 @@ class DefaultCommandExecTest {
         threads.setName "cached"
         CommandLine line = commandLineFactory.create("echo").add("-n").add("Text")
         CommandExec exec = commandExecFactory.create()
+        exec.setThreads threads
+        Future task = exec.exec line
+        ProcessTask process = task.get()
+        log.info "Output: ``{}''", process.getOut()
+        log.info "Error: ``{}''", process.getErr()
+        assert process.getExitValue() == 0
+        assert process.getOut() == "Text"
+        assert process.getErr() == ""
+    }
+
+    @Test
+    void "read output after task is done, use factory methods"() {
+        def threads = createPropertiesThreads()
+        threads.setProperties properties
+        threads.setName "cached"
+        CommandLine line = createCommandLine("echo").add("-n").add("Text")
+        CommandExec exec = createCommandExec()
         exec.setThreads threads
         Future task = exec.exec line
         ProcessTask process = task.get()

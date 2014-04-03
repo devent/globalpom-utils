@@ -1,6 +1,8 @@
 package com.anrisoftware.globalpom.exec.command;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /**
@@ -12,6 +14,20 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
  * @since 1.11
  */
 public class CommandLineModule extends AbstractModule {
+
+    /**
+     * Returns the command line factory.
+     * 
+     * @return the {@link CommandLineFactory}.
+     */
+    public static CommandLineFactory getCommandLineFactory() {
+        return instance.injector.getInstance(CommandLineFactory.class);
+    }
+
+    private static class instance {
+        static final Injector injector = Guice
+                .createInjector(new CommandLineModule());
+    }
 
     @Override
     protected void configure() {

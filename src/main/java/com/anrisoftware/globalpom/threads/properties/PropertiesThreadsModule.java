@@ -19,6 +19,8 @@
 package com.anrisoftware.globalpom.threads.properties;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /**
@@ -30,6 +32,22 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
  * @since 1.5
  */
 public class PropertiesThreadsModule extends AbstractModule {
+
+    /**
+     * Returns the properties threads factory.
+     * 
+     * @return the {@link PropertiesThreadsFactory}.
+     * 
+     * @since 1.11
+     */
+    public static PropertiesThreadsFactory getPropertiesThreadsFactory() {
+        return instance.injector.getInstance(PropertiesThreadsFactory.class);
+    }
+
+    private static class instance {
+        static final Injector injector = Guice
+                .createInjector(new PropertiesThreadsModule());
+    }
 
     @Override
     protected void configure() {

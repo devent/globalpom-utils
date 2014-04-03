@@ -18,6 +18,8 @@
  */
 package com.anrisoftware.globalpom.threads.properties;
 
+import static com.anrisoftware.globalpom.threads.properties.PropertiesThreadsModule.getPropertiesThreadsFactory;
+
 import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import java.util.List;
@@ -49,6 +51,15 @@ import com.anrisoftware.propertiesutils.ContextProperties;
  * @since 1.5
  */
 public class PropertiesThreads implements Threads {
+
+    /**
+     * @see PropertiesThreadsFactory#create()
+     * 
+     * @since 1.11
+     */
+    public static PropertiesThreads createPropertiesThreads() {
+        return getPropertiesThreadsFactory().create();
+    }
 
     @Inject
     private PropertiesThreadsLogger log;

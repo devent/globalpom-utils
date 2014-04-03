@@ -1,5 +1,6 @@
 package com.anrisoftware.globalpom.exec.command;
 
+import static com.anrisoftware.globalpom.exec.command.CommandLineModule.getCommandLineFactory;
 import static java.lang.String.format;
 import static java.util.Collections.unmodifiableList;
 import static org.apache.commons.lang3.StringUtils.contains;
@@ -27,6 +28,20 @@ import com.google.inject.assistedinject.AssistedInject;
  * @since 1.11
  */
 public class CommandLine {
+
+    /**
+     * @see CommandLineFactory#create(File)
+     */
+    public static CommandLine createCommandLine(File executable) {
+        return getCommandLineFactory().create(executable);
+    }
+
+    /**
+     * @see CommandLineFactory#create(String)
+     */
+    public static CommandLine createCommandLine(String executable) {
+        return getCommandLineFactory().create(executable);
+    }
 
     private static final String QUOTATION_FORMAT = "%s%s%s";
 
