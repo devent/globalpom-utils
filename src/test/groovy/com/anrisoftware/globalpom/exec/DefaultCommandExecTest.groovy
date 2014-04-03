@@ -5,6 +5,8 @@ import groovy.util.logging.Slf4j
 
 import java.beans.PropertyChangeListener
 import java.util.concurrent.Future
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
@@ -235,6 +237,50 @@ class DefaultCommandExecTest {
         assert new String(buff) == "TextTextText"
     }
 
+    @Test
+    void "wait command"() {
+        def file = createCommand "command.sh", sleepCommand, tmp
+        def threads = injector.getInstance PropertiesThreads
+        threads.setProperties properties
+        threads.setName "cached"
+        CommandLine line = commandLineFactory.create(file).add(1)
+        CommandExec exec = commandExecFactory.create()
+        exec.setThreads threads
+        Future task = exec.exec line
+        ProcessTask process
+        process = task.get()
+    }
+
+    @Test
+    void "wait timeout"() {
+        def file = createCommand "command.sh", sleepCommand, tmp
+        def threads = injector.getInstance PropertiesThreads
+        threads.setProperties properties
+        threads.setName "cached"
+        CommandLine line = commandLineFactory.create(file).add(10)
+        CommandExec exec = commandExecFactory.create()
+        exec.setThreads threads
+        Future task = exec.exec line
+        ProcessTask process
+        shouldFailWith(TimeoutException) {
+            process = task.get(2, TimeUnit.SECONDS)
+        }
+    }
+
+    @Test
+    void "wait task"() {
+        def file = createCommand "command.sh", sleepCommand, tmp
+        def threads = injector.getInstance PropertiesThreads
+        threads.setProperties properties
+        threads.setName "cached"
+        CommandLine line = commandLineFactory.create(file).add(2)
+        CommandExec exec = commandExecFactory.create()
+        exec.setThreads threads
+        Future task = exec.exec line
+        ProcessTask process
+        process = task.get(3, TimeUnit.SECONDS)
+    }
+
     static Injector injector
 
     static CommandLineFactory commandLineFactory
@@ -254,6 +300,8 @@ class DefaultCommandExecTest {
     static exitCodeCommand = DefaultCommandExecTest.class.getResource("exitcode_command.txt")
 
     static readInputCommand = DefaultCommandExecTest.class.getResource("read_command.txt")
+
+    static sleepCommand = DefaultCommandExecTest.class.getResource("sleep_command.txt")
 
     static properties
 

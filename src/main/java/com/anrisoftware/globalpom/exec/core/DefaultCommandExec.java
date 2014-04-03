@@ -1,19 +1,28 @@
 package com.anrisoftware.globalpom.exec.core;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.concurrent.Future;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import com.anrisoftware.globalpom.exec.api.CommandExec;
+import com.anrisoftware.globalpom.exec.api.CommandExecException;
 import com.anrisoftware.globalpom.exec.api.CommandInput;
 import com.anrisoftware.globalpom.exec.api.CommandOutput;
 import com.anrisoftware.globalpom.exec.api.ProcessTask;
 import com.anrisoftware.globalpom.exec.command.CommandLine;
+import com.anrisoftware.globalpom.threads.api.ListenableFuture.Status;
 import com.anrisoftware.globalpom.threads.api.Threads;
 
 public class DefaultCommandExec implements CommandExec {
+
+    @Inject
+    private DefaultCommandExecLogger log;
 
     @Inject
     private DefaultProcessTaskFactory processTaskFactory;
@@ -28,8 +37,11 @@ public class DefaultCommandExec implements CommandExec {
 
     private int[] exitCodes;
 
+    private boolean destroyOnTimeout;
+
     public DefaultCommandExec() {
         this.exitCodes = null;
+        this.destroyOnTimeout = true;
     }
 
     public void setThreads(Threads threads) {
@@ -57,17 +69,39 @@ public class DefaultCommandExec implements CommandExec {
     }
 
     @Override
+    public void setDestroyOnTimeout(boolean flag) {
+        this.destroyOnTimeout = flag;
+    }
+
+    @Override
     public Future<ProcessTask> exec(CommandLine commandLine,
-            PropertyChangeListener... listeners) {
+            PropertyChangeListener... listeners) throws CommandExecException {
         try {
             ProcessTask task = createProcessTask(commandLine);
-            return threads.submit(task, listeners);
+            return threads.submit(task, setupTimeoutListener(task, listeners));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw log.errorExecuteCommand(this, e, commandLine);
         }
-        // TODO Auto-generated method stub
-        return null;
+    }
+
+    private PropertyChangeListener[] setupTimeoutListener(ProcessTask task,
+            PropertyChangeListener... listeners) {
+        return destroyOnTimeout ? addTimeoutListener(task, listeners)
+                : listeners;
+    }
+
+    private PropertyChangeListener[] addTimeoutListener(final ProcessTask task,
+            PropertyChangeListener... listeners) {
+        return ArrayUtils.add(listeners, new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                Status status = (Status) evt.getNewValue();
+                if (status == Status.TIMEOUT) {
+                    task.destroy();
+                }
+            }
+        });
     }
 
     private ProcessTask createProcessTask(CommandLine commandLine)
@@ -85,5 +119,10 @@ public class DefaultCommandExec implements CommandExec {
         }
         task.setExitCodes(exitCodes);
         return task;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).toString();
     }
 }

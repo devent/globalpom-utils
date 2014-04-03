@@ -46,6 +46,15 @@ public interface CommandExec {
     void setExitCode(int... code);
 
     /**
+     * Sets to destroy the executed command on timeout.
+     * 
+     * @param flag
+     *            sets to {@code true} to destroy the executed command on
+     *            timeout.
+     */
+    void setDestroyOnTimeout(boolean flag);
+
+    /**
      * Executes the command specified by the command line.
      * 
      * @param commandLine
@@ -63,4 +72,5 @@ public interface CommandExec {
      */
     Future<ProcessTask> exec(CommandLine commandLine,
             PropertyChangeListener... listeners) throws CommandExecException;
+
 }

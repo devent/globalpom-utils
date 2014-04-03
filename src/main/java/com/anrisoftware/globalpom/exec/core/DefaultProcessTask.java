@@ -152,6 +152,11 @@ class DefaultProcessTask implements ProcessTask {
     }
 
     @Override
+    public void destroy() {
+        process.destroy();
+    }
+
+    @Override
     public String getOut() {
         if (outputStream != null) {
             return outputStream.toString();

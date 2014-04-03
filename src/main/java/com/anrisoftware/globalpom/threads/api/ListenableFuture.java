@@ -51,7 +51,12 @@ public interface ListenableFuture<V> extends Future<V> {
         /**
          * The task is finished.
          */
-        DONE;
+        DONE,
+
+        /**
+         * The task is timed out.
+         */
+        TIMEOUT;
     }
 
     /**

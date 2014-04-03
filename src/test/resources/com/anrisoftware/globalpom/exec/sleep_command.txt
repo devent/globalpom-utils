@@ -1,0 +1,11 @@
+#!/bin/bash
+
+function handle_sigint() {
+    for proc in `jobs -p`; do
+        kill $proc
+    done
+}
+trap handle_sigint EXIT
+
+time=$1
+sleep $time

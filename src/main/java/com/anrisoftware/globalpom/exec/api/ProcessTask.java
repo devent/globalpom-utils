@@ -24,6 +24,11 @@ public interface ProcessTask extends Callable<ProcessTask> {
     Process getProcess();
 
     /**
+     * Kills the process.
+     */
+    void destroy();
+
+    /**
      * Returns the standard output of the process after the process finished.
      * 
      * @return the {@link String} standard output.
