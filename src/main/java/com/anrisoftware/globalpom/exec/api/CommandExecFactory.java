@@ -4,7 +4,7 @@ package com.anrisoftware.globalpom.exec.api;
  * Factory to create the external command executer.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.0
+ * @since 1.11
  */
 public interface CommandExecFactory {
 

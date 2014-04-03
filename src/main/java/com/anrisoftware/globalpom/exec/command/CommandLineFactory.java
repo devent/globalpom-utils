@@ -6,7 +6,7 @@ import java.io.File;
  * Factory to create a command line.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.0
+ * @since 1.11
  */
 public interface CommandLineFactory {
 

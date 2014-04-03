@@ -8,7 +8,7 @@ import com.anrisoftware.globalpom.exceptions.Context;
  * Exception thrown from {@link CommandExec}.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.0
+ * @since 1.11
  */
 @SuppressWarnings("serial")
 public class CommandExecException extends Exception {

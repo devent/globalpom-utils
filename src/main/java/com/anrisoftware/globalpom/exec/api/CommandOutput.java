@@ -7,7 +7,7 @@ import java.util.concurrent.Callable;
  * Reads the standard output of the executed command.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.0
+ * @since 1.11
  */
 public interface CommandOutput extends Callable<CommandOutput> {
 

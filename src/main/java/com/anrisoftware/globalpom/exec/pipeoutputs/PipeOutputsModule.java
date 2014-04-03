@@ -12,7 +12,7 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
  * @see PipeCommandInputFactory
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.0
+ * @since 1.11
  */
 public class PipeOutputsModule extends AbstractModule {
 

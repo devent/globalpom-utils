@@ -9,7 +9,7 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
  * @see CommandLineFactory
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.0
+ * @since 1.11
  */
 public class CommandLineModule extends AbstractModule {
 

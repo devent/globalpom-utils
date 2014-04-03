@@ -37,7 +37,7 @@ import com.google.inject.Injector
  * @see CommandLine
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.0
+ * @since 1.11
  */
 @Slf4j
 class DefaultCommandExecTest {

@@ -19,6 +19,12 @@ import com.anrisoftware.globalpom.exec.command.CommandLine;
 import com.anrisoftware.globalpom.threads.api.ListenableFuture.Status;
 import com.anrisoftware.globalpom.threads.api.Threads;
 
+/**
+ * Executes an external command.
+ * 
+ * @author Erwin Mueller, erwin.mueller@deventm.org
+ * @since 1.11
+ */
 public class DefaultCommandExec implements CommandExec {
 
     @Inject
@@ -39,11 +45,12 @@ public class DefaultCommandExec implements CommandExec {
 
     private boolean destroyOnTimeout;
 
-    public DefaultCommandExec() {
+    DefaultCommandExec() {
         this.exitCodes = null;
         this.destroyOnTimeout = true;
     }
 
+    @Override
     public void setThreads(Threads threads) {
         this.threads = threads;
     }

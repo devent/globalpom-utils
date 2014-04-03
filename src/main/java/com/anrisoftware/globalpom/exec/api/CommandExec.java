@@ -4,14 +4,23 @@ import java.beans.PropertyChangeListener;
 import java.util.concurrent.Future;
 
 import com.anrisoftware.globalpom.exec.command.CommandLine;
+import com.anrisoftware.globalpom.threads.api.Threads;
 
 /**
  * Executes an external command.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.0
+ * @since 1.11
  */
 public interface CommandExec {
+
+    /**
+     * Sets the threads pool.
+     * 
+     * @param threads
+     *            the {@link Threads}.
+     */
+    void setThreads(Threads threads);
 
     /**
      * Sets that reads the standard output of the command.

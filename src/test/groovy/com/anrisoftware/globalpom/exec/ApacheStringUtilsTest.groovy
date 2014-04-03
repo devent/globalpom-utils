@@ -5,9 +5,9 @@ import org.junit.Test
 
 /**
  * @see StringUtils
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.0
+ * @since 1.11
  */
 class ApacheStringUtilsTest {
 

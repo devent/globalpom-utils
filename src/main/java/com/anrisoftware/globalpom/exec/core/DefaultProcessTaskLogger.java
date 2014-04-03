@@ -21,7 +21,7 @@ import com.anrisoftware.globalpom.log.AbstractLogger;
  * Logging for {@link DefaultProcessTask}.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.0
+ * @since 1.11
  */
 class DefaultProcessTaskLogger extends AbstractLogger {
 
