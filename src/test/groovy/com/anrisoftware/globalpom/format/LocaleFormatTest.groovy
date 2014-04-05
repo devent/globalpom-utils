@@ -26,7 +26,6 @@ import org.junit.Test
 
 import com.anrisoftware.globalpom.format.locale.LocaleFormatFactory
 import com.anrisoftware.globalpom.format.locale.LocaleFormatModule
-import com.anrisoftware.globalpom.measurement.MeasurementStandardModule
 import com.anrisoftware.globalpom.utils.TestUtils
 import com.google.inject.Guice
 import com.google.inject.Injector
@@ -67,7 +66,7 @@ class LocaleFormatTest {
     @BeforeClass
     static void createFactories() {
         TestUtils.toStringStyle
-        injector = Guice.createInjector(new MeasurementStandardModule(), new LocaleFormatModule())
+        injector = Guice.createInjector(new LocaleFormatModule())
         formatFactory = injector.getInstance LocaleFormatFactory
         formats  = [
             [format: "en", value: Locale.ENGLISH],

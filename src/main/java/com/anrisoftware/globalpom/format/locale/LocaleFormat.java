@@ -28,8 +28,6 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-import com.anrisoftware.globalpom.measurement.Value;
-
 /**
  * Formats and parses a {@link Value} value.
  * 
