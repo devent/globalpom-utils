@@ -13,11 +13,6 @@
 	<artifactId>globalpomutils-threads</artifactId>
 	<name>Global POM Utilities :: Threads</name>
 	<description>Threads pool for listenable future tasks.</description>
-	<inceptionYear>2014</inceptionYear>
-
-	<properties>
-		<project.custom.year>${project.inceptionYear}</project.custom.year>
-	</properties>
 
 	<dependencies>
 		<!-- test dependencies -->
