@@ -3,115 +3,23 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>com.anrisoftware.globalpom</groupId>
-		<artifactId>globalpomutils-parent</artifactId>
-		<version>2.0-SNAPSHOT</version>
-		<relativePath>../globalpomutils-parent</relativePath>
-	</parent>
-
-	<artifactId>globalpom-utils</artifactId>
-	<name>Global POM :: Utilities</name>
-	<description>Various utilities.</description>
-	<url>https://www.anr-institute.com/projects/projects/globalpom-utils</url>
-
-	<dependencies>
-
-		<!-- test dependencies -->
-		<dependency>
-			<groupId>com.anrisoftware.globalpom</groupId>
-			<artifactId>globalpom-groovytestutils</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.thoughtworks.xstream</groupId>
-			<artifactId>xstream</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-exec</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- compile dependencies -->
-		<dependency>
-			<groupId>com.anrisoftware.globalpom</groupId>
-			<artifactId>globalpom-log</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.google.inject.extensions</groupId>
-			<artifactId>guice-assistedinject</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-		</dependency>
-
-		<dependency>
-			<!-- for map to string -->
-			<!-- properties threads -->
-			<groupId>com.anrisoftware.propertiesutils</groupId>
-			<artifactId>propertiesutils-contextproperties</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<!-- threads, duration format -->
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<!-- file resource manager provider -->
-		<dependency>
-			<groupId>commons-transaction</groupId>
-			<artifactId>commons-transaction</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<!-- format degree -->
-		<dependency>
-			<groupId>org.jscience</groupId>
-			<artifactId>jscience</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<!-- measurement -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-math3</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<!-- data -->
-		<dependency>
-			<groupId>com.googlecode.efficient-java-matrix-library</groupId>
-			<artifactId>ejml</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<!-- csv import -->
-		<dependency>
-			<groupId>net.sf.supercsv</groupId>
-			<artifactId>super-csv</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<!-- INI file parser -->
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<optional>true</optional>
-		</dependency>
-	</dependencies>
-
+    <groupId>com.anrisoftware.globalpom</groupId>
+	<artifactId>globalpomutils-bundle</artifactId>
+    <packaging>pom</packaging>
+    <name>Global POM Utilities :: Bundle POM</name>
+    <version>1.0-SNAPSHOT</version>
+    <description>Contains the modules of the Global POM Utilities.</description>
+    
+    <modules>
+        <module>globalpomutils-parent</module>
+        <module>globalpomutils-core</module>
+        <module>globalpomutils-data</module>
+        <module>globalpomutils-exec</module>
+        <module>globalpomutils-fileresources</module>
+        <module>globalpomutils-initfileparser</module>
+        <module>globalpomutils-math</module>
+        <module>globalpomutils-reflection</module>
+        <module>globalpomutils-threads</module>
+  </modules>
+    
 </project>
