@@ -1,18 +1,28 @@
-com.anrisoftware.globalpom:globalpom-utils:jar:1.8
-+- com.anrisoftware.globalpom:globalpom-log:jar:1.14:compile
+com.anrisoftware.globalpom:globalpom-utils:jar:1.11
+|  |  +- antlr:antlr:jar:2.7.7:compile
++- com.anrisoftware.globalpom:globalpom-log:jar:1.16:compile
 +- javax.inject:javax.inject:jar:1:compile
 +- com.google.inject.extensions:guice-assistedinject:jar:3.0:compile
 |  \- com.google.inject:guice:jar:3.0:compile
 |     \- aopalliance:aopalliance:jar:1.0:compile
-+- org.apache.commons:commons-lang3:jar:3.1:compile
-+- com.anrisoftware.propertiesutils:propertiesutils-contextproperties:jar:1.9:compile
-+- joda-time:joda-time:jar:2.2:compile
++- org.apache.commons:commons-lang3:jar:3.2.1:compile
++- com.anrisoftware.propertiesutils:propertiesutils-contextproperties:jar:1.10:compile
++- joda-time:joda-time:jar:2.3:compile
 +- commons-transaction:commons-transaction:jar:1.2:compile
-|  +- commons-codec:commons-codec:jar:1.8:compile
+|  +- commons-codec:commons-codec:jar:1.9:compile
 |  +- commons-logging:commons-logging:jar:1.1:compile
 |  |  +- logkit:logkit:jar:1.0.1:compile
 |  |  +- avalon-framework:avalon-framework:jar:4.1.3:compile
 |  |  \- javax.servlet:servlet-api:jar:2.3:compile
 |  \- log4j:log4j:jar:1.2.8:compile
 +- javax:javaee-api:jar:6.0:compile
-+- org.slf4j:slf4j-api:jar:1.7.5:compile
++- org.jscience:jscience:jar:4.3.1:compile
+|  \- org.javolution:javolution:jar:5.2.3:compile
++- org.apache.commons:commons-math3:jar:3.2:compile
++- com.googlecode.efficient-java-matrix-library:ejml:jar:0.24:compile
++- net.sf.supercsv:super-csv:jar:2.1.0:compile
++- commons-io:commons-io:jar:2.4:compile
++- org.antlr:ST4:jar:4.0.7:compile
+|  \- org.antlr:antlr-runtime:jar:3.5:compile
+|     \- org.antlr:stringtemplate:jar:3.2.1:compile
++- org.slf4j:slf4j-api:jar:1.7.6:compile
