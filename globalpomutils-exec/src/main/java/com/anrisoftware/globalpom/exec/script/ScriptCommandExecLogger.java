@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-exec. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.exec.core;
+package com.anrisoftware.globalpom.exec.script;
 
 import static com.anrisoftware.globalpom.exec.core.DefaultCommandExecLogger._.command_line;
 import static com.anrisoftware.globalpom.exec.core.DefaultCommandExecLogger._.error_exec_command;
@@ -30,12 +30,12 @@ import com.anrisoftware.globalpom.exec.api.CommandLine;
 import com.anrisoftware.globalpom.log.AbstractLogger;
 
 /**
- * Logging for {@link DefaultCommandExec}.
+ * Logging for {@link ScriptCommandExec}.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.11
  */
-class DefaultCommandExecLogger extends AbstractLogger {
+class ScriptCommandExecLogger extends AbstractLogger {
 
     enum _ {
 
@@ -60,13 +60,13 @@ class DefaultCommandExecLogger extends AbstractLogger {
     }
 
     /**
-     * Sets the context of the logger to {@link DefaultCommandExec}.
+     * Sets the context of the logger to {@link ScriptCommandExec}.
      */
-    public DefaultCommandExecLogger() {
-        super(DefaultCommandExec.class);
+    public ScriptCommandExecLogger() {
+        super(ScriptCommandExec.class);
     }
 
-    CommandExecException errorExecuteCommand(DefaultCommandExec exec,
+    CommandExecException errorExecuteCommand(ScriptCommandExec exec,
             IOException e, CommandLine commandLine) throws CommandExecException {
         throw logException(
                 new CommandExecException(error_exec_command, e)

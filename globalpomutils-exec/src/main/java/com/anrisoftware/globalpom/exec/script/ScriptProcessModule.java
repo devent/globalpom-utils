@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-exec. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.exec.core;
+package com.anrisoftware.globalpom.exec.script;
 
 import com.anrisoftware.globalpom.exec.api.CommandExec;
 import com.anrisoftware.globalpom.exec.api.CommandExecFactory;
@@ -30,12 +30,12 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 /**
  * Installs the default command exec factory.
  * 
- * @see DefaultCommandExecFactory
+ * @see CommandExecFactory
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.11
  */
-public class DefaultProcessModule extends AbstractModule {
+public class ScriptProcessModule extends AbstractModule {
 
     /**
      * Returns the command exec factory.
@@ -43,19 +43,18 @@ public class DefaultProcessModule extends AbstractModule {
      * @return the {@link CommandExecFactory}.
      */
     public static CommandExecFactory getCommandExecFactory() {
-        return instance.injector.getInstance(DefaultCommandExecFactory.class);
+        return instance.injector.getInstance(CommandExecFactory.class);
     }
 
     private static class instance {
         static final Injector injector = Guice.createInjector(
-                new DefaultProcessModule(), new PipeOutputsModule());
+                new ScriptProcessModule(), new PipeOutputsModule());
     }
 
     @Override
     protected void configure() {
         install(new FactoryModuleBuilder().implement(CommandExec.class,
-                DefaultCommandExec.class)
-                .build(DefaultCommandExecFactory.class));
+                ScriptCommandExec.class).build(CommandExecFactory.class));
         install(new FactoryModuleBuilder().implement(ProcessTask.class,
                 DefaultProcessTask.class)
                 .build(DefaultProcessTaskFactory.class));

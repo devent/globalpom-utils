@@ -18,6 +18,7 @@
  */
 package com.anrisoftware.globalpom.exec.command;
 
+import com.anrisoftware.globalpom.exec.api.CommandLine;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -26,31 +27,31 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 /**
  * Installs the command line factory.
  * 
- * @see CommandLineFactory
+ * @see DefaultCommandLineFactory
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.11
  */
-public class CommandLineModule extends AbstractModule {
+public class DefaultCommandLineModule extends AbstractModule {
 
     /**
      * Returns the command line factory.
      * 
-     * @return the {@link CommandLineFactory}.
+     * @return the {@link DefaultCommandLineFactory}.
      */
-    public static CommandLineFactory getCommandLineFactory() {
-        return instance.injector.getInstance(CommandLineFactory.class);
+    public static DefaultCommandLineFactory getCommandLineFactory() {
+        return instance.injector.getInstance(DefaultCommandLineFactory.class);
     }
 
     private static class instance {
         static final Injector injector = Guice
-                .createInjector(new CommandLineModule());
+                .createInjector(new DefaultCommandLineModule());
     }
 
     @Override
     protected void configure() {
         install(new FactoryModuleBuilder().implement(CommandLine.class,
-                CommandLine.class).build(CommandLineFactory.class));
+                DefaultCommandLine.class).build(DefaultCommandLineFactory.class));
     }
 
 }

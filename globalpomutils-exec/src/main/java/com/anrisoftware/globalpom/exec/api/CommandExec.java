@@ -21,7 +21,7 @@ package com.anrisoftware.globalpom.exec.api;
 import java.beans.PropertyChangeListener;
 import java.util.concurrent.Future;
 
-import com.anrisoftware.globalpom.exec.command.CommandLine;
+import com.anrisoftware.globalpom.exec.command.DefaultCommandLine;
 import com.anrisoftware.globalpom.threads.api.Threads;
 
 /**
@@ -85,7 +85,7 @@ public interface CommandExec {
      * Executes the command specified by the command line.
      * 
      * @param commandLine
-     *            the {@link CommandLine}.
+     *            the {@link DefaultCommandLine}.
      * 
      * @param listeners
      *            the {@link PropertyChangeListener} listeners that are informed

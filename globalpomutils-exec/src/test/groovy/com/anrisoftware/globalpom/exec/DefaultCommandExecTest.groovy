@@ -18,7 +18,7 @@
  */
 package com.anrisoftware.globalpom.exec
 
-import static com.anrisoftware.globalpom.exec.command.CommandLine.*
+import static com.anrisoftware.globalpom.exec.command.DefaultCommandLine.*
 import static com.anrisoftware.globalpom.exec.core.DefaultCommandExec.*
 import static com.anrisoftware.globalpom.threads.properties.PropertiesThreads.*
 import static com.anrisoftware.globalpom.utils.TestUtils.*
@@ -40,9 +40,10 @@ import com.anrisoftware.globalpom.exec.api.CommandExec
 import com.anrisoftware.globalpom.exec.api.CommandExecException
 import com.anrisoftware.globalpom.exec.api.CommandExecFactory
 import com.anrisoftware.globalpom.exec.api.ProcessTask
-import com.anrisoftware.globalpom.exec.command.CommandLine
-import com.anrisoftware.globalpom.exec.command.CommandLineFactory
-import com.anrisoftware.globalpom.exec.command.CommandLineModule
+import com.anrisoftware.globalpom.exec.command.DefaultCommandLine
+import com.anrisoftware.globalpom.exec.command.DefaultCommandLineFactory
+import com.anrisoftware.globalpom.exec.command.DefaultCommandLineModule
+import com.anrisoftware.globalpom.exec.core.DefaultCommandExecFactory
 import com.anrisoftware.globalpom.exec.core.DefaultProcessModule
 import com.anrisoftware.globalpom.exec.pipeoutputs.PipeCommandInput
 import com.anrisoftware.globalpom.exec.pipeoutputs.PipeCommandInputFactory
@@ -68,7 +69,7 @@ class DefaultCommandExecTest {
         def threads = injector.getInstance PropertiesThreads
         threads.setProperties properties
         threads.setName "cached"
-        CommandLine line = commandLineFactory.create("unkxxx")
+        DefaultCommandLine line = commandLineFactory.create("unkxxx")
         CommandExec exec = commandExecFactory.create()
         exec.setThreads threads
         Future task = exec.exec line
@@ -82,7 +83,7 @@ class DefaultCommandExecTest {
         def threads = injector.getInstance PropertiesThreads
         threads.setProperties properties
         threads.setName "cached"
-        CommandLine line = commandLineFactory.create("echo").add("-n").add("Text")
+        DefaultCommandLine line = commandLineFactory.create("echo").add("-n").add("Text")
         CommandExec exec = commandExecFactory.create()
         exec.setThreads threads
         Future task = exec.exec line
@@ -99,7 +100,7 @@ class DefaultCommandExecTest {
         def threads = createPropertiesThreads()
         threads.setProperties properties
         threads.setName "cached"
-        CommandLine line = createCommandLine("echo").add("-n").add("Text")
+        DefaultCommandLine line = createCommandLine("echo").add("-n").add("Text")
         CommandExec exec = createCommandExec()
         exec.setThreads threads
         Future task = exec.exec line
@@ -117,7 +118,7 @@ class DefaultCommandExecTest {
         def threads = injector.getInstance PropertiesThreads
         threads.setProperties properties
         threads.setName "cached"
-        CommandLine line = commandLineFactory.create(file).add(1)
+        DefaultCommandLine line = commandLineFactory.create(file).add(1)
         CommandExec exec = commandExecFactory.create()
         exec.setThreads threads
         Future task = exec.exec line
@@ -131,7 +132,7 @@ class DefaultCommandExecTest {
         def threads = injector.getInstance PropertiesThreads
         threads.setProperties properties
         threads.setName "cached"
-        CommandLine line = commandLineFactory.create(file).add(1)
+        DefaultCommandLine line = commandLineFactory.create(file).add(1)
         CommandExec exec = commandExecFactory.create()
         exec.setExitCode(1)
         exec.setThreads threads
@@ -146,7 +147,7 @@ class DefaultCommandExecTest {
         def threads = injector.getInstance PropertiesThreads
         threads.setProperties properties
         threads.setName "cached"
-        CommandLine line = commandLineFactory.create(file).add(2)
+        DefaultCommandLine line = commandLineFactory.create(file).add(2)
         CommandExec exec = commandExecFactory.create()
         exec.setExitCode(1)
         exec.setThreads threads
@@ -160,7 +161,7 @@ class DefaultCommandExecTest {
         def threads = injector.getInstance PropertiesThreads
         threads.setProperties properties
         threads.setName "cached"
-        CommandLine line = commandLineFactory.create(file).add(2)
+        DefaultCommandLine line = commandLineFactory.create(file).add(2)
         CommandExec exec = commandExecFactory.create()
         exec.setExitCode(1, 2)
         exec.setThreads threads
@@ -175,7 +176,7 @@ class DefaultCommandExecTest {
         def threads = injector.getInstance PropertiesThreads
         threads.setProperties properties
         threads.setName "cached"
-        CommandLine line = commandLineFactory.create(file).add(1)
+        DefaultCommandLine line = commandLineFactory.create(file).add(1)
         CommandExec exec = commandExecFactory.create()
         exec.setExitCode(0, 2)
         exec.setThreads threads
@@ -189,7 +190,7 @@ class DefaultCommandExecTest {
         def threads = injector.getInstance PropertiesThreads
         threads.setProperties properties
         threads.setName "cached"
-        CommandLine line = commandLineFactory.create(file).add("Text")
+        DefaultCommandLine line = commandLineFactory.create(file).add("Text")
         CommandExec exec = commandExecFactory.create()
 
         def sink = new PipedInputStream()
@@ -218,7 +219,7 @@ class DefaultCommandExecTest {
         def threads = injector.getInstance PropertiesThreads
         threads.setProperties properties
         threads.setName "cached"
-        CommandLine line = commandLineFactory.create(file).add("Text")
+        DefaultCommandLine line = commandLineFactory.create(file).add("Text")
         CommandExec exec = commandExecFactory.create()
 
         def sink = new PipedInputStream()
@@ -248,7 +249,7 @@ class DefaultCommandExecTest {
         def threads = injector.getInstance PropertiesThreads
         threads.setProperties properties
         threads.setName "cached"
-        CommandLine line = commandLineFactory.create(file).add(1)
+        DefaultCommandLine line = commandLineFactory.create(file).add(1)
         CommandExec exec = commandExecFactory.create()
 
         def sink = new PipedInputStream()
@@ -281,7 +282,7 @@ class DefaultCommandExecTest {
         def threads = injector.getInstance PropertiesThreads
         threads.setProperties properties
         threads.setName "cached"
-        CommandLine line = commandLineFactory.create(file).add(1)
+        DefaultCommandLine line = commandLineFactory.create(file).add(1)
         CommandExec exec = commandExecFactory.create()
         exec.setThreads threads
         Future task = exec.exec line
@@ -295,7 +296,7 @@ class DefaultCommandExecTest {
         def threads = injector.getInstance PropertiesThreads
         threads.setProperties properties
         threads.setName "cached"
-        CommandLine line = commandLineFactory.create(file).add(10)
+        DefaultCommandLine line = commandLineFactory.create(file).add(10)
         CommandExec exec = commandExecFactory.create()
         exec.setThreads threads
         Future task = exec.exec line
@@ -311,7 +312,7 @@ class DefaultCommandExecTest {
         def threads = injector.getInstance PropertiesThreads
         threads.setProperties properties
         threads.setName "cached"
-        CommandLine line = commandLineFactory.create(file).add(2)
+        DefaultCommandLine line = commandLineFactory.create(file).add(2)
         CommandExec exec = commandExecFactory.create()
         exec.setThreads threads
         Future task = exec.exec line
@@ -321,7 +322,7 @@ class DefaultCommandExecTest {
 
     static Injector injector
 
-    static CommandLineFactory commandLineFactory
+    static DefaultCommandLineFactory commandLineFactory
 
     static CommandExecFactory commandExecFactory
 
@@ -350,11 +351,11 @@ class DefaultCommandExecTest {
     static void createFactory() {
         toStringStyle
         injector = Guice.createInjector(
-                new CommandLineModule(), new DefaultProcessModule(),
+                new DefaultCommandLineModule(), new DefaultProcessModule(),
                 new PipeOutputsModule(),
                 new PropertiesThreadsModule())
-        commandLineFactory = injector.getInstance CommandLineFactory
-        commandExecFactory = injector.getInstance CommandExecFactory
+        commandLineFactory = injector.getInstance DefaultCommandLineFactory
+        commandExecFactory = injector.getInstance DefaultCommandExecFactory
         pipeCommandOutputFactory = injector.getInstance PipeCommandOutputFactory
         pipeCommandInputFactory = injector.getInstance PipeCommandInputFactory
         properties = new ContextPropertiesFactory(PropertiesThreads).fromResource(threadsProperties)

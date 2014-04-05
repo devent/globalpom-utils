@@ -18,24 +18,13 @@
  */
 package com.anrisoftware.globalpom.exec.core;
 
-import com.anrisoftware.globalpom.exec.api.CommandLine;
-import com.anrisoftware.globalpom.exec.command.DefaultCommandLine;
+import com.anrisoftware.globalpom.exec.api.CommandExecFactory;
 
 /**
- * Factory to create the default process task.
- *
+ * Factory to create the default external command executer.
+ * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.11
  */
-interface DefaultProcessTaskFactory {
-
-    /**
-     * Creates the default process task.
-     *
-     * @param commandLine
-     *            the {@link DefaultCommandLine}.
-     *
-     * @return the {@link DefaultProcessTask}.
-     */
-    DefaultProcessTask create(CommandLine commandLine);
+public interface DefaultCommandExecFactory extends CommandExecFactory {
 }

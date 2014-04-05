@@ -35,8 +35,8 @@ import com.anrisoftware.globalpom.exec.api.CommandExecException;
 import com.anrisoftware.globalpom.exec.api.CommandExecFactory;
 import com.anrisoftware.globalpom.exec.api.CommandInput;
 import com.anrisoftware.globalpom.exec.api.CommandOutput;
+import com.anrisoftware.globalpom.exec.api.CommandLine;
 import com.anrisoftware.globalpom.exec.api.ProcessTask;
-import com.anrisoftware.globalpom.exec.command.CommandLine;
 import com.anrisoftware.globalpom.threads.api.ListenableFuture.Status;
 import com.anrisoftware.globalpom.threads.api.Threads;
 

@@ -24,9 +24,9 @@ import groovy.util.logging.Slf4j
 import org.junit.BeforeClass
 import org.junit.Test
 
-import com.anrisoftware.globalpom.exec.command.CommandLine
-import com.anrisoftware.globalpom.exec.command.CommandLineFactory
-import com.anrisoftware.globalpom.exec.command.CommandLineModule
+import com.anrisoftware.globalpom.exec.command.DefaultCommandLine
+import com.anrisoftware.globalpom.exec.command.DefaultCommandLineModule
+import com.anrisoftware.globalpom.exec.command.DefaultCommandLineFactory;
 import com.anrisoftware.globalpom.utils.TestUtils
 import com.google.inject.Guice
 import com.google.inject.Injector
@@ -42,13 +42,13 @@ class CommandLineTest {
 
     @Test
     void "add null argument"() {
-        CommandLine line = commandLineFactory.create "foo"
+        DefaultCommandLine line = commandLineFactory.create "foo"
         shouldFailWith(NullPointerException) { line.add null }
     }
 
     @Test
     void "add quoted argument"() {
-        CommandLine line = commandLineFactory.create "foo"
+        DefaultCommandLine line = commandLineFactory.create "foo"
         line.add "aaa"
         line.add "aaa bbb"
         line.add '"aaa ccc" bbb'
@@ -63,7 +63,7 @@ class CommandLineTest {
 
     @Test
     void "add substituted arguments"() {
-        CommandLine line = commandLineFactory.create "foo"
+        DefaultCommandLine line = commandLineFactory.create "foo"
         line.add "aaa=<xxx>"
         line.add "aaa = <xxx>"
         line.add "ddd=<zzz>"
@@ -84,7 +84,7 @@ class CommandLineTest {
 
     @Test
     void "add substituted arguments, different start, stop char"() {
-        CommandLine line = commandLineFactory.create "foo"
+        DefaultCommandLine line = commandLineFactory.create "foo"
         line.setVariableStartChar '{' as char
         line.setVariableStopChar '}' as char
         line.add "aaa={xxx}"
@@ -107,12 +107,12 @@ class CommandLineTest {
 
     static Injector injector
 
-    static CommandLineFactory commandLineFactory
+    static DefaultCommandLineFactory commandLineFactory
 
     @BeforeClass
     static void createFactory() {
         TestUtils.toStringStyle
-        injector = Guice.createInjector(new CommandLineModule())
-        commandLineFactory = injector.getInstance CommandLineFactory
+        injector = Guice.createInjector(new DefaultCommandLineModule())
+        commandLineFactory = injector.getInstance DefaultCommandLineFactory
     }
 }

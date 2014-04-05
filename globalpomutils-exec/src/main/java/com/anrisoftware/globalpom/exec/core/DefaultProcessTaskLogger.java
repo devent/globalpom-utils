@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import com.anrisoftware.globalpom.exec.api.CommandExecException;
-import com.anrisoftware.globalpom.exec.command.CommandLine;
+import com.anrisoftware.globalpom.exec.api.CommandLine;
 import com.anrisoftware.globalpom.log.AbstractLogger;
 
 /**

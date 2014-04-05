@@ -57,6 +57,12 @@
 			<groupId>org.antlr</groupId>
 			<artifactId>ST4</artifactId>
 		</dependency>
+		<!-- for script -->
+		<dependency>
+			<groupId>com.anrisoftware.resources</groupId>
+			<artifactId>resources-templates</artifactId>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 
 </project>

@@ -18,34 +18,44 @@
  */
 package com.anrisoftware.globalpom.exec.command;
 
-import java.io.File;
+import static com.anrisoftware.globalpom.exec.command.DefaultCommandLineLogger._.argument_null;
+import static org.apache.commons.lang3.Validate.notNull;
+
+import com.anrisoftware.globalpom.exec.api.CommandLine;
+import com.anrisoftware.globalpom.log.AbstractLogger;
 
 /**
- * Factory to create a command line.
+ * Logging for {@link DefaultCommandLine}.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.11
  */
-public interface CommandLineFactory {
+class DefaultCommandLineLogger extends AbstractLogger {
+
+    enum _ {
+
+        argument_null("Command line argument must be set for %s.");
+
+        private String name;
+
+        private _(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
 
     /**
-     * Create a command line from an executable.
-     * 
-     * @param executable
-     *            the {@link String} executable.
-     * 
-     * @return the {@link CommandLine}.
+     * Sets the context of the logger to {@link DefaultCommandLine}.
      */
-    CommandLine create(String executable);
+    public DefaultCommandLineLogger() {
+        super(DefaultCommandLine.class);
+    }
 
-    /**
-     * Create a command line from an executable.
-     * 
-     * @param executable
-     *            the {@link File} executable.
-     * 
-     * @return the {@link CommandLine}.
-     */
-    CommandLine create(File executable);
-
+    void checkArgument(CommandLine line, Object argument) {
+        notNull(argument, argument_null.toString(), line);
+    }
 }

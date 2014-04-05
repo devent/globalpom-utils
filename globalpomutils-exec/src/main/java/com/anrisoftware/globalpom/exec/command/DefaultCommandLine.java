@@ -18,7 +18,7 @@
  */
 package com.anrisoftware.globalpom.exec.command;
 
-import static com.anrisoftware.globalpom.exec.command.CommandLineModule.getCommandLineFactory;
+import static com.anrisoftware.globalpom.exec.command.DefaultCommandLineModule.getCommandLineFactory;
 import static java.lang.String.format;
 import static java.util.Collections.unmodifiableList;
 import static org.apache.commons.lang3.StringUtils.contains;
@@ -36,6 +36,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 
+import com.anrisoftware.globalpom.exec.api.CommandLine;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -45,17 +46,17 @@ import com.google.inject.assistedinject.AssistedInject;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.11
  */
-public class CommandLine {
+public class DefaultCommandLine implements CommandLine {
 
     /**
-     * @see CommandLineFactory#create(File)
+     * @see DefaultCommandLineFactory#create(File)
      */
     public static CommandLine createCommandLine(File executable) {
         return getCommandLineFactory().create(executable);
     }
 
     /**
-     * @see CommandLineFactory#create(String)
+     * @see DefaultCommandLineFactory#create(String)
      */
     public static CommandLine createCommandLine(String executable) {
         return getCommandLineFactory().create(executable);
@@ -76,37 +77,34 @@ public class CommandLine {
     private final Map<String, Object> substitutions;
 
     @Inject
-    private CommandLineLogger log;
+    private DefaultCommandLineLogger log;
 
     private STGroup stgroup;
 
     private File workingDir;
 
     /**
-     * @see CommandLineFactory#create(File)
+     * @see DefaultCommandLineFactory#create(File)
      */
     @AssistedInject
-    CommandLine(@Assisted File executable) {
+    DefaultCommandLine(@Assisted File executable) {
         this(executable.getAbsolutePath());
     }
 
     /**
-     * @see CommandLineFactory#create(String)
+     * @see DefaultCommandLineFactory#create(String)
      */
     @AssistedInject
-    CommandLine(@Assisted String executable) {
+    DefaultCommandLine(@Assisted String executable) {
         this.executable = executable;
         this.arguments = new ArrayList<Argument>();
         this.substitutions = new HashMap<String, Object>();
     }
 
-    /**
-     * Returns the of the command list.
-     * 
-     * @return the unmodifiable {@link List} of {@link String} that contains the
-     *         executable as the first item and the command arguments as the
-     *         rest.
+    /* (non-Javadoc)
+     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#getCommand()
      */
+    @Override
     public List<String> getCommand() {
         List<String> command = new ArrayList<String>();
         command.add(getExecutable());
@@ -116,47 +114,34 @@ public class CommandLine {
         return command;
     }
 
-    /**
-     * Returns the executable.
-     * 
-     * @return the {@link String} executable to run.
+    /* (non-Javadoc)
+     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#getExecutable()
      */
+    @Override
     public String getExecutable() {
         return executable;
     }
 
-    /**
-     * Returns the arguments.
-     * 
-     * @return the unmodifiable {@link List} of arguments.
+    /* (non-Javadoc)
+     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#getArguments()
      */
+    @Override
     public List<String> getArguments() {
         return unmodifiableList(quoteArguments(substitudeVariables(arguments)));
     }
 
-    /**
-     * Adds the specified command line arguments.
-     * 
-     * @param arguments
-     *            the {@link Object} array arguments.
-     * 
-     * @return this {@link CommandLine}.
+    /* (non-Javadoc)
+     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#add(java.lang.Object)
      */
+    @Override
     public CommandLine add(Object... arguments) {
         return add(true, arguments);
     }
 
-    /**
-     * Adds the specified command line arguments.
-     * 
-     * @param quote
-     *            set to {@code true} to quote the argument.
-     * 
-     * @param arguments
-     *            the {@link Object} array arguments.
-     * 
-     * @return this {@link CommandLine}.
+    /* (non-Javadoc)
+     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#add(boolean, java.lang.Object)
      */
+    @Override
     public CommandLine add(boolean quote, Object... arguments) {
         for (Object argument : arguments) {
             add(quote, argument);
@@ -164,106 +149,63 @@ public class CommandLine {
         return this;
     }
 
-    /**
-     * Adds the specified command line argument.
-     * 
-     * @param arguments
-     *            the {@link Object} argument.
-     * 
-     * @return this {@link CommandLine}.
+    /* (non-Javadoc)
+     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#add(java.lang.Object)
      */
+    @Override
     public CommandLine add(Object argument) {
         return add(true, argument);
     }
 
-    /**
-     * Adds the specified command line argument.
-     * <p>
-     * If the quote arguments is set then the arguments is quoted in
-     * double/single quotes.
-     * <ul>
-     * <li>{@code aaa} -> {@code aaa}</li>
-     * <li>{@code aaa bbb} -> {@code "aaa bbb"}</li>
-     * <li>{@code "aaa" bbb} -> {@code '"aaa" bbb'}</li>
-     * <li>{@code "aaa ccc" bbb} -> {@code '"aaa ccc" bbb'}</li>
-     * <li>{@code "aaa"bbb} -> {@code '"aaa"bbb'}</li>
-     * </ul>
-     * </p>
-     * 
-     * @param argument
-     *            the {@link Object} argument.
-     * 
-     * @param quote
-     *            set to {@code true} to quote the argument.
-     * 
-     * @return this {@link CommandLine}.
+    /* (non-Javadoc)
+     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#add(boolean, java.lang.Object)
      */
+    @Override
     public CommandLine add(boolean quote, Object argument) {
         log.checkArgument(this, argument);
         arguments.add(new Argument(argument, quote));
         return this;
     }
 
-    /**
-     * Adds a variable substitution for the arguments. The variables are only
-     * substituted when the arguments are returned. The variables must be
-     * enclosed in the enclose {@code "<", ">"}, for example:
-     * {@code "foo=<bar>".}
-     * 
-     * @param name
-     *            the {@link String} name of the variable.
-     * 
-     * @param value
-     *            the {@link Object} value of the variable.
-     * 
-     * @return this {@link CommandLine}.
+    /* (non-Javadoc)
+     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#addSub(java.lang.String, java.lang.Object)
      */
+    @Override
     public CommandLine addSub(String name, Object value) {
         this.substitutions.put(name, value);
         createStGroup();
         return this;
     }
 
-    /**
-     * Sets the working directory.
-     * 
-     * @param dir
-     *            the {@link File} directory or {@code null} to use the working
-     *            directory of the current Java process.
+    /* (non-Javadoc)
+     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#setWorkingDir(java.io.File)
      */
+    @Override
     public void setWorkingDir(File dir) {
         this.workingDir = dir;
     }
 
-    /**
-     * Returns the working directory.
-     * 
-     * @return the {@link File} directory or {@code null} to use the working
-     *         directory of the current Java process.
+    /* (non-Javadoc)
+     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#getWorkingDir()
      */
+    @Override
     public File getWorkingDir() {
         return workingDir;
     }
 
-    /**
-     * Sets the variable substitution start character. The start character
-     * defaults to <code>"&lt;".</code>
-     * 
-     * @param character
-     *            the character.
+    /* (non-Javadoc)
+     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#setVariableStartChar(char)
      */
+    @Override
     public void setVariableStartChar(char character) {
         createStGroup();
         stgroup.delimiterStartChar = character;
     }
 
-    /**
-     * Sets the variable substitution stop character. The stop character
-     * defaults to <code>"&gt;".</code>
-     * 
-     * @param character
-     *            the character.
+    /* (non-Javadoc)
+     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#setVariableStopChar(char)
      */
+    @Override
     public void setVariableStopChar(char character) {
         createStGroup();
         stgroup.delimiterStopChar = character;
