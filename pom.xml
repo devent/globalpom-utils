@@ -5,68 +5,15 @@
 
 	<parent>
 		<groupId>com.anrisoftware.globalpom</groupId>
-		<artifactId>globalpom-groovy</artifactId>
-		<version>1.21</version>
-		<relativePath />
+		<artifactId>globalpomutils-parent</artifactId>
+		<version>2.0-SNAPSHOT</version>
+		<relativePath>../globalpomutils-parent</relativePath>
 	</parent>
 
 	<artifactId>globalpom-utils</artifactId>
-	<version>1.11</version>
 	<name>Global POM :: Utilities</name>
 	<description>Various utilities.</description>
 	<url>https://www.anr-institute.com/projects/projects/globalpom-utils</url>
-	<inceptionYear>2013</inceptionYear>
-
-	<properties>
-		<project.custom.year>${project.inceptionYear}</project.custom.year>
-	</properties>
-
-	<developers>
-		<developer>
-			<id>EM</id>
-			<name>Erwin Müller</name>
-			<organization>Advanced Natural Research Insitute GmbH</organization>
-			<email>erwin.mueller@deventm.org</email>
-			<roles>
-				<role>Owner</role>
-				<role>Developer</role>
-			</roles>
-			<timezone>Europe/Berlin</timezone>
-		</developer>
-	</developers>
-
-	<licenses>
-		<license>
-			<name>LGPLv3</name>
-			<url>http://www.gnu.org/licenses/lgpl.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-
-	<issueManagement>
-		<system>Redmine</system>
-		<url>https://www.anr-institute.com/projects/projects/globalpom-utils</url>
-	</issueManagement>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.anrisoftware.globalpom</groupId>
-				<artifactId>globalpom-groovytestutils</artifactId>
-				<version>1.22</version>
-			</dependency>
-			<dependency>
-				<groupId>com.anrisoftware.globalpom</groupId>
-				<artifactId>globalpom-log</artifactId>
-				<version>1.16</version>
-			</dependency>
-			<dependency>
-				<groupId>com.anrisoftware.propertiesutils</groupId>
-				<artifactId>propertiesutils-contextproperties</artifactId>
-				<version>1.10</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 	<dependencies>
 
@@ -81,11 +28,11 @@
 			<artifactId>xstream</artifactId>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-exec</artifactId>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-exec</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 		<!-- compile dependencies -->
 		<dependency>
@@ -166,11 +113,11 @@
 			<optional>true</optional>
 		</dependency>
 
-        <!-- exec -->
+		<!-- exec -->
 		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>ST4</artifactId>
-            <optional>true</optional>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 
