@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-exec. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.exec
+package com.anrisoftware.globalpom.exec.core
 
 import static com.anrisoftware.globalpom.exec.command.DefaultCommandLine.*
 import static com.anrisoftware.globalpom.exec.core.DefaultCommandExec.*
@@ -38,13 +38,10 @@ import org.junit.rules.TemporaryFolder
 
 import com.anrisoftware.globalpom.exec.api.CommandExec
 import com.anrisoftware.globalpom.exec.api.CommandExecException
-import com.anrisoftware.globalpom.exec.api.CommandExecFactory
 import com.anrisoftware.globalpom.exec.api.ProcessTask
 import com.anrisoftware.globalpom.exec.command.DefaultCommandLine
 import com.anrisoftware.globalpom.exec.command.DefaultCommandLineFactory
 import com.anrisoftware.globalpom.exec.command.DefaultCommandLineModule
-import com.anrisoftware.globalpom.exec.core.DefaultCommandExecFactory
-import com.anrisoftware.globalpom.exec.core.DefaultProcessModule
 import com.anrisoftware.globalpom.exec.pipeoutputs.PipeCommandInput
 import com.anrisoftware.globalpom.exec.pipeoutputs.PipeCommandInputFactory
 import com.anrisoftware.globalpom.exec.pipeoutputs.PipeCommandOutputFactory
@@ -324,7 +321,7 @@ class DefaultCommandExecTest {
 
     static DefaultCommandLineFactory commandLineFactory
 
-    static CommandExecFactory commandExecFactory
+    static DefaultCommandExecFactory commandExecFactory
 
     static PipeCommandOutputFactory pipeCommandOutputFactory
 

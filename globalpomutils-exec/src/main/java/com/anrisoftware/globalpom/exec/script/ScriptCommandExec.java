@@ -18,9 +18,11 @@
  */
 package com.anrisoftware.globalpom.exec.script;
 
-import static com.anrisoftware.globalpom.exec.core.DefaultProcessModule.getCommandExecFactory;
+import static com.anrisoftware.globalpom.exec.script.ScriptProcessModule.getScriptCommandExecFactory;
 
 import java.beans.PropertyChangeListener;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.concurrent.Future;
 
 import javax.inject.Inject;
@@ -31,36 +33,49 @@ import com.anrisoftware.globalpom.exec.api.CommandExec;
 import com.anrisoftware.globalpom.exec.api.CommandExecException;
 import com.anrisoftware.globalpom.exec.api.CommandExecFactory;
 import com.anrisoftware.globalpom.exec.api.CommandInput;
-import com.anrisoftware.globalpom.exec.api.CommandOutput;
 import com.anrisoftware.globalpom.exec.api.CommandLine;
+import com.anrisoftware.globalpom.exec.api.CommandOutput;
 import com.anrisoftware.globalpom.exec.api.ProcessTask;
 import com.anrisoftware.globalpom.threads.api.Threads;
+import com.google.inject.assistedinject.Assisted;
 
 /**
  * Executes a script created from a loaded template.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.11
+ * @since 2.0
  */
 public class ScriptCommandExec implements CommandExec {
 
     private static final String EXEC = "exec";
 
     /**
-     * @see CommandExecFactory#create()
+     * @see ScriptCommandExecFactory#create(CommandExecFactory)
      */
-    public static CommandExec createCommandExec() {
-        return getCommandExecFactory().create();
+    public static CommandExec createScriptCommandExec(
+            CommandExecFactory execFactory) {
+        return getScriptCommandExecFactory().create(execFactory);
     }
 
     private final CommandExec exec;
 
-    @Inject
-    private ScriptCommandExecLogger log;
+    private final Observer scriptFileObserver;
 
+    /**
+     * @see ScriptCommandExecFactory#create(CommandExecFactory)
+     */
     @Inject
-    ScriptCommandExec(CommandExecFactory execFactory) {
+    ScriptCommandExec(@Assisted CommandExecFactory execFactory) {
         this.exec = execFactory.create();
+        this.scriptFileObserver = new Observer() {
+
+            @Override
+            public void update(Observable o, Object arg) {
+                ProcessTask task = (ProcessTask) o;
+                deleteScriptFile(task);
+            }
+        };
+        exec.setObserver(scriptFileObserver);
     }
 
     @Override
@@ -94,12 +109,24 @@ public class ScriptCommandExec implements CommandExec {
     }
 
     @Override
+    public void setObserver(Observer... observer) {
+        exec.setObserver(observer);
+    }
+
+    @Override
     public Future<ProcessTask> exec(CommandLine commandLine,
             PropertyChangeListener... listeners) throws CommandExecException {
+        return exec.exec(commandLine, listeners);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this).append(EXEC, exec).toString();
     }
+
+    private void deleteScriptFile(ProcessTask task) {
+        ScriptCommandLine line = (ScriptCommandLine) task.getCommandLine();
+        line.getExecutable().delete();
+    }
+
 }

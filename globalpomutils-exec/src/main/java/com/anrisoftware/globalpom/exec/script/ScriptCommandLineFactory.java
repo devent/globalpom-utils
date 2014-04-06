@@ -16,20 +16,29 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-exec. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.exec.api;
+package com.anrisoftware.globalpom.exec.script;
+
+import com.anrisoftware.globalpom.exec.api.CommandLine;
+import com.anrisoftware.resources.templates.api.TemplateResource;
 
 /**
- * Factory to create the command executer.
+ * Factory to create a command line.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.0
  */
-public interface CommandExecFactory {
+public interface ScriptCommandLineFactory {
 
     /**
-     * Creates the command executer.
+     * Create a command line from a template.
      * 
-     * @return the {@link CommandExec}.
+     * @param name
+     *            the {@link String} name.
+     * 
+     * @param template
+     *            the template {@link TemplateResource} resource.
+     * 
+     * @return the {@link ScriptCommandLine}.
      */
-    CommandExec create();
+    CommandLine create(String name, TemplateResource template);
 }

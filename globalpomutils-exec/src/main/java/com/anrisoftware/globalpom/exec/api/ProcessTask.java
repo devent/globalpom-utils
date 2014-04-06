@@ -18,6 +18,7 @@
  */
 package com.anrisoftware.globalpom.exec.api;
 
+import java.util.Observer;
 import java.util.concurrent.Callable;
 
 /**
@@ -33,6 +34,13 @@ public interface ProcessTask extends Callable<ProcessTask> {
      */
     @Override
     ProcessTask call() throws CommandExecException;
+
+    /**
+     * Returns the command line of the process.
+     * 
+     * @return the {@link CommandLine}.
+     */
+    CommandLine getCommandLine();
 
     /**
      * Returns the process of the executed command.
@@ -67,4 +75,21 @@ public interface ProcessTask extends Callable<ProcessTask> {
      * @return the exit value.
      */
     int getExitValue();
+
+    /**
+     * Adds the process task observer(s).
+     * 
+     * @param observer
+     *            the {@link Observer}.
+     */
+    void addObserver(Observer... observer);
+
+    /**
+     * Removes the process task observer(s).
+     * 
+     * @param observer
+     *            the {@link Observer}.
+     */
+    void removeObserver(Observer... observer);
+
 }

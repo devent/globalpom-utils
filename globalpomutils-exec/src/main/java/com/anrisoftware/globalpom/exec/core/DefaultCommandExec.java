@@ -23,6 +23,10 @@ import static com.anrisoftware.globalpom.exec.core.DefaultProcessModule.getComma
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Observer;
 import java.util.concurrent.Future;
 
 import javax.inject.Inject;
@@ -34,8 +38,8 @@ import com.anrisoftware.globalpom.exec.api.CommandExec;
 import com.anrisoftware.globalpom.exec.api.CommandExecException;
 import com.anrisoftware.globalpom.exec.api.CommandExecFactory;
 import com.anrisoftware.globalpom.exec.api.CommandInput;
-import com.anrisoftware.globalpom.exec.api.CommandOutput;
 import com.anrisoftware.globalpom.exec.api.CommandLine;
+import com.anrisoftware.globalpom.exec.api.CommandOutput;
 import com.anrisoftware.globalpom.exec.api.ProcessTask;
 import com.anrisoftware.globalpom.threads.api.ListenableFuture.Status;
 import com.anrisoftware.globalpom.threads.api.Threads;
@@ -46,7 +50,7 @@ import com.anrisoftware.globalpom.threads.api.Threads;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.11
  */
-public class DefaultCommandExec implements CommandExec {
+public final class DefaultCommandExec implements CommandExec {
 
     /**
      * @see CommandExecFactory#create()
@@ -54,6 +58,8 @@ public class DefaultCommandExec implements CommandExec {
     public static CommandExec createCommandExec() {
         return getCommandExecFactory().create();
     }
+
+    private final List<Observer> observers;
 
     @Inject
     private DefaultCommandExecLogger log;
@@ -76,6 +82,7 @@ public class DefaultCommandExec implements CommandExec {
     DefaultCommandExec() {
         this.exitCodes = null;
         this.destroyOnTimeout = true;
+        this.observers = new ArrayList<Observer>();
     }
 
     @Override
@@ -109,20 +116,42 @@ public class DefaultCommandExec implements CommandExec {
     }
 
     @Override
+    public void setObserver(Observer... observer) {
+        this.observers.addAll(Arrays.asList(observer));
+    }
+
+    @Override
     public Future<ProcessTask> exec(CommandLine commandLine,
             PropertyChangeListener... listeners) throws CommandExecException {
         try {
-            ProcessTask task = createProcessTask(commandLine);
-            return threads.submit(task, setupTimeoutListener(task, listeners));
+            ProcessTask task = createProcessTask(commandLine, observers);
+            return threads.submit(task, setupListener(task, listeners));
         } catch (IOException e) {
             throw log.errorExecuteCommand(this, e, commandLine);
         }
     }
 
-    private PropertyChangeListener[] setupTimeoutListener(ProcessTask task,
-            PropertyChangeListener... listeners) {
-        return destroyOnTimeout ? addTimeoutListener(task, listeners)
-                : listeners;
+    private ProcessTask createProcessTask(CommandLine commandLine,
+            List<Observer> observers) throws IOException {
+        DefaultProcessTask task = processTaskFactory.create(commandLine);
+        task.setThreads(threads);
+        task.addObserver(observers.toArray(new Observer[] {}));
+        if (output != null) {
+            task.setCommandOutput(output.clone());
+        }
+        if (error != null) {
+            task.setCommandError(error.clone());
+        }
+        if (input != null) {
+            task.setCommandInput(input.clone());
+        }
+        task.setExitCodes(exitCodes);
+        return task;
+    }
+
+    private PropertyChangeListener[] setupListener(ProcessTask task,
+            PropertyChangeListener... l) {
+        return destroyOnTimeout ? addTimeoutListener(task, l) : l;
     }
 
     private PropertyChangeListener[] addTimeoutListener(final ProcessTask task,
@@ -137,23 +166,6 @@ public class DefaultCommandExec implements CommandExec {
                 }
             }
         });
-    }
-
-    private ProcessTask createProcessTask(CommandLine commandLine)
-            throws IOException {
-        DefaultProcessTask task = processTaskFactory.create(commandLine);
-        task.setThreads(threads);
-        if (output != null) {
-            task.setCommandOutput(output.clone());
-        }
-        if (error != null) {
-            task.setCommandError(error.clone());
-        }
-        if (input != null) {
-            task.setCommandInput(input.clone());
-        }
-        task.setExitCodes(exitCodes);
-        return task;
     }
 
     @Override

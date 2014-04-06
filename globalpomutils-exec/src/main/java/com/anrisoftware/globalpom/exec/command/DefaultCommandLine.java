@@ -101,9 +101,6 @@ public class DefaultCommandLine implements CommandLine {
         this.substitutions = new HashMap<String, Object>();
     }
 
-    /* (non-Javadoc)
-     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#getCommand()
-     */
     @Override
     public List<String> getCommand() {
         List<String> command = new ArrayList<String>();
@@ -114,33 +111,21 @@ public class DefaultCommandLine implements CommandLine {
         return command;
     }
 
-    /* (non-Javadoc)
-     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#getExecutable()
-     */
     @Override
     public String getExecutable() {
         return executable;
     }
 
-    /* (non-Javadoc)
-     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#getArguments()
-     */
     @Override
     public List<String> getArguments() {
         return unmodifiableList(quoteArguments(substitudeVariables(arguments)));
     }
 
-    /* (non-Javadoc)
-     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#add(java.lang.Object)
-     */
     @Override
     public CommandLine add(Object... arguments) {
         return add(true, arguments);
     }
 
-    /* (non-Javadoc)
-     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#add(boolean, java.lang.Object)
-     */
     @Override
     public CommandLine add(boolean quote, Object... arguments) {
         for (Object argument : arguments) {
@@ -149,17 +134,11 @@ public class DefaultCommandLine implements CommandLine {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#add(java.lang.Object)
-     */
     @Override
     public CommandLine add(Object argument) {
         return add(true, argument);
     }
 
-    /* (non-Javadoc)
-     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#add(boolean, java.lang.Object)
-     */
     @Override
     public CommandLine add(boolean quote, Object argument) {
         log.checkArgument(this, argument);
@@ -167,9 +146,6 @@ public class DefaultCommandLine implements CommandLine {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#addSub(java.lang.String, java.lang.Object)
-     */
     @Override
     public CommandLine addSub(String name, Object value) {
         this.substitutions.put(name, value);
@@ -177,34 +153,22 @@ public class DefaultCommandLine implements CommandLine {
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#setWorkingDir(java.io.File)
-     */
     @Override
     public void setWorkingDir(File dir) {
         this.workingDir = dir;
     }
 
-    /* (non-Javadoc)
-     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#getWorkingDir()
-     */
     @Override
     public File getWorkingDir() {
         return workingDir;
     }
 
-    /* (non-Javadoc)
-     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#setVariableStartChar(char)
-     */
     @Override
     public void setVariableStartChar(char character) {
         createStGroup();
         stgroup.delimiterStartChar = character;
     }
 
-    /* (non-Javadoc)
-     * @see com.anrisoftware.globalpom.exec.command.ICommandLine#setVariableStopChar(char)
-     */
     @Override
     public void setVariableStopChar(char character) {
         createStGroup();

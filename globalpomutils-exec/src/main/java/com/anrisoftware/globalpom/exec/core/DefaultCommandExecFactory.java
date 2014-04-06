@@ -21,10 +21,10 @@ package com.anrisoftware.globalpom.exec.core;
 import com.anrisoftware.globalpom.exec.api.CommandExecFactory;
 
 /**
- * Factory to create the default external command executer.
+ * Factory to create the default command executer.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.11
+ * @since 2.0
  */
 public interface DefaultCommandExecFactory extends CommandExecFactory {
 }

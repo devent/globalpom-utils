@@ -1,0 +1,6 @@
+output() ::= <<
+#!/bin/bash
+output="$1"
+echo -n "$output"
+
+>>

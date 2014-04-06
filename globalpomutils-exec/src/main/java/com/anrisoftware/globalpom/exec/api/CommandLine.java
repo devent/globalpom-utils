@@ -19,15 +19,19 @@ public interface CommandLine {
      * @return the unmodifiable {@link List} of {@link String} that contains the
      *         executable as the first item and the command arguments as the
      *         rest.
+     * 
+     * @throws CommandExecException
+     *             if there was an error create the command.
      */
-    List<String> getCommand();
+    List<String> getCommand() throws CommandExecException;
 
     /**
      * Returns the executable.
      * 
-     * @return the {@link String} executable to run.
+     * @return the {@link Object} executable to run, can be the name of the
+     *         executable or the path or any other abstract object.
      */
-    String getExecutable();
+    Object getExecutable();
 
     /**
      * Returns the arguments.

@@ -18,12 +18,19 @@
  */
 package com.anrisoftware.globalpom.exec.core;
 
+import static java.util.Arrays.asList;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ProcessBuilder.Redirect;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import javax.inject.Inject;
 
@@ -32,8 +39,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.anrisoftware.globalpom.exec.api.CommandExecException;
 import com.anrisoftware.globalpom.exec.api.CommandInput;
-import com.anrisoftware.globalpom.exec.api.CommandOutput;
 import com.anrisoftware.globalpom.exec.api.CommandLine;
+import com.anrisoftware.globalpom.exec.api.CommandOutput;
 import com.anrisoftware.globalpom.exec.api.ProcessTask;
 import com.anrisoftware.globalpom.exec.pipeoutputs.PipeCommandInputFactory;
 import com.anrisoftware.globalpom.exec.pipeoutputs.PipeCommandOutputFactory;
@@ -42,11 +49,11 @@ import com.google.inject.assistedinject.Assisted;
 
 /**
  * Executes command task.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.11
  */
-class DefaultProcessTask implements ProcessTask {
+class DefaultProcessTask extends Observable implements ProcessTask {
 
     private static final String EXECUTABLE = "executable";
 
@@ -87,6 +94,11 @@ class DefaultProcessTask implements ProcessTask {
         this.commandLine = commandLine;
     }
 
+    @Override
+    public CommandLine getCommandLine() {
+        return commandLine;
+    }
+
     public void setThreads(Threads threads) {
         this.threads = threads;
     }
@@ -123,22 +135,35 @@ class DefaultProcessTask implements ProcessTask {
             throw log.errorStartCommand(this, e, commandLine);
         } catch (InterruptedException e) {
             throw log.commandInterrupted(this, e, commandLine);
+        } catch (ExecutionException e) {
+            throw log.errorStartCommand(this, e.getCause(), commandLine);
         }
         return this;
     }
 
     private void startProcess(ProcessBuilder builder) throws IOException,
-            InterruptedException, CommandExecException {
+            InterruptedException, CommandExecException, ExecutionException {
         Process process = builder.start();
-        createProcessStreams(process);
+        List<Future<?>> streamsTasks = createProcessStreams(process);
         this.process = process;
         this.ret = process.waitFor();
+        waitForStreams(streamsTasks);
+        setChanged();
+        notifyObservers();
         if (exitCodes != null && !checkExitCodes(ret, exitCodes)) {
             throw log.invalidExitCode(this, ret, exitCodes, commandLine);
         }
     }
 
-    private void createProcessStreams(Process process) {
+    private void waitForStreams(List<Future<?>> streamsTasks)
+            throws InterruptedException, ExecutionException {
+        for (Future<?> future : streamsTasks) {
+            future.get();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<Future<?>> createProcessStreams(Process process) {
         if (output == null) {
             this.outputStream = new ByteArrayOutputStream();
             this.output = commandOutputFactory.create(outputStream);
@@ -155,9 +180,8 @@ class DefaultProcessTask implements ProcessTask {
         input.setOutput(process.getOutputStream());
         output.setInput(process.getInputStream());
         error.setInput(process.getErrorStream());
-        threads.submit(input);
-        threads.submit(output);
-        threads.submit(error);
+        return new ArrayList<Future<?>>(asList(threads.submit(input),
+                threads.submit(output), threads.submit(error)));
     }
 
     private boolean checkExitCodes(int ret, int[] exitCodes) {
@@ -201,5 +225,19 @@ class DefaultProcessTask implements ProcessTask {
     public String toString() {
         return new ToStringBuilder(this).append(EXECUTABLE,
                 commandLine.getExecutable()).toString();
+    }
+
+    @Override
+    public void addObserver(Observer... observer) {
+        for (Observer o : observer) {
+            addObserver(o);
+        }
+    }
+
+    @Override
+    public void removeObserver(Observer... observer) {
+        for (Observer o : observer) {
+            deleteObserver(o);
+        }
     }
 }

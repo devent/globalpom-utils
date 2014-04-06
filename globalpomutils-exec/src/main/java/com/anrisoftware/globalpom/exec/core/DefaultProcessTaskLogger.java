@@ -28,7 +28,6 @@ import static com.anrisoftware.globalpom.exec.core.DefaultProcessTaskLogger._.ex
 import static com.anrisoftware.globalpom.exec.core.DefaultProcessTaskLogger._.return_code;
 import static com.anrisoftware.globalpom.exec.core.DefaultProcessTaskLogger._.task_;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 import com.anrisoftware.globalpom.exec.api.CommandExecException;
@@ -93,16 +92,15 @@ class DefaultProcessTaskLogger extends AbstractLogger {
     }
 
     CommandExecException errorStartCommand(DefaultProcessTask task,
-            IOException e, CommandLine line) {
-        String ex = line.getExecutable();
-        return logException(
-                new CommandExecException(error_start_command, e).add(task_,
-                        task), error_start_command_message, ex);
+            Throwable throwable, CommandLine line) {
+        Object ex = line.getExecutable();
+        return logException(new CommandExecException(error_start_command,
+                throwable).add(task_, task), error_start_command_message, ex);
     }
 
     CommandExecException commandInterrupted(DefaultProcessTask task,
             InterruptedException e, CommandLine line) {
-        String ex = line.getExecutable();
+        Object ex = line.getExecutable();
         return logException(
                 new CommandExecException(command_interrupted, e).add(task_,
                         task), command_interrupted_message, ex);

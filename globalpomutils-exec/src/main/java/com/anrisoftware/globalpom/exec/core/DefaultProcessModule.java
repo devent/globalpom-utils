@@ -41,8 +41,10 @@ public class DefaultProcessModule extends AbstractModule {
      * Returns the command exec factory.
      * 
      * @return the {@link CommandExecFactory}.
+     * 
+     * @since 2.0
      */
-    public static CommandExecFactory getCommandExecFactory() {
+    public static DefaultCommandExecFactory getCommandExecFactory() {
         return instance.injector.getInstance(DefaultCommandExecFactory.class);
     }
 

@@ -19,6 +19,7 @@
 package com.anrisoftware.globalpom.exec.api;
 
 import java.beans.PropertyChangeListener;
+import java.util.Observer;
 import java.util.concurrent.Future;
 
 import com.anrisoftware.globalpom.exec.command.DefaultCommandLine;
@@ -80,6 +81,14 @@ public interface CommandExec {
      *            timeout.
      */
     void setDestroyOnTimeout(boolean flag);
+
+    /**
+     * Sets the additional observer(s) for the command task.
+     * 
+     * @param observer
+     *            the {@link Observer} observer(s).
+     */
+    void setObserver(Observer... observer);
 
     /**
      * Executes the command specified by the command line.
