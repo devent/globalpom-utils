@@ -16,24 +16,25 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-core. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.textmatch.match;
+package com.anrisoftware.globalpom.textmatch.tokentemplate;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /**
- * Installs the match text factory.
+ * Installs the tokens template worker factory.
  * 
- * @see DefaultMatchTextFactory
+ * @see DefaultTokensTemplateFactory
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.0
  */
-public class MatchTextWorkerModule extends AbstractModule {
+public class TokensTemplateModule extends AbstractModule {
 
-	@Override
-	protected void configure() {
-		install(new FactoryModuleBuilder().implement(DefaultMatchText.class,
-				DefaultMatchText.class).build(DefaultMatchTextFactory.class));
-	}
+    @Override
+    protected void configure() {
+        install(new FactoryModuleBuilder().implement(
+                DefaultTokensTemplate.class, DefaultTokensTemplate.class)
+                .build(DefaultTokensTemplateFactory.class));
+    }
 }

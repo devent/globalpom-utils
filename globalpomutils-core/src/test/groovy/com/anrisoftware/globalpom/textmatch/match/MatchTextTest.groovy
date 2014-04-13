@@ -121,6 +121,6 @@ class MatchTextTest {
     }
 
     static Injector createInjector() {
-        Guice.createInjector(new MatchTextWorkerModule())
+        Guice.createInjector(new MatchTextModule())
     }
 }

@@ -182,6 +182,6 @@ $replace
     }
 
     static Injector createInjector() {
-        Guice.createInjector(new TokensTemplateWorkerModule())
+        Guice.createInjector(new TokensTemplateModule())
     }
 }
