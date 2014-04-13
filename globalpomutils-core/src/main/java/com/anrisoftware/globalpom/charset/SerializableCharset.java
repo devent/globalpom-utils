@@ -32,49 +32,64 @@ import java.nio.charset.Charset;
  */
 public class SerializableCharset implements Externalizable {
 
-	/**
-	 * Decorates the character set for serialization.
-	 * 
-	 * @param charset
-	 *            the {@link Charset}.
-	 * 
-	 * @return the {@link SerializableCharset}.
-	 */
-	public static SerializableCharset decorate(Charset charset) {
-		return new SerializableCharset(charset);
-	}
+    /**
+     * Decorates the character set for serialization.
+     * 
+     * @param charset
+     *            the {@link Charset}.
+     * 
+     * @return the {@link SerializableCharset}.
+     */
+    public static SerializableCharset decorate(Charset charset) {
+        return new SerializableCharset(charset);
+    }
 
-	private Charset charset;
+    /**
+     * Decorates the character set for serialization.
+     * 
+     * @param charset
+     *            the {@link Charset}.
+     * 
+     * @return the {@link SerializableCharset}.
+     * 
+     * @since 2.0
+     */
+    public static SerializableCharset decorateSerializableCharset(
+            Charset charset) {
+        return new SerializableCharset(charset);
+    }
 
-	/**
-	 * For serialization.
-	 */
-	public SerializableCharset() {
-	}
+    private Charset charset;
 
-	private SerializableCharset(Charset charset) {
-		this.charset = charset;
-	}
+    /**
+     * For serialization.
+     */
+    public SerializableCharset() {
+    }
 
-	/**
-	 * Returns the serialized character set.
-	 * 
-	 * @return the {@link Charset}.
-	 */
-	public final Charset getCharset() {
-		return charset;
-	}
+    private SerializableCharset(Charset charset) {
+        this.charset = charset;
+    }
 
-	@Override
-	public void writeExternal(ObjectOutput out) throws IOException {
-		out.writeUTF(charset.name());
-	}
+    /**
+     * Returns the serialized character set.
+     * 
+     * @return the {@link Charset}.
+     */
+    public final Charset getCharset() {
+        return charset;
+    }
 
-	@Override
-	public void readExternal(ObjectInput in) throws IOException,
-			ClassNotFoundException {
-		String name = in.readUTF();
-		charset = Charset.forName(name);
-	}
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeUTF(charset.name());
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException,
+            ClassNotFoundException {
+        String name = in.readUTF();
+        charset = Charset.forName(name);
+    }
 
 }
