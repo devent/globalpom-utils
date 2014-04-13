@@ -20,6 +20,7 @@ package com.anrisoftware.globalpom.exec.core
 
 import static com.anrisoftware.globalpom.exec.command.DefaultCommandLine.*
 import static com.anrisoftware.globalpom.exec.core.DefaultCommandExec.*
+import static com.anrisoftware.globalpom.exec.logoutputs.AbstractLogCommandOutput.*
 import static com.anrisoftware.globalpom.threads.properties.PropertiesThreads.*
 import static com.anrisoftware.globalpom.utils.TestUtils.*
 import groovy.util.logging.Slf4j
@@ -211,6 +212,62 @@ class DefaultCommandExecTest {
     }
 
     @Test
+    void "read output in parallel, as info log"() {
+        def file = createCommand "output.sh", outputLinesCommand, tmp
+        def threads = injector.getInstance PropertiesThreads
+        threads.setProperties properties
+        threads.setName "cached"
+        DefaultCommandLine line = commandLineFactory.create(file).add("Text")
+        CommandExec exec = commandExecFactory.create()
+        exec.setCommandOutput createInfoLogCommandOutput(log, line)
+        exec.setThreads threads
+        Future task = exec.exec line
+        task.get()
+    }
+
+    @Test
+    void "read output in parallel, as debug log"() {
+        def file = createCommand "output.sh", outputLinesCommand, tmp
+        def threads = injector.getInstance PropertiesThreads
+        threads.setProperties properties
+        threads.setName "cached"
+        DefaultCommandLine line = commandLineFactory.create(file).add("Text")
+        CommandExec exec = commandExecFactory.create()
+        exec.setCommandOutput createDebugLogCommandOutput(log, line)
+        exec.setThreads threads
+        Future task = exec.exec line
+        task.get()
+    }
+
+    @Test
+    void "read output in parallel, as trace log"() {
+        def file = createCommand "output.sh", outputLinesCommand, tmp
+        def threads = injector.getInstance PropertiesThreads
+        threads.setProperties properties
+        threads.setName "cached"
+        DefaultCommandLine line = commandLineFactory.create(file).add("Text")
+        CommandExec exec = commandExecFactory.create()
+        exec.setCommandOutput createTraceLogCommandOutput(log, line)
+        exec.setThreads threads
+        Future task = exec.exec line
+        task.get()
+    }
+
+    @Test
+    void "read output in parallel, as error log"() {
+        def file = createCommand "output.sh", outputLinesCommand, tmp
+        def threads = injector.getInstance PropertiesThreads
+        threads.setProperties properties
+        threads.setName "cached"
+        DefaultCommandLine line = commandLineFactory.create(file).add("Text")
+        CommandExec exec = commandExecFactory.create()
+        exec.setCommandOutput createErrorLogCommandOutput(log, line)
+        exec.setThreads threads
+        Future task = exec.exec line
+        task.get()
+    }
+
+    @Test
     void "read error in parallel"() {
         def file = createCommand "output.sh", outputErrorCommand, tmp
         def threads = injector.getInstance PropertiesThreads
@@ -330,6 +387,8 @@ class DefaultCommandExecTest {
     static threadsProperties = DefaultCommandExecTest.class.getResource("/threads_test.properties")
 
     static outputCommand = DefaultCommandExecTest.class.getResource("output_command.txt")
+
+    static outputLinesCommand = DefaultCommandExecTest.class.getResource("output_lines_command.txt")
 
     static outputErrorCommand = DefaultCommandExecTest.class.getResource("output_error_command.txt")
 

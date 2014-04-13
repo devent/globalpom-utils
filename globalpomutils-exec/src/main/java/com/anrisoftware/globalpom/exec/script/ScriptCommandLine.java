@@ -114,8 +114,8 @@ public class ScriptCommandLine implements CommandLine {
     }
 
     @Override
-    public File getExecutable() {
-        return scriptFile;
+    public Object getExecutable() {
+        return scriptFile == null ? name : scriptFile;
     }
 
     @Override

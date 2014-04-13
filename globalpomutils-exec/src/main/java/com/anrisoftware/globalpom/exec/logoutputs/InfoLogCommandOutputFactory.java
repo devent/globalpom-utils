@@ -16,25 +16,31 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-exec. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.exec.script;
+package com.anrisoftware.globalpom.exec.logoutputs;
 
-import com.anrisoftware.globalpom.exec.api.CommandExecFactory;
+import org.slf4j.Logger;
+
+import com.anrisoftware.globalpom.exec.api.CommandLine;
+import com.anrisoftware.globalpom.exec.logoutputs.AbstractLogCommandOutput.InfoLogCommandOutput;
 
 /**
- * Factory to create a script exec that is created from a template.
+ * Factory to create the logger output that logs the output as info level.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.0
  */
-public interface ScriptCommandExecFactory {
+public interface InfoLogCommandOutputFactory {
 
     /**
-     * Creates the external command executer.
+     * Creates the logger output that logs the output as info level.
      * 
-     * @param execFactory
-     *            the {@link CommandExecFactory}.
+     * @param logger
+     *            the {@link Logger}.
      * 
-     * @return the {@link ScriptCommandExec}.
+     * @param commandLine
+     *            the the {@link CommandLine} for the logging message.
+     * 
+     * @return the {@link InfoLogCommandOutput}.
      */
-    ScriptCommandExec create(CommandExecFactory execFactory);
+    InfoLogCommandOutput create(Logger logger, CommandLine commandLine);
 }

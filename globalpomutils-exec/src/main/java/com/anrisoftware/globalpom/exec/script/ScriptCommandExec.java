@@ -21,6 +21,7 @@ package com.anrisoftware.globalpom.exec.script;
 import static com.anrisoftware.globalpom.exec.script.ScriptProcessModule.getScriptCommandExecFactory;
 
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.Future;
@@ -126,7 +127,7 @@ public class ScriptCommandExec implements CommandExec {
 
     private void deleteScriptFile(ProcessTask task) {
         ScriptCommandLine line = (ScriptCommandLine) task.getCommandLine();
-        line.getExecutable().delete();
+        ((File) line.getExecutable()).delete();
     }
 
 }

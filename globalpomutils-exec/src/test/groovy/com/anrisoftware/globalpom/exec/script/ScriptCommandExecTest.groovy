@@ -18,6 +18,7 @@
  */
 package com.anrisoftware.globalpom.exec.script
 
+import static com.anrisoftware.globalpom.exec.logoutputs.AbstractLogCommandOutput.*
 import static com.anrisoftware.globalpom.exec.script.ScriptCommandExec.*
 import static com.anrisoftware.globalpom.exec.script.ScriptCommandLine.*
 import static com.anrisoftware.globalpom.threads.properties.PropertiesThreads.*
@@ -100,6 +101,20 @@ class ScriptCommandExecTest {
         assert process.getExitValue() == 0
         assert process.getOut() == "Text"
         assert process.getErr() == ""
+    }
+
+    @Test
+    void "read output in parallel, as info log"() {
+        def threads = createPropertiesThreads()
+        threads.setProperties properties
+        threads.setName "cached"
+        def template = scriptTemplates.getResource("output_lines_command")
+        CommandLine line = createScriptCommandLine("output", template).add("Text")
+        CommandExec exec = createScriptCommandExec(commandExecFactory)
+        exec.setThreads threads
+        exec.setCommandOutput createInfoLogCommandOutput(log, line)
+        Future task = exec.exec line
+        task.get()
     }
 
     static Injector injector
