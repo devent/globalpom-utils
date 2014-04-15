@@ -14,7 +14,6 @@
 	<name>Global POM Utilities :: File Resources Manager</name>
 	<description>Saves and loads resources to files in atomic access.</description>
 
-
 	<dependencies>
 		<!-- test dependencies -->
 		<dependency>
