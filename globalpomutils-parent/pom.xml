@@ -60,11 +60,6 @@
 				<artifactId>propertiesutils-contextproperties</artifactId>
 				<version>1.10</version>
 			</dependency>
-			<dependency>
-				<groupId>com.anrisoftware.resources</groupId>
-				<artifactId>resources-templates</artifactId>
-				<version>1.12-SNAPSHOT</version>
-			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
