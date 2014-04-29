@@ -29,24 +29,35 @@ import static org.apache.commons.math3.util.FastMath.floor;
  */
 public class MathUtils {
 
-	/**
-	 * Rounds the specified value toward zero.
-	 * 
-	 * @param value
-	 *            the value.
-	 * 
-	 * @return the rounded value.
-	 */
-	public static double fix(double value) {
-		if (value < 0) {
-			value = ceil(value);
-			if (value == -0.0) {
-				value = 0.0;
-			}
-		} else {
-			value = floor(value);
-		}
-		return value;
-	}
+    /**
+     * Rounds the specified value toward zero.
+     * 
+     * @param value
+     *            the value.
+     * 
+     * @return the rounded value.
+     */
+    public static double fix(double value) {
+        if (value < 0) {
+            value = ceil(value);
+            if (value == -0.0) {
+                value = 0.0;
+            }
+        } else {
+            value = floor(value);
+        }
+        return value;
+    }
+
+    /**
+     * Returns the values after the decimal of a real value. I.e. for
+     * value=5.123 it returns 0.123.
+     * 
+     * @since 2.1
+     */
+    public static double frac(double value) {
+        long n = (long) value;
+        return value - n;
+    }
 
 }

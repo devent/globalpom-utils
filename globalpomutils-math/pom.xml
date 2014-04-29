@@ -13,6 +13,7 @@
 	<artifactId>globalpomutils-math</artifactId>
 	<name>Global POM Utilities :: Math</name>
 	<description>Mathematical classes.</description>
+	<version>2.1-SNAPSHOT</version>
 
 	<dependencies>
 		<!-- test dependencies -->
@@ -21,11 +22,11 @@
 			<artifactId>globalpom-groovytestutils</artifactId>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
-            <groupId>com.thoughtworks.xstream</groupId>
-            <artifactId>xstream</artifactId>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<!-- compile dependencies -->
 		<dependency>
 			<groupId>com.anrisoftware.globalpom</groupId>
