@@ -18,6 +18,7 @@
  */
 package com.anrisoftware.globalpom.math;
 
+import static org.apache.commons.math3.util.FastMath.abs;
 import static org.apache.commons.math3.util.FastMath.ceil;
 import static org.apache.commons.math3.util.FastMath.floor;
 
@@ -47,6 +48,28 @@ public class MathUtils {
             value = floor(value);
         }
         return value;
+    }
+
+    /**
+     * Rounds the value to the next mod 3 value.
+     * 
+     * @param value
+     *            the value.
+     * 
+     * @return the rounded value.
+     * 
+     * @since 2.1
+     */
+    public static double roundThree(double value) {
+        long n = (long) abs(value);
+        if (n % 3 != 0) {
+            n++;
+            if (n % 3 != 0 && frac(value) == 0) {
+                n -= 2;
+            }
+        }
+        n = value < 0 ? -n : n;
+        return n;
     }
 
     /**
