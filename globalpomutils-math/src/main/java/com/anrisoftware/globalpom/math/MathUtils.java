@@ -51,7 +51,9 @@ public class MathUtils {
     }
 
     /**
-     * Rounds the value to the next mod 3 value.
+     * Rounds the value to the next mod 3 value. The function breaks for
+     * {@link Double#NaN}, {@link Double#POSITIVE_INFINITY} and
+     * {@link Double#NEGATIVE_INFINITY}.
      * 
      * @param value
      *            the value.
@@ -74,7 +76,8 @@ public class MathUtils {
 
     /**
      * Returns the values after the decimal of a real value. I.e. for
-     * value=5.123 it returns 0.123.
+     * value=5.123 it returns 0.123. The function breaks for {@link Double#NaN},
+     * {@link Double#POSITIVE_INFINITY} and {@link Double#NEGATIVE_INFINITY}.
      * 
      * @since 2.1
      */
