@@ -88,6 +88,17 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
     }
 
     @Override
+    public Value valueOf(double value) {
+        return this.value.valueOf(value);
+    }
+
+    @Override
+    public Value valueOf(double value, int significant, double uncertainty,
+            int decimal) {
+        return this.value.valueOf(value, significant, uncertainty, decimal);
+    }
+
+    @Override
     public double getValue() {
         return value.getValue();
     }
@@ -229,6 +240,12 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
     @Override
     public Measure<UnitType> div(double divisor) {
         Value value = this.value.div(divisor);
+        return measureFactory.create(value, unit, valueFactory);
+    }
+
+    @Override
+    public Value divNum(double numerator) {
+        Value value = this.value.divNum(numerator);
         return measureFactory.create(value, unit, valueFactory);
     }
 

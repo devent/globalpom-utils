@@ -18,6 +18,7 @@
  */
 package com.anrisoftware.globalpom.measurement;
 
+
 /**
  * Measured value with uncertainty.
  * 
@@ -25,6 +26,39 @@ package com.anrisoftware.globalpom.measurement;
  * @since 1.9
  */
 public interface Value extends Comparable<Object> {
+
+    /**
+     * Returns the same uncertain value but with the specified value.
+     * 
+     * @param value
+     *            the value.
+     * 
+     * @return the exact {@link Value}.
+     * 
+     * @since 2.1
+     */
+    Value valueOf(double value);
+
+    /**
+     * Returns the same uncertain value but with the specified value.
+     * 
+     * @param value
+     *            the value.
+     * 
+     * @param significant
+     *            the significant figures of the value.
+     * 
+     * @param uncertainty
+     *            the uncertainty of the value.
+     * 
+     * @param decimal
+     *            the least significant decimal.
+     * 
+     * @return the uncertain {@link Value}.
+     * 
+     * @since 2.1
+     */
+    Value valueOf(double value, int significant, double uncertainty, int decimal);
 
     /**
      * Returns the value.
@@ -269,6 +303,19 @@ public interface Value extends Comparable<Object> {
     Value div(Value divisor);
 
     /**
+     * Calculates the division of the specified numerator {@code n} with this
+     * value {@code x}, that is, {@code y=n/x}
+     * 
+     * @param numerator
+     *            the numerator {@code x.}
+     * 
+     * @return the result {@link Value} value {@code y.}
+     * 
+     * @since 2.1
+     */
+    Value divNum(double numerator);
+
+    /**
      * Calculates the division of this value with the divisor.
      * 
      * @param divisor
@@ -386,4 +433,5 @@ public interface Value extends Comparable<Object> {
      */
     @Override
     int hashCode();
+
 }

@@ -85,6 +85,16 @@ public abstract class AbstractValue implements Value, Serializable {
     }
 
     @Override
+    public Value valueOf(double value) {
+        return createValue(value);
+    }
+
+    @Override
+    public Value valueOf(double value, int sig, double un, int dec) {
+        return createValue(value, sig, un, dec);
+    }
+
+    @Override
     public double getValue() {
         return value;
     }
@@ -295,6 +305,11 @@ public abstract class AbstractValue implements Value, Serializable {
         return createValue(value, sig, uncertainty, dec);
     }
 
+    @Override
+    public Value divNum(double numerator) {
+        return createValue(numerator).div(this);
+    }
+
     /**
      * Divides the uncertainty of this value and the divisor.
      * 
@@ -437,6 +452,19 @@ public abstract class AbstractValue implements Value, Serializable {
             return 0;
         }
         Value delta = this.sub(value).getRoundedValue();
+        return delta.isExact() ? compareExact(delta) : compareDelta(delta, dev);
+    }
+
+    private int compareExact(Value delta) {
+        double d = delta.getValue();
+        if (d < 0.0) {
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+
+    private int compareDelta(Value delta, double dev) {
         double deltavalue = delta.getValue();
         double deltaunc = delta.getUncertainty();
         double d = deltavalue - (deltaunc * dev);
