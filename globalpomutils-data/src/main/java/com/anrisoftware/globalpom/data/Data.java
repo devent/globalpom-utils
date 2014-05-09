@@ -112,6 +112,27 @@ public interface Data {
     <T extends ReshapeMatrix64F> T copy();
 
     /**
+     * Copies a splice of data from this data.
+     * 
+     * @param rowOffset
+     *            the row offset.
+     * 
+     * @param rows
+     *            the count of rows.
+     * 
+     * @param columnOffset
+     *            the column offset.
+     * 
+     * @param columns
+     *            the count of columns.
+     * 
+     * @return the {@link Data}.
+     * 
+     * @since 2.1
+     */
+    Data copy(int rowOffset, int rows, int columnOffset, int columns);
+
+    /**
      * @see ReshapeMatrix64F#print()
      */
     void print();

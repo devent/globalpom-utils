@@ -12,6 +12,7 @@
 
 	<artifactId>globalpomutils-data</artifactId>
 	<name>Global POM Utilities :: Data</name>
+	<version>2.1-SNAPSHOT</version>
 	<description>Arbitrary data for mathematical calculations.</description>
 
 	<dependencyManagement>

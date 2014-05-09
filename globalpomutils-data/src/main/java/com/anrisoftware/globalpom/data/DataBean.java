@@ -29,20 +29,20 @@ import java.beans.PropertyChangeSupport;
  */
 public interface DataBean extends Data {
 
-	/**
-	 * @see PropertyChangeSupport#addPropertyChangeListener(String,
-	 *      PropertyChangeListener)
-	 * @see DataProperty
-	 */
-	void addPropertyChangeListener(DataProperty property,
-			PropertyChangeListener listener);
+    /**
+     * @see PropertyChangeSupport#addPropertyChangeListener(String,
+     *      PropertyChangeListener)
+     * @see DataProperty
+     */
+    void addPropertyChangeListener(DataProperty property,
+            PropertyChangeListener listener);
 
-	/**
-	 * @see PropertyChangeSupport#removePropertyChangeListener(String,
-	 *      PropertyChangeListener)
-	 * @see DataProperty
-	 */
-	void removePropertyChangeListener(DataProperty property,
-			PropertyChangeListener listener);
+    /**
+     * @see PropertyChangeSupport#removePropertyChangeListener(String,
+     *      PropertyChangeListener)
+     * @see DataProperty
+     */
+    void removePropertyChangeListener(DataProperty property,
+            PropertyChangeListener listener);
 
 }
