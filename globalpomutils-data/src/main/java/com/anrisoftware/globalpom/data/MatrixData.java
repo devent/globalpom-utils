@@ -20,13 +20,10 @@ package com.anrisoftware.globalpom.data;
 
 import java.io.Serializable;
 
-import javax.inject.Inject;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.ejml.data.DenseMatrix64F;
 import org.ejml.data.MatrixIterator;
 import org.ejml.data.ReshapeMatrix64F;
-import org.ejml.ops.CommonOps;
 
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -44,9 +41,6 @@ public class MatrixData implements Data, Serializable {
     private static final String ROWS = "rows";
 
     private final ReshapeMatrix64F matrix;
-
-    @Inject
-    private transient MatrixDataFactory dataFactory;
 
     /**
      * @see MatrixDataFactory#create()
@@ -143,23 +137,6 @@ public class MatrixData implements Data, Serializable {
     @Override
     public <T extends ReshapeMatrix64F> T copy() {
         return matrix.copy();
-    }
-
-    @Override
-    public Data copy(int rowOffset, int rows, int columnOffset, int columns) {
-        int srcX0 = columnOffset;
-        int srcX1 = columnOffset + columns;
-        int srcY0 = rowOffset;
-        int srcY1 = rowOffset + rows;
-        DenseMatrix64F m;
-        if (matrix instanceof DenseMatrix64F) {
-            m = (DenseMatrix64F) matrix;
-        } else {
-            m = new DenseMatrix64F(matrix);
-        }
-        ReshapeMatrix64F result;
-        result = CommonOps.extract(m, srcY0, srcY1, srcX0, srcX1);
-        return dataFactory.create(result);
     }
 
     @Override

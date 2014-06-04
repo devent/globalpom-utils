@@ -195,11 +195,6 @@ public class MatrixDataCsvImport implements Callable<MatrixDataCsvImport>,
 		return data.copy();
 	}
 
-	@Override
-    public Data copy(int rowOffset, int rows, int columnOffset, int columns) {
-        return data.copy(rowOffset, rows, columnOffset, columns);
-    }
-
     @Override
 	public void print() {
 		data.print();
