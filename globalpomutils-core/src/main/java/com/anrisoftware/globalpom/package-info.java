@@ -19,9 +19,21 @@
 /**
  * <h1>Global POM Utilities :: Core</h1>
  *
+ * <p>
  * Various utilities.
  *
+ * <h2>Maven Module</h2>
+ *
+ * <pre>
+ * &lt;dependency>
+ * &lt;groupId>com.anrisoftware.globalpom&lt;/groupId>
+ * &lt;artifactId>globalpomutils-core&lt;/artifactId>
+ * &lt;version>2.0&lt;/version>
+ * &lt;/dependency>
+ * </pre>
+ *
  * <h2>GitHub SCM</h2>
+ *
  * <ul>
  * <li><a href="https://github.com/devent/globalpom-utils">Repository</a></li>
  * <li><a href="git://git@github.com:devent/globalpom-utils.git">Repository SSH</a>

@@ -1,33 +1,33 @@
 /*
- * Copyright 2014 Erwin Müller <erwin.mueller@deventm.org>
+ * Copyright 2013-2014 Erwin Müller <erwin.mueller@deventm.org>
  *
- * This file is part of globalpomutils-exec.
+ * This file is part of globalpomutils-threads.
  *
- * globalpomutils-exec is free software: you can redistribute it and/or modify it
+ * globalpomutils-threads is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or (at your
  * option) any later version.
  *
- * globalpomutils-exec is distributed in the hope that it will be useful, but
+ * globalpomutils-threads is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with globalpomutils-exec. If not, see <http://www.gnu.org/licenses/>.
+ * along with globalpomutils-threads. If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * <h1>Global POM Utilities :: Exec</h1>
+ * <h1>Global POM Utilities :: Threads</h1>
  *
  * <p>
- * Command execution helper.
+ * Threads pool for listenable future tasks.
  *
  * <h2>Maven Module</h2>
  *
  * <pre>
  * &lt;dependency>
  * &lt;groupId>com.anrisoftware.globalpom&lt;/groupId>
- * &lt;artifactId>globalpomutils-exec&lt;/artifactId>
+ * &lt;artifactId>globalpomutils-threads&lt;/artifactId>
  * &lt;version>2.0&lt;/version>
  * &lt;/dependency>
  * </pre>
@@ -43,5 +43,5 @@
  * @version 2.0
  * @author Erwin Mueller, erwin.mueller@deventm.org
  */
-package com.anrisoftware.globalpom.exec;
+package com.anrisoftware.globalpom.threads;
 

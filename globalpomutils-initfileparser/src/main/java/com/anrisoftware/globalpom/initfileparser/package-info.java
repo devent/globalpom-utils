@@ -1,33 +1,33 @@
 /*
- * Copyright 2014 Erwin Müller <erwin.mueller@deventm.org>
+ * Copyright 2013-2014 Erwin Müller <erwin.mueller@deventm.org>
  *
- * This file is part of globalpomutils-exec.
+ * This file is part of globalpomutils-initfileparser.
  *
- * globalpomutils-exec is free software: you can redistribute it and/or modify it
+ * globalpomutils-initfileparser is free software: you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or (at your
  * option) any later version.
  *
- * globalpomutils-exec is distributed in the hope that it will be useful, but
+ * globalpomutils-initfileparser is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with globalpomutils-exec. If not, see <http://www.gnu.org/licenses/>.
+ * along with globalpomutils-initfileparser. If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * <h1>Global POM Utilities :: Exec</h1>
+ * <h1>Global POM Utilities :: Init File Parser</h1>
  *
  * <p>
- * Command execution helper.
+ * Parses INI like files.
  *
  * <h2>Maven Module</h2>
  *
  * <pre>
  * &lt;dependency>
  * &lt;groupId>com.anrisoftware.globalpom&lt;/groupId>
- * &lt;artifactId>globalpomutils-exec&lt;/artifactId>
+ * &lt;artifactId>globalpomutils-initfileparser&lt;/artifactId>
  * &lt;version>2.0&lt;/version>
  * &lt;/dependency>
  * </pre>
@@ -43,5 +43,5 @@
  * @version 2.0
  * @author Erwin Mueller, erwin.mueller@deventm.org
  */
-package com.anrisoftware.globalpom.exec;
+package com.anrisoftware.globalpom.initfileparser;
 
