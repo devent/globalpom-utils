@@ -22,6 +22,11 @@ import static org.apache.commons.math3.util.FastMath.abs;
 import static org.apache.commons.math3.util.FastMath.ceil;
 import static org.apache.commons.math3.util.FastMath.floor;
 
+import java.text.DecimalFormatSymbols;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.math3.util.FastMath;
+
 /**
  * Various mathematical utilities.
  * 
@@ -86,4 +91,35 @@ public class MathUtils {
         return value - n;
     }
 
+    /**
+     * Returns the number of decimal places from the specified number string.
+     * 
+     * @param str
+     *            the {@link String} of the number.
+     * 
+     * @param decimalSeparator
+     *            the decimal separator character.
+     * 
+     * @return the number of decimal places.
+     * 
+     * @see DecimalFormatSymbols#getDecimalSeparator()
+     * 
+     * @since 2.1
+     */
+    public static int decimalPlaces(String str, char decimalSeparator,
+            String exponentSeparator) {
+        String[] split = StringUtils.split(str, exponentSeparator);
+        double exponent = 0.0;
+        int decimal = 0;
+        if (split.length == 2) {
+            exponent = Double.valueOf(split[1]);
+        }
+        String valuestr = split[0];
+        int i = valuestr.indexOf(decimalSeparator);
+        if (i != -1) {
+            decimal = valuestr.substring(i).length() - 1;
+        }
+        decimal += -1.0 * exponent;
+        return FastMath.abs(decimal);
+    }
 }
