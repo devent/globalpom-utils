@@ -39,9 +39,9 @@
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
 
+		<!-- for map to string -->
+		<!-- properties threads -->
 		<dependency>
-			<!-- for map to string -->
-			<!-- properties threads -->
 			<groupId>com.anrisoftware.propertiesutils</groupId>
 			<artifactId>propertiesutils-contextproperties</artifactId>
 			<optional>true</optional>
@@ -63,11 +63,11 @@
 			<artifactId>commons-math3</artifactId>
 			<optional>true</optional>
 		</dependency>
-        <!-- text match -->
+		<!-- text match -->
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-            <optional>true</optional>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 
