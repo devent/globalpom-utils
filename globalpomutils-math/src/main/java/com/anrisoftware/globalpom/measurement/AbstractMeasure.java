@@ -87,15 +87,19 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
         return value;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Value valueOf(double value) {
-        return this.value.valueOf(value);
+    public Measure<UnitType> valueOf(double value) {
+        Value v = this.value.valueOf(value);
+        return measureFactory.create(v, unit, valueFactory);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Value valueOf(double value, int significant, double uncertainty,
-            int decimal) {
-        return this.value.valueOf(value, significant, uncertainty, decimal);
+    public Measure<UnitType> valueOf(double value, int significant,
+            double uncertainty, int decimal) {
+        Value v = this.value.valueOf(value, significant, uncertainty, decimal);
+        return measureFactory.create(v, unit, valueFactory);
     }
 
     @Override

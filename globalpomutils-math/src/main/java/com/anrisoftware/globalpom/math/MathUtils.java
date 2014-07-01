@@ -18,6 +18,7 @@
  */
 package com.anrisoftware.globalpom.math;
 
+import static org.apache.commons.lang3.StringUtils.split;
 import static org.apache.commons.math3.util.FastMath.abs;
 import static org.apache.commons.math3.util.FastMath.ceil;
 import static org.apache.commons.math3.util.FastMath.floor;
@@ -121,5 +122,94 @@ public class MathUtils {
         }
         decimal += -1.0 * exponent;
         return FastMath.abs(decimal);
+    }
+
+    /**
+     * Returns the number of significant places from the specified number
+     * string.
+     * 
+     * 
+     * <ul>
+     * <li>"4" - 1 significant</li>
+     * <li>"1.3" - 2 significant</li>
+     * <li>"4325.334" - 7 significant</li>
+     * <li>"109" - 3 significant</li>
+     * <li>"3.005" - 4 significant</li>
+     * <li>"40.001" - 5 significant</li>
+     * <li>"0.10" - 2 significant</li>
+     * <li>"0.0010" - 2 significant</li>
+     * <li>"3.20" - 3 significant</li>
+     * <li>"320" - 2 significant</li>
+     * <li>"14.3000" - 6 significant</li>
+     * <li>"400.00" - 5 significant</li>
+     * <li>"2.00E7" - 3 significant</li>
+     * <li>"1.500E-2" - 4 significant</li>
+     * </ul>
+     * 
+     * @param str
+     *            the {@link String} of the number.
+     * 
+     * @param decimalSeparator
+     *            the decimal separator character.
+     * 
+     * @return the number of decimal places.
+     * 
+     * @see DecimalFormatSymbols#getDecimalSeparator()
+     * 
+     * @since 2.1
+     */
+    public static int sigPlaces(String str, char decimalSeparator,
+            String exponentSeparator) {
+        String[] splitEx = split(str, exponentSeparator);
+        String[] splitNumber = split(splitEx[0], decimalSeparator);
+        int decSig = decSigIndex(splitNumber);
+        int numSig = numberSigIndex(splitNumber, decSig);
+        return numSig + decSig;
+    }
+
+    private static int numberSigIndex(String[] splitNumber, int decSig) {
+        int numSig;
+        if (decSig == 0) {
+            numSig = findNumberSigIndex(splitNumber);
+        } else {
+            numSig = splitNumber[0].length();
+        }
+        return numSig;
+    }
+
+    private static int decSigIndex(String[] splitNumber) {
+        if (splitNumber.length == 1) {
+            return 0;
+        } else {
+            if (splitNumber[0].charAt(0) != '0') {
+                return splitNumber[1].length();
+            } else {
+                return findDecSigIndex(splitNumber);
+            }
+        }
+    }
+
+    private static int findNumberSigIndex(String[] splitNumber) {
+        int i = splitNumber[0].length() - 1;
+        for (; i >= 0; i--) {
+            if (splitNumber[0].charAt(i) == '0') {
+                continue;
+            } else {
+                break;
+            }
+        }
+        return i + 1;
+    }
+
+    private static int findDecSigIndex(String[] splitNumber) {
+        int i = 0, k = 0;
+        for (; i < splitNumber[1].length(); i++) {
+            if (splitNumber[1].charAt(i) == '0') {
+                continue;
+            } else {
+                k++;
+            }
+        }
+        return k;
     }
 }

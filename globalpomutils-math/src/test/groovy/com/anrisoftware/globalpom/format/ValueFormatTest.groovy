@@ -59,6 +59,8 @@ class ValueFormatTest {
             log.info "Parse '{}'", it.input
             def value = formatFactory.create(valueFactory, exactValueFactory).parse(it.input)
             assert value == it.value
+            assert value.significant == it.value.significant
+            assert value.decimal == it.value.decimal
         }
     }
 
@@ -81,7 +83,7 @@ class ValueFormatTest {
         formatFactory = injector.getInstance(ValueFormatFactory)
         exactValueFactory = injector.getInstance(ExactStandardValueFactory)
         valueFactory = injector.getInstance(StandardValueFactory)
-        formats  = [
+        formats = [
             [format: "5;", value: exactValueFactory.create(5.0d)],
             [format: "0.0123;", value: exactValueFactory.create(0.0123d)],
             [format: "5(0.2);1;1;", value: valueFactory.create(5.0d, 1, 0.2d, 1)],
@@ -90,6 +92,8 @@ class ValueFormatTest {
             [input: "5", value: exactValueFactory.create(5.0d)],
             [input: "0.0123", value: exactValueFactory.create(0.0123d)],
             [input: "5.0(0.2);1;1;", value: valueFactory.create(5.0d, 1, 0.2d, 1)],
+            [input: "5.0(0.2)", value: valueFactory.create(5.0d, 2, 0.2d, 1)],
+            [input: "5.010(0.020)", value: valueFactory.create(5.0d, 2, 0.2d, 3)],
         ]
     }
 }

@@ -18,7 +18,11 @@
  */
 package com.anrisoftware.globalpom.format.measurement;
 
+import static com.anrisoftware.globalpom.math.MathUtils.decimalPlaces;
+import static com.anrisoftware.globalpom.math.MathUtils.sigPlaces;
+
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.NumberFormat;
@@ -45,149 +49,236 @@ import com.google.inject.assistedinject.AssistedInject;
 @SuppressWarnings("serial")
 public class ValueFormat extends Format {
 
-	private final Pattern VALUE_PATTERN = Pattern
-			.compile("^(.*?)\\((.*?)\\);(\\d+);(\\d+);$");
+    private final String VALUE_GROUP = "(.*?)";
 
-	private final NumberFormat numberFormat;
+    private final String PARANTHESIS_GROUP = "\\((.*?)\\)";
 
-	private final ValueFactory valueFactory;
+    private final String PERCENT_GROUP = "\\((.*?)%\\)";
 
-	private final ExactValueFactory exactValueFactory;
+    private final String SIG_GROUP = ";(\\d+);(\\d+);";
 
-	@Inject
-	private ValueToString valueToString;
+    private final Pattern VALUE_PATTERN = Pattern.compile(String.format(
+            "^%s(?:%s|%s)?(?:%s)?$", VALUE_GROUP, PARANTHESIS_GROUP,
+            PERCENT_GROUP, SIG_GROUP));
 
-	@Inject
-	private ValueFormatLogger log;
+    private final NumberFormat numberFormat;
 
-	/**
-	 * @see ValueFormatFactory#create(ValueFactory, ExactValueFactory)
-	 */
-	@AssistedInject
-	ValueFormat(@Assisted ValueFactory valueFactory,
-			@Assisted ExactValueFactory exactValueFactory) {
-		this(valueFactory, exactValueFactory, new DecimalFormat("#.#########"));
-	}
+    private final ValueFactory valueFactory;
 
-	/**
-	 * @see ValueFormatFactory#create(ValueFactory, ExactValueFactory,
-	 *      NumberFormat)
-	 */
-	@AssistedInject
-	ValueFormat(@Assisted ValueFactory valueFactory,
-			@Assisted ExactValueFactory exactValueFactory,
-			@Assisted NumberFormat format) {
-		this.valueFactory = valueFactory;
-		this.exactValueFactory = exactValueFactory;
-		this.numberFormat = format;
-	}
+    private final ExactValueFactory exactValueFactory;
 
-	/**
-	 * Formats the specified point.
-	 * <p>
-	 * The format follows the pattern:
-	 *
-	 * <pre>
-	 * &lt;value&gt;[(&lt;uncertainty&gt;);&lt;significant&gt;;&lt;decimal&gt;;]
-	 * </pre>
-	 *
-	 * <p>
-	 * <h2>Examples</h2>
-	 * <p>
-	 * <ul>
-	 * <li>exact value: {@code 0.0123}
-	 * <li>uncertain value: {@code 5.0(0.2);1;1;}
-	 * </ul>
-	 *
-	 * @param obj
-	 *            the {@link Value}.
-	 */
-	@Override
-	public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos) {
-		if (obj instanceof Value) {
-			valueToString.format(buff, (Value) obj, numberFormat);
-		}
-		return buff;
-	}
+    @Inject
+    private ValueToString valueToString;
 
-	@Override
-	public Object parseObject(String source, ParsePosition pos) {
-		return parse(source, pos);
-	}
+    @Inject
+    private ValueFormatLogger log;
 
-	/**
-	 * Parses the specified string to value.
-	 * <p>
-	 * The format follows the pattern:
-	 *
-	 * <pre>
-	 * &lt;value&gt;[(&lt;uncertainty&gt;);&lt;significant&gt;;&lt;decimal&gt;;]
-	 * </pre>
-	 *
-	 * <p>
-	 * <h2>Examples</h2>
-	 * <p>
-	 * <ul>
-	 * <li>exact value: {@code 0.0123}
-	 * <li>uncertain value: {@code 5.0(0.2);1;1;}
-	 * </ul>
-	 *
-	 * @return the parsed {@link Value}.
-	 *
-	 * @throws ParseException
-	 *             if the string cannot be parsed to a value.
-	 */
-	public Value parse(String source) throws ParseException {
-		ParsePosition pos = new ParsePosition(0);
-		Value result = parse(source, pos);
-		if (pos.getIndex() == 0) {
-			throw log.errorParseValue(source, pos);
-		}
-		return result;
-	}
+    public char decimalSeparator;
 
-	/**
-	 * @see #parse(String)
-	 * 
-	 * @param pos
-	 *            the index {@link ParsePosition} position from where to start
-	 *            parsing.
-	 */
-	public Value parse(String source, ParsePosition pos) {
-		source = source.substring(pos.getIndex());
-		try {
-			Value address = parseValue(source);
-			pos.setErrorIndex(-1);
-			pos.setIndex(source.length());
-			return address;
-		} catch (ParseException e) {
-			pos.setIndex(0);
-			pos.setErrorIndex(0);
-			return null;
-		}
-	}
+    public String exponentSeparator;
 
-	private Value parseValue(String string)
-			throws ParseException {
-		Matcher matcher = VALUE_PATTERN.matcher(string);
-		if (!matcher.matches()) {
-			return parseExactValue(string);
-		} else {
-			return parseUncertainValue(string, matcher);
-		}
-	}
+    /**
+     * @see ValueFormatFactory#create(ValueFactory, ExactValueFactory)
+     */
+    @AssistedInject
+    ValueFormat(@Assisted ValueFactory valueFactory,
+            @Assisted ExactValueFactory exactValueFactory) {
+        this(valueFactory, exactValueFactory, new DecimalFormat("#.#########"));
+    }
 
-	private Value parseUncertainValue(String string, Matcher pattern)
-			throws ParseException {
-		double value = numberFormat.parse(pattern.group(1)).doubleValue();
-		double unc = numberFormat.parse(pattern.group(2)).doubleValue();
-		int sig = numberFormat.parse(pattern.group(3)).intValue();
-		int dec = numberFormat.parse(pattern.group(4)).intValue();
-		return valueFactory.create(value, sig, unc, dec);
-	}
+    /**
+     * @see ValueFormatFactory#create(ValueFactory, ExactValueFactory,
+     *      NumberFormat)
+     */
+    @AssistedInject
+    ValueFormat(@Assisted ValueFactory valueFactory,
+            @Assisted ExactValueFactory exactValueFactory,
+            @Assisted NumberFormat format) {
+        this.valueFactory = valueFactory;
+        this.exactValueFactory = exactValueFactory;
+        this.numberFormat = format;
+        if (format instanceof DecimalFormat) {
+            DecimalFormat dec = (DecimalFormat) format;
+            DecimalFormatSymbols symbols = dec.getDecimalFormatSymbols();
+            this.decimalSeparator = symbols.getDecimalSeparator();
+            this.exponentSeparator = symbols.getExponentSeparator();
+        } else {
+            DecimalFormat dec = new DecimalFormat();
+            DecimalFormatSymbols symbols = dec.getDecimalFormatSymbols();
+            this.decimalSeparator = symbols.getDecimalSeparator();
+            this.exponentSeparator = symbols.getExponentSeparator();
+        }
+    }
 
-	private Value parseExactValue(String string) throws ParseException {
-		return exactValueFactory.create(numberFormat.parse(string)
-				.doubleValue());
-	}
+    /**
+     * Formats the specified point.
+     * <p>
+     * The format follows the pattern:
+     * 
+     * <pre>
+     * &lt;value&gt;[(&lt;uncertainty&gt;);&lt;significant&gt;;&lt;decimal&gt;;]
+     * </pre>
+     * 
+     * <p>
+     * <h2>Examples</h2>
+     * <p>
+     * <ul>
+     * <li>exact value: {@code 0.0123}
+     * <li>uncertain value: {@code 5.0(0.2);1;1;}
+     * </ul>
+     * 
+     * @param obj
+     *            the {@link Value}.
+     */
+    @Override
+    public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos) {
+        if (obj instanceof Value) {
+            valueToString.format(buff, (Value) obj, numberFormat);
+        }
+        return buff;
+    }
+
+    @Override
+    public Object parseObject(String source, ParsePosition pos) {
+        return parse(source, pos);
+    }
+
+    /**
+     * Parses the specified string to value.
+     * <p>
+     * The format follows the pattern:
+     * 
+     * <pre>
+     * &lt;value&gt;;&lt;uncertainty%&gt;)[;&lt;significant&gt;;&lt;decimal&gt;;]
+     * &lt;value&gt;(&lt;uncertainty&gt;)[;&lt;significant&gt;;&lt;decimal&gt;;]
+     * </pre>
+     * 
+     * <p>
+     * <h2>Examples</h2>
+     * <p>
+     * <ul>
+     * <li>exact value: {@code 0.0123}
+     * <li>uncertain value: {@code 5.0(0.2);1;1;}
+     * </ul>
+     * 
+     * @return the parsed {@link Value}.
+     * 
+     * @throws ParseException
+     *             if the string cannot be parsed to a value.
+     */
+    public Value parse(String source) throws ParseException {
+        ParsePosition pos = new ParsePosition(0);
+        Value result = parse(source, pos);
+        if (pos.getIndex() == 0) {
+            throw log.errorParseValue(source, pos);
+        }
+        return result;
+    }
+
+    /**
+     * @see #parse(String)
+     * 
+     * @param pos
+     *            the index {@link ParsePosition} position from where to start
+     *            parsing.
+     */
+    public Value parse(String source, ParsePosition pos) {
+        source = source.substring(pos.getIndex());
+        try {
+            Value address = parseValue(source, pos);
+            pos.setErrorIndex(-1);
+            pos.setIndex(source.length());
+            return address;
+        } catch (ParseException e) {
+            pos.setIndex(0);
+            pos.setErrorIndex(0);
+            return null;
+        }
+    }
+
+    private Value parseValue(String string, ParsePosition pos)
+            throws ParseException {
+        Matcher matcher = VALUE_PATTERN.matcher(string);
+        if (matcher.matches()) {
+            return parseValue(matcher);
+        } else {
+            throw log.errorParseValue(string, pos);
+        }
+    }
+
+    private class ParseValue {
+
+        Double value = null;
+
+        Double unc = null;
+
+        Integer sig = null;
+
+        Integer dec = null;
+
+        String valueStr = null;
+
+        String uncStr = null;
+
+        public void parseValue(Matcher matcher) throws ParseException {
+            for (int i = 1; i < matcher.groupCount() + 1; i++) {
+                Number number = parseGroup(i, matcher);
+                switch (i) {
+                case 1:
+                    value = number.doubleValue();
+                    valueStr = matcher.group(i);
+                    break;
+                case 2:
+                    if (number != null) {
+                        unc = number.doubleValue();
+                        uncStr = matcher.group(i);
+                    }
+                    break;
+                case 4:
+                    if (number == null) {
+                        return;
+                    }
+                    sig = number.intValue();
+                    break;
+                case 5:
+                    if (number == null) {
+                        return;
+                    }
+                    dec = number.intValue();
+                    break;
+                }
+            }
+        }
+
+        private Number parseGroup(int i, Matcher matcher) throws ParseException {
+            if (matcher.group(i) == null) {
+                return null;
+            } else {
+                return numberFormat.parse(matcher.group(i));
+            }
+        }
+
+    }
+
+    private Value parseValue(Matcher matcher) throws ParseException {
+        ParseValue parseValue = new ParseValue();
+        parseValue.parseValue(matcher);
+        if (parseValue.unc == null) {
+            return createExactValue(parseValue.value);
+        } else {
+            return createValue(parseValue);
+        }
+    }
+
+    private Value createExactValue(double value) throws ParseException {
+        return exactValueFactory.create(value);
+    }
+
+    private Value createValue(ParseValue parseValue) {
+        int sig = parseValue.sig != null ? parseValue.sig : sigPlaces(
+                parseValue.uncStr, decimalSeparator, exponentSeparator);
+        int dec = parseValue.dec != null ? parseValue.dec : decimalPlaces(
+                parseValue.valueStr, decimalSeparator, exponentSeparator);
+        return valueFactory.create(parseValue.value, sig, parseValue.unc, dec);
+    }
 }
