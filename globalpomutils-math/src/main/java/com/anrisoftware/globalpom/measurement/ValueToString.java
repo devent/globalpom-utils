@@ -44,31 +44,19 @@ public class ValueToString implements Serializable {
     private static final String SEP = ";";
 
     /**
-     * Formats the specified point.
-     * <p>
-     * The format follows the pattern:
-     * 
-     * <pre>
-     * &lt;value&gt;[(&lt;uncertainty&gt;);&lt;significant&gt;;&lt;decimal&gt;;]
-     * </pre>
-     * 
-     * <p>
-     * <h2>Examples</h2>
-     * <p>
-     * <ul>
-     * <li>exact value: {@code 0.0123;}
-     * <li>uncertain value: {@code 5.0(0.2);1;1;}
-     * </ul>
-     * 
-     * @param buff
-     *            the {@link StringBuffer} buffer to append the formatted value.
-     * 
-     * @param value
-     *            the {@link Value}.
+     * @see #format(StringBuffer, Value, NumberFormat, NumberFormat)
      */
     public StringBuffer format(StringBuffer buff, Value value) {
         NumberFormat format = createFormat(value);
         return format(buff, value, format);
+    }
+
+    /**
+     * @see #format(StringBuffer, Value, NumberFormat, NumberFormat)
+     */
+    public StringBuffer format(StringBuffer buff, Value value,
+            NumberFormat format) {
+        return format(buff, value, format, format);
     }
 
     /**
@@ -94,15 +82,18 @@ public class ValueToString implements Serializable {
      * @param value
      *            the {@link Value}.
      * 
-     * @param format
-     *            the {@link NumberFormat} to format the exact values.
+     * @param valueFormat
+     *            the {@link NumberFormat} to format the value.
+     * 
+     * @param uncFormat
+     *            the {@link NumberFormat} to format the uncertainly.
      */
     public StringBuffer format(StringBuffer buff, Value value,
-            NumberFormat format) {
+            NumberFormat valueFormat, NumberFormat uncFormat) {
         if (value.isExact()) {
-            formatExactValue(buff, value, format);
+            formatExactValue(buff, value, valueFormat);
         } else {
-            formatValue(buff, value, format);
+            formatValue(buff, value, valueFormat, uncFormat);
         }
         return buff;
     }
@@ -113,14 +104,15 @@ public class ValueToString implements Serializable {
         buff.append(SEP);
     }
 
-    private void formatValue(StringBuffer buff, Value value, NumberFormat format) {
+    private void formatValue(StringBuffer buff, Value value,
+            NumberFormat valueFormat, NumberFormat uncFormat) {
         double v = value.getValue();
         double u = value.getUncertainty();
         int sig = value.getSignificant();
         int dec = value.getDecimal();
-        buff.append(format.format(v));
-        buff.append(OPEN).append(u).append(CLOSE).append(sig).append(SEP)
-                .append(dec).append(SEP);
+        buff.append(valueFormat.format(v));
+        buff.append(OPEN).append(uncFormat.format(u)).append(CLOSE).append(sig)
+                .append(SEP).append(dec).append(SEP);
     }
 
     /**
@@ -144,4 +136,5 @@ public class ValueToString implements Serializable {
         format.setMaximumFractionDigits(dec);
         return format;
     }
+
 }

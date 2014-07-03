@@ -61,11 +61,13 @@ public class ValueFormat extends Format {
             "^%s(?:%s|%s)?(?:%s)?$", VALUE_GROUP, PARANTHESIS_GROUP,
             PERCENT_GROUP, SIG_GROUP));
 
-    private final NumberFormat numberFormat;
+    private final NumberFormat valueFormat;
 
     private final ValueFactory valueFactory;
 
     private final ExactValueFactory exactValueFactory;
+
+    private final NumberFormat uncFormat;
 
     @Inject
     private ValueToString valueToString;
@@ -94,9 +96,22 @@ public class ValueFormat extends Format {
     ValueFormat(@Assisted ValueFactory valueFactory,
             @Assisted ExactValueFactory exactValueFactory,
             @Assisted NumberFormat format) {
+        this(valueFactory, exactValueFactory, format, format);
+    }
+
+    /**
+     * @see ValueFormatFactory#create(ValueFactory, ExactValueFactory,
+     *      NumberFormat, NumberFormat)
+     */
+    @AssistedInject
+    ValueFormat(@Assisted ValueFactory valueFactory,
+            @Assisted ExactValueFactory exactValueFactory,
+            @Assisted("format") NumberFormat format,
+            @Assisted("uncFormat") NumberFormat uncFormat) {
         this.valueFactory = valueFactory;
         this.exactValueFactory = exactValueFactory;
-        this.numberFormat = format;
+        this.valueFormat = format;
+        this.uncFormat = uncFormat;
         if (format instanceof DecimalFormat) {
             DecimalFormat dec = (DecimalFormat) format;
             DecimalFormatSymbols symbols = dec.getDecimalFormatSymbols();
@@ -133,7 +148,7 @@ public class ValueFormat extends Format {
     @Override
     public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos) {
         if (obj instanceof Value) {
-            valueToString.format(buff, (Value) obj, numberFormat);
+            valueToString.format(buff, (Value) obj, valueFormat, uncFormat);
         }
         return buff;
     }
@@ -254,7 +269,7 @@ public class ValueFormat extends Format {
             if (matcher.group(i) == null) {
                 return null;
             } else {
-                return numberFormat.parse(matcher.group(i));
+                return valueFormat.parse(matcher.group(i));
             }
         }
 

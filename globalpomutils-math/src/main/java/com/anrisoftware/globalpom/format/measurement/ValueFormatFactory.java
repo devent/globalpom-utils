@@ -22,6 +22,7 @@ import java.text.NumberFormat;
 
 import com.anrisoftware.globalpom.measurement.ExactValueFactory;
 import com.anrisoftware.globalpom.measurement.ValueFactory;
+import com.google.inject.assistedinject.Assisted;
 
 /**
  * Factory to create a new value format.
@@ -31,35 +32,57 @@ import com.anrisoftware.globalpom.measurement.ValueFactory;
  */
 public interface ValueFormatFactory {
 
-	/**
-	 * Create value format that uses the default decimal format to format the
-	 * value.
-	 * 
-	 * @param valueFactory
-	 *            the {@link ValueFactory} to create the value.
-	 * 
-	 * @param exactValueFactory
-	 *            the {@link ExactValueFactory} to create the exact value.
-	 * 
-	 * @return the {@link ValueFormat}.
-	 */
-	ValueFormat create(ValueFactory valueFactory,
-			ExactValueFactory exactValueFactory);
+    /**
+     * Create value format that uses the default decimal format to format the
+     * value.
+     * 
+     * @param valueFactory
+     *            the {@link ValueFactory} to create the value.
+     * 
+     * @param exactValueFactory
+     *            the {@link ExactValueFactory} to create the exact value.
+     * 
+     * @return the {@link ValueFormat}.
+     */
+    ValueFormat create(ValueFactory valueFactory,
+            ExactValueFactory exactValueFactory);
 
-	/**
-	 * Create value format with the specified number format to format the value.
-	 * 
-	 * @param valueFactory
-	 *            the {@link ValueFactory} to create the value.
-	 * 
-	 * @param exactValueFactory
-	 *            the {@link ExactValueFactory} to create the exact value.
-	 * 
-	 * @param format
-	 *            the {@link NumberFormat}.
-	 * 
-	 * @return the {@link ValueFormat}.
-	 */
-	ValueFormat create(ValueFactory valueFactory,
-			ExactValueFactory exactValueFactory, NumberFormat format);
+    /**
+     * Create value format with the specified number format to format the value.
+     * 
+     * @param valueFactory
+     *            the {@link ValueFactory} to create the value.
+     * 
+     * @param exactValueFactory
+     *            the {@link ExactValueFactory} to create the exact value.
+     * 
+     * @param format
+     *            the {@link NumberFormat}.
+     * 
+     * @return the {@link ValueFormat}.
+     */
+    ValueFormat create(ValueFactory valueFactory,
+            ExactValueFactory exactValueFactory, NumberFormat format);
+
+    /**
+     * Create value format with the specified number format to format the value.
+     * 
+     * @param valueFactory
+     *            the {@link ValueFactory} to create the value.
+     * 
+     * @param exactValueFactory
+     *            the {@link ExactValueFactory} to create the exact value.
+     * 
+     * @param format
+     *            the {@link NumberFormat} of the value.
+     * 
+     * @param format
+     *            the {@link NumberFormat} of the uncertainty.
+     * 
+     * @return the {@link ValueFormat}.
+     */
+    ValueFormat create(ValueFactory valueFactory,
+            ExactValueFactory exactValueFactory,
+            @Assisted("format") NumberFormat format,
+            @Assisted("uncFormat") NumberFormat uncFormat);
 }
