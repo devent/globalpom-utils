@@ -28,6 +28,8 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
  * Installs the value format factory.
  * 
  * @see ValueFormatFactory
+ * @see ValueRendererFactory
+ * @see MeasureFormatFactory
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
@@ -52,6 +54,15 @@ public class MeasurementFormatModule extends AbstractModule {
         return InjectorInstance.measureFactory;
     }
 
+    /**
+     * Returns the value renderer factory.
+     * 
+     * @return the {@link ValueRendererFactory}.
+     */
+    public static ValueRendererFactory getValueRendererFactory() {
+        return InjectorInstance.valueRendererFactory;
+    }
+
     private static class InjectorInstance {
 
         static final Injector injector = createInjector(new MeasurementFormatModule());
@@ -61,6 +72,9 @@ public class MeasurementFormatModule extends AbstractModule {
 
         static final MeasureFormatFactory measureFactory = injector
                 .getInstance(MeasureFormatFactory.class);
+
+        static final ValueRendererFactory valueRendererFactory = injector
+                .getInstance(ValueRendererFactory.class);
     }
 
     @Override
@@ -69,6 +83,8 @@ public class MeasurementFormatModule extends AbstractModule {
                 ValueFormat.class).build(ValueFormatFactory.class));
         install(new FactoryModuleBuilder().implement(MeasureFormat.class,
                 MeasureFormat.class).build(MeasureFormatFactory.class));
+        install(new FactoryModuleBuilder().implement(ValueRenderer.class,
+                ValueRenderer.class).build(ValueRendererFactory.class));
     }
 
 }
