@@ -13,6 +13,7 @@
 	<artifactId>globalpomutils-core</artifactId>
 	<name>Global POM Utilities :: Core</name>
 	<description>Various utilities.</description>
+	<version>2.1-SNAPSHOT</version>
 
 	<dependencies>
 		<!-- test dependencies -->

@@ -21,6 +21,7 @@ package com.anrisoftware.globalpom.mnemonic;
 import java.util.Arrays;
 
 import javax.inject.Singleton;
+import javax.swing.KeyStroke;
 
 import com.anrisoftware.globalpom.log.AbstractLogger;
 
@@ -33,27 +34,39 @@ import com.anrisoftware.globalpom.log.AbstractLogger;
 @Singleton
 class AcceleratorLogger extends AbstractLogger {
 
-	private static final String ILLEGAL_ACC_MESSAGE = "Illegal accelerator '{}'";
-	private static final String ILLEGAL_ACC = "Illegal accelerator '%s'";
+    private static final String ILLEGAL_ACC_MESSAGE = "Illegal accelerator '{}'";
+    private static final String ILLEGAL_ACC = "Illegal accelerator '%s'";
 
-	/**
-	 * Creates a logger for {@link Accelerator}.
-	 */
-	public AcceleratorLogger() {
-		super(Accelerator.class);
-	}
+    /**
+     * Creates a logger for {@link Accelerator}.
+     */
+    public AcceleratorLogger() {
+        super(Accelerator.class);
+    }
 
-	void checkKeyCode(Integer keycode, String[] keynames) {
-		if (keycode == null) {
-			throw invalidAccelerator(keynames);
-		}
-	}
+    void checkKeyCode(Integer keycode, String[] keynames) {
+        if (keycode == null) {
+            throw invalidAccelerator(keynames);
+        }
+    }
 
-	IllegalArgumentException invalidAccelerator(String[] keynames) {
-		return logException(
-				new IllegalArgumentException(String.format(ILLEGAL_ACC,
-						Arrays.toString(keynames))), ILLEGAL_ACC_MESSAGE,
-				Arrays.toString(keynames));
-	}
+    IllegalArgumentException invalidAccelerator(String[] keynames) {
+        return logException(
+                new IllegalArgumentException(String.format(ILLEGAL_ACC,
+                        Arrays.toString(keynames))), ILLEGAL_ACC_MESSAGE,
+                Arrays.toString(keynames));
+    }
+
+    void checkKeyStroke(String string, KeyStroke stroke) {
+        if (stroke == null) {
+            throw invalidAccelerator(string);
+        }
+    }
+
+    IllegalArgumentException invalidAccelerator(String string) {
+        return logException(
+                new IllegalArgumentException(String.format(ILLEGAL_ACC, string)),
+                ILLEGAL_ACC_MESSAGE, string);
+    }
 
 }

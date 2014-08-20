@@ -35,80 +35,92 @@ import com.google.inject.assistedinject.Assisted;
  */
 public class Accelerator {
 
-	/**
-	 * @see AcceleratorFactory#create(String)
-	 */
-	public static Accelerator valueOf(String string) {
-		return MnemonicModule.getInjector()
-				.getInstance(AcceleratorFactory.class).create(string);
-	}
+    /**
+     * @see AcceleratorFactory#create(String)
+     */
+    public static Accelerator valueOf(String string) {
+        return MnemonicModule.getInjector()
+                .getInstance(AcceleratorFactory.class).create(string);
+    }
 
-	private final AcceleratorLogger log;
+    private static final String SEP = ",";
 
-	private final KeyCodeMap codeMap;
+    @Inject
+    private AcceleratorLogger log;
 
-	private final String[] keynames;
+    @Inject
+    private KeyCodeMap codeMap;
 
-	/**
-	 * @see AcceleratorFactory#create(String)
-	 */
-	@Inject
-	Accelerator(AcceleratorLogger logger, KeyCodeMap codeMap,
-			@Assisted String string) {
-		this.log = logger;
-		this.codeMap = codeMap;
-		this.keynames = split(string, ",");
-	}
+    @Inject
+    private KeyStrokeMap strokeMap;
 
-	/**
-	 * Tests if the accelerator will probably return a valid key stroke. Not
-	 * tested is whether or not the accelerator will actually return a valid key
-	 * stroke.
-	 * 
-	 * @return {@code true} if the accelerator will probably return a valid key
-	 *         stroke.
-	 * 
-	 * @since 1.6
-	 */
-	public boolean isValid() {
-		if (keynames.length == 0) {
-			return false;
-		}
-		return codeMap.valid(keynames[0]);
-	}
+    private final String[] keynames;
 
-	/**
-	 * Returns the accelerator key for an action. The accelerator can be just a
-	 * key character or the key code name. In addition, the modifiers can be set
-	 * as the modifiers names. Examples:
-	 * 
-	 * <ul>
-	 * <li>{@code VK_A,ALT_DOWN_MASK,CTRL_DOWN_MASK}</li>
-	 * <li>{@code a,ALT_DOWN_MASK,CTRL_DOWN_MASK}</li>
-	 * </ul>
-	 * 
-	 * @return accelerator {@link KeyStroke} or {@code null} if no accelerator
-	 *         key was specified.
-	 * 
-	 * @throws IllegalArgumentException
-	 *             if the specified accelerator or the modifier are not a valid
-	 *             key code.
-	 * 
-	 * @see KeyEvent
-	 * @see KeyStroke
-	 */
-	public KeyStroke getAccelerator() {
-		if (keynames.length == 0) {
-			return null;
-		}
-		Integer keycode = codeMap.getKeyCode(keynames[0]);
-		log.checkKeyCode(keycode, keynames);
-		int modifiers = 0;
-		for (int i = 1; i < keynames.length; i++) {
-			Integer mod = codeMap.getKeyCode(keynames[i]);
-			log.checkKeyCode(mod, keynames);
-			modifiers |= mod;
-		}
-		return KeyStroke.getKeyStroke(keycode, modifiers);
-	}
+    /**
+     * @see AcceleratorFactory#create(String)
+     */
+    @Inject
+    Accelerator(@Assisted String string) {
+        this.keynames = getKeyNames(string);
+    }
+
+    private String[] getKeyNames(String string) {
+        String[] keynames = split(string, SEP);
+        if (keynames.length > 1) {
+            for (int i = 0; i < keynames.length; i++) {
+                keynames[i] = keynames[i].toUpperCase();
+            }
+        }
+        return keynames;
+    }
+
+    /**
+     * Returns the accelerator key for an action. The accelerator can be just a
+     * key character or the key code name. In addition, the modifiers can be set
+     * as the modifiers names. Examples:
+     * 
+     * <ul>
+     * <li>{@code VK_A,ALT_DOWN_MASK,CTRL_DOWN_MASK}</li>
+     * <li>{@code a,ALT_DOWN_MASK,CTRL_DOWN_MASK}</li>
+     * <li>{@code a,alt_down_mask,ctrl_down_mask}</li>
+     * <li>{@code alt shift X}</li>
+     * </ul>
+     * 
+     * @return accelerator {@link KeyStroke} or {@code null} if no accelerator
+     *         key was specified.
+     * 
+     * @throws IllegalArgumentException
+     *             if the specified accelerator or the modifier are not a valid
+     *             key code.
+     * 
+     * @see KeyEvent
+     * @see KeyStroke
+     */
+    public KeyStroke getAccelerator() {
+        if (keynames.length == 0) {
+            return null;
+        }
+        Integer keycode = codeMap.getKeyCode(keynames[0]);
+        if (keycode == null) {
+            return getKeyStroke(keynames[0]);
+        } else {
+            return getKeyCode(keycode, keynames);
+        }
+    }
+
+    private KeyStroke getKeyCode(Integer keycode, String[] keynames) {
+        int modifiers = 0;
+        for (int i = 1; i < keynames.length; i++) {
+            Integer mod = codeMap.getKeyCode(keynames[i]);
+            log.checkKeyCode(mod, keynames);
+            modifiers |= mod;
+        }
+        return KeyStroke.getKeyStroke(keycode, modifiers);
+    }
+
+    private KeyStroke getKeyStroke(String string) {
+        KeyStroke stroke = strokeMap.getKeyCode(string);
+        log.checkKeyStroke(string, stroke);
+        return stroke;
+    }
 }

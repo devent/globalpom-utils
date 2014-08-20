@@ -38,81 +38,85 @@ import javax.inject.Singleton;
 @Singleton
 public class KeyCodeMap {
 
-	private Reference<Map<String, Integer>> keyCodes;
+    private Reference<Map<String, Integer>> keyCodes;
 
-	/**
-	 * Tests if the specified string is probably a valid key code. The string is
-	 * probably a valid key code if the string is a single character or begins
-	 * with {@code "VK_"}. Not tested is whether or not the string actually is a
-	 * valid key code.
-	 * 
-	 * @param string
-	 *            the {@link String}.
-	 * 
-	 * @return {@code true} if the specified string is probably a valid key
-	 *         code.
-	 * 
-	 * @since 1.6
-	 */
-	public boolean valid(String string) {
-		if (string.length() > 1) {
-			return string.startsWith("VK_") ? true : false;
-		}
-		return string.length() == 1;
-	}
+    /**
+     * Tests if the specified string is probably a valid key code. The string is
+     * probably a valid key code if the string is a single character or begins
+     * with {@code "VK_"}. Not tested is whether or not the string actually is a
+     * valid key code.
+     * 
+     * @param string
+     *            the {@link String}.
+     * 
+     * @return {@code true} if the specified string is probably a valid key
+     *         code.
+     * 
+     * @since 1.6
+     */
+    public boolean valid(String string) {
+        if (string.length() > 1) {
+            return string.startsWith("VK_") ? true : false;
+        }
+        return string.length() == 1;
+    }
 
-	/**
-	 * Returns the key code for the name. The name can be a character or a key
-	 * code constant starting with {@code "VK_"} or key mask that ends with
-	 * {@code "_MASK"}.
-	 * 
-	 * @param keyname
-	 *            the key code name.
-	 * 
-	 * @return the key code or {@code null} if the key code name does not have a
-	 *         key code.
-	 * 
-	 * @see KeyEvent
-	 * @see KeyEvent#getExtendedKeyCodeForChar(int)
-	 */
-	public Integer getKeyCode(String keyname) {
-		if (keyname.startsWith("VK_")) {
-			Map<String, Integer> codes = getKeyCodes();
-			return codes.get(keyname);
-		}
-		if (keyname.endsWith("_MASK")) {
-			Map<String, Integer> codes = getKeyCodes();
-			return codes.get(keyname);
-		}
-		if (keyname.length() == 1) {
-			return KeyEvent.getExtendedKeyCodeForChar(keyname.charAt(0));
-		} else {
-			return null;
-		}
-	}
+    /**
+     * Returns the key code for the name. The name can be a character or a key
+     * code constant starting with {@code "VK_"} or key mask that ends with
+     * {@code "_MASK"}.
+     * 
+     * @param keyname
+     *            the key code name.
+     * 
+     * @return the key code or {@code null} if the key code name does not have a
+     *         key code.
+     * 
+     * @see KeyEvent
+     * @see KeyEvent#getExtendedKeyCodeForChar(int)
+     */
+    public Integer getKeyCode(String keyname) {
+        if (keyname.startsWith("VK_")) {
+            Map<String, Integer> codes = getKeyCodes();
+            return codes.get(keyname);
+        }
+        if (keyname.endsWith("_MASK")) {
+            Map<String, Integer> codes = getKeyCodes();
+            return codes.get(keyname);
+        }
+        if (keyname.length() == 1) {
+            return KeyEvent.getExtendedKeyCodeForChar(keyname.charAt(0));
+        } else {
+            return null;
+        }
+    }
 
-	private Map<String, Integer> getKeyCodes() {
-		if (keyCodes == null || keyCodes.get() == null) {
-			keyCodes = new SoftReference<Map<String, Integer>>(findKeys());
-		}
-		return keyCodes.get();
-	}
+    private Map<String, Integer> getKeyCodes() {
+        if (isGarbageCollected(keyCodes)) {
+            keyCodes = new SoftReference<Map<String, Integer>>(findKeys());
+        }
+        return keyCodes.get();
+    }
 
-	private Map<String, Integer> findKeys() {
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		for (Field field : KeyEvent.class.getFields()) {
-			if (isStatic(field.getModifiers())) {
-				if (field.getName().startsWith("VK_")
-						|| field.getName().endsWith("_MASK")) {
-					try {
-						map.put(field.getName(), field.getInt(null));
-					} catch (IllegalArgumentException e) {
-					} catch (IllegalAccessException e) {
-					}
-				}
-			}
-		}
-		return map;
-	}
+    private boolean isGarbageCollected(Reference<?> ref) {
+        return ref == null || ref.get() == null;
+    }
+
+    private Map<String, Integer> findKeys() {
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        for (Field field : KeyEvent.class.getFields()) {
+            if (isStatic(field.getModifiers())) {
+                if (field.getName().startsWith("VK_")
+                        || field.getName().endsWith("_MASK")) {
+                    try {
+                        map.put(field.getName(), field.getInt(null));
+                    } catch (IllegalArgumentException e) {
+                    } catch (IllegalAccessException e) {
+                    }
+                }
+            }
+        }
+        return map;
+    }
 
 }
