@@ -64,6 +64,7 @@ public interface Threads extends ExecutorService {
      * are informed when the task is running and when the task finished.
      * 
      * @see ExecutorService#submit(Callable)
+     * @see ListenableFuture.Status
      * 
      * @param listeners
      *            {@link PropertyChangeListener} listeners that are informed
@@ -77,6 +78,7 @@ public interface Threads extends ExecutorService {
      * are informed when the task is running and when the task finished.
      * 
      * @see ExecutorService#submit(Runnable, Object)
+     * @see ListenableFuture.Status
      * 
      * @param listeners
      *            {@link PropertyChangeListener} listeners that are informed
