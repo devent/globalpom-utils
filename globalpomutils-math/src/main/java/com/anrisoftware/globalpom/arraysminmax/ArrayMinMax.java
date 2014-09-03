@@ -16,20 +16,35 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-math. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.format.measurement;
+package com.anrisoftware.globalpom.arraysminmax;
+
+import java.util.concurrent.Callable;
 
 /**
- * Factory to create a new value renderer.
+ * Returns the min/max of a given array.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 2.1
+ * @since 1.0
  */
-public interface ValueRendererFactory {
+public interface ArrayMinMax extends Callable<ArrayMinMax> {
 
     /**
-     * Creates a new value renderer.
+     * Returns the minimum value of the array.
      * 
-     * @return the {@link ValueRenderer}.
+     * @return the minimum value.
      */
-    ValueRenderer create();
+    Number getMin();
+
+    /**
+     * Returns the maximum value of the array.
+     * 
+     * @return the maximum value.
+     */
+    Number getMax();
+
+    /**
+     * Calculates the min/max of a given array.
+     */
+    @Override
+    ArrayMinMax call();
 }

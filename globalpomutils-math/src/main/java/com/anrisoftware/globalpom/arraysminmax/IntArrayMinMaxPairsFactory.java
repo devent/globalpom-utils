@@ -16,20 +16,33 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-math. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.format.measurement;
+package com.anrisoftware.globalpom.arraysminmax;
+
+import com.google.inject.assistedinject.Assisted;
 
 /**
- * Factory to create a new value renderer.
+ * Factory to create min/max search for an {@code int} array.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 2.1
+ * @since 1.0
  */
-public interface ValueRendererFactory {
+public interface IntArrayMinMaxPairsFactory {
 
     /**
-     * Creates a new value renderer.
+     * Creates min/max search for an {@code int} array.
      * 
-     * @return the {@link ValueRenderer}.
+     * @param array
+     *            the {@code int} array.
+     * 
+     * @param startIndex
+     *            the start index of the array.
+     * 
+     * @param endIndex
+     *            the end index of the array.
+     * 
+     * @return the {@link IntArrayMinMaxPairs}.
      */
-    ValueRenderer create();
+    IntArrayMinMaxPairs create(int[] array,
+            @Assisted("startIndex") int startIndex,
+            @Assisted("endIndex") int endIndex);
 }
