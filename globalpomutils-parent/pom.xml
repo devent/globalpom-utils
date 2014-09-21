@@ -1,19 +1,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
 	<modelVersion>4.0.0</modelVersion>
+	
 	<parent>
 		<groupId>com.anrisoftware.globalpom</groupId>
 		<artifactId>globalpom-groovy</artifactId>
-		<version>1.21</version>
+		<version>1.22</version>
 		<relativePath />
 	</parent>
 
 	<artifactId>globalpomutils-parent</artifactId>
-	<version>2.0</version>
+	<version>2.1</version>
 	<packaging>pom</packaging>
 	<name>Global POM Utilities :: Parent</name>
-	<description>Manges the version and dependencies for the utilities modules.</description>
-	<url>https://www.anr-institute.com/projects/projects/globalpom-utils</url>
+	<description>Manages the version and dependencies for the utilities modules.</description>
+	<url>https://anrisoftware.com/projects/globalpom-utils</url>
 	<inceptionYear>2013</inceptionYear>
 
 	<developers>
@@ -40,7 +42,7 @@
 
 	<issueManagement>
 		<system>Redmine</system>
-		<url>https://www.anr-institute.com/projects/projects/globalpom-utils</url>
+		<url>https://anrisoftware.com/projects/globalpom-utils</url>
 	</issueManagement>
 
 	<dependencyManagement>
@@ -48,17 +50,17 @@
 			<dependency>
 				<groupId>com.anrisoftware.globalpom</groupId>
 				<artifactId>globalpom-groovytestutils</artifactId>
-				<version>1.22</version>
+				<version>1.23</version>
 			</dependency>
 			<dependency>
 				<groupId>com.anrisoftware.globalpom</groupId>
 				<artifactId>globalpom-log</artifactId>
-				<version>1.16</version>
+				<version>1.17</version>
 			</dependency>
 			<dependency>
 				<groupId>com.anrisoftware.propertiesutils</groupId>
 				<artifactId>propertiesutils-contextproperties</artifactId>
-				<version>1.10</version>
+				<version>1.11</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
