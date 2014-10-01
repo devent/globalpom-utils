@@ -39,7 +39,7 @@ import com.anrisoftware.globalpom.threads.listenablefuture.DefaultListenableFutu
 
 /**
  * Keeps track of the submitted tasks.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.5
  */
@@ -62,7 +62,7 @@ public class ThreadsWatchdog {
 
     /**
      * Sets the executor service to submit tasks.
-     * 
+     *
      * @param executor
      *            the {@link ExecutorService}.
      */
@@ -109,8 +109,8 @@ public class ThreadsWatchdog {
             }
 
         });
-        executor.submit(task);
         tasks.add(task);
+        executor.submit(task);
         log.taskSubmitted(task);
         return task;
     }
@@ -124,7 +124,7 @@ public class ThreadsWatchdog {
 
     /**
      * @see Threads#getTasks()
-     * 
+     *
      * @return a copy of the submitted tasks.
      */
     public List<Future<?>> getTasks() {
@@ -139,7 +139,7 @@ public class ThreadsWatchdog {
     public void waitForTasks() throws InterruptedException {
         while (tasks.size() > 0) {
             synchronized (this) {
-                wait();
+                wait(100);
             }
         }
     }
