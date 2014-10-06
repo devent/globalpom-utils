@@ -6,14 +6,14 @@
 	<parent>
 		<groupId>com.anrisoftware.globalpom</groupId>
 		<artifactId>globalpomutils-parent</artifactId>
-		<version>2.2-SNAPSHOT</version>
+		<version>2.2</version>
 		<relativePath>../globalpomutils-parent</relativePath>
 	</parent>
 
 	<artifactId>globalpomutils-threads</artifactId>
 	<name>Global POM Utilities :: Threads</name>
 	<description>Threads pool for listenable future tasks.</description>
-	<version>2.2-SNAPSHOT</version>
+	<version>2.2</version>
     <url>https://anrisoftware.com/projects/projects/globalpomutils-threads</url>
 
 	<dependencies>

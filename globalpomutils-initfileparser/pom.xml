@@ -6,14 +6,14 @@
 	<parent>
 		<groupId>com.anrisoftware.globalpom</groupId>
 		<artifactId>globalpomutils-parent</artifactId>
-		<version>2.2-SNAPSHOT</version>
+		<version>2.2</version>
 		<relativePath>../globalpomutils-parent</relativePath>
 	</parent>
 
 	<artifactId>globalpomutils-initfileparser</artifactId>
 	<name>Global POM Utilities :: Init File Parser</name>
 	<description>Parses INI like files.</description>
-	<version>2.2-SNAPSHOT</version>
+	<version>2.2</version>
 	<url>https://anrisoftware.com/projects/projects/globalpomutils-initfileparser</url>
 
 	<dependencies>
