@@ -1,21 +1,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	
+
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
 		<groupId>com.anrisoftware.globalpom</groupId>
 		<artifactId>globalpom-groovy</artifactId>
-		<version>1.22</version>
+		<version>1.24</version>
 		<relativePath />
 	</parent>
 
 	<artifactId>globalpomutils-parent</artifactId>
-	<version>2.1</version>
+	<version>2.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Global POM Utilities :: Parent</name>
 	<description>Manages the version and dependencies for the utilities modules.</description>
-	<url>https://anrisoftware.com/projects/globalpom-utils</url>
+	<url>https://anrisoftware.com/projects/projects/globalpomutils-parent</url>
 	<inceptionYear>2013</inceptionYear>
 
 	<developers>
@@ -45,22 +45,33 @@
 		<url>https://anrisoftware.com/projects/globalpom-utils</url>
 	</issueManagement>
 
+    <distributionManagement>
+        <repository>
+            <id>osssonatype</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+        <snapshotRepository>
+            <id>osssonatype_snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>com.anrisoftware.globalpom</groupId>
 				<artifactId>globalpom-groovytestutils</artifactId>
-				<version>1.23</version>
+				<version>1.24</version>
 			</dependency>
 			<dependency>
 				<groupId>com.anrisoftware.globalpom</groupId>
 				<artifactId>globalpom-log</artifactId>
-				<version>1.17</version>
+				<version>1.18</version>
 			</dependency>
 			<dependency>
 				<groupId>com.anrisoftware.propertiesutils</groupId>
 				<artifactId>propertiesutils-contextproperties</artifactId>
-				<version>1.11</version>
+				<version>1.12</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

@@ -6,39 +6,40 @@
 	<parent>
 		<groupId>com.anrisoftware.globalpom</groupId>
 		<artifactId>globalpomutils-parent</artifactId>
-		<version>2.1</version>
+		<version>2.2-SNAPSHOT</version>
 		<relativePath>../globalpomutils-parent</relativePath>
 	</parent>
 
 	<artifactId>globalpomutils-initfileparser</artifactId>
 	<name>Global POM Utilities :: Init File Parser</name>
 	<description>Parses INI like files.</description>
-	<version>2.1</version>
+	<version>2.2-SNAPSHOT</version>
+	<url>https://anrisoftware.com/projects/projects/globalpomutils-initfileparser</url>
 
-    <dependencies>
-        <!-- test dependencies -->
-        <dependency>
-            <groupId>com.anrisoftware.globalpom</groupId>
-            <artifactId>globalpom-groovytestutils</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- compile dependencies -->
-        <dependency>
-            <groupId>com.anrisoftware.globalpom</groupId>
-            <artifactId>globalpom-log</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.inject.extensions</groupId>
-            <artifactId>guice-assistedinject</artifactId>
-        </dependency>
-        <dependency>
-        	<groupId>org.apache.commons</groupId>
-        	<artifactId>commons-lang3</artifactId>
-        </dependency>
-        <dependency>
-        	<groupId>commons-io</groupId>
-        	<artifactId>commons-io</artifactId>
-        </dependency>
-    </dependencies>
+	<dependencies>
+		<!-- test dependencies -->
+		<dependency>
+			<groupId>com.anrisoftware.globalpom</groupId>
+			<artifactId>globalpom-groovytestutils</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- compile dependencies -->
+		<dependency>
+			<groupId>com.anrisoftware.globalpom</groupId>
+			<artifactId>globalpom-log</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-assistedinject</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+	</dependencies>
 
 </project>
