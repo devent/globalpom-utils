@@ -34,15 +34,13 @@ import com.google.inject.assistedinject.AssistedInject;
 
 /**
  * Mutable CSV import properties.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
  */
 @SuppressWarnings("serial")
 public class DefaultCsvImportProperties implements CsvImportProperties,
         Serializable {
-
-    private static final String FILE = "file";
 
     private URI file;
 
@@ -60,11 +58,14 @@ public class DefaultCsvImportProperties implements CsvImportProperties,
 
     private int numCols;
 
+    private boolean haveHeader;
+
     /**
      * Sets system based default values.
      */
     @AssistedInject
     public DefaultCsvImportProperties(@Assisted CsvImportProperties properties) {
+        setHaveHeader(properties.isHaveHeader());
         setCharset(properties.getCharset());
         setEndOfLineSymbols(properties.getEndOfLineSymbols());
         setFile(properties.getFile());
@@ -81,6 +82,7 @@ public class DefaultCsvImportProperties implements CsvImportProperties,
     @AssistedInject
     public DefaultCsvImportProperties() {
         this.file = new File("").toURI();
+        this.haveHeader = false;
         this.charset = decorate(Charset.defaultCharset());
         this.locale = Locale.US;
         this.separator = ',';
@@ -97,6 +99,23 @@ public class DefaultCsvImportProperties implements CsvImportProperties,
     @Override
     public URI getFile() {
         return file;
+    }
+
+    /**
+     * Sets that the CSV data have a header row that determines the columns.
+     *
+     * @param haveHeader
+     *            {@code true} if the data have a header row.
+     *
+     * @since 2.3
+     */
+    public void setHaveHeader(boolean haveHeader) {
+        this.haveHeader = haveHeader;
+    }
+
+    @Override
+    public boolean isHaveHeader() {
+        return haveHeader;
     }
 
     public void setCharset(Charset charset) {
@@ -164,6 +183,6 @@ public class DefaultCsvImportProperties implements CsvImportProperties,
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append(FILE, file).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 }
