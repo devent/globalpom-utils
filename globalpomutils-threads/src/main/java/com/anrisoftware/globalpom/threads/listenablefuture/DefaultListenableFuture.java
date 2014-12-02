@@ -27,19 +27,24 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.anrisoftware.globalpom.threads.api.ListenableFuture;
 
 /**
  * Informs property change listener when the task is finish.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.5
  */
 public class DefaultListenableFuture<V> extends FutureTask<V> implements
         ListenableFuture<V> {
 
-    private final PropertyChangeSupport propertySupport;
+    private static final Logger logger = LoggerFactory
+            .getLogger(DefaultListenableFuture.class);
+
+    private final PropertyChangeSupport p;
 
     private Status status;
 
@@ -53,9 +58,9 @@ public class DefaultListenableFuture<V> extends FutureTask<V> implements
      * @see FutureTask#FutureTask(Callable)
      */
     public DefaultListenableFuture(Callable<V> callable) {
-        super(callable);
+        super(createExceptionCallable(callable));
         this.callable = callable;
-        this.propertySupport = new PropertyChangeSupport(this);
+        this.p = new PropertyChangeSupport(this);
         this.status = Status.RUNNING;
     }
 
@@ -63,17 +68,17 @@ public class DefaultListenableFuture<V> extends FutureTask<V> implements
      * @see FutureTask#FutureTask(Runnable, Object)
      */
     public DefaultListenableFuture(Runnable runnable, V result) {
-        super(runnable, result);
+        super(createExceptionRunnable(runnable), result);
         this.runnable = runnable;
         this.result = result;
-        this.propertySupport = new PropertyChangeSupport(this);
+        this.p = new PropertyChangeSupport(this);
     }
 
     @Override
     protected void done() {
         Status oldValue = this.status;
         status = Status.DONE;
-        propertySupport.firePropertyChange(STATUS_PROPERTY, oldValue, status);
+        p.firePropertyChange(STATUS_PROPERTY, oldValue, status);
     }
 
     @Override
@@ -84,8 +89,7 @@ public class DefaultListenableFuture<V> extends FutureTask<V> implements
         } catch (TimeoutException e) {
             Status oldValue = this.status;
             status = Status.TIMEOUT;
-            propertySupport.firePropertyChange(STATUS_PROPERTY, oldValue,
-                    status);
+            p.firePropertyChange(STATUS_PROPERTY, oldValue, status);
             throw e;
         }
     }
@@ -101,13 +105,43 @@ public class DefaultListenableFuture<V> extends FutureTask<V> implements
         return b.toString();
     }
 
+    private static <V> Callable<V> createExceptionCallable(
+            final Callable<V> callable) {
+        return new Callable<V>() {
+
+            @Override
+            public V call() throws Exception {
+                try {
+                    return callable.call();
+                } catch (Exception e) {
+                    logger.error("", e);
+                    throw e;
+                }
+            }
+        };
+    }
+
+    private static Runnable createExceptionRunnable(final Runnable runnable) {
+        return new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    runnable.run();
+                } catch (Exception e) {
+                    logger.error("", e);
+                }
+            }
+        };
+    }
+
     /**
      * @see PropertyChangeSupport#addPropertyChangeListener(PropertyChangeListener)
      * @see #STATUS_PROPERTY
      */
     @Override
     public void addPropertyChangeListener(PropertyChangeListener listener) {
-        propertySupport.addPropertyChangeListener(listener);
+        p.addPropertyChangeListener(listener);
     }
 
     /**
@@ -116,7 +150,7 @@ public class DefaultListenableFuture<V> extends FutureTask<V> implements
      */
     @Override
     public void removePropertyChangeListener(PropertyChangeListener listener) {
-        propertySupport.removePropertyChangeListener(listener);
+        p.removePropertyChangeListener(listener);
     }
 
     /**
@@ -127,7 +161,7 @@ public class DefaultListenableFuture<V> extends FutureTask<V> implements
     @Override
     public void addPropertyChangeListener(String propertyName,
             PropertyChangeListener listener) {
-        propertySupport.addPropertyChangeListener(propertyName, listener);
+        p.addPropertyChangeListener(propertyName, listener);
     }
 
     /**
@@ -138,7 +172,7 @@ public class DefaultListenableFuture<V> extends FutureTask<V> implements
     @Override
     public void removePropertyChangeListener(String propertyName,
             PropertyChangeListener listener) {
-        propertySupport.removePropertyChangeListener(propertyName, listener);
+        p.removePropertyChangeListener(propertyName, listener);
     }
 
 }

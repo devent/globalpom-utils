@@ -18,6 +18,11 @@
  */
 package com.anrisoftware.globalpom.threads.properties;
 
+import groovy.util.logging.Slf4j
+
+import java.beans.PropertyChangeListener
+import java.util.concurrent.TimeUnit
+
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
@@ -29,59 +34,84 @@ import com.google.inject.Injector
 
 /**
  * @see PropertiesThreads
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.5
  */
+@Slf4j
 class PropertiesThreadsTest {
 
-	@Test
-	void "cached pool"() {
-		threads.setProperties properties
-		threads.setName "cached"
-		def future = threads.submit task
-	}
+    @Test
+    void "cached pool"() {
+        threads.setProperties properties
+        threads.setName "cached"
+        def future = threads.submit task
+        threads.awaitTermination(1, TimeUnit.SECONDS)
+    }
 
-	@Test
-	void "fixed pool"() {
-		threads.setProperties properties
-		threads.setName "fixed"
-		def future = threads.submit task
-	}
+    @Test
+    void "fixed pool"() {
+        threads.setProperties properties
+        threads.setName "fixed"
+        def future = threads.submit task
+        threads.awaitTermination(1, TimeUnit.SECONDS)
+    }
 
-	@Test
-	void "single pool"() {
-		threads.setProperties properties
-		threads.setName "single"
-		def future = threads.submit task
-	}
+    @Test
+    void "single pool"() {
+        threads.setProperties properties
+        threads.setName "single"
+        def future = threads.submit task
+        threads.awaitTermination(1, TimeUnit.SECONDS)
+    }
 
-	PropertiesThreads threads
+    @Test
+    void "single pool, task exception"() {
+        def listenerRun = false
+        def task = {
+            def ex = new IllegalStateException("Test exception")
+            log.info "Throing exception: {}", ex.getMessage()
+            throw ex
+        }
+        def listener = [propertyChange: { evt ->
+                log.info "Task changed: {}", evt
+                listenerRun = true
+            }] as PropertyChangeListener
 
-	def task
+        threads.setProperties properties
+        threads.setName "single"
+        def future = threads.submit task, listener
+        threads.awaitTermination(1, TimeUnit.SECONDS)
 
-	boolean taskCalled
+        assert listenerRun == false
+    }
 
-	@Before
-	void createThreads() {
-		threads = injector.getInstance PropertiesThreads
-		task = { Thread.sleep 5000 }
-	}
+    PropertiesThreads threads
 
-	static Injector injector
+    def task
 
-	static URL propertiesResource
+    boolean taskCalled
 
-	static Properties properties
+    @Before
+    void createThreads() {
+        threads = injector.getInstance PropertiesThreads
+        task = { Thread.sleep 500 }
+    }
 
-	@BeforeClass
-	static void setupThreads() {
-		injector = Guice.createInjector(new PropertiesThreadsModule())
-		propertiesResource = PropertiesThreadsTest.class.getResource("/threads_test.properties")
-		properties = new ContextPropertiesFactory(PropertiesThreads).fromResource(propertiesResource)
-	}
+    static Injector injector
 
-	static {
-		TestUtils.toStringStyle
-	}
+    static URL propertiesResource
+
+    static Properties properties
+
+    @BeforeClass
+    static void setupThreads() {
+        injector = Guice.createInjector(new PropertiesThreadsModule())
+        propertiesResource = PropertiesThreadsTest.class.getResource("/threads_test.properties")
+        properties = new ContextPropertiesFactory(PropertiesThreads).fromResource(propertiesResource)
+    }
+
+    static {
+        TestUtils.toStringStyle
+    }
 }
