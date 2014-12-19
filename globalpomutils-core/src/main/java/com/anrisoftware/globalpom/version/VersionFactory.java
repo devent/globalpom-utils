@@ -16,32 +16,36 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-core. If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * <h1>Global POM Utilities :: Core</h1>
- *
- * <p>
- * Various utilities.
- *
- * <h2>Maven Module</h2>
- *
- * <pre>
- * &lt;dependency>
- * &lt;groupId>com.anrisoftware.globalpom&lt;/groupId>
- * &lt;artifactId>globalpomutils-core&lt;/artifactId>
- * &lt;version>2.3&lt;/version>
- * &lt;/dependency>
- * </pre>
- *
- * <h2>GitHub SCM</h2>
- *
- * <ul>
- * <li><a href="https://github.com/devent/globalpom-utils">Repository</a></li>
- * <li><a href="git://git@github.com:devent/globalpom-utils.git">Repository SSH</a>
- * <li><a href="https://github.com/devent/globalpom-utils.git">Repository HTTPS</a>
- * </ul>
- *
- * @version 2.3
- * @author Erwin Mueller, erwin.mueller@deventm.org
- */
-package com.anrisoftware.globalpom;
+package com.anrisoftware.globalpom.version;
 
+import static com.anrisoftware.globalpom.version.Version.MAJOR;
+import static com.anrisoftware.globalpom.version.Version.MINOR;
+import static com.anrisoftware.globalpom.version.Version.REV;
+
+import com.google.inject.assistedinject.Assisted;
+
+/**
+ * Factory to create the version.
+ *
+ * @author Erwin Mueller, erwin.mueller@deventm.org
+ * @since 2.3
+ */
+public interface VersionFactory {
+
+    /**
+     * Creates the version from the specified version numbers.
+     *
+     * @param major
+     *            the major version number.
+     *
+     * @param minor
+     *            the minor version number.
+     *
+     * @param rev
+     *            the revision version number.
+     *
+     * @return the {@link Version}.
+     */
+    Version create(@Assisted(MAJOR) int major, @Assisted(MINOR) int minor,
+            @Assisted(REV) int rev);
+}

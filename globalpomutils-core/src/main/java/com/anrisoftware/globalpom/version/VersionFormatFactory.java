@@ -16,32 +16,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-core. If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * <h1>Global POM Utilities :: Core</h1>
- *
- * <p>
- * Various utilities.
- *
- * <h2>Maven Module</h2>
- *
- * <pre>
- * &lt;dependency>
- * &lt;groupId>com.anrisoftware.globalpom&lt;/groupId>
- * &lt;artifactId>globalpomutils-core&lt;/artifactId>
- * &lt;version>2.3&lt;/version>
- * &lt;/dependency>
- * </pre>
- *
- * <h2>GitHub SCM</h2>
- *
- * <ul>
- * <li><a href="https://github.com/devent/globalpom-utils">Repository</a></li>
- * <li><a href="git://git@github.com:devent/globalpom-utils.git">Repository SSH</a>
- * <li><a href="https://github.com/devent/globalpom-utils.git">Repository HTTPS</a>
- * </ul>
- *
- * @version 2.3
- * @author Erwin Mueller, erwin.mueller@deventm.org
- */
-package com.anrisoftware.globalpom;
+package com.anrisoftware.globalpom.version;
 
+/**
+ * Creates the version format.
+ *
+ * @author Erwin Mueller, erwin.mueller@deventm.org
+ * @since 2.3
+ */
+public interface VersionFormatFactory {
+
+    /**
+     * Creates version format.
+     *
+     * @return the {@link VersionFormat}.
+     */
+    VersionFormat create();
+}
