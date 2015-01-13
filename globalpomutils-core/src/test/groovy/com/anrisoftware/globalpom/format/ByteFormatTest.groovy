@@ -24,6 +24,7 @@ import groovy.util.logging.Slf4j
 import org.junit.BeforeClass
 import org.junit.Test
 
+import com.anrisoftware.globalpom.format.byteformat.ByteFormat
 import com.anrisoftware.globalpom.format.byteformat.ByteFormatFactory
 import com.anrisoftware.globalpom.format.byteformat.ByteFormatModule
 import com.anrisoftware.globalpom.format.byteformat.UnitMultiplier
@@ -64,6 +65,23 @@ class ByteFormatTest {
             log.info "Parse '{}' with multiplier {}", it.input, it.multiplier
             def value = formatFactory.create().parse(it.input, it.multiplier)
             assert value == it.value
+        }
+    }
+
+    @Test
+    void "roundSizeSI"() {
+        def cases = [
+            [size: 1, expected: "1"],
+            [size: 1005, expected: "1k"],
+            [size: 12005, expected: "12k"],
+            [size: 122005, expected: "122k"],
+            [size: 1220005, expected: "1M"],
+            [size: 12200005, expected: "12M"],
+        ]
+        cases.each {
+            log.info "Round '{}', expected '{}'", it.size, it.expected
+            def res = ByteFormat.roundSizeSI(it.size)
+            assert res == it.expected
         }
     }
 

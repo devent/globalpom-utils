@@ -43,6 +43,47 @@ import com.google.inject.assistedinject.AssistedInject;
 @SuppressWarnings("serial")
 public class ByteFormat extends Format {
 
+    /**
+     * Rounds the size to the smallest SI unit.
+     *
+     * @param size
+     *            the size.
+     *
+     * @return the rounded size with the SI unit.
+     *
+     * @since 2.3
+     */
+    public static String roundSizeSI(long size) {
+        if (size > UnitMultiplier.ZETTA.getValue()) {
+            return formatRoundSizeSI(size, UnitMultiplier.ZETTA);
+        }
+        if (size > UnitMultiplier.EXA.getValue()) {
+            return formatRoundSizeSI(size, UnitMultiplier.EXA);
+        }
+        if (size > UnitMultiplier.PETA.getValue()) {
+            return formatRoundSizeSI(size, UnitMultiplier.PETA);
+        }
+        if (size > UnitMultiplier.TERA.getValue()) {
+            return formatRoundSizeSI(size, UnitMultiplier.TERA);
+        }
+        if (size > UnitMultiplier.GIGA.getValue()) {
+            return formatRoundSizeSI(size, UnitMultiplier.GIGA);
+        }
+        if (size > UnitMultiplier.MEGA.getValue()) {
+            return formatRoundSizeSI(size, UnitMultiplier.MEGA);
+        }
+        if (size > UnitMultiplier.KILO.getValue()) {
+            return formatRoundSizeSI(size, UnitMultiplier.KILO);
+        }
+        return formatRoundSizeSI(size, UnitMultiplier.ONE);
+    }
+
+    private static String formatRoundSizeSI(long size, UnitMultiplier unit) {
+        long bytes = (long) (size / unit.getValue());
+        String metric = unit.getMetric();
+        return String.format("%s%s", Long.toString(bytes), metric);
+    }
+
     private static final String BYTE = "B";
 
     private static final String SEP = " ";
@@ -95,7 +136,7 @@ public class ByteFormat extends Format {
     /**
      * @param multiplier
      *            the unit {@link UnitMultiplier}.
-     * 
+     *
      * @see #format(Object)
      */
     public String format(Object obj, UnitMultiplier multiplier) {
@@ -157,11 +198,11 @@ public class ByteFormat extends Format {
      * Parses the specified string to computer byte.
      * <p>
      * The format follows the pattern:
-     * 
+     *
      * <pre>
      * &lt;value&gt;(byte|kB,MB,...,YB|KiB,MiB,...,YiB)
      * </pre>
-     * 
+     *
      * <p>
      * <h2>Examples</h2>
      * <p>
@@ -170,9 +211,9 @@ public class ByteFormat extends Format {
      * <li>{@code "1 kb"}
      * <li>{@code "1 Kib"}
      * </ul>
-     * 
+     *
      * @return the parsed value.
-     * 
+     *
      * @throws ParseException
      *             if the string cannot be parsed to a value.
      */
@@ -184,11 +225,11 @@ public class ByteFormat extends Format {
      * Parses the specified string to computer byte.
      * <p>
      * The format follows the pattern:
-     * 
+     *
      * <pre>
      * &lt;value&gt;(byte|kB,MB,...,YB|KiB,MiB,...,YiB)
      * </pre>
-     * 
+     *
      * <p>
      * <h2>Examples</h2>
      * <p>
@@ -197,12 +238,12 @@ public class ByteFormat extends Format {
      * <li>{@code "1 kb"}
      * <li>{@code "1 Kib"}
      * </ul>
-     * 
+     *
      * @param multiplier
      *            the unit {@link UnitMultiplier}.
-     * 
+     *
      * @return the parsed value.
-     * 
+     *
      * @throws ParseException
      *             if the string cannot be parsed to a value.
      */
