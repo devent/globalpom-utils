@@ -141,7 +141,7 @@ class ScriptCommandExecTest {
     static void createFactory() {
         toStringStyle
         injector = Guice.createInjector(
-                new ScriptProcessModule(),
+                new ScriptCommandModule(),
                 new DefaultCommandLineModule(),
                 new DefaultProcessModule(),
                 new PipeOutputsModule(),

@@ -30,18 +30,18 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /**
  * Installs the script command factory.
- * 
+ *
  * @see ScriptCommandExecFactory
  * @see ScriptCommandLineFactory
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 2.0
+ * @since 2.3
  */
-public class ScriptProcessModule extends AbstractModule {
+public class ScriptCommandModule extends AbstractModule {
 
     /**
      * Returns the script command factory.
-     * 
+     *
      * @return the {@link ScriptCommandExecFactory}.
      */
     public static ScriptCommandExecFactory getScriptCommandExecFactory() {
@@ -50,7 +50,7 @@ public class ScriptProcessModule extends AbstractModule {
 
     /**
      * Returns the script command line factory.
-     * 
+     *
      * @return the {@link ScriptCommandLineFactory}.
      */
     public static ScriptCommandLineFactory getScriptCommandLineFactory() {
@@ -59,7 +59,7 @@ public class ScriptProcessModule extends AbstractModule {
 
     private static class instance {
         static final Injector injector = Guice.createInjector(
-                new ScriptProcessModule(), new DefaultCommandLineModule(),
+                new ScriptCommandModule(), new DefaultCommandLineModule(),
                 new DefaultProcessModule(), new PipeOutputsModule());
     }
 

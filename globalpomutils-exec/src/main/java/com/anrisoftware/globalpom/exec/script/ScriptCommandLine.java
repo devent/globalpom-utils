@@ -18,7 +18,7 @@
  */
 package com.anrisoftware.globalpom.exec.script;
 
-import static com.anrisoftware.globalpom.exec.script.ScriptProcessModule.getScriptCommandLineFactory;
+import static com.anrisoftware.globalpom.exec.script.ScriptCommandModule.getScriptCommandLineFactory;
 import static java.io.File.createTempFile;
 
 import java.io.File;

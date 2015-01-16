@@ -18,7 +18,7 @@
  */
 package com.anrisoftware.globalpom.exec.script;
 
-import static com.anrisoftware.globalpom.exec.script.ScriptProcessModule.getScriptCommandExecFactory;
+import static com.anrisoftware.globalpom.exec.script.ScriptCommandModule.getScriptCommandExecFactory;
 
 import java.beans.PropertyChangeListener;
 import java.io.File;

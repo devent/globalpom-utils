@@ -16,32 +16,28 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-exec. If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * <h1>Global POM Utilities :: Exec</h1>
- *
- * <p>
- * Command execution helper.
- *
- * <h2>Maven Module</h2>
- *
- * <pre>
- * &lt;dependency>
- * &lt;groupId>com.anrisoftware.globalpom&lt;/groupId>
- * &lt;artifactId>globalpomutils-exec&lt;/artifactId>
- * &lt;version>2.3&lt;/version>
- * &lt;/dependency>
- * </pre>
- *
- * <h2>GitHub SCM</h2>
- *
- * <ul>
- * <li><a href="https://github.com/devent/globalpom-utils">Repository</a></li>
- * <li><a href="git://git@github.com:devent/globalpom-utils.git">Repository SSH</a>
- * <li><a href="https://github.com/devent/globalpom-utils.git">Repository HTTPS</a>
- * </ul>
- *
- * @version 2.3
- * @author Erwin Mueller, erwin.mueller@deventm.org
- */
-package com.anrisoftware.globalpom.exec;
+package com.anrisoftware.globalpom.exec.scriptprocess;
 
+import java.net.URL;
+
+import com.anrisoftware.globalpom.threads.properties.PropertiesThreads;
+import com.anrisoftware.propertiesutils.AbstractContextPropertiesProvider;
+
+/**
+ * Returns properties for test threads pool.
+ *
+ * @author Erwin Mueller, erwin.mueller@deventm.org
+ * @since 2.3
+ */
+@SuppressWarnings("serial")
+public class TestThreadsPropertiesProvider extends
+        AbstractContextPropertiesProvider {
+
+    private static final URL RES = TestThreadsPropertiesProvider.class
+            .getResource("test_threads.properties");
+
+    TestThreadsPropertiesProvider() {
+        super(PropertiesThreads.class, RES);
+    }
+
+}
