@@ -26,6 +26,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.anrisoftware.globalpom.exec.api.CommandLine;
 import com.anrisoftware.globalpom.exec.api.ProcessTask;
+import com.anrisoftware.globalpom.exec.runcommands.RunCommands;
 import com.anrisoftware.globalpom.exec.script.ScriptCommandLineFactory;
 import com.anrisoftware.globalpom.threads.api.Threads;
 import com.anrisoftware.resources.templates.api.TemplateResource;
@@ -49,28 +50,32 @@ public class ScriptExec extends AbstractProcessExec {
 
     private final TemplateResource templateResource;
 
-    @Inject
-    private ScriptExecLogger log;
+    private final RunCommands runCommands;
+
+    private final ScriptExecLogger log;
 
     /**
      * @see ScriptExecFactory#create(Object, Threads, TemplateResource, String,
      *      Map)
      */
     @Inject
-    ScriptExec(@Assisted Object parent, @Assisted Threads threads,
+    ScriptExec(ScriptExecLogger log, @Assisted Object parent,
+            @Assisted Threads threads,
             @Assisted TemplateResource templateResource, @Assisted String name,
             @Assisted Map<String, Object> args) {
         super(threads, args);
+        this.log = log;
         this.args = args;
         this.parent = parent;
         this.name = name;
         this.templateResource = templateResource;
+        this.runCommands = log.runCommands(args, parent);
     }
 
     @Override
     public ProcessTask call() throws Exception {
         ProcessTask task = super.call();
-        log.scriptDone(parent, task, args);
+        log.scriptDone(parent, runCommands, task, args, name);
         return task;
     }
 

@@ -24,7 +24,11 @@ import static com.anrisoftware.globalpom.exec.scriptprocess.ScriptExecLogger._.s
 
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import com.anrisoftware.globalpom.exec.api.ProcessTask;
+import com.anrisoftware.globalpom.exec.runcommands.RunCommands;
+import com.anrisoftware.globalpom.exec.runcommands.RunCommandsArg;
 import com.anrisoftware.globalpom.log.AbstractLogger;
 
 /**
@@ -55,6 +59,11 @@ class ScriptExecLogger extends AbstractLogger {
         }
     }
 
+    private static final String COMMAND_KEY = "command";
+
+    @Inject
+    private RunCommandsArg runCommandsArg;
+
     /**
      * Sets the context of the logger to {@link ScriptExec}.
      */
@@ -62,7 +71,8 @@ class ScriptExecLogger extends AbstractLogger {
         super(ScriptExec.class);
     }
 
-    void scriptDone(Object parent, ProcessTask task, Map<String, Object> args) {
+    void scriptDone(Object parent, RunCommands runCommands, ProcessTask task,
+            Map<String, Object> args, String name) {
         if (isTraceEnabled()) {
             trace(script_done_trace, args, parent, task);
         } else if (isDebugEnabled()) {
@@ -70,6 +80,16 @@ class ScriptExecLogger extends AbstractLogger {
         } else {
             info(script_done_info, parent);
         }
+        if (runCommands != null) {
+            if (args.containsKey(COMMAND_KEY)) {
+                runCommands.add(args.get(COMMAND_KEY), args);
+            } else {
+                runCommands.add(name, args);
+            }
+        }
     }
 
+    RunCommands runCommands(Map<String, Object> args, Object parent) {
+        return runCommandsArg.runCommands(args, parent);
+    }
 }
