@@ -71,6 +71,21 @@ class ParserTest {
     }
 
     @Test
+    void "parse piwik INI-file"() {
+        def attributes = attributesFactory.create()
+        attributes.comment = ';'
+        def parser = parserFactory.create(inifilePiwikConfig, attributes)()
+        List sections = parser.inject([]) { acc, val -> acc << val }
+        assert sections.size() == 4
+        assert sections[0].name == "database"
+        assert sections[0].properties.size() == 7
+        assert sections[0].properties["host"] == "localhost"
+        assert sections[0].properties["username"] == "piwik"
+        assert sections[1].name == "General"
+        assert sections[1].properties.size() == 3
+    }
+
+    @Test
     void "format section"() {
         def attributes = attributesFactory.create()
         def formatter = sectionFormatterFactory.create(attributes)
@@ -92,6 +107,8 @@ value_a = a
     static URL inifileNoSection = ParserTest.class.getResource("inifile_no_section.txt")
 
     static URL inifileMultiLine = ParserTest.class.getResource("inifile_multiline.txt")
+
+    static URL inifilePiwikConfig = ParserTest.class.getResource("piwik_config_ini_php.txt")
 
     static Injector injector
 

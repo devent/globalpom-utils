@@ -50,7 +50,7 @@ import com.google.inject.assistedinject.AssistedInject;
 
 /**
  * Implements the INI file parser.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.0
  */
@@ -170,6 +170,8 @@ class InitFileParserImpl implements InitFileParser {
 
         private final String delimiter;
 
+        private final char stringQuote;
+
         private final String defaultSectionName;
 
         private final boolean allowMultiLineProperties;
@@ -185,6 +187,7 @@ class InitFileParserImpl implements InitFileParser {
             this.comment = Character.toString(attributes.getComment());
             this.delimiter = Character.toString(attributes
                     .getPropertyDelimiter());
+            this.stringQuote = attributes.getStringQuote();
             this.openSection = Character.toString(attributes
                     .getSectionBrackets()[0]);
             this.closeSection = Character.toString(attributes
@@ -294,6 +297,11 @@ class InitFileParserImpl implements InitFileParser {
             int i = line.indexOf(delimiter);
             String property = line.substring(0, i).trim();
             String value = stripStart(line.substring(i + 1), null);
+            int quoteStart = value.indexOf(stringQuote);
+            int quoteEnd = value.lastIndexOf(stringQuote);
+            if (quoteEnd > quoteStart) {
+                value = value.substring(quoteStart + 1, quoteEnd);
+            }
             properties.put(property, value);
             return property;
         }

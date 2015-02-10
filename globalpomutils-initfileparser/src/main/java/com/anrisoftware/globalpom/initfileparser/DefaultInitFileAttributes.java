@@ -25,7 +25,7 @@ import com.google.inject.assistedinject.AssistedInject;
 
 /**
  * Mutable INI file attributes.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.0
  */
@@ -38,6 +38,8 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
     private char comment;
 
     private char propertyDelimiter;
+
+    private char stringQuote;
 
     private String defaultSectionName;
 
@@ -55,6 +57,7 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
         this.sectionBrackets = new char[] { '[', ']' };
         this.comment = '#';
         this.propertyDelimiter = '=';
+        this.stringQuote = '"';
         this.defaultSectionName = "Default";
         this.whitespaceBetweenPropertyDelimiter = true;
         this.newLine = System.getProperty("line.separator");
@@ -65,15 +68,15 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
      * @see DefaultInitFileAttributesFactory#create(InitFileAttributes)
      */
     @AssistedInject
-    DefaultInitFileAttributes(@Assisted InitFileAttributes attributes) {
-        this.sectionBrackets = attributes.getSectionBrackets();
-        this.comment = attributes.getComment();
-        this.propertyDelimiter = attributes.getPropertyDelimiter();
-        this.defaultSectionName = attributes.getDefaultSectionName();
-        this.whitespaceBetweenPropertyDelimiter = attributes
+    DefaultInitFileAttributes(@Assisted InitFileAttributes a) {
+        this.sectionBrackets = a.getSectionBrackets();
+        this.comment = a.getComment();
+        this.propertyDelimiter = a.getPropertyDelimiter();
+        this.defaultSectionName = a.getDefaultSectionName();
+        this.whitespaceBetweenPropertyDelimiter = a
                 .isWhitespaceBetweenPropertyDelimiter();
-        this.newLine = attributes.getNewLine();
-        this.allowMultiLineProperties = attributes.isAllowMultiLineProperties();
+        this.newLine = a.getNewLine();
+        this.allowMultiLineProperties = a.isAllowMultiLineProperties();
     }
 
     public void setSectionBrackets(char[] brackets) {
@@ -101,6 +104,18 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
     @Override
     public char getPropertyDelimiter() {
         return propertyDelimiter;
+    }
+
+    /**
+     * @since 2.3
+     */
+    public void setStringQuote(char stringQuote) {
+        this.stringQuote = stringQuote;
+    }
+
+    @Override
+    public char getStringQuote() {
+        return stringQuote;
     }
 
     public void setDefaultSectionName(String name) {
