@@ -36,7 +36,9 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 
 import javax.inject.Inject;
@@ -170,6 +172,8 @@ class InitFileParserImpl implements InitFileParser {
 
         private final String delimiter;
 
+        private final String mark;
+
         private final char stringQuote;
 
         private final String defaultSectionName;
@@ -188,6 +192,7 @@ class InitFileParserImpl implements InitFileParser {
             this.delimiter = Character.toString(attributes
                     .getPropertyDelimiter());
             this.stringQuote = attributes.getStringQuote();
+            this.mark = attributes.getMultiValueMark();
             this.openSection = Character.toString(attributes
                     .getSectionBrackets()[0]);
             this.closeSection = Character.toString(attributes
@@ -296,14 +301,40 @@ class InitFileParserImpl implements InitFileParser {
         private String putProperty(String line, Properties properties) {
             int i = line.indexOf(delimiter);
             String property = line.substring(0, i).trim();
+            List<String> multi = null;
+            if (endsWith(property, mark)) {
+                int index = property.indexOf(mark);
+                property = property.substring(0, index);
+                multi = getMultiValue(properties, property);
+            }
+            String value = parseValue(line, i);
+            if (multi == null) {
+                properties.put(property, value);
+            } else {
+                multi.add(value);
+                properties.put(property, multi);
+            }
+            return property;
+        }
+
+        private List<String> getMultiValue(Properties properties,
+                String property) {
+            @SuppressWarnings("unchecked")
+            List<String> multi = (List<String>) properties.get(property);
+            if (multi == null) {
+                multi = new ArrayList<String>();
+            }
+            return multi;
+        }
+
+        private String parseValue(String line, int i) {
             String value = stripStart(line.substring(i + 1), null);
             int quoteStart = value.indexOf(stringQuote);
             int quoteEnd = value.lastIndexOf(stringQuote);
-            if (quoteEnd > quoteStart) {
+            if (quoteStart == 0 && quoteEnd > quoteStart) {
                 value = value.substring(quoteStart + 1, quoteEnd);
             }
-            properties.put(property, value);
-            return property;
+            return value;
         }
 
         private boolean lineIsComment(String line) {

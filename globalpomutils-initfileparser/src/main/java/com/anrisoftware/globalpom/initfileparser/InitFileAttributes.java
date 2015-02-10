@@ -60,6 +60,15 @@ public interface InitFileAttributes {
     char getStringQuote();
 
     /**
+     * Returns the marker of multi-valued properties, for example {@code "[]".}
+     *
+     * @return the multi-value {@link String} mark.
+     *
+     * @since 2.3
+     */
+    String getMultiValueMark();
+
+    /**
      * Returns the new line characters, for example {@code "\n".}
      *
      * @return the new line {@link String} characters.

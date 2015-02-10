@@ -20,6 +20,8 @@ package com.anrisoftware.globalpom.initfileparser;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -27,13 +29,16 @@ import com.google.inject.assistedinject.Assisted;
 
 /**
  * Implements the INI file section formatter.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.0
  */
 class SectionFormatterImpl implements SectionFormatter {
 
     private static final String SPACE = " ";
+
+    private static final Pattern QUOTE_MATCH_PATTERN = Pattern
+            .compile("[\\s\\p{Punct}]");
 
     private final char delimiter;
 
@@ -45,6 +50,10 @@ class SectionFormatterImpl implements SectionFormatter {
 
     private final String newLine;
 
+    private final String mark;
+
+    private final char stringQuote;
+
     /**
      * @see SectionFormatterFactory#create(InitFileAttributes)
      */
@@ -53,9 +62,11 @@ class SectionFormatterImpl implements SectionFormatter {
         this.delimiter = attributes.getPropertyDelimiter();
         this.openSection = attributes.getSectionBrackets()[0];
         this.closeSection = attributes.getSectionBrackets()[1];
+        this.mark = attributes.getMultiValueMark();
         this.whitespaceBetweenPropertyDelimiter = attributes
                 .isWhitespaceBetweenPropertyDelimiter();
         this.newLine = attributes.getNewLine();
+        this.stringQuote = attributes.getStringQuote();
     }
 
     @Override
@@ -82,21 +93,46 @@ class SectionFormatterImpl implements SectionFormatter {
         }
     }
 
-    private Appendable format0(Section section, Appendable builder)
+    private Appendable format0(Section section, Appendable b)
             throws IOException {
-        builder.append(openSection).append(section.getName())
-                .append(closeSection).append(newLine);
+        b.append(openSection).append(section.getName()).append(closeSection);
+        b.append(newLine);
         for (Map.Entry<Object, Object> entry : section.getProperties()
                 .entrySet()) {
-            builder.append(entry.getKey().toString());
-            builder = whitespaceBetweenPropertyDelimiter ? builder
-                    .append(SPACE) : builder;
-            builder.append(delimiter);
-            builder = whitespaceBetweenPropertyDelimiter ? builder
-                    .append(SPACE) : builder;
-            builder.append(entry.getValue().toString());
-            builder.append(newLine);
+            if (entry.getValue() instanceof Iterable) {
+                for (Object v : ((Iterable<?>) entry.getValue())) {
+                    b = formatSection(b, mark, entry.getKey(), v);
+                }
+            } else {
+                b = formatSection(b, "", entry.getKey(), entry.getValue());
+            }
         }
-        return builder;
+        return b;
+    }
+
+    private Appendable formatSection(Appendable b, String mark, Object key,
+            Object value) throws IOException {
+        return formatSection(b, mark, key.toString(), value.toString());
+    }
+
+    private Appendable formatSection(Appendable b, String multiMark,
+            String property, String value) throws IOException {
+        b.append(property);
+        b.append(multiMark);
+        b = whitespaceBetweenPropertyDelimiter ? b.append(SPACE) : b;
+        b.append(delimiter);
+        b = whitespaceBetweenPropertyDelimiter ? b.append(SPACE) : b;
+        b.append(quoteValue(value));
+        b.append(newLine);
+        return b;
+    }
+
+    private CharSequence quoteValue(String value) {
+        Matcher matcher = QUOTE_MATCH_PATTERN.matcher(value);
+        if (matcher.find()) {
+            return String.format("%s%s%s", stringQuote, value, stringQuote);
+        } else {
+            return value;
+        }
     }
 }

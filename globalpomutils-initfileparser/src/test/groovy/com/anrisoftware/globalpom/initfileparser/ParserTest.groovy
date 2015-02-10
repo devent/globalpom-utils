@@ -83,6 +83,19 @@ class ParserTest {
         assert sections[0].properties["username"] == "piwik"
         assert sections[1].name == "General"
         assert sections[1].properties.size() == 3
+        assert sections[1].properties["proxy_client_headers"].size() == 1
+        assert sections[1].properties["proxy_client_headers"].containsAll(["HTTP_X_FORWARDED_FOR"])
+        assert sections[1].properties["trusted_hosts"].size() == 2
+        assert sections[1].properties["trusted_hosts"].containsAll([
+            "anrisoftware.com",
+            "www.mueller-public.de"
+        ])
+        assert sections[2].name == "PluginsInstalled"
+        assert sections[2].properties.size() == 1
+        assert sections[2].properties["PluginsInstalled"].size() == 47
+        assert sections[3].name == "Plugins_Tracker"
+        assert sections[3].properties.size() == 1
+        assert sections[3].properties["Plugins_Tracker"].size() == 7
     }
 
     @Test
@@ -93,12 +106,32 @@ class ParserTest {
         def properties = new Properties()
         properties.setProperty "value_a", "a"
         properties.setProperty "value_b", "b"
+        properties.setProperty "value_c", "foo bar"
+        def section = sectionFactory.create(name, properties)
+        def str = formatter.format section
+        assertStringContent str,
+                """[Foo]
+value_c = "foo bar"
+value_b = b
+value_a = a
+"""
+    }
+
+    @Test
+    void "format multi-value section"() {
+        def attributes = attributesFactory.create()
+        def formatter = sectionFormatterFactory.create(attributes)
+        def name = "Foo"
+        def properties = new Properties()
+        properties.put "value_a", ["a", "b"]
+        properties.setProperty "value_b", "b"
         def section = sectionFactory.create(name, properties)
         def str = formatter.format section
         assertStringContent str,
                 """[Foo]
 value_b = b
-value_a = a
+value_a[] = a
+value_a[] = b
 """
     }
 

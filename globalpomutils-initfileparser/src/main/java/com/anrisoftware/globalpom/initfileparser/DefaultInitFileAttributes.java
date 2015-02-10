@@ -49,6 +49,8 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
 
     private boolean allowMultiLineProperties;
 
+    private String multiValueMark;
+
     /**
      * @see DefaultInitFileAttributesFactory#create()
      */
@@ -61,6 +63,7 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
         this.defaultSectionName = "Default";
         this.whitespaceBetweenPropertyDelimiter = true;
         this.newLine = System.getProperty("line.separator");
+        this.multiValueMark = "[]";
         this.allowMultiLineProperties = true;
     }
 
@@ -75,6 +78,7 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
         this.defaultSectionName = a.getDefaultSectionName();
         this.whitespaceBetweenPropertyDelimiter = a
                 .isWhitespaceBetweenPropertyDelimiter();
+        this.multiValueMark = a.getMultiValueMark();
         this.newLine = a.getNewLine();
         this.allowMultiLineProperties = a.isAllowMultiLineProperties();
     }
@@ -116,6 +120,18 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
     @Override
     public char getStringQuote() {
         return stringQuote;
+    }
+
+    /**
+     * @since 2.3
+     */
+    public void setMultiValueMark(String multiValueMark) {
+        this.multiValueMark = multiValueMark;
+    }
+
+    @Override
+    public String getMultiValueMark() {
+        return multiValueMark;
     }
 
     public void setDefaultSectionName(String name) {
