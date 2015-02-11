@@ -14,7 +14,7 @@
 	<name>Global POM Utilities :: Exec</name>
 	<description>Command execution helper.</description>
 	<inceptionYear>2014</inceptionYear>
-	<version>2.3-SNAPSHOT</version>
+	<version>2.3</version>
 	<url>https://anrisoftware.com/projects/projects/globalpomutils-exec</url>
 
 	<properties>
