@@ -54,6 +54,8 @@ class SectionFormatterImpl implements SectionFormatter {
 
     private final char stringQuote;
 
+    private final boolean stringQuoteEnabled;
+
     /**
      * @see SectionFormatterFactory#create(InitFileAttributes)
      */
@@ -67,6 +69,7 @@ class SectionFormatterImpl implements SectionFormatter {
                 .isWhitespaceBetweenPropertyDelimiter();
         this.newLine = attributes.getNewLine();
         this.stringQuote = attributes.getStringQuote();
+        this.stringQuoteEnabled = attributes.isStringQuoteEnabled();
     }
 
     @Override
@@ -128,6 +131,9 @@ class SectionFormatterImpl implements SectionFormatter {
     }
 
     private CharSequence quoteValue(String value) {
+        if (!stringQuoteEnabled) {
+            return value;
+        }
         Matcher matcher = QUOTE_MATCH_PATTERN.matcher(value);
         if (matcher.find()) {
             return String.format("%s%s%s", stringQuote, value, stringQuote);

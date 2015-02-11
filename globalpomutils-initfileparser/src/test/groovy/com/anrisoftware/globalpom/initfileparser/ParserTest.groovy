@@ -118,6 +118,26 @@ value_a = a
     }
 
     @Test
+    void "format section, no string quote"() {
+        def attributes = attributesFactory.create()
+        attributes.stringQuoteEnabled = false
+        def formatter = sectionFormatterFactory.create(attributes)
+        def name = "Foo"
+        def properties = new Properties()
+        properties.setProperty "value_a", "a"
+        properties.setProperty "value_b", "b"
+        properties.setProperty "value_c", "foo bar"
+        def section = sectionFactory.create(name, properties)
+        def str = formatter.format section
+        assertStringContent str,
+                """[Foo]
+value_c = foo bar
+value_b = b
+value_a = a
+"""
+    }
+
+    @Test
     void "format multi-value section"() {
         def attributes = attributesFactory.create()
         def formatter = sectionFormatterFactory.create(attributes)

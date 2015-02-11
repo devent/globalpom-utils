@@ -41,6 +41,8 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
 
     private char stringQuote;
 
+    private boolean stringQuoteEnabled;
+
     private String defaultSectionName;
 
     private boolean whitespaceBetweenPropertyDelimiter;
@@ -60,6 +62,7 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
         this.comment = '#';
         this.propertyDelimiter = '=';
         this.stringQuote = '"';
+        this.stringQuoteEnabled = true;
         this.defaultSectionName = "Default";
         this.whitespaceBetweenPropertyDelimiter = true;
         this.newLine = System.getProperty("line.separator");
@@ -75,6 +78,8 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
         this.sectionBrackets = a.getSectionBrackets();
         this.comment = a.getComment();
         this.propertyDelimiter = a.getPropertyDelimiter();
+        this.stringQuote = a.getStringQuote();
+        this.stringQuoteEnabled = a.isStringQuoteEnabled();
         this.defaultSectionName = a.getDefaultSectionName();
         this.whitespaceBetweenPropertyDelimiter = a
                 .isWhitespaceBetweenPropertyDelimiter();
@@ -120,6 +125,18 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
     @Override
     public char getStringQuote() {
         return stringQuote;
+    }
+
+    /**
+     * @since 2.4
+     */
+    public void setStringQuoteEnabled(boolean stringQuoteEnabled) {
+        this.stringQuoteEnabled = stringQuoteEnabled;
+    }
+
+    @Override
+    public boolean isStringQuoteEnabled() {
+        return stringQuoteEnabled;
     }
 
     /**

@@ -60,6 +60,15 @@ public interface InitFileAttributes {
     char getStringQuote();
 
     /**
+     * Returns if the string quotation is enabled.
+     *
+     * @return {@code true} if the string quotation is enabled.
+     *
+     * @since 2.4
+     */
+    boolean isStringQuoteEnabled();
+
+    /**
      * Returns the marker of multi-valued properties, for example {@code "[]".}
      *
      * @return the multi-value {@link String} mark.
