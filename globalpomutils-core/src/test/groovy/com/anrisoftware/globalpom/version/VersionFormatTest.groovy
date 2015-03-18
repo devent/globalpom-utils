@@ -41,16 +41,28 @@ class VersionFormatTest {
         testCases.each {
             def expected = formatFactory.create().format(it.version)
             log.info "{} format to '{}'", it.version, expected
-            assert expected == it.format
+            assert expected == it.output
         }
     }
 
     @Test
     void "parses version"() {
         testCases.each {
-            def expected = formatFactory.create().parse(it.format)
-            log.info "'{}' parses to {}", it.format, expected
+            def expected = formatFactory.create().parse(it.input)
+            log.info "'{}' parses to {}", it.input, expected
             assert expected == it.version
+        }
+    }
+
+    @Test
+    void "compare version with upper"() {
+        def testCases = [
+            [version: versionFactory.create(1, 0, 0), upper: versionFactory.create(1, 0, 0), expected: 0],
+            [version: versionFactory.create(2, 10, 0), upper: versionFactory.create(2, 10, Integer.MAX_VALUE), expected: -1],
+        ]
+        testCases.each {
+            log.info "Compare {} to {} expected {}", it.version, it.upper, it.expected
+            assert it.version.compareTo(it.upper) == it.expected
         }
     }
 
@@ -69,12 +81,13 @@ class VersionFormatTest {
         this.versionFactory = injector.getInstance VersionFactory
         this.formatFactory = injector.getInstance VersionFormatFactory
         this.testCases = [
-            [version: versionFactory.create(1, 0, 0), format: "1.0.0"],
-            [version: versionFactory.create(0, 1, 0), format: "0.1.0"],
-            [version: versionFactory.create(0, 0, 1), format: "0.0.1"],
-            [version: versionFactory.create(1, 10, 0), format: "1.10.0"],
-            [version: versionFactory.create(1, 10, Integer.MAX_VALUE), format: "1.10"],
-            [version: versionFactory.create(1, Integer.MAX_VALUE, Integer.MAX_VALUE), format: "1"],
+            [version: versionFactory.create(1, 0, 0), input: "1.0.0", output: "1.0.0"],
+            [version: versionFactory.create(1, 0, 0), input: "1.0.0", output: "1.0.0"],
+            [version: versionFactory.create(0, 1, 0), input: "0.1.0", output: "0.1.0"],
+            [version: versionFactory.create(0, 0, 1), input: "0.0.1", output: "0.0.1"],
+            [version: versionFactory.create(1, 10, 0), input: "1.10.0", output: "0.10.0"],
+            [version: versionFactory.create(1, 10, Integer.MAX_VALUE), input: "1.10", output: "1.10"],
+            [version: versionFactory.create(1, Integer.MAX_VALUE, Integer.MAX_VALUE), input: "1", output: "1"],
         ]
     }
 }
