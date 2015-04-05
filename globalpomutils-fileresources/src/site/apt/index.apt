@@ -1,0 +1,59 @@
+~~
+~~ Copyright 2013-2015 Erwin Müller <erwin.mueller@deventm.org>
+~~
+~~ This file is part of globalpomutils-fileresources.
+~~
+~~ globalpomutils-fileresources is free software: you can redistribute it and/or modify it
+~~ under the terms of the GNU Lesser General Public License as published by the
+~~ Free Software Foundation, either version 3 of the License, or (at your
+~~ option) any later version.
+~~
+~~ globalpomutils-fileresources is distributed in the hope that it will be useful, but
+~~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+~~ FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+~~ details.
+~~
+~~ You should have received a copy of the GNU Lesser General Public License
+~~ along with globalpomutils-fileresources. If not, see <http://www.gnu.org/licenses/>.
+~~
+
+  Saves and loads resources to files in atomic access.
+
+Anrisoftware.com SCM
+
+  * {{{https://anrisoftware.com/projects/projects/globalpomutils-fileresources/repository}Repository}}
+
+  * git@anrisoftware.com:globalpom-utils.git
+
+GitHub SCM
+
+  * {{{https://github.com/devent/globalpom-utils}Repository}}
+
+  * git@github.com:devent/globalpom-utils.git
+
+Maven Module
+
+---
+<dependency>
+    <groupId>com.anrisoftware.globalpom</groupId>
+    <artifactId>globalpomutils-fileresources</artifactId>
+    <version>2.3</version>
+</dependency>
+---
+
+Description
+
+  Extends the functionality of the org.apache.commons.transaction.file.FileResourceManager
+to save and load arbitrary resource objects to a file.
+
+* Example Save Resource
+
+---
+injector = Guice.createInjector(new FileResourceManagerModule());
+factory = injector.getInstance(ResourceSaverFactory.class);
+File storedir = tmp.newFolder();
+File fileA = new File(storedir, "A");
+File fileB = new File(storedir, "B");
+ResourceSaver saver = factory.create(storedir);
+saver.saveResource(resourceA, resourceB)
+---
