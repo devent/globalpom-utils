@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 Erwin Müller <erwin.mueller@deventm.org>
+ * Copyright 2013-2015 Erwin Müller <erwin.mueller@deventm.org>
  *
  * This file is part of globalpomutils-initfileparser.
  *
@@ -28,19 +28,20 @@
  * &lt;dependency>
  * &lt;groupId>com.anrisoftware.globalpom&lt;/groupId>
  * &lt;artifactId>globalpomutils-initfileparser&lt;/artifactId>
- * &lt;version>2.3&lt;/version>
+ * &lt;version>2.5&lt;/version>
  * &lt;/dependency>
  * </pre>
  *
- * <h2>GitHub SCM</h2>
+ * <h2>SCM</h2>
  *
  * <ul>
- * <li><a href="https://github.com/devent/globalpom-utils">Repository</a></li>
- * <li><a href="git://git@github.com:devent/globalpom-utils.git">Repository SSH</a>
- * <li><a href="https://github.com/devent/globalpom-utils.git">Repository HTTPS</a>
+ * <li><a href="https://anrisoftware.com/projects/projects/globalpomutils-initfileparser/repository">Repository</a></li>
+ * <li>{@code git@anrisoftware.com:globalpom-utils.git}</a>
+ * <li><a href="https://github.com/devent/globalpom-utils.git">Github Mirror</a>
+ * <li>{@code git://git@github.com:devent/globalpom-utils.git}</a>
  * </ul>
  *
- * @version 2.3
+ * @version 2.5
  * @author Erwin Mueller, erwin.mueller@deventm.org
  */
 package com.anrisoftware.globalpom.initfileparser;

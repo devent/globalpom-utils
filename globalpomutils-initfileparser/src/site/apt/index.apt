@@ -1,0 +1,63 @@
+~~
+~~ Copyright 2013-2015 Erwin Müller <erwin.mueller@deventm.org>
+~~
+~~ This file is part of globalpomutils-initfileparser.
+~~
+~~ globalpomutils-initfileparser is free software: you can redistribute it and/or modify it
+~~ under the terms of the GNU Lesser General Public License as published by the
+~~ Free Software Foundation, either version 3 of the License, or (at your
+~~ option) any later version.
+~~
+~~ globalpomutils-initfileparser is distributed in the hope that it will be useful, but
+~~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+~~ FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+~~ details.
+~~
+~~ You should have received a copy of the GNU Lesser General Public License
+~~ along with globalpomutils-initfileparser. If not, see <http://www.gnu.org/licenses/>.
+~~
+
+  Parses INI like files.
+
+Anrisoftware.com SCM
+
+  * {{{https://anrisoftware.com/projects/projects/globalpomutils-initfileparser/repository}Repository}}
+
+  * git@anrisoftware.com:globalpom-utils.git
+
+GitHub SCM
+
+  * {{{https://github.com/devent/globalpom-utils}Repository}}
+
+  * git@github.com:devent/globalpom-utils.git
+
+Maven Module
+
+---
+<dependency>
+    <groupId>com.anrisoftware.globalpom</groupId>
+    <artifactId>globalpomutils-initfileparser</artifactId>
+    <version>2.5</version>
+</dependency>
+---
+
+Description
+
+  Loads and parses the Ini configuration files. An Ini configuration file
+contains key-value pairs name=value and can be divided into sections.
+A description of the format can be read at
+the {{{http://en.wikipedia.org/wiki/INI_file}INI file}} Wikipedia page.
+
+* Example
+
+---
+injector = Guice.createInjector(new InitFileParserModule());
+parserFactory = injector.getInstance(InitFileParserFactory.class);
+attributesFactory = injector.getInstance(DefaultInitFileAttributesFactory.class);
+
+DefaultInitFileAttributes attributes = attributesFactory.create();
+InitFileParser parser = parserFactory.create(inifile, attributes).call();
+for (Section next : parser) {
+    // the next section
+}
+---
