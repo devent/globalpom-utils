@@ -17,6 +17,8 @@
 ~~ along with globalpomutils-threads. If not, see <http://www.gnu.org/licenses/>.
 ~~
 
+Description
+
   Threads pool for listenable future tasks.
 
 Anrisoftware.com SCM
@@ -40,8 +42,6 @@ Maven Module
     <version>2.3</version>
 </dependency>
 ---
-
-Description
 
   * Api
 
