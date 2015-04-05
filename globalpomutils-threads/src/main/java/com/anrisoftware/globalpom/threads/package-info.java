@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 Erwin Müller <erwin.mueller@deventm.org>
+ * Copyright 2013-2015 Erwin Müller <erwin.mueller@deventm.org>
  *
  * This file is part of globalpomutils-threads.
  *
@@ -32,12 +32,13 @@
  * &lt;/dependency>
  * </pre>
  *
- * <h2>GitHub SCM</h2>
+ * <h2>SCM</h2>
  *
  * <ul>
- * <li><a href="https://github.com/devent/globalpom-utils">Repository</a></li>
- * <li><a href="git://git@github.com:devent/globalpom-utils.git">Repository SSH</a>
- * <li><a href="https://github.com/devent/globalpom-utils.git">Repository HTTPS</a>
+ * <li><a href="https://anrisoftware.com/projects/projects/globalpomutils-threads/repository">Repository</a></li>
+ * <li>{@code git@anrisoftware.com:globalpom-utils.git}</a>
+ * <li><a href="https://github.com/devent/globalpom-utils.git">Github Mirror</a>
+ * <li>{@code git://git@github.com:devent/globalpom-utils.git}</a>
  * </ul>
  *
  * @version 2.3
