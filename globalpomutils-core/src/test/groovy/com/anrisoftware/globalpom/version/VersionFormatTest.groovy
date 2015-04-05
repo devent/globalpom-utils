@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 Erwin Müller <erwin.mueller@deventm.org>
+ * Copyright 2013-2015 Erwin Müller <erwin.mueller@deventm.org>
  *
  * This file is part of globalpomutils-core.
  *
@@ -85,7 +85,7 @@ class VersionFormatTest {
             [version: versionFactory.create(1, 0, 0), input: "1.0.0", output: "1.0.0"],
             [version: versionFactory.create(0, 1, 0), input: "0.1.0", output: "0.1.0"],
             [version: versionFactory.create(0, 0, 1), input: "0.0.1", output: "0.0.1"],
-            [version: versionFactory.create(1, 10, 0), input: "1.10.0", output: "0.10.0"],
+            [version: versionFactory.create(1, 10, 0), input: "1.10.0", output: "1.10.0"],
             [version: versionFactory.create(1, 10, Integer.MAX_VALUE), input: "1.10", output: "1.10"],
             [version: versionFactory.create(1, Integer.MAX_VALUE, Integer.MAX_VALUE), input: "1", output: "1"],
         ]
