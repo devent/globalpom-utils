@@ -42,6 +42,12 @@ xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache
         <links>
             <item name="${project.name}" href="${project.url}"/>
         </links>
+        <menu name="Released Versions">
+            <item name="2.0 Issues" href="https://anrisoftware.com/l/h" />
+            <item name="2.1 Issues" href="https://anrisoftware.com/l/i" />
+            <item name="2.2 Issues" href="https://anrisoftware.com/l/j" />
+            <item name="2.3 Issues" href="https://anrisoftware.com/l/k" />
+        </menu>
         <menu ref="parent" />
         <menu ref="modules" />
         <menu ref="reports" />
