@@ -1,0 +1,145 @@
+~~
+~~ Copyright 2014-2015 Erwin Müller <erwin.mueller@deventm.org>
+~~
+~~ This file is part of globalpomutils-exec.
+~~
+~~ globalpomutils-exec is free software: you can redistribute it and/or modify it
+~~ under the terms of the GNU Lesser General Public License as published by the
+~~ Free Software Foundation, either version 3 of the License, or (at your
+~~ option) any later version.
+~~
+~~ globalpomutils-exec is distributed in the hope that it will be useful, but
+~~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+~~ FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+~~ details.
+~~
+~~ You should have received a copy of the GNU Lesser General Public License
+~~ along with globalpomutils-exec. If not, see <http://www.gnu.org/licenses/>.
+~~
+
+Description
+
+  Command execution helper.
+
+Anrisoftware.com SCM
+
+  * {{{https://anrisoftware.com/projects/projects/globalpomutils-exec/repository}Repository}}
+
+  * git@anrisoftware.com:globalpom-utils.git
+
+GitHub SCM
+
+  * {{{https://github.com/devent/globalpom-utils}Repository}}
+
+  * git@github.com:devent/globalpom-utils.git
+
+Maven Module
+
+---
+<dependency>
+    <groupId>com.anrisoftware.globalpom</groupId>
+    <artifactId>globalpomutils-exec</artifactId>
+    <version>2.4</version>
+</dependency>
+---
+
+  * Api
+
+  The public application interface, containing the interfaces for the
+command execution, command line, command output;
+
+  * Command
+
+  Implements the command line;
+
+  * Core
+
+  Implements the command execution;
+
+  * Logoutputs
+
+  Implements command outputs that redirects the standard outputs to the
+info, debug and error logger;
+
+  * Pipeoutputs
+
+  Implements command outputs that pipes the standard outputs into a sink;
+
+  * Runcommands
+
+  Implements a collection of run commands for debug purposes;
+
+  * Script
+
+  Implements a command execution that creates the command from a template
+resource;
+
+  * Scriptprocess
+
+  Implements a command execution that creates the command from a template
+resource;
+
+* Runcommands
+
+  Logs and saves the run commands in a collection. The logger can be configured
+to log the executed commands in a separate log file. The logger can be
+configured at runtime:
+
+---
+/**
+ * Attach the logger for RunCommands commands collection. The commands
+ * are logged into the file {@code "<prefix>/runcommands.log"}
+ */
+static attachRunCommandsLog(File prefix) {
+    LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+    def fileAppender = new FileAppender();
+    fileAppender.context =loggerContext
+    fileAppender.name ="RUN-COMMANDS-FILE"
+    fileAppender.append = false
+    fileAppender.file = "$prefix/runcommands.log"
+
+    def encoder = new PatternLayoutEncoder();
+    encoder.context = loggerContext
+    encoder.pattern = "%-4relative [%thread] %-5level %logger{0} - %msg%n%r"
+    encoder.start();
+
+    fileAppender.encoder = encoder
+    fileAppender.start();
+
+    // attach the rolling file appender to the logger of your choice
+    Logger logbackLogger = loggerContext.getLogger "com.anrisoftware.globalpom.exec.runcommands.RunCommands"
+    logbackLogger.addAppender(fileAppender);
+}
+---
+
+  Or it can be configured via the logback.xml file:
+
+---
+<configuration>
+
+    <appender name="RUNCOMMANDS-FILE" class="ch.qos.logback.core.FileAppender">
+        <file>${project.custom.log.prefix}/${project.custom.app.path}-runcommands.log</file>
+        <append>false</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${project.custom.log.prefix}/${project.custom.app.path}-runcommands.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>1MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%level] %date{ISO8601} [%thread] %logger - %msg %n%xEx</pattern>
+            <immediateFlush>true</immediateFlush>
+        </encoder>
+    </appender>
+
+    <root level="ALL">
+        <appender-ref ref="LOG-FILE" />
+    </root>
+
+    <logger name="com.anrisoftware.globalpom.exec.runcommands.RunCommands" level="DEBUG" additivity="false">
+        <appender-ref ref="RUNCOMMANDS-FILE"/>
+    </logger>
+
+</configuration>
+---
