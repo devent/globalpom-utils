@@ -1,0 +1,69 @@
+~~
+~~ Copyright 2013-2015 Erwin Müller <erwin.mueller@deventm.org>
+~~
+~~ This file is part of globalpomutils-core.
+~~
+~~ globalpomutils-core is free software: you can redistribute it and/or modify it
+~~ under the terms of the GNU Lesser General Public License as published by the
+~~ Free Software Foundation, either version 3 of the License, or (at your
+~~ option) any later version.
+~~
+~~ globalpomutils-core is distributed in the hope that it will be useful, but
+~~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+~~ FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+~~ details.
+~~
+~~ You should have received a copy of the GNU Lesser General Public License
+~~ along with globalpomutils-core. If not, see <http://www.gnu.org/licenses/>.
+~~
+
+Duration Simple Format
+
+  * <<<com.anrisoftware.globalpom.format.durationsimpleformat.DurationSimpleFormatFactory>>>
+
+  Factory to create a new simple duration format.
+
+  * <<<com.anrisoftware.globalpom.format.durationsimpleformat.DurationSimpleFormat>>>
+
+  Formats and parses simple duration.
+
+  * <<<com.anrisoftware.globalpom.format.durationsimpleformat.DurationSimpleFormatModule>>>
+
+  Installs the simple duration format factory.
+
+  * <<<com.anrisoftware.globalpom.format.durationsimpleformat.UnitMultiplier>>>
+
+  Duration unit multiplier.
+
+  Formats and parses simple duration. The duration format is <<<value[Unit]>>>,
+where the <<<value>>> is the integer value of the duration and the <<<Unit>>>
+is the one of the time unit <<<ms, s, m, h, d, w, M, y>>> for milliseconds,
+seconds, minutes, hours, days, weeks, months and years, respectively.
+
+  * <<<64>>>
+
+  * <<<64ms>>>
+
+  * <<<64s>>>
+
+  * <<<64m>>>
+
+  * etc.
+
+* Example
+
+---
+public class Foo {
+
+    @Inject
+    private DurationSimpleFormatFactory durationSimpleFormatFactory;
+
+    public long parseDuration(String duration) {
+        return durationSimpleFormatFactory.create().parse(duration);
+    }
+
+    public String formatDuration(long duration, UnitMultiplier multiplier) {
+        return durationSimpleFormatFactory.create().format(duration, multiplier);
+    }
+}
+---

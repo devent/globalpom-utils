@@ -17,30 +17,6 @@
 ~~ along with globalpomutils-core. If not, see <http://www.gnu.org/licenses/>.
 ~~
 
-  Various utilities.
-
-Anrisoftware.com SCM
-
-  * {{{https://anrisoftware.com/projects/projects/globalpomutils-core/repository}Repository}}
-
-  * git@anrisoftware.com:globalpom-utils.git
-
-GitHub SCM
-
-  * {{{https://github.com/devent/globalpom-utils}Repository}}
-
-  * git@github.com:devent/globalpom-utils.git
-
-Maven Module
-
----
-<dependency>
-    <groupId>com.anrisoftware.globalpom</groupId>
-    <artifactId>globalpomutils-core</artifactId>
-    <version>2.4</version>
-</dependency>
----
-
 Description
 
   Offers various utilities for various tasks.
@@ -53,9 +29,10 @@ Description
 
   Serializable character set class;
 
-  * Format
+  * {{{./format.html}Format}}
 
-  Format and parsers for byte unit, color, date duration, enums, Internet socket address, local and graphics point;
+  Format and parsers for byte unit, color, date duration, enums, Internet
+socket address, local and graphics point;
 
   * Mnemonic
 
@@ -90,3 +67,27 @@ text configuration files;
 
   Comparable version number. Compares the major, minor and revision version
 numbers.
+
+SCM
+
+* Main
+
+  * {{{https://anrisoftware.com/projects/projects/globalpomutils-core/repository}Repository}}
+
+  * git@anrisoftware.com:globalpom-utils.git
+
+* GitHub
+
+  * {{{https://github.com/devent/globalpom-utils}Repository}}
+
+  * git@github.com:devent/globalpom-utils.git
+
+Maven Module
+
+---
+<dependency>
+    <groupId>com.anrisoftware.globalpom</groupId>
+    <artifactId>globalpomutils-core</artifactId>
+    <version>2.5</version>
+</dependency>
+---
