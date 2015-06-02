@@ -41,7 +41,7 @@ import com.google.inject.assistedinject.AssistedInject;
 
 /**
  * Compare the content of a text file to a given pattern.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.0
  */
@@ -94,9 +94,9 @@ public class DefaultMatchText implements Serializable {
 
     /**
      * Matches the resource text and replaces the found text.
-     * 
+     *
      * @return this {@link DefaultMatchText}.
-     * 
+     *
      * @throws MatchTextException
      *             if there was an error reading the resource.
      */
@@ -127,7 +127,7 @@ public class DefaultMatchText implements Serializable {
 
     /**
      * Returns if the comparison pattern matches or not.
-     * 
+     *
      * @return {@code true} if it's matching, {@code false} if not.
      */
     public boolean isMatches() {
@@ -136,7 +136,7 @@ public class DefaultMatchText implements Serializable {
 
     /**
      * Returns the text resource in which the text is compared to.
-     * 
+     *
      * @return the {@link URI}.
      */
     public URI getResource() {
@@ -145,7 +145,7 @@ public class DefaultMatchText implements Serializable {
 
     /**
      * Returns the comparison pattern.
-     * 
+     *
      * @return the comparison {@link Pattern}.
      */
     public Pattern getPattern() {

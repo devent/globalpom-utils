@@ -24,7 +24,7 @@ import com.anrisoftware.globalpom.exceptions.Context;
 
 /**
  * Exception for match text.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.0
  */
