@@ -22,8 +22,14 @@ import static com.anrisoftware.globalpom.charset.SerializableCharset.decorateSer
 import static org.apache.commons.lang3.Validate.notNull;
 
 import java.io.Serializable;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CharsetEncoder;
 import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.Set;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -225,12 +231,250 @@ public final class PosixLocale implements Serializable {
     }
 
     /**
+     * @see java.util.Locale#getLanguage()
+     */
+    public String getLanguage() {
+        return locale.getLanguage();
+    }
+
+    /**
+     * @see java.util.Locale#getScript()
+     */
+    public String getScript() {
+        return locale.getScript();
+    }
+
+    /**
+     * @see java.util.Locale#getCountry()
+     */
+    public String getCountry() {
+        return locale.getCountry();
+    }
+
+    /**
+     * @see java.util.Locale#getVariant()
+     */
+    public String getVariant() {
+        return locale.getVariant();
+    }
+
+    /**
+     * @see java.util.Locale#getExtension(char)
+     */
+    public String getExtension(char key) {
+        return locale.getExtension(key);
+    }
+
+    /**
+     * @see java.util.Locale#getExtensionKeys()
+     */
+    public Set<Character> getExtensionKeys() {
+        return locale.getExtensionKeys();
+    }
+
+    /**
+     * @see java.util.Locale#getUnicodeLocaleAttributes()
+     */
+    public Set<String> getUnicodeLocaleAttributes() {
+        return locale.getUnicodeLocaleAttributes();
+    }
+
+    /**
+     * @see java.util.Locale#getUnicodeLocaleType(java.lang.String)
+     */
+    public String getUnicodeLocaleType(String key) {
+        return locale.getUnicodeLocaleType(key);
+    }
+
+    /**
+     * @see java.util.Locale#getUnicodeLocaleKeys()
+     */
+    public Set<String> getUnicodeLocaleKeys() {
+        return locale.getUnicodeLocaleKeys();
+    }
+
+    /**
+     * @see java.util.Locale#toLanguageTag()
+     */
+    public String toLanguageTag() {
+        return locale.toLanguageTag();
+    }
+
+    /**
+     * @see java.util.Locale#getISO3Language()
+     */
+    public String getISO3Language() throws MissingResourceException {
+        return locale.getISO3Language();
+    }
+
+    /**
+     * @see java.util.Locale#getISO3Country()
+     */
+    public String getISO3Country() throws MissingResourceException {
+        return locale.getISO3Country();
+    }
+
+    /**
+     * @see java.util.Locale#getDisplayLanguage()
+     */
+    public final String getDisplayLanguage() {
+        return locale.getDisplayLanguage();
+    }
+
+    /**
+     * @see java.util.Locale#getDisplayLanguage(java.util.Locale)
+     */
+    public String getDisplayLanguage(Locale inLocale) {
+        return locale.getDisplayLanguage(inLocale);
+    }
+
+    /**
+     * @see java.util.Locale#getDisplayScript()
+     */
+    public String getDisplayScript() {
+        return locale.getDisplayScript();
+    }
+
+    /**
+     * @see java.util.Locale#getDisplayScript(java.util.Locale)
+     */
+    public String getDisplayScript(Locale inLocale) {
+        return locale.getDisplayScript(inLocale);
+    }
+
+    /**
+     * @see java.util.Locale#getDisplayCountry()
+     */
+    public final String getDisplayCountry() {
+        return locale.getDisplayCountry();
+    }
+
+    /**
+     * @see java.util.Locale#getDisplayCountry(java.util.Locale)
+     */
+    public String getDisplayCountry(Locale inLocale) {
+        return locale.getDisplayCountry(inLocale);
+    }
+
+    /**
+     * @see java.util.Locale#getDisplayVariant()
+     */
+    public final String getDisplayVariant() {
+        return locale.getDisplayVariant();
+    }
+
+    /**
+     * @see java.util.Locale#getDisplayVariant(java.util.Locale)
+     */
+    public String getDisplayVariant(Locale inLocale) {
+        return locale.getDisplayVariant(inLocale);
+    }
+
+    /**
+     * @see java.util.Locale#getDisplayName()
+     */
+    public final String getLocaleDisplayName() {
+        return locale.getDisplayName();
+    }
+
+    /**
+     * @see java.util.Locale#getDisplayName(java.util.Locale)
+     */
+    public String getLocaleDisplayName(Locale inLocale) {
+        return locale.getDisplayName(inLocale);
+    }
+
+    /**
      * Returns the character set.
      *
      * @return the {@link Charset}.
      */
     public Charset getCharset() {
         return charset.getCharset();
+    }
+
+    /**
+     * @see java.nio.charset.Charset#name()
+     */
+    public String getCharsetName() {
+        return charset.name();
+    }
+
+    /**
+     * @see java.nio.charset.Charset#aliases()
+     */
+    public Set<String> getCharsetAliases() {
+        return charset.aliases();
+    }
+
+    /**
+     * @see java.nio.charset.Charset#displayName()
+     */
+    public String getCharsetDisplayName() {
+        return charset.displayName();
+    }
+
+    /**
+     * @see java.nio.charset.Charset#isRegistered()
+     */
+    public boolean isCharsetRegistered() {
+        return charset.isRegistered();
+    }
+
+    /**
+     * @see java.nio.charset.Charset#displayName(java.util.Locale)
+     */
+    public String getCharsetDisplayName(Locale locale) {
+        return charset.displayName(locale);
+    }
+
+    /**
+     * @see java.nio.charset.Charset#contains(java.nio.charset.Charset)
+     */
+    public boolean contains(Charset cs) {
+        return charset.contains(cs);
+    }
+
+    /**
+     * @see java.nio.charset.Charset#newDecoder()
+     */
+    public CharsetDecoder newDecoder() {
+        return charset.newDecoder();
+    }
+
+    /**
+     * @see java.nio.charset.Charset#newEncoder()
+     */
+    public CharsetEncoder newEncoder() {
+        return charset.newEncoder();
+    }
+
+    /**
+     * @see java.nio.charset.Charset#canEncode()
+     */
+    public boolean canEncode() {
+        return charset.canEncode();
+    }
+
+    /**
+     * @see java.nio.charset.Charset#decode(java.nio.ByteBuffer)
+     */
+    public CharBuffer decode(ByteBuffer bb) {
+        return charset.decode(bb);
+    }
+
+    /**
+     * @see java.nio.charset.Charset#encode(java.nio.CharBuffer)
+     */
+    public ByteBuffer encode(CharBuffer cb) {
+        return charset.encode(cb);
+    }
+
+    /**
+     * @see java.nio.charset.Charset#encode(java.lang.String)
+     */
+    public ByteBuffer encode(String str) {
+        return charset.encode(str);
     }
 
     @Override
