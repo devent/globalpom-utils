@@ -52,6 +52,25 @@ seconds, minutes, hours, days, weeks, months and years, respectively.
 
 * Example
 
+  Example using static import.
+
+---
+import static com.anrisoftware.globalpom.format.duration.DurationFormat.createDurationFormat;
+
+public class Foo {
+
+    public long parseDuration(String duration) {
+        return createDurationFormat().parse(duration);
+    }
+
+    public String formatDuration(long duration, UnitMultiplier multiplier) {
+        return createDurationFormat().format(duration, multiplier);
+    }
+}
+---
+
+  Example using Guice and injecting the format factory.
+
 ---
 public class Foo {
 

@@ -38,6 +38,11 @@ socket address, local and graphics point;
 
   Accelerator and mnemonic classes;
 
+  * {{{./posixlocale.html}POSIX Locale}}
+
+  Locale as used in POSIX platforms. Contains the language, country and
+character set.
+
   * Properties
 
   List property change event and support;

@@ -66,6 +66,12 @@ class PosixLocaleFormatTest {
         }
     }
 
+    @Test
+    void "factory methods"() {
+        def format = PosixLocaleFormat.createDurationFormat()
+        assert format != null
+    }
+
     static Injector injector
 
     static PosixLocaleFactory localeFactory

@@ -18,7 +18,10 @@
  */
 package com.anrisoftware.globalpom.posixlocale;
 
+import static com.google.inject.Guice.createInjector;
+
 import com.google.inject.AbstractModule;
+import com.google.inject.Injector;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /**
@@ -28,6 +31,32 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
  * @since 2.6
  */
 public class PosixLocaleModule extends AbstractModule {
+
+    /**
+     * Returns the POSIX locale factory.
+     *
+     * @return the {@link PosixLocaleFactory}.
+     */
+    public static PosixLocaleFactory getPosixLocaleFactory() {
+        return getFactory();
+    }
+
+    /**
+     * Returns the POSIX locale factory.
+     *
+     * @return the {@link PosixLocaleFactory}.
+     */
+    public static PosixLocaleFactory getFactory() {
+        return InjectorInstance.factory;
+    }
+
+    private static class InjectorInstance {
+
+        static final Injector injector = createInjector(new PosixLocaleModule());
+
+        static final PosixLocaleFactory factory = injector
+                .getInstance(PosixLocaleFactory.class);
+    }
 
     @Override
     protected void configure() {

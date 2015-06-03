@@ -17,18 +17,17 @@
  * along with globalpomutils-core. If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * <h1>Global POM Utilities :: Core</h1>
- *
- * <p>
  * Various utilities.
  *
- * <h2>Maven Module</h2>
+ * <p>
+ * Maven Module
+ * </p>
  *
  * <pre>
  * &lt;dependency>
  * &lt;groupId>com.anrisoftware.globalpom&lt;/groupId>
  * &lt;artifactId>globalpomutils-core&lt;/artifactId>
- * &lt;version>2.4&lt;/version>
+ * &lt;version>2.6&lt;/version>
  * &lt;/dependency>
  * </pre>
  *
@@ -41,7 +40,7 @@
  * <li>{@code git://git@github.com:devent/globalpom-utils.git}</a>
  * </ul>
  *
- * @version 2.4
+ * @version 2.6
  * @author Erwin Mueller, erwin.mueller@deventm.org
  */
 package com.anrisoftware.globalpom;

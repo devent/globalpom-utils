@@ -41,6 +41,24 @@ import com.anrisoftware.globalpom.format.locale.LocaleFormatFactory;
 @SuppressWarnings("serial")
 public class PosixLocaleFormat extends Format {
 
+    /**
+     * Create the duration format.
+     *
+     * @return the {@link PosixLocaleFormat}.
+     */
+    public static PosixLocaleFormat createDurationFormat() {
+        return create();
+    }
+
+    /**
+     * Create the duration format.
+     *
+     * @return the {@link PosixLocaleFormat}.
+     */
+    public static PosixLocaleFormat create() {
+        return PosixLocaleFormatModule.getFactory().create();
+    }
+
     private static final String SEP = ".";
 
     @Inject
@@ -51,6 +69,15 @@ public class PosixLocaleFormat extends Format {
 
     @Inject
     private PosixLocaleFormatLogger log;
+
+    /**
+     * Use the factory methods.
+     *
+     * @see #create()
+     * @see #createDurationFormat()
+     */
+    PosixLocaleFormat() {
+    }
 
     /**
      * Formats the specified POSIX locale.

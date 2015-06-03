@@ -55,129 +55,129 @@ public final class PosixLocale implements Serializable {
      * @see Locale#ENGLISH
      * @see Charset#defaultCharset()
      */
-    static public final PosixLocale ENGLISH = new PosixLocale(Locale.ENGLISH);
+    public static final PosixLocale ENGLISH = new PosixLocale(Locale.ENGLISH);
 
     /**
      * @see Locale#FRENCH
      * @see Charset#defaultCharset()
      */
-    static public final PosixLocale FRENCH = new PosixLocale(Locale.FRENCH);
+    public static final PosixLocale FRENCH = new PosixLocale(Locale.FRENCH);
 
     /**
      * @see Locale#GERMAN
      * @see Charset#defaultCharset()
      */
-    static public final PosixLocale GERMAN = new PosixLocale(Locale.GERMAN);
+    public static final PosixLocale GERMAN = new PosixLocale(Locale.GERMAN);
 
     /**
      * @see Locale#ITALIAN
      * @see Charset#defaultCharset()
      */
-    static public final PosixLocale ITALIAN = new PosixLocale(Locale.ITALIAN);
+    public static final PosixLocale ITALIAN = new PosixLocale(Locale.ITALIAN);
 
     /**
      * @see Locale#JAPANESE
      * @see Charset#defaultCharset()
      */
-    static public final PosixLocale JAPANESE = new PosixLocale(Locale.JAPANESE);
+    public static final PosixLocale JAPANESE = new PosixLocale(Locale.JAPANESE);
 
     /**
      * @see Locale#KOREAN
      * @see Charset#defaultCharset()
      */
-    static public final PosixLocale KOREAN = new PosixLocale(Locale.KOREAN);
+    public static final PosixLocale KOREAN = new PosixLocale(Locale.KOREAN);
 
     /**
      * @see Locale#CHINESE
      * @see Charset#defaultCharset()
      */
-    static public final PosixLocale CHINESE = new PosixLocale(Locale.CHINESE);
+    public static final PosixLocale CHINESE = new PosixLocale(Locale.CHINESE);
 
     /**
      * @see Locale#SIMPLIFIED_CHINESE
      * @see Charset#defaultCharset()
      */
-    static public final PosixLocale SIMPLIFIED_CHINESE = new PosixLocale(
+    public static final PosixLocale SIMPLIFIED_CHINESE = new PosixLocale(
             Locale.SIMPLIFIED_CHINESE);
 
     /**
      * @see Locale#TRADITIONAL_CHINESE
      * @see Charset#defaultCharset()
      */
-    static public final PosixLocale TRADITIONAL_CHINESE = new PosixLocale(
+    public static final PosixLocale TRADITIONAL_CHINESE = new PosixLocale(
             Locale.TRADITIONAL_CHINESE);
 
     /**
      * @see Locale#FRANCE
      * @see Charset#defaultCharset()
      */
-    static public final PosixLocale FRANCE = new PosixLocale(Locale.FRANCE);
+    public static final PosixLocale FRANCE = new PosixLocale(Locale.FRANCE);
 
     /**
      * @see Locale#GERMANY
      * @see Charset#defaultCharset()
      */
-    static public final PosixLocale GERMANY = new PosixLocale(Locale.GERMANY);
+    public static final PosixLocale GERMANY = new PosixLocale(Locale.GERMANY);
 
     /**
      * @see Locale#ITALY
      * @see Charset#defaultCharset()
      */
-    static public final PosixLocale ITALY = new PosixLocale(Locale.ITALY);
+    public static final PosixLocale ITALY = new PosixLocale(Locale.ITALY);
 
     /**
      * @see Locale#JAPAN
      * @see Charset#defaultCharset()
      */
-    static public final PosixLocale JAPAN = new PosixLocale(Locale.JAPAN);
+    public static final PosixLocale JAPAN = new PosixLocale(Locale.JAPAN);
 
     /**
      * @see Locale#KOREA
      * @see Charset#defaultCharset()
      */
-    static public final PosixLocale KOREA = new PosixLocale(Locale.KOREA);
+    public static final PosixLocale KOREA = new PosixLocale(Locale.KOREA);
 
     /**
      * @see Locale#CHINA
      * @see Charset#defaultCharset()
      */
-    static public final PosixLocale CHINA = new PosixLocale(Locale.CHINA);
+    public static final PosixLocale CHINA = new PosixLocale(Locale.CHINA);
 
     /**
      * @see Locale#PRC
      * @see Charset#defaultCharset()
      */
-    static public final PosixLocale PRC = new PosixLocale(Locale.PRC);
+    public static final PosixLocale PRC = new PosixLocale(Locale.PRC);
 
     /**
      * @see Locale#TAIWAN
      * @see Charset#defaultCharset()
      */
-    static public final PosixLocale TAIWAN = new PosixLocale(Locale.TAIWAN);
+    public static final PosixLocale TAIWAN = new PosixLocale(Locale.TAIWAN);
 
     /**
      * @see Locale#UK
      * @see Charset#defaultCharset()
      */
-    static public final PosixLocale UK = new PosixLocale(Locale.UK);
+    public static final PosixLocale UK = new PosixLocale(Locale.UK);
 
     /**
      * @see Locale#US
      * @see Charset#defaultCharset()
      */
-    static public final PosixLocale US = new PosixLocale(Locale.US);
+    public static final PosixLocale US = new PosixLocale(Locale.US);
 
     /**
      * @see Locale#CANADA
      * @see Charset#defaultCharset()
      */
-    static public final PosixLocale CANADA = new PosixLocale(Locale.CANADA);
+    public static final PosixLocale CANADA = new PosixLocale(Locale.CANADA);
 
     /**
      * @see Locale#CANADA_FRENCH
      * @see Charset#defaultCharset()
      */
-    static public final PosixLocale CANADA_FRENCH = new PosixLocale(
+    public static final PosixLocale CANADA_FRENCH = new PosixLocale(
             Locale.CANADA_FRENCH);
 
     private final Locale locale;
