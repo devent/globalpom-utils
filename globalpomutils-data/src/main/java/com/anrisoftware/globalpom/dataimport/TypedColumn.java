@@ -23,11 +23,13 @@ import java.text.ParseException;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.inject.assistedinject.Assisted;
 
 /**
  * Parses the column.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
@@ -53,7 +55,7 @@ public class TypedColumn implements Column {
 
     @Override
     public Object parseValue(String string) throws ParseException {
-        if (string.isEmpty()) {
+        if (StringUtils.isEmpty(string)) {
             return null;
         } else {
             return format.parseObject(string);

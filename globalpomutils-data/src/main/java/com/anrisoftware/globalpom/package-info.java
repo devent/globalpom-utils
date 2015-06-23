@@ -28,7 +28,7 @@
  * &lt;dependency>
  * &lt;groupId>com.anrisoftware.globalpom&lt;/groupId>
  * &lt;artifactId>globalpomutils-data&lt;/artifactId>
- * &lt;version>2.4&lt;/version>
+ * &lt;version>2.5&lt;/version>
  * &lt;/dependency>
  * </pre>
  *
@@ -41,7 +41,7 @@
  * <li>{@code git://git@github.com:devent/globalpom-utils.git}</a>
  * </ul>
  *
- * @version 2.4
+ * @version 2.5
  * @author Erwin Mueller, erwin.mueller@deventm.org
  */
 package com.anrisoftware.globalpom;
