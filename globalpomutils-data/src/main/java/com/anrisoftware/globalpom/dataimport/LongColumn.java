@@ -18,6 +18,8 @@
  */
 package com.anrisoftware.globalpom.dataimport;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 import java.text.ParseException;
 
 import javax.inject.Inject;
@@ -25,20 +27,20 @@ import javax.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 /**
- * Boolean column.
+ * {@link Long} value column.
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.10
+ * @since 2.5
  */
-public class BooleanColumn implements Column {
+public class LongColumn implements Column {
 
     private final String name;
 
     /**
-     * @see BooleanColumnFactory#create(String)
+     * @see LongColumnFactory#create(String)
      */
     @Inject
-    BooleanColumn(@Assisted String name) {
+    LongColumn(@Assisted String name) {
         this.name = name;
     }
 
@@ -48,11 +50,15 @@ public class BooleanColumn implements Column {
     }
 
     /**
-     * @see Boolean#parseBoolean(String)
+     * @see Long#parseLong(String)
      */
     @Override
     public Object parseValue(String string) throws ParseException {
-        return Boolean.parseBoolean(string);
+        if (isBlank(string)) {
+            return null;
+        } else {
+            return Long.parseLong(string);
+        }
     }
 
 }

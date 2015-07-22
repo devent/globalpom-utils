@@ -17,37 +17,35 @@
 ~~ along with globalpomutils-data. If not, see <http://www.gnu.org/licenses/>.
 ~~
 
-  Arbitrary data for mathematical calculations.
-
-Anrisoftware.com SCM
-
-  * {{{https://anrisoftware.com/projects/projects/globalpomutils-data/repository}Repository}}
-
-  * git@anrisoftware.com:globalpom-utils.git
-
-GitHub SCM
-
-  * {{{https://github.com/devent/globalpom-utils}Repository}}
-
-  * git@github.com:devent/globalpom-utils.git
-
-Maven Module
-
----
-<dependency>
-    <groupId>com.anrisoftware.globalpom</groupId>
-    <artifactId>globalpomutils-data</artifactId>
-    <version>2.4</version>
-</dependency>
----
-
 Description
 
   * Data
 
   Stores arbitrary data in a matrix data record for mathematical calculations.
 
-  * Dataimport
+  * {{{./dataimport.html}Data Import}}
+
+  <<<com.anrisoftware.globalpom.dataimport>>>
 
   Imports data from a comma separator values (CSV) file.
 
+
+SCM
+
+  * {{{https://anrisoftware.com/projects/projects/prefdialog-misc-swing/repository}Main Repository}}
+
+  * git@anrisoftware.com:globalpom-utils.git
+
+  * {{{https://github.com/devent/globalpom-utils}Github Mirror Repository}}
+
+  * git@github.com:devent/globalpom-utils.git
+
+Maven
+
+---
+<dependency>
+    <groupId>com.anrisoftware.globalpom</groupId>
+    <artifactId>globalpomutils-data</artifactId>
+    <version>2.5</version>
+</dependency>
+---

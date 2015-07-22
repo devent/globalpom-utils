@@ -18,6 +18,8 @@
  */
 package com.anrisoftware.globalpom.dataimport;
 
+import static org.apache.commons.lang3.StringUtils.isBlank;
+
 import java.text.ParseException;
 
 import javax.inject.Inject;
@@ -25,20 +27,20 @@ import javax.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 /**
- * Boolean column.
+ * {@link Character} value column.
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.10
+ * @since 2.5
  */
-public class BooleanColumn implements Column {
+public class CharColumn implements Column {
 
     private final String name;
 
     /**
-     * @see BooleanColumnFactory#create(String)
+     * @see CharColumnFactory#create(String)
      */
     @Inject
-    BooleanColumn(@Assisted String name) {
+    CharColumn(@Assisted String name) {
         this.name = name;
     }
 
@@ -48,11 +50,15 @@ public class BooleanColumn implements Column {
     }
 
     /**
-     * @see Boolean#parseBoolean(String)
+     * @see String#charAt(int)
      */
     @Override
     public Object parseValue(String string) throws ParseException {
-        return Boolean.parseBoolean(string);
+        if (isBlank(string)) {
+            return null;
+        } else {
+            return string.charAt(0);
+        }
     }
 
 }

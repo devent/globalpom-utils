@@ -23,14 +23,21 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /**
  * Installs CSV importer factory.
- * 
+ *
  * @see CsvImporter
  * @see CsvImporterFactory
  * @see DefaultCsvImportPropertiesFactory
+ * @see CharColumnFactory
  * @see StringColumnFactory
  * @see TypedColumnFactory
  * @see BooleanColumnFactory
- * 
+ * @see DoubleColumnFactory
+ * @see FloatColumnFactory
+ * @see IntegerColumnFactory
+ * @see LongColumnFactory
+ * @see ShortColumnFactory
+ * @see BigDecimalColumnFactory
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
  */
@@ -50,6 +57,20 @@ public class CsvImportModule extends AbstractModule {
                 TypedColumn.class).build(TypedColumnFactory.class));
         install(new FactoryModuleBuilder().implement(Column.class,
                 BooleanColumn.class).build(BooleanColumnFactory.class));
+        install(new FactoryModuleBuilder().implement(Column.class,
+                DoubleColumn.class).build(DoubleColumnFactory.class));
+        install(new FactoryModuleBuilder().implement(Column.class,
+                FloatColumn.class).build(FloatColumnFactory.class));
+        install(new FactoryModuleBuilder().implement(Column.class,
+                IntegerColumn.class).build(IntegerColumnFactory.class));
+        install(new FactoryModuleBuilder().implement(Column.class,
+                LongColumn.class).build(LongColumnFactory.class));
+        install(new FactoryModuleBuilder().implement(Column.class,
+                ShortColumn.class).build(ShortColumnFactory.class));
+        install(new FactoryModuleBuilder().implement(Column.class,
+                BigDecimalColumn.class).build(BigDecimalColumnFactory.class));
+        install(new FactoryModuleBuilder().implement(Column.class,
+                CharColumn.class).build(CharColumnFactory.class));
     }
 
 }

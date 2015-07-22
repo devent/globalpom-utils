@@ -25,45 +25,81 @@ import java.util.concurrent.Callable;
 
 /**
  * Reads CSV formatted data.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
  */
 public interface CsvImporter extends Callable<CsvImporter> {
 
     /**
+     * Reads the next row of the CSV formatted data.
+     */
+    @Override
+    CsvImporter call() throws CsvImportException;
+
+    /**
      * Returns the import properties.
-     * 
+     *
      * @return the {@link CsvImportProperties}.
      */
     CsvImportProperties getProperties();
 
     /**
-     * Returns the values of the read row with the column name as the map key
-     * and the column value as the map value.
-     * 
-     * @param columns
-     *            the {@link List} of {@link Column} columns.
-     * 
-     * @return the column names and values {@link Map} of the read row or
-     *         {@code null} if the end of file was reached.
-     * 
-     * @throws ParseException
-     *             if the columns could not be parsed.
+     * Returns the names of the header if the CSV file contains a header row.
+     *
+     * @return the {@link List} of the header {@link String} names or
+     *         {@code null} if the CSV file have no header row.
+     *
+     * @see CsvImportProperties#isHaveHeader()
+     *
+     * @since 2.5
      */
-    Map<String, Object> mapValues(List<Column> columns) throws ParseException;
+    List<String> getHeaders();
 
     /**
      * Returns the values of the read row.
-     * 
+     *
      * @return the values {@link List} of the read row or {@code null} if the
      *         end of file was reached.
      */
     List<String> getValues();
 
     /**
-     * Reads the next row of the CSV formatted data.
+     * Returns the values of the read row with the column name as the map key
+     * and the column value as the map value.
+     *
+     * @param columns
+     *            the {@link List} of {@link Column} columns.
+     *
+     * @return the column names and values {@link Map} of the read row or
+     *         {@code null} if the end of file was reached.
+     *
+     * @throws ParseException
+     *             if the columns could not be parsed.
      */
-    @Override
-    CsvImporter call() throws CsvImportException;
+    Map<String, Object> mapValues(List<Column> columns) throws ParseException;
+
+    /**
+     * Returns the values of the read row with the column name as the map key
+     * and the column value as the map value.
+     *
+     * @param columns
+     *            the {@link Map} of {@link Column} columns, identified by the
+     *            column name.
+     *
+     * @param columnNames
+     *            the {@link List} of column {@link String} names to map the
+     *            column.
+     *
+     * @return the column names and values {@link Map} of the read row or
+     *         {@code null} if the end of file was reached.
+     *
+     * @throws ParseException
+     *             if the columns could not be parsed.
+     *
+     * @since 2.5
+     */
+    Map<String, Object> mapValues(Map<String, Column> columns,
+            List<String> columnNames) throws ParseException;
+
 }

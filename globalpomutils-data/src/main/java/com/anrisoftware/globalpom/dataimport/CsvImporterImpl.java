@@ -25,6 +25,7 @@ import java.io.Reader;
 import java.net.MalformedURLException;
 import java.nio.charset.Charset;
 import java.text.ParseException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,13 +40,13 @@ import com.google.inject.assistedinject.Assisted;
 
 /**
  * Import CSV data based on CSV import properties.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
  */
 class CsvImporterImpl implements CsvImporter {
 
-    private static final String FILE = "file";
+    private static final String FILE_FIELD = "file";
 
     private final CsvImportProperties properties;
 
@@ -57,12 +58,32 @@ class CsvImporterImpl implements CsvImporter {
 
     private List<String> nextValues;
 
+    private List<String> headers;
+
     @Inject
     CsvImporterImpl(CsvImporterImplLogger logger,
             @Assisted CsvImportProperties properties) {
         this.log = logger;
         this.properties = properties;
         this.readLines = 0;
+    }
+
+    @Override
+    public CsvImporter call() throws CsvImportException {
+        CsvListReader reader = getReader();
+        readHead(reader);
+        this.nextValues = read(reader);
+        return this;
+    }
+
+    @Override
+    public List<String> getValues() {
+        return nextValues;
+    }
+
+    @Override
+    public List<String> getHeaders() {
+        return headers;
     }
 
     @Override
@@ -84,21 +105,34 @@ class CsvImporterImpl implements CsvImporter {
     }
 
     @Override
-    public List<String> getValues() {
-        return nextValues;
+    public Map<String, Object> mapValues(Map<String, Column> columns,
+            List<String> columnNames) throws ParseException {
+        List<String> values = this.nextValues;
+        Map<String, Object> map = new HashMap<String, Object>();
+        for (int i = 0; i < values.size(); i++) {
+            String name = columnNames.get(i);
+            Column column = columns.get(name);
+            log.checkColumnForName(column, name);
+            Object parsed = column.parseValue(values.get(i));
+            map.put(name, parsed);
+        }
+        return map;
     }
 
     @Override
-    public CsvImporter call() throws CsvImportException {
-        CsvListReader reader = getReader();
-        readHead(reader);
-        this.nextValues = read(reader);
-        return this;
+    public String toString() {
+        return new ToStringBuilder(this).append(FILE_FIELD,
+                properties.getFile()).toString();
     }
 
     private void readHead(CsvListReader reader) throws CsvImportException {
         for (; readLines < properties.getStartRow(); readLines++) {
             read(reader);
+        }
+        if (properties.isHaveHeader()) {
+            if (headers == null) {
+                this.headers = Collections.unmodifiableList(read(reader));
+            }
         }
     }
 
@@ -140,9 +174,4 @@ class CsvImporterImpl implements CsvImporter {
         }
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this).append(FILE, properties.getFile())
-                .toString();
-    }
 }

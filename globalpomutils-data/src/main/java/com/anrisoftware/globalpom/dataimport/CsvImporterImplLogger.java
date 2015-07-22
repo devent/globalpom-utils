@@ -18,10 +18,12 @@
  */
 package com.anrisoftware.globalpom.dataimport;
 
+import static com.anrisoftware.globalpom.dataimport.CsvImporterImplLogger._.column_for_name_null;
 import static com.anrisoftware.globalpom.dataimport.CsvImporterImplLogger._.error_open_file;
 import static com.anrisoftware.globalpom.dataimport.CsvImporterImplLogger._.error_open_file_message;
 import static com.anrisoftware.globalpom.dataimport.CsvImporterImplLogger._.error_read;
 import static com.anrisoftware.globalpom.dataimport.CsvImporterImplLogger._.error_read_message;
+import static org.apache.commons.lang3.Validate.notNull;
 
 import java.io.IOException;
 
@@ -35,47 +37,53 @@ import com.anrisoftware.globalpom.log.AbstractLogger;
  */
 class CsvImporterImplLogger extends AbstractLogger {
 
-	enum _ {
+    enum _ {
 
-		importer("importer"),
+        importer("importer"),
 
-		error_open_file_message("Error open file '{}'."),
+        error_open_file_message("Error open file '{}'."),
 
-		error_open_file("Error open file"),
+        error_open_file("Error open file"),
 
-		error_read("Error read file"),
+        error_read("Error read file"),
 
-		error_read_message("Error read file '{}'.");
+        error_read_message("Error read file '{}'."),
 
-		private String name;
+        column_for_name_null("No column found for '%s'.");
 
-		private _(String name) {
-			this.name = name;
-		}
+        private String name;
 
-		@Override
-		public String toString() {
-			return name;
-		}
-	}
+        private _(String name) {
+            this.name = name;
+        }
 
-	/**
-	 * Creates a logger for {@link CsvImporterImpl}.
-	 */
-	public CsvImporterImplLogger() {
-		super(CsvImporterImpl.class);
-	}
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
 
-	CsvImportException errorOpenFile(CsvImporterImpl importer, Exception e) {
-		return logException(new CsvImportException(error_open_file, e).add(
-				importer, importer), error_open_file_message, importer
-				.getProperties().getFile());
-	}
+    /**
+     * Creates a logger for {@link CsvImporterImpl}.
+     */
+    public CsvImporterImplLogger() {
+        super(CsvImporterImpl.class);
+    }
 
-	CsvImportException errorRead(CsvImporterImpl importer, IOException e) {
-		return logException(
-				new CsvImportException(error_read, e).add(importer, importer),
-				error_read_message, importer.getProperties().getFile());
-	}
+    CsvImportException errorOpenFile(CsvImporterImpl importer, Exception e) {
+        return logException(new CsvImportException(error_open_file, e).add(
+                importer, importer), error_open_file_message, importer
+                .getProperties().getFile());
+    }
+
+    CsvImportException errorRead(CsvImporterImpl importer, IOException e) {
+        return logException(
+                new CsvImportException(error_read, e).add(importer, importer),
+                error_read_message, importer.getProperties().getFile());
+    }
+
+    void checkColumnForName(Column column, String name) {
+        notNull(column, column_for_name_null.toString(), name);
+    }
 
 }

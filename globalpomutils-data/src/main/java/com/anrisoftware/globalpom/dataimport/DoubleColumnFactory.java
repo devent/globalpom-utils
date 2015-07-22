@@ -18,41 +18,21 @@
  */
 package com.anrisoftware.globalpom.dataimport;
 
-import java.text.ParseException;
-
-import javax.inject.Inject;
-
-import com.google.inject.assistedinject.Assisted;
-
 /**
- * Boolean column.
+ * Factory to create double value column.
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.10
+ * @since 2.5
  */
-public class BooleanColumn implements Column {
-
-    private final String name;
+public interface DoubleColumnFactory {
 
     /**
-     * @see BooleanColumnFactory#create(String)
+     * Creates {@link Double} value column with the specified name.
+     *
+     * @param name
+     *            the column {@link String} name.
+     *
+     * @return the {@link Column}.
      */
-    @Inject
-    BooleanColumn(@Assisted String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @see Boolean#parseBoolean(String)
-     */
-    @Override
-    public Object parseValue(String string) throws ParseException {
-        return Boolean.parseBoolean(string);
-    }
-
+    Column create(String name);
 }

@@ -35,46 +35,97 @@ import com.google.inject.Injector
  */
 class CsvImporterImplTest {
 
-	@Test
-	void "import csv"() {
-		DefaultCsvImportProperties prop = injector.getInstance DefaultCsvImportProperties
-		prop.setFile lottoFile
-		def importer = factory.create(prop)
-		importer()
-		assert importer.getValues().toString() == "[Tag, Monat, Jahr, Zahl1, Zahl2, Zahl3, Zahl4, Zahl5, Zahl6, Zusatz, Super]"
-		importer()
-		assert importer.getValues().toString() == "[3, 1, 2001, 46, 13, 21, 34, 19, 36, 38, 2]"
-	}
+    @Test
+    void "import csv"() {
+        DefaultCsvImportProperties prop = injector.getInstance DefaultCsvImportProperties
+        prop.setFile lottoFile
+        def importer = factory.create(prop)
+        importer()
+        assert importer.getValues().toString() == "[Tag, Monat, Jahr, Zahl1, Zahl2, Zahl3, Zahl4, Zahl5, Zahl6, Zusatz, Super]"
+        importer()
+        assert importer.getValues().toString() == "[3, 1, 2001, 46, 13, 21, 34, 19, 36, 38, 2]"
+    }
 
-	@Test
-	void "import csv, skip head"() {
-		DefaultCsvImportProperties prop = injector.getInstance DefaultCsvImportProperties
-		prop.setFile lottoFile
-		prop.setStartRow 1
+    @Test
+    void "import csv with header"() {
+        DefaultCsvImportProperties prop = injector.getInstance DefaultCsvImportProperties
+        prop.setFile lottoFile
+        prop.setHaveHeader true
+        def importer = factory.create(prop)
+        importer()
+        assert importer.getHeaders().toString() == "[Tag, Monat, Jahr, Zahl1, Zahl2, Zahl3, Zahl4, Zahl5, Zahl6, Zusatz, Super]"
+        assert importer.getValues().toString() == "[3, 1, 2001, 46, 13, 21, 34, 19, 36, 38, 2]"
+        importer()
+        assert importer.getValues().toString() == "[10, 1, 2001, 28, 15, 3, 24, 27, 4, 38, 2]"
+    }
 
-		def importer = factory.create(prop)
-		importer()
-		assert importer.getValues().toString() == "[3, 1, 2001, 46, 13, 21, 34, 19, 36, 38, 2]"
-		importer()
-		assert importer.getValues().toString() == "[6, 1, 2001, 17, 42, 12, 8, 37, 26, 31, 6]"
-	}
+    @Test
+    void "import csv with header, map values"() {
+        DefaultCsvImportProperties prop = injector.getInstance DefaultCsvImportProperties
+        def columns = [
+            Tag: stringColumnFactory.create("Tag"),
+            Monat: stringColumnFactory.create("Monat"),
+            Jahr: stringColumnFactory.create("Jahr"),
+            Zahl1: stringColumnFactory.create("Zahl1"),
+            Zahl2: stringColumnFactory.create("Zahl2"),
+            Zahl3: stringColumnFactory.create("Zahl3"),
+            Zahl4: stringColumnFactory.create("Zahl4"),
+            Zahl5: stringColumnFactory.create("Zahl5"),
+            Zahl6: stringColumnFactory.create("Zahl6"),
+            Zusatz: stringColumnFactory.create("Zusatz"),
+            Super: stringColumnFactory.create("Super"),
+        ]
 
-	@Test
-	void "serialize default properties"() {
-		def properties = injector.getInstance DefaultCsvImportProperties
-		def propertiesB = reserialize properties
-	}
+        prop.setFile lottoFile
+        prop.setHaveHeader true
+        def importer = factory.create(prop)
+        importer()
+        def headers = importer.getHeaders()
+        def values = importer.mapValues(columns, headers)
+        assert values.size() == 11
+        assert values.Tag == "3"
+        assert values.Monat == "1"
+        assert values.Jahr == "2001"
+        importer()
+        values = importer.mapValues(columns, headers)
+        assert values.size() == 11
+        assert values.Tag == "10"
+        assert values.Monat == "1"
+        assert values.Jahr == "2001"
+    }
 
-	static Injector injector
+    @Test
+    void "import csv, skip head"() {
+        DefaultCsvImportProperties prop = injector.getInstance DefaultCsvImportProperties
+        prop.setFile lottoFile
+        prop.setStartRow 1
 
-	static CsvImporterFactory factory
+        def importer = factory.create(prop)
+        importer()
+        assert importer.getValues().toString() == "[3, 1, 2001, 46, 13, 21, 34, 19, 36, 38, 2]"
+        importer()
+        assert importer.getValues().toString() == "[6, 1, 2001, 17, 42, 12, 8, 37, 26, 31, 6]"
+    }
 
-	static URI lottoFile = CsvImporterImplTest.class.getResource("lotto_2001.csv").toURI()
+    @Test
+    void "serialize default properties"() {
+        def properties = injector.getInstance DefaultCsvImportProperties
+        def propertiesB = reserialize properties
+    }
 
-	@BeforeClass
-	static void createFactory() {
-		TestUtils.toStringStyle
-		injector = Guice.createInjector(new CsvImportModule())
-		factory = injector.getInstance(CsvImporterFactory)
-	}
+    static Injector injector
+
+    static CsvImporterFactory factory
+
+    static StringColumnFactory stringColumnFactory
+
+    static URI lottoFile = CsvImporterImplTest.class.getResource("lotto_2001.csv").toURI()
+
+    @BeforeClass
+    static void createFactory() {
+        TestUtils.toStringStyle
+        injector = Guice.createInjector(new CsvImportModule())
+        factory = injector.getInstance(CsvImporterFactory)
+        stringColumnFactory = injector.getInstance(StringColumnFactory)
+    }
 }
