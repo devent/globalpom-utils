@@ -56,7 +56,7 @@ class CsvImporterImplTest {
         assert importer.getHeaders().toString() == "[Tag, Monat, Jahr, Zahl1, Zahl2, Zahl3, Zahl4, Zahl5, Zahl6, Zusatz, Super]"
         assert importer.getValues().toString() == "[3, 1, 2001, 46, 13, 21, 34, 19, 36, 38, 2]"
         importer()
-        assert importer.getValues().toString() == "[10, 1, 2001, 28, 15, 3, 24, 27, 4, 38, 2]"
+        assert importer.getValues().toString() == "[6, 1, 2001, 17, 42, 12, 8, 37, 26, 31, 6]"
     }
 
     @Test
@@ -89,7 +89,7 @@ class CsvImporterImplTest {
         importer()
         values = importer.mapValues(columns, headers)
         assert values.size() == 11
-        assert values.Tag == "10"
+        assert values.Tag == "6"
         assert values.Monat == "1"
         assert values.Jahr == "2001"
     }
