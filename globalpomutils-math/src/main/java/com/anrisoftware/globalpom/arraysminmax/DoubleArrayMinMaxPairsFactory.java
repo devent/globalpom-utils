@@ -21,18 +21,18 @@ package com.anrisoftware.globalpom.arraysminmax;
 import com.google.inject.assistedinject.Assisted;
 
 /**
- * Factory to create min/max search for {@code int} array.
+ * Factory to create min/max search for {@code double} array.
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 2.1
+ * @since 2.4
  */
-public interface IntArrayMinMaxPairsFactory {
+public interface DoubleArrayMinMaxPairsFactory {
 
     /**
-     * Creates min/max search for an {@code int} array.
+     * Creates min/max search for a {@code double} array.
      *
      * @param array
-     *            the {@code int} array.
+     *            the {@code double} array.
      *
      * @param startIndex
      *            the start index of the array.
@@ -40,9 +40,9 @@ public interface IntArrayMinMaxPairsFactory {
      * @param endIndex
      *            the end index of the array.
      *
-     * @return the {@link IntArrayMinMaxPairs}.
+     * @return the {@link DoubleArrayMinMaxPairs}.
      */
-    IntArrayMinMaxPairs create(int[] array,
+    DoubleArrayMinMaxPairs create(double[] array,
             @Assisted("startIndex") int startIndex,
             @Assisted("endIndex") int endIndex);
 }

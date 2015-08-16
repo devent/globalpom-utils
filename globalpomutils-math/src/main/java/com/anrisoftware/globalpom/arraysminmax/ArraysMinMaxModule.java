@@ -26,10 +26,11 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /**
  * Installs the min/max array search factories.
- * 
+ *
  * @see IntArrayMinMaxPairsFactory
  * @see LongArrayMinMaxPairsFactory
- * 
+ * @see DoubleArrayMinMaxPairsFactory
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.1
  */
@@ -37,7 +38,7 @@ public class ArraysMinMaxModule extends AbstractModule {
 
     /**
      * Returns the {@code int} array min/max pairs factory.
-     * 
+     *
      * @return the {@link IntArrayMinMaxPairsFactory}.
      */
     public static IntArrayMinMaxPairsFactory getIntArrayMinMaxPairsFactory() {
@@ -46,11 +47,20 @@ public class ArraysMinMaxModule extends AbstractModule {
 
     /**
      * Returns the {@code long} array min/max pairs factory.
-     * 
+     *
      * @return the {@link LongArrayMinMaxPairsFactory}.
      */
     public static LongArrayMinMaxPairsFactory getLongArrayMinMaxPairsFactory() {
         return InjectorInstance.longArrayMinMaxPairsFactory;
+    }
+
+    /**
+     * Returns the {@code double} array min/max pairs factory.
+     *
+     * @return the {@link DoubleArrayMinMaxPairsFactory}.
+     */
+    public static DoubleArrayMinMaxPairsFactory getDoubleArrayMinMaxPairsFactory() {
+        return InjectorInstance.doubleArrayMinMaxPairsFactory;
     }
 
     private static class InjectorInstance {
@@ -62,6 +72,9 @@ public class ArraysMinMaxModule extends AbstractModule {
 
         static final LongArrayMinMaxPairsFactory longArrayMinMaxPairsFactory = injector
                 .getInstance(LongArrayMinMaxPairsFactory.class);
+
+        static final DoubleArrayMinMaxPairsFactory doubleArrayMinMaxPairsFactory = injector
+                .getInstance(DoubleArrayMinMaxPairsFactory.class);
     }
 
     @Override
@@ -72,6 +85,9 @@ public class ArraysMinMaxModule extends AbstractModule {
         install(new FactoryModuleBuilder().implement(
                 LongArrayMinMaxPairs.class, LongArrayMinMaxPairs.class).build(
                 LongArrayMinMaxPairsFactory.class));
+        install(new FactoryModuleBuilder().implement(
+                DoubleArrayMinMaxPairs.class, DoubleArrayMinMaxPairs.class)
+                .build(DoubleArrayMinMaxPairsFactory.class));
     }
 
 }

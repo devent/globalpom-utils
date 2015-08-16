@@ -26,7 +26,7 @@ import org.junit.Test
  * @see IntArrayMinMaxPairs
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.0
+ * @since 2.1
  */
 class IntArrayMinMaxPairsTest {
 
