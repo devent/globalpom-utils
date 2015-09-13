@@ -37,6 +37,73 @@ import com.thoughtworks.xstream.XStream
 class StandardValueTest extends ValueTestBase {
 
     @Test
+    void "equals"() {
+        def testCases = [
+            [
+                a: standardValueFactory.create(5, 1, 1, 0),
+                b: standardValueFactory.create(5, 1, 1, 0),
+                expected: true
+            ],
+            [
+                a: standardValueFactory.create(6, 1, 1, 0),
+                b: standardValueFactory.create(5, 1, 1, 0),
+                expected: false
+            ],
+        ]
+        testCases.eachWithIndex { testCase, int k ->
+            log.info "{}. case: {}", k, testCase
+            assert testCase.a.equals(testCase.b) == testCase.expected
+        }
+    }
+
+    @Test
+    void "calculate value"() {
+        def testCases = [
+            [expected: 1230d, value: standardValueFactory.create(123, 4, 3, 1)],
+            [expected: 1030d, value: standardValueFactory.create(103, 4, 3, 1)],
+            [expected: 123d, value: standardValueFactory.create(123, 3, 3, 0)],
+            [expected: 1d, value: standardValueFactory.create(1, 1, 1, 0)],
+            [expected: 0.123E2d, value: standardValueFactory.create(123, 2, 3, -1)],
+            [expected: 0.7d, value: standardValueFactory.create(7, 0, 1, -1)],
+            [expected: 1.23d, value: standardValueFactory.create(123, 1, 3, -2)],
+            [expected: 0.123d, value: standardValueFactory.create(123, 0, 3, -3)],
+            [expected: 0.0123d, value: standardValueFactory.create(123, -1, 3, -4)],
+            [expected: 0.00123d, value: standardValueFactory.create(123, -2, 3, -5)],
+            [expected: 0.123E-2d, value: standardValueFactory.create(123, -2, 3, -5)],
+            [expected: 12.123E-2d, value: standardValueFactory.create(12123, 0, 5, -5)],
+            [expected: 12.0123E-2d, value: standardValueFactory.create(120123, 0, 6, -6)],
+        ]
+        epsilon = 10**-9
+        testCases.eachWithIndex { testCase, int k ->
+            log.info "{}. case: {}", k, testCase
+            assertDecimalEquals testCase.value.getValue(), testCase.expected
+        }
+    }
+
+    @Test
+    void "round value"() {
+        def testCases = [
+            [expected: 1230d, value: standardValueFactory.create(123, 4, 3, 1)],
+            [expected: 1030d, value: standardValueFactory.create(103, 4, 3, 1)],
+            [expected: 123d, value: standardValueFactory.create(123, 3, 3, 0)],
+            [expected: 1d, value: standardValueFactory.create(1, 1, 1, 0)],
+            [expected: 0.123E2d, value: standardValueFactory.create(123, 2, 3, -1)],
+            [expected: 1.23d, value: standardValueFactory.create(123, 1, 3, -2)],
+            [expected: 0.123d, value: standardValueFactory.create(123, 0, 3, -3)],
+            [expected: 0.0123d, value: standardValueFactory.create(123, -1, 3, -4)],
+            [expected: 0.00123d, value: standardValueFactory.create(123, -2, 3, -5)],
+            [expected: 0.123E-2d, value: standardValueFactory.create(123, -2, 3, -5)],
+            [expected: 12.123E-2d, value: standardValueFactory.create(12123, 0, 5, -5)],
+            [expected: 12.0123E-2d, value: standardValueFactory.create(120123, 0, 6, -6)],
+        ]
+        epsilon = 10**-9
+        testCases.eachWithIndex { testCase, int k ->
+            log.info "{}. case: {}", k, testCase
+            assertDecimalEquals testCase.value.getRoundedValue(), testCase.expected
+        }
+    }
+
+    @Test
     void "standard value"() {
         standardValueData.each {
             epsilon = it.epsilon
@@ -50,72 +117,29 @@ class StandardValueTest extends ValueTestBase {
     }
 
     @Test
-    void "calculation test"() {
-        def x = standardValueFactory.create(1.672621777E-27, 2, 7.4E-35, 36)
-        def r = x.reciprocal()
-        assertDecimalEquals r.uncertainty, 26450642516395147000
-        //assertDecimalEquals r.roundedValue.uncertainty,    26000000000000000000
-        //assertDecimalEquals r.roundedValue.value,   597863790000000000000000000
-        def v = standardValueFactory.create(1.100000000E-01, 2, 0.11, 36)
-        def m = r.mul v
-        log.info "f(r,v):=r*v={}", m
-        def l = m.log()
-        log.info "f(m):=log(m)={}", l
-        assertDecimalEquals l.roundedValue.uncertainty, 1.0
-        assertDecimalEquals l.roundedValue.value, 59.45
-    }
-
-    @Test
     void "serialize, inject members"() {
-        def value = standardValueFactory.create(5.0, 1, 0.1, 1)
+        def value = standardValueFactory.create(123, 4, 3, 1)
         StandardValue valueB = reserialize(value)
         injector.injectMembers valueB
-        assertDecimalEquals valueB.value, 5.0
-        def v = valueB.mul 1.0
+        assertDecimalEquals valueB.value, 1230.0d
+        def v = valueB.mul standardValueFactory.create(1, 1, 1, 0)
     }
 
     @Test
-    void "serialize"() {
-        def value = standardValueFactory.create(5.0, 1, 0.1, 1)
+    void "serialize, create"() {
+        def value = standardValueFactory.create(123, 4, 3, 1)
         StandardValue valueB = standardValueFactory.create reserialize(value)
-        assertDecimalEquals valueB.value, 5.0
-        def v = valueB.mul 1.0
+        assertDecimalEquals valueB.value, 1230.0d
+        def v = valueB.mul standardValueFactory.create(1, 1, 1, 0)
     }
 
     @Test
     void "xstream, serialize"() {
         def xstream = new XStream()
-        def value = standardValueFactory.create(5.0, 1, 0.1, 1)
+        def value = standardValueFactory.create(123, 4, 3, 1)
         def xml = xstream.toXML value
         StandardValue valueB = standardValueFactory.create xstream.fromXML(xml)
-        assertDecimalEquals valueB.value, 5.0
-        def v = valueB.mul 1.0
-    }
-
-    @Test
-    void "serialize exact standard value, inject members"() {
-        def value = exactStandardValueFactory.create(5.0)
-        ExactStandardValue valueB = reserialize(value)
-        injector.injectMembers valueB
-        assertDecimalEquals valueB.value, 5.0
-        def v = valueB.mul 1.0
-    }
-
-    @Test
-    void "serialize exact standard value"() {
-        def value = exactStandardValueFactory.create(5.0)
-        ExactStandardValue valueB = exactStandardValueFactory.create reserialize(value)
-        assertDecimalEquals valueB.value, 5.0
-        def v = valueB.mul 1.0
-    }
-
-    @Test
-    void "xstream, serialize exact standard value"() {
-        def xstream = new XStream()
-        def value = exactStandardValueFactory.create(5.0)
-        def xml = xstream.toXML value
-        ExactStandardValue valueB = exactStandardValueFactory.create xstream.fromXML(xml)
-        assertDecimalEquals valueB.value, 5.0
-        def v = valueB.mul 1.0
+        assertDecimalEquals valueB.value, 1230.0d
+        def v = valueB.mul standardValueFactory.create(1, 1, 1, 0)
     }
 }

@@ -23,13 +23,12 @@ import static com.anrisoftware.globalpom.format.measurement.MeasureFormatLogger.
 
 import java.text.ParseException;
 import java.text.ParsePosition;
-import java.util.regex.Matcher;
 
 import com.anrisoftware.globalpom.log.AbstractLogger;
 
 /**
  * Logging messages for {@link MeasureFormat}.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
@@ -66,9 +65,9 @@ class MeasureFormatLogger extends AbstractLogger {
                 unparseable_message.toString(), source);
     }
 
-    void checkString(Matcher matcher, String source, ParsePosition pos)
+    void checkString(String[] str, String source, ParsePosition pos)
             throws ParseException {
-        if (matcher.matches()) {
+        if (str.length == 2) {
             return;
         }
         throw logException(

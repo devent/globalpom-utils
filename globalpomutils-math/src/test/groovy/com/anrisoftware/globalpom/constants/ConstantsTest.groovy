@@ -38,8 +38,7 @@ class ConstantsTest extends ConstantsTestBase {
 
     @Test
     void "get constants"() {
-        def valueFormat = valueFormatFactory.create(value, exact)
-        def format = formatFactory.create(constantFactory, valueFormat)
+        def format = formatFactory.create(valueFactory, measureFactory)
         def constants = constantsFactory.create(format)
         assertConstants constants
     }
@@ -68,15 +67,15 @@ class ConstantsTest extends ConstantsTestBase {
     @Test
     void "carbon 12"() {
         Measure u = injector.getInstance(StandardAtomicMassProvider).get()
+        log.info "u := {} {} {}", u.value, u.roundedValue, u
         Measure mp = injector.getInstance(StandardProtonMassProvider).get()
-        def u12 = u.mul 12.0
-        log.info "C12 := {}, rounded := {}", u12, u12.roundedValue
+        def u12 = u.mul 12.0d
+        log.info "C12 := {} {} {}", u12.value, u12.roundedValue, u12
         def c12 = u12.div mp
         def logc12 = c12.log()
-        def logc12value = logc12.roundedValue logc12.significant, 8
-        log.info "log(C12) := {}, rounded := {}", logc12, logc12value
+        def logc12value = logc12.roundedValue
+        log.info "log(C12) := {} {}", logc12value, logc12
         assertConstant logc12, epsilon: 10e-9, value: 2.477656529E00, unit: KILOGRAM
-        assertConstant logc12value, epsilon: 10e-8, value: 2.48E00, unit: KILOGRAM
     }
 
     @Test
@@ -84,10 +83,9 @@ class ConstantsTest extends ConstantsTestBase {
         Measure u = injector.getInstance(StandardAtomicMassProvider).get()
         Measure mp = injector.getInstance(StandardProtonMassProvider).get()
         def logc12 = u.mul 12.0 div mp log()
-        def logc12value = logc12.roundedValue logc12.significant, 8
-        log.info "log(C12) := {}, rounded := {}", logc12, logc12value
+        def logc12value = logc12.roundedValue
+        log.info "log(C12) := {} {}", logc12value, logc12
         assertConstant logc12, epsilon: 10e-9, value: 2.477656529E00, unit: KILOGRAM
-        assertConstant logc12value, epsilon: 10e-8, value: 2.48E00, unit: KILOGRAM
     }
 
     @Test

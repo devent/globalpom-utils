@@ -19,9 +19,9 @@
 package com.anrisoftware.globalpom.measurement;
 
 import static com.anrisoftware.globalpom.measurement.ValueFactory.DECIMAL;
+import static com.anrisoftware.globalpom.measurement.ValueFactory.MANTISSA;
+import static com.anrisoftware.globalpom.measurement.ValueFactory.ORDER;
 import static com.anrisoftware.globalpom.measurement.ValueFactory.SIGNIFICANT;
-import static com.anrisoftware.globalpom.measurement.ValueFactory.UNCERTAINTY;
-import static com.anrisoftware.globalpom.measurement.ValueFactory.VALUE_FACTORY;
 
 import javax.inject.Inject;
 
@@ -30,39 +30,54 @@ import com.google.inject.assistedinject.AssistedInject;
 
 /**
  * Value that calculates error propagation using standard uncertainty.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
 @SuppressWarnings("serial")
 public class StandardValue extends AbstractValue {
 
-    private static final String VALUE = "value";
-
-    private transient ExactStandardValueFactory exactFactory;
-
     /**
-     * @see StandardValueFactory#create(double, int, double, int, ValueFactory)
-     */
-    @AssistedInject
-    StandardValue(@Assisted(VALUE) double value,
-            @Assisted(SIGNIFICANT) int significant,
-            @Assisted(UNCERTAINTY) double uncertainty,
-            @Assisted(DECIMAL) int decimal,
-            @Assisted(VALUE_FACTORY) ValueFactory valueFactory) {
-        super(value, significant, uncertainty, decimal, valueFactory);
-    }
-
-    /**
-     * @see StandardValueFactory#create(double, int, double, int)
+     * @see StandardValueFactory#create(long, int, int, int)
      */
     @AssistedInject
     StandardValue(StandardValueFactory valueFactory,
-            @Assisted(VALUE) double value,
-            @Assisted(SIGNIFICANT) int significant,
-            @Assisted(UNCERTAINTY) double uncertainty,
-            @Assisted(DECIMAL) int decimal) {
-        super(value, significant, uncertainty, decimal, valueFactory);
+            @Assisted(MANTISSA) long mantissa, @Assisted(ORDER) int order,
+            @Assisted(SIGNIFICANT) int sig, @Assisted(DECIMAL) int dec) {
+        super(mantissa, order, sig, dec, Double.NaN, valueFactory);
+    }
+
+    /**
+     * @see StandardValueFactory#create(long, int, int, int, ValueFactory)
+     */
+    @AssistedInject
+    StandardValue(@Assisted(MANTISSA) long mantissa,
+            @Assisted(ORDER) int order, @Assisted(SIGNIFICANT) int sig,
+            @Assisted(DECIMAL) int dec, @Assisted ValueFactory valueFactory) {
+        super(mantissa, order, sig, dec, Double.NaN, valueFactory);
+    }
+
+    /**
+     * @see StandardValueFactory#create(long, int, int, int, double)
+     */
+    @AssistedInject
+    StandardValue(StandardValueFactory valueFactory,
+            @Assisted(MANTISSA) long mantissa, @Assisted(ORDER) int order,
+            @Assisted(SIGNIFICANT) int sig, @Assisted(DECIMAL) int dec,
+            @Assisted double unc) {
+        super(mantissa, order, sig, dec, unc, valueFactory);
+    }
+
+    /**
+     * @see StandardValueFactory#create(long, int, int, int, double,
+     *      ValueFactory)
+     */
+    @AssistedInject
+    StandardValue(@Assisted(MANTISSA) long mantissa,
+            @Assisted(ORDER) int order, @Assisted(SIGNIFICANT) int sig,
+            @Assisted(DECIMAL) int dec, @Assisted double unc,
+            @Assisted ValueFactory valueFactory) {
+        super(mantissa, order, sig, dec, unc, valueFactory);
     }
 
     /**
@@ -77,23 +92,24 @@ public class StandardValue extends AbstractValue {
      * @see StandardValueFactory#create(Value, ValueFactory)
      */
     @AssistedInject
-    StandardValue(@Assisted Value value,
-            @Assisted(VALUE_FACTORY) ValueFactory valueFactory) {
+    StandardValue(@Assisted Value value, @Assisted ValueFactory valueFactory) {
         super(value, valueFactory);
     }
 
     @Inject
-    public void setExactFactory(ExactStandardValueFactory factory) {
-        this.exactFactory = factory;
-    }
-
-    @Inject
-    public void setValueFactory(StandardValueFactory factory) {
-        super.setValueFactory(factory);
+    void setValueFactory(StandardValueFactory valueFactory) {
+        if (this.valueFactory == null) {
+            this.valueFactory = valueFactory;
+        }
     }
 
     @Override
     protected double addUncertainty(Value addend, double sum) {
+        return subUncertainty(addend, sum);
+    }
+
+    @Override
+    protected double addUncertainty(double addend, double sum) {
         return subUncertainty(addend, sum);
     }
 
@@ -109,7 +125,17 @@ public class StandardValue extends AbstractValue {
     }
 
     @Override
+    protected double subUncertainty(double subtrahend, double diff) {
+        return getUncertainty();
+    }
+
+    @Override
     protected double mulUncertainty(Value factor, double product) {
+        return divUncertainty(factor, product);
+    }
+
+    @Override
+    protected double mulUncertainty(double factor, double product) {
         return divUncertainty(factor, product);
     }
 
@@ -126,6 +152,11 @@ public class StandardValue extends AbstractValue {
             return StandardValueMath.mulUncertaintly(a, sa, quotient);
         }
         return StandardValueMath.mulUncertaintly(a, sa, b, sb, quotient);
+    }
+
+    @Override
+    protected double divUncertainty(double divisor, double quotient) {
+        return getUncertainty();
     }
 
     @Override
@@ -161,8 +192,4 @@ public class StandardValue extends AbstractValue {
         return sa;
     }
 
-    @Override
-    protected Value createValue(double value) {
-        return exactFactory.create(value, getValueFactory());
-    }
 }

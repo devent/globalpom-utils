@@ -18,71 +18,53 @@
  */
 package com.anrisoftware.globalpom.format.measurement;
 
-import java.text.NumberFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
-import com.anrisoftware.globalpom.measurement.ExactValueFactory;
 import com.anrisoftware.globalpom.measurement.ValueFactory;
-import com.google.inject.assistedinject.Assisted;
 
 /**
  * Factory to create a new value format.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.10
+ * @since 2.4
  */
 public interface ValueFormatFactory {
 
     /**
-     * Create value format that uses the default decimal format to format the
-     * value.
-     * 
+     * Create value format that uses the default decimal format.
+     *
      * @param valueFactory
      *            the {@link ValueFactory} to create the value.
-     * 
-     * @param exactValueFactory
-     *            the {@link ExactValueFactory} to create the exact value.
-     * 
+     *
      * @return the {@link ValueFormat}.
      */
-    ValueFormat create(ValueFactory valueFactory,
-            ExactValueFactory exactValueFactory);
+    ValueFormat create(ValueFactory valueFactory);
 
     /**
-     * Create value format with the specified number format to format the value.
-     * 
+     * Create value format with the specified locale.
+     *
+     * @param locale
+     *            the {@link Locale}.
+     *
      * @param valueFactory
      *            the {@link ValueFactory} to create the value.
-     * 
-     * @param exactValueFactory
-     *            the {@link ExactValueFactory} to create the exact value.
-     * 
-     * @param format
-     *            the {@link NumberFormat}.
-     * 
+     *
      * @return the {@link ValueFormat}.
      */
-    ValueFormat create(ValueFactory valueFactory,
-            ExactValueFactory exactValueFactory, NumberFormat format);
+    ValueFormat create(Locale locale, ValueFactory valueFactory);
 
     /**
-     * Create value format with the specified number format to format the value.
-     * 
+     * Create value format with the specified decimal format.
+     *
+     * @param symbols
+     *            the {@link DecimalFormatSymbols}.
+     *
      * @param valueFactory
      *            the {@link ValueFactory} to create the value.
-     * 
-     * @param exactValueFactory
-     *            the {@link ExactValueFactory} to create the exact value.
-     * 
-     * @param format
-     *            the {@link NumberFormat} of the value.
-     * 
-     * @param format
-     *            the {@link NumberFormat} of the uncertainty.
-     * 
+     *
      * @return the {@link ValueFormat}.
      */
-    ValueFormat create(ValueFactory valueFactory,
-            ExactValueFactory exactValueFactory,
-            @Assisted("format") NumberFormat format,
-            @Assisted("uncFormat") NumberFormat uncFormat);
+    ValueFormat create(DecimalFormatSymbols symbols, ValueFactory valueFactory);
+
 }

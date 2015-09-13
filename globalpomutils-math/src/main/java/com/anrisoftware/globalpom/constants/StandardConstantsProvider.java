@@ -23,9 +23,6 @@ import javax.inject.Singleton;
 
 import com.anrisoftware.globalpom.format.measurement.MeasureFormat;
 import com.anrisoftware.globalpom.format.measurement.MeasureFormatFactory;
-import com.anrisoftware.globalpom.format.measurement.ValueFormat;
-import com.anrisoftware.globalpom.format.measurement.ValueFormatFactory;
-import com.anrisoftware.globalpom.measurement.ExactStandardValueFactory;
 import com.anrisoftware.globalpom.measurement.StandardMeasureFactory;
 import com.anrisoftware.globalpom.measurement.StandardValueFactory;
 import com.google.inject.Provider;
@@ -33,7 +30,7 @@ import com.google.inject.Provider;
 /**
  * Provides the physical constants that calculates error propagation using
  * standard uncertainty.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
@@ -44,25 +41,17 @@ public class StandardConstantsProvider implements Provider<Constants> {
     private MeasureFormatFactory formatFactory;
 
     @Inject
-    private StandardMeasureFactory constantFactory;
-
-    @Inject
-    private ValueFormatFactory valueFormatFactory;
+    private StandardMeasureFactory measureFactory;
 
     @Inject
     private StandardValueFactory valueFactory;
-
-    @Inject
-    private ExactStandardValueFactory exactFactory;
 
     private Constants constants;
 
     @Inject
     void setConstantsFactory(ConstantsFactory constantsFactory) {
-        ValueFormat valueFormat;
         MeasureFormat format;
-        valueFormat = valueFormatFactory.create(valueFactory, exactFactory);
-        format = formatFactory.create(constantFactory, valueFormat);
+        format = formatFactory.create(valueFactory, measureFactory);
         this.constants = constantsFactory.create(format);
     }
 

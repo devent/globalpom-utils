@@ -18,48 +18,66 @@
  */
 package com.anrisoftware.globalpom.format.measurement;
 
-import java.text.Format;
-import java.text.NumberFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 import com.anrisoftware.globalpom.measurement.MeasureFactory;
+import com.anrisoftware.globalpom.measurement.ValueFactory;
 
 /**
  * Factory to create a new measurement format.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.10
+ * @since 2.4
  */
 public interface MeasureFormatFactory {
 
     /**
-     * Create physical measurement format that uses the default decimal format
-     * to format the value.
-     * 
+     * Create value format that uses the default decimal format.
+     *
+     * @param valueFactory
+     *            the {@link ValueFactory} to create the value.
+     *
      * @param measureFactory
-     *            the {@link MeasureFactory} physical measure factory.
-     * 
-     * @param valueFormat
-     *            the {@link Format} to format the value.
-     * 
-     * @return the {@link MeasureFormat}.
+     *            the {@link MeasureFactory} to create the measure.
+     *
+     * @return the {@link ValueFormat}.
      */
-    MeasureFormat create(MeasureFactory measureFactory, Format valueFormat);
+    MeasureFormat create(ValueFactory valueFactory,
+            MeasureFactory measureFactory);
 
     /**
-     * Create physical measure format with the specified number format to format
-     * the value.
-     * 
+     * Create value format with the specified locale.
+     *
+     * @param locale
+     *            the {@link Locale}.
+     *
+     * @param valueFactory
+     *            the {@link ValueFactory} to create the value.
+     *
      * @param measureFactory
-     *            the {@link MeasureFactory} physical measure factory.
-     * 
-     * @param valueFormat
-     *            the {@link Format} to format the value.
-     * 
-     * @param format
-     *            the {@link NumberFormat}.
-     * 
-     * @return the {@link MeasureFormat}.
+     *            the {@link MeasureFactory} to create the measure.
+     *
+     * @return the {@link ValueFormat}.
      */
-    MeasureFormat create(MeasureFactory measureFactory, Format valueFormat,
-            NumberFormat format);
+    MeasureFormat create(Locale locale, ValueFactory valueFactory,
+            MeasureFactory measureFactory);
+
+    /**
+     * Create value format with the specified decimal format.
+     *
+     * @param symbols
+     *            the {@link DecimalFormatSymbols}.
+     *
+     * @param valueFactory
+     *            the {@link ValueFactory} to create the value.
+     *
+     * @param measureFactory
+     *            the {@link MeasureFactory} to create the measure.
+     *
+     * @return the {@link ValueFormat}.
+     */
+    MeasureFormat create(DecimalFormatSymbols symbols,
+            ValueFactory valueFactory, MeasureFactory measureFactory);
+
 }

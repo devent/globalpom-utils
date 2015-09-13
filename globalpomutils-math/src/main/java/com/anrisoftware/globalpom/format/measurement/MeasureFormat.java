@@ -18,26 +18,24 @@
  */
 package com.anrisoftware.globalpom.format.measurement;
 
-import static org.apache.commons.lang3.StringUtils.remove;
-
-import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.FieldPosition;
 import java.text.Format;
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.measure.quantity.Quantity;
 import javax.measure.unit.Unit;
 import javax.measure.unit.UnitFormat;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.anrisoftware.globalpom.measurement.Measure;
 import com.anrisoftware.globalpom.measurement.MeasureFactory;
 import com.anrisoftware.globalpom.measurement.Value;
-import com.anrisoftware.globalpom.measurement.ValueToString;
+import com.anrisoftware.globalpom.measurement.ValueFactory;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -45,79 +43,116 @@ import com.google.inject.assistedinject.AssistedInject;
  * Formats and parses physical {@link Measure} measurement.
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.10
+ * @since 2.4
  */
 @SuppressWarnings("serial")
 public class MeasureFormat extends Format {
 
-    private static final String SEP = ";";
-
-    private final Pattern VALUE_PATTERN = Pattern.compile("^(.*?;)+((.*?);)$");
-
-    private final Format valueFormat;
-
-    private final NumberFormat numberFormat;
+    private final ValueFormat valueFormat;
 
     private final MeasureFactory measureFactory;
-
-    @Inject
-    private ValueToString valueToString;
 
     @Inject
     private MeasureFormatLogger log;
 
     /**
-     * @see MeasureFormatFactory#create(MeasureFactory, Format)
+     * @see MeasureFormatFactory#create(ValueFactory, MeasureFactory)
      */
     @AssistedInject
-    MeasureFormat(@Assisted MeasureFactory measureFactory,
-            @Assisted Format valueFormat) {
-        this(measureFactory, valueFormat, new DecimalFormat("#.#########"));
+    MeasureFormat(ValueFormatFactory valueFormatFactory,
+            @Assisted ValueFactory valueFactory,
+            @Assisted MeasureFactory measureFactory) {
+        this(valueFormatFactory, Locale.getDefault(), valueFactory,
+                measureFactory);
     }
 
     /**
-     * @see MeasureFormatFactory#create(MeasureFactory, Format, NumberFormat)
+     * @see MeasureFormatFactory#create(Locale, ValueFactory, MeasureFactory)
      */
     @AssistedInject
-    MeasureFormat(@Assisted MeasureFactory measureFactory,
-            @Assisted Format valueFormat, @Assisted NumberFormat format) {
+    MeasureFormat(ValueFormatFactory valueFormatFactory,
+            @Assisted Locale locale, @Assisted ValueFactory valueFactory,
+            @Assisted MeasureFactory measureFactory) {
+        this(valueFormatFactory, DecimalFormatSymbols.getInstance(locale),
+                valueFactory, measureFactory);
+    }
+
+    /**
+     * @see MeasureFormatFactory#create(DecimalFormatSymbols, ValueFactory,
+     *      MeasureFactory)
+     */
+    @AssistedInject
+    MeasureFormat(ValueFormatFactory valueFormatFactory,
+            @Assisted DecimalFormatSymbols symbols,
+            @Assisted ValueFactory valueFactory,
+            @Assisted MeasureFactory measureFactory) {
+        this.valueFormat = valueFormatFactory.create(symbols, valueFactory);
         this.measureFactory = measureFactory;
-        this.valueFormat = valueFormat;
-        this.numberFormat = format;
     }
 
     /**
-     * Formats the specified measurement.
+     * Set to use the scientific notation for formatting the value.
+     *
+     * @param scientificNotation
+     *            set to {@code true} to use the scientific notation.
+     */
+    public void setUseScientificNotation(boolean scientificNotation) {
+        this.valueFormat.setUseScientificNotation(scientificNotation);
+    }
+
+    /**
+     * Sets the significant figures for formatting the value.
+     *
+     * @param sig
+     *            the {@link Integer} significant figures.
+     */
+    public void setSignificant(int sig) {
+        this.valueFormat.setSignificant(sig);
+    }
+
+    /**
+     * Sets the least significant decimal for formatting the value.
+     *
+     * @param dec
+     *            the {@link Integer} least significant decimal.
+     */
+    public void setDecimal(int dec) {
+        this.valueFormat.setDecimal(dec);
+    }
+
+    /**
+     * Formats the specified value.
      * <p>
      * The format follows the pattern:
-     * 
+     *
      * <pre>
-     * &lt;value&gt;[(&lt;uncertainty&gt;);&lt;significant&gt;;&lt;decimal&gt;;&lt;unit&gt;;]
+     * value[(uncertainty)] unit
      * </pre>
-     * 
+     *
      * <p>
      * <h2>Examples</h2>
      * <p>
      * <ul>
-     * <li>exact value: {@code 0.0123;m/s;}
-     * <li>uncertain value: {@code 5.0(0.2);1;1;m/s;}
+     * <li>exact value: {@code 0.0123 m}
+     * <li>uncertain value: {@code 5.0(0.2) m}
      * </ul>
-     * 
+     *
      * @param obj
-     *            the {@link Measure}.
+     *            the {@link Value}.
      */
     @Override
     public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos) {
         if (obj instanceof Measure) {
-            formatMeasure((Measure<?>) obj, buff);
+            formatMeasure((Measure<?>) obj, buff, pos);
         }
         return buff;
     }
 
-    private void formatMeasure(Measure<?> measure, StringBuffer buff) {
-        valueToString.format(buff, measure, numberFormat);
+    private void formatMeasure(Measure<?> measure, StringBuffer buff,
+            FieldPosition pos) {
+        valueFormat.format(measure, buff, pos);
+        buff.append(' ');
         buff.append(measure.getUnit().toString());
-        buff.append(SEP);
     }
 
     @Override
@@ -126,31 +161,26 @@ public class MeasureFormat extends Format {
     }
 
     /**
-     * Parses the specified string to physical measurement.
+     * Parses the specified string to value.
      * <p>
      * The format follows the pattern:
-     * 
+     *
      * <pre>
-     * &lt;value&gt;[(&lt;uncertainty&gt;);&lt;significant&gt;;&lt;decimal&gt;;&lt;unit&gt;;]
+     * value[(uncertain)] unit
      * </pre>
-     * 
+     *
      * <p>
      * <h2>Examples</h2>
      * <p>
      * <ul>
-     * <li>exact value: {@code 0.0123;m/s;}
-     * <li>uncertain value: {@code 5.0(0.2);1;1;m/s;}
+     * <li>exact value: {@code 0.0123 m}
+     * <li>uncertain value: {@code 5.0(0.2) m}
      * </ul>
-     * 
-     * @return the parsed {@link Measure}.
-     * 
-     * @param <UnitType>
-     *            the {@link Quantity} of the unit.
-     * 
+     *
+     * @return the parsed {@link Value}.
+     *
      * @throws ParseException
      *             if the string cannot be parsed to a value.
-     * 
-     * @since 1.11
      */
     public <UnitType extends Quantity> Measure<UnitType> parse(String source)
             throws ParseException {
@@ -191,14 +221,10 @@ public class MeasureFormat extends Format {
 
     private Measure<?> parseValue(String string, ParsePosition pos)
             throws ParseException {
-        Matcher matcher = VALUE_PATTERN.matcher(string);
-        log.checkString(matcher, string, pos);
-        String valuestr = matcher.group(1);
-        String unitstr = matcher.group(2);
-        valuestr = remove(string, unitstr);
-        Value value = (Value) valueFormat.parseObject(valuestr);
-        unitstr = matcher.group(3);
-        Unit<?> unit = (Unit<?>) UnitFormat.getInstance().parseObject(unitstr);
+        String[] str = StringUtils.split(string, ' ');
+        log.checkString(str, string, pos);
+        Value value = valueFormat.parse(str[0]);
+        Unit<?> unit = (Unit<?>) UnitFormat.getInstance().parseObject(str[1]);
         return measureFactory.create(value, unit);
     }
 }

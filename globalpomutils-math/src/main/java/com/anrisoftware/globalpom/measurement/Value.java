@@ -18,415 +18,332 @@
  */
 package com.anrisoftware.globalpom.measurement;
 
-
 /**
  * Measured value with uncertainty.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.9
+ * @since 2.4
  */
-public interface Value extends Comparable<Object> {
+public interface Value extends Comparable<Value> {
 
     /**
-     * Returns the same uncertain value but with the specified value.
-     * 
-     * @param value
-     *            the value.
-     * 
-     * @return the exact {@link Value}.
-     * 
-     * @since 2.1
+     * Returns the significant digits of the value.
+     *
+     * @return the mantissa.
      */
-    Value valueOf(double value);
+    long getMantissa();
 
     /**
-     * Returns the same uncertain value but with the specified value.
-     * 
-     * @param value
-     *            the value.
-     * 
-     * @param significant
-     *            the significant figures of the value.
-     * 
-     * @param uncertainty
-     *            the uncertainty of the value.
-     * 
-     * @param decimal
-     *            the least significant decimal.
-     * 
-     * @return the uncertain {@link Value}.
-     * 
-     * @since 2.1
+     * Returns the order of the value.
+     *
+     * @return the order.
      */
-    Value valueOf(double value, int significant, double uncertainty, int decimal);
-
-    /**
-     * Returns the value.
-     * 
-     * @return the value.
-     */
-    double getValue();
-
-    /**
-     * Returns the value rounded to the significant figures.
-     * 
-     * @return the rounded {@link Value}.
-     */
-    Value getRoundedValue();
-
-    /**
-     * Returns the value rounded to the significant figures.
-     * 
-     * @param sig
-     *            the significant figures.
-     * 
-     * @param dec
-     *            the decimal places.
-     * 
-     * @return the rounded {@link Value}.
-     */
-    Value roundedValue(int sig, int dec);
+    int getOrder();
 
     /**
      * Returns the significant figures of the value.
-     * 
+     *
      * @return the significant figures.
      */
     int getSignificant();
 
     /**
      * Returns the least significant decimal.
-     * 
+     *
      * @return the least significant decimal.
      */
     int getDecimal();
 
     /**
      * Returns the uncertainty of the value.
-     * 
-     * @return the uncertainty or {@link Double#NaN} if the value is exact.
+     *
+     * @return the {@link Value} uncertainty or {@code Double#NaN}.
      */
     double getUncertainty();
 
     /**
-     * Returns whether the value is exact. If the value is exact then
-     * {@link #getUncertainty()} will return {@link Double#NaN}.
-     * 
+     * Returns whether the value is exact.
+     *
      * @return {@code true} if the value is exact.
      */
     boolean isExact();
 
     /**
+     * Returns the value.
+     *
+     * @return the value.
+     */
+    double getValue();
+
+    /**
+     * Returns the value rounded to the significant figures.
+     *
+     * @return the rounded {@link Double}.
+     */
+    double getRoundedValue();
+
+    /**
+     * Returns the value rounded to the significant figures.
+     *
+     * @param sig
+     *            the significant figures.
+     *
+     * @param dec
+     *            the least significant decimal place.
+     *
+     * @return the rounded {@link Double}.
+     */
+    double roundedValue(int sig, int dec);
+
+    /**
      * Returns the lower bound of this uncertain value with a default of three
      * standard deviations.
-     * 
-     * @return the lower bound value.
-     * 
-     * @since 1.10
+     *
+     * @return the lower bound {@link Value} value.
      */
-    double getMinValue();
+    Value getMinValue();
 
     /**
      * Returns the lower bound of this uncertain value.
-     * 
+     *
      * @param deviation
      *            the standard deviations of the measured value.
-     * 
-     * @return the lower bound value.
-     * 
-     * @since 1.10
+     *
+     * @return the lower bound {@link Value} value.
      */
-    double minValue(double deviation);
+    Value minValue(double deviation);
 
     /**
      * Returns the upper bound of this uncertain value with a default of three
      * standard deviations.
-     * 
-     * @return the upper bound value.
-     * 
-     * @since 1.10
+     *
+     * @return the upper bound {@link Value} value.
      */
-    double getMaxValue();
+    Value getMaxValue();
 
     /**
      * Returns the upper bound of this uncertain value.
-     * 
+     *
      * @param deviation
      *            the standard deviations of the measured value.
-     * 
-     * @return the upper bound value.
-     * 
-     * @since 1.10
+     *
+     * @return the upper bound {@link Value} value.
      */
-    double maxValue(double deviation);
+    Value maxValue(double deviation);
+
+    /**
+     * Returns the value with the specified uncertainty.
+     *
+     * @param mantissa
+     *            the significant digits of the value.
+     *
+     * @param order
+     *            the order of the value.
+     *
+     * @param sig
+     *            the significant figures of the value.
+     *
+     * @param dec
+     *            the least significant decimal.
+     *
+     * @param unc
+     *            the uncertainty {@link Double} or {@link Double#NaN}.
+     *
+     * @return the {@link Value}.
+     */
+    Value valueOf(long mantissa, int order, int sig, int dec, double unc);
 
     /**
      * Calculates the addition of this value with the addend.
-     * 
+     *
      * @param addend
      *            the {@link Value} addend.
-     * 
+     *
      * @return the result {@link Value}.
      */
     Value add(Value addend);
 
     /**
      * Calculates the addition of this value with the addend.
-     * 
+     *
      * @param addend
-     *            the {@link Value} addend.
-     * 
-     * @return the result {@link Value}.
-     * 
-     * @since 1.11
-     */
-    Value plus(Value addend);
-
-    /**
-     * Calculates the addition of this value with the addend.
-     * 
-     * @param addend
-     *            the exact addend.
-     * 
+     *            the {@link Double} addend.
+     *
      * @return the result {@link Value}.
      */
     Value add(double addend);
 
     /**
      * Calculates the addition of this value with the addend.
-     * 
+     *
      * @param addend
-     *            the exact addend.
-     * 
+     *            the {@link Value} addend.
+     *
      * @return the result {@link Value}.
-     * 
-     * @since 1.11
+     */
+    Value plus(Value addend);
+
+    /**
+     * Calculates the addition of this value with the addend.
+     *
+     * @param addend
+     *            the {@link Double} addend.
+     *
+     * @return the result {@link Value}.
      */
     Value plus(double addend);
 
     /**
      * Calculates the subtraction of this value with the subtrahend.
-     * 
+     *
      * @param subtrahend
      *            the {@link Value} subtrahend.
-     * 
+     *
      * @return the result {@link Value}.
      */
     Value sub(Value subtrahend);
 
     /**
      * Calculates the subtraction of this value with the subtrahend.
-     * 
+     *
      * @param subtrahend
-     *            the {@link Value} subtrahend.
-     * 
-     * @return the result {@link Value}.
-     * 
-     * @since 1.11
-     */
-    Value minus(Value subtrahend);
-
-    /**
-     * Calculates the subtraction of this value with the subtrahend.
-     * 
-     * @param subtrahend
-     *            the exact subtrahend.
-     * 
+     *            the {@link Double} subtrahend.
+     *
      * @return the result {@link Value}.
      */
     Value sub(double subtrahend);
 
     /**
      * Calculates the subtraction of this value with the subtrahend.
-     * 
+     *
      * @param subtrahend
-     *            the exact subtrahend.
-     * 
+     *            the {@link Value} subtrahend.
+     *
      * @return the result {@link Value}.
-     * 
-     * @since 1.11
+     */
+    Value minus(Value subtrahend);
+
+    /**
+     * Calculates the subtraction of this value with the subtrahend.
+     *
+     * @param subtrahend
+     *            the {@link Double} subtrahend.
+     *
+     * @return the result {@link Value}.
      */
     Value minus(double subtrahend);
 
     /**
      * Calculates the multiplication of this value with the factor.
-     * 
+     *
      * @param factor
      *            the {@link Value} factor.
-     * 
+     *
      * @return the result {@link Value}.
      */
     Value mul(Value factor);
 
     /**
      * Calculates the multiplication of this value with the factor.
-     * 
+     *
      * @param factor
-     *            the {@link Value} factor.
-     * 
-     * @return the result {@link Value}.
-     * 
-     * @since 1.11
-     */
-    Value multiply(Value factor);
-
-    /**
-     * Calculates the multiplication of this value with the factor.
-     * 
-     * @param factor
-     *            the exact factor.
-     * 
+     *            the {@link Double} factor.
+     *
      * @return the result {@link Value}.
      */
     Value mul(double factor);
 
     /**
      * Calculates the multiplication of this value with the factor.
-     * 
+     *
      * @param factor
-     *            the exact factor.
-     * 
+     *            the {@link Value} factor.
+     *
      * @return the result {@link Value}.
-     * 
-     * @since 1.11
+     */
+    Value multiply(Value factor);
+
+    /**
+     * Calculates the multiplication of this value with the factor.
+     *
+     * @param factor
+     *            the {@link Double} factor.
+     *
+     * @return the result {@link Value}.
      */
     Value multiply(double factor);
 
     /**
      * Calculates the division of this value with the divisor.
-     * 
+     *
      * @param divisor
      *            the {@link Value} divisor.
-     * 
+     *
      * @return the result {@link Value}.
      */
     Value div(Value divisor);
 
     /**
-     * Calculates the division of the specified numerator {@code n} with this
-     * value {@code x}, that is, {@code y=n/x}
-     * 
-     * @param numerator
-     *            the numerator {@code x.}
-     * 
-     * @return the result {@link Value} value {@code y.}
-     * 
-     * @since 2.1
-     */
-    Value divNum(double numerator);
-
-    /**
      * Calculates the division of this value with the divisor.
-     * 
+     *
      * @param divisor
-     *            the exact divisor.
-     * 
+     *            the {@link Double} divisor.
+     *
      * @return the result {@link Value}.
      */
     Value div(double divisor);
 
     /**
      * Calculates the reciprocal of this value.
-     * 
+     *
      * @return the result {@link Value}.
      */
     Value reciprocal();
 
     /**
      * Calculates the natural logarithm of the value.
-     * 
+     *
      * @return the {@link Value}.
      */
     Value log();
 
     /**
      * Calculates the Euler's number e raised to the power of this value.
-     * 
+     *
      * @return the {@link Value}.
      */
     Value exp();
 
     /**
      * Calculates the absolute value of this value.
-     * 
+     *
      * @return the {@link Value}.
      */
     Value abs();
 
     /**
-     * Compares this value to the specified value using three standard
-     * deviations.
-     * 
+     * Compares this value to the specified value using the absolute value.
+     *
      * @param v
      *            the {@link Value}.
-     * 
+     *
      * @return {@code -1} if {@code this<value;} {@code 0} if
      *         {@code this=value;} {@code 1} if {@code this>value.}
      */
-    int compare(Value v);
+    @Override
+    int compareTo(Value v);
 
     /**
-     * Compares this value to the specified value.
-     * 
-     * @param v
-     *            the {@link Value}.
-     * 
-     * @param dev
-     *            the standard deviations the values can differ from each other
-     *            to be unequal.
-     * 
-     * @return {@code -1} if {@code this<value;} {@code 0} if
-     *         {@code this=value;} {@code 1} if {@code this>value.}
-     */
-    int compare(Value v, double dev);
-
-    /**
-     * Compares this value to the specified exact value using three standard
-     * deviations.
-     * 
-     * @param v
-     *            the exact {@link Number}.
-     * 
-     * @return {@code -1} if {@code this<value;} {@code 0} if
-     *         {@code this=value;} {@code 1} if {@code this>value.}
-     */
-    int compare(Number v);
-
-    /**
-     * Compares this value to the specified exact value.
-     * 
-     * @param v
-     *            the exact {@link Number}.
-     * 
-     * @param dev
-     *            the standard deviations the values can differ from each other
-     *            to be unequal.
-     * 
-     * @return {@code -1} if {@code this<value;} {@code 0} if
-     *         {@code this=value;} {@code 1} if {@code this>value.}
-     */
-    int compare(Number v, double dev);
-
-    /**
-     * Compares this value and the specified value for equality. Two values are
-     * equal if they do not differ from each other by more then three standard
-     * deviations.
+     * Compares this value and the specified value for equality by their
+     * absolute value.
      */
     @Override
     boolean equals(Object obj);
 
     /**
-     * Compares this value and the specified value for equality. Two values are
-     * equal if they do not differ from each other by more then the specified
-     * standard deviations.
-     * 
-     * @param dev
-     *            the standard deviations the values can differ from each other
-     *            to be unequal.
-     * 
-     * @see #equals(Object)
+     * Compares this value and the specified value for consistency.
      */
-    boolean equals(Object obj, double dev);
+    boolean isConsistent(Value rhs);
 
     /**
      * Returns the hash code from the value.

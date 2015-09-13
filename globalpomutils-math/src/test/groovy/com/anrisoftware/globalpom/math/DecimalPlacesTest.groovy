@@ -18,6 +18,8 @@
  */
 package com.anrisoftware.globalpom.math
 
+import groovy.util.logging.Slf4j
+
 import java.text.DecimalFormat
 
 import org.junit.Test
@@ -30,27 +32,28 @@ import org.junit.Test
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.1
  */
+@Slf4j
 class DecimalPlacesTest {
-
-    static data = [
-        [value: "0", result: 0 ],
-        [value: "-5.2", result: 1 ],
-        [value: "5.2", result: 1 ],
-        [value: "-1.47956", result: 5 ],
-        [value: "1.47672", result: 5 ],
-        [value: "0.1E5", result: 4 ],
-        [value: "0.1E-5", result: 6 ],
-        [value: "1E5", result: 5 ],
-        [value: "1E-5", result: 5 ],
-    ]
 
     @Test
     void "decimal places"() {
+        def testCases = [
+            [value: "0", result: 0 ],
+            [value: "-5.2", result: 1 ],
+            [value: "5.2", result: 1 ],
+            [value: "-1.47956", result: 5 ],
+            [value: "1.47672", result: 5 ],
+            [value: "0.1E5", result: 4 ],
+            [value: "0.1E-5", result: 6 ],
+            [value: "1E5", result: 5 ],
+            [value: "1E-5", result: 5 ],
+        ]
         def sep = new DecimalFormat().decimalFormatSymbols.decimalSeparator
         def exsep = new DecimalFormat().decimalFormatSymbols.exponentialSeparator
-        data.each {
-            int result = MathUtils.decimalPlaces(it.value, sep, exsep)
-            assert result == it.result
+        testCases.eachWithIndex { testCase, int k ->
+            log.info "{}. case: {}", k, testCase
+            int result = MathUtils.decimalPlaces(testCase.value, sep, exsep)
+            assert result == testCase.result
         }
     }
 }

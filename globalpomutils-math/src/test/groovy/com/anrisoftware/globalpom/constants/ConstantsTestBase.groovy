@@ -20,13 +20,13 @@ package com.anrisoftware.globalpom.constants
 
 import static com.anrisoftware.globalpom.utils.TestUtils.*
 import static javax.measure.unit.SI.*
+import groovy.transform.CompileStatic
 
 import org.junit.BeforeClass
 
 import com.anrisoftware.globalpom.format.measurement.MeasureFormatFactory
 import com.anrisoftware.globalpom.format.measurement.MeasurementFormatModule
 import com.anrisoftware.globalpom.format.measurement.ValueFormatFactory
-import com.anrisoftware.globalpom.measurement.ExactStandardValueFactory
 import com.anrisoftware.globalpom.measurement.MeasurementStandardModule
 import com.anrisoftware.globalpom.measurement.StandardMeasureFactory
 import com.anrisoftware.globalpom.measurement.StandardValueFactory
@@ -41,6 +41,7 @@ import com.google.inject.Injector
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
+@CompileStatic
 class ConstantsTestBase {
 
     static Injector injector
@@ -49,13 +50,11 @@ class ConstantsTestBase {
 
     static MeasureFormatFactory formatFactory
 
-    static StandardMeasureFactory constantFactory
-
     static ValueFormatFactory valueFormatFactory
 
-    static StandardValueFactory value
+    static StandardMeasureFactory measureFactory
 
-    static ExactStandardValueFactory exact
+    static StandardValueFactory valueFactory
 
     @BeforeClass
     static void createFactories() {
@@ -64,10 +63,9 @@ class ConstantsTestBase {
                 new MeasurementFormatModule(), new MeasurementStandardModule()
         constantsFactory = injector.getInstance ConstantsFactory
         formatFactory = injector.getInstance MeasureFormatFactory
-        constantFactory = injector.getInstance StandardMeasureFactory
+        measureFactory = injector.getInstance StandardMeasureFactory
+        valueFactory = injector.getInstance StandardValueFactory
         valueFormatFactory = injector.getInstance ValueFormatFactory
-        value = injector.getInstance StandardValueFactory
-        exact = injector.getInstance ExactStandardValueFactory
     }
 
     static assertConstants(Constants constants) {
@@ -81,12 +79,12 @@ class ConstantsTestBase {
     }
 
     static assertConstantName(Map args, Constants constants) {
-        def c = constants.getConstant args.name
+        def c = constants.getConstant args.name as String
         assertConstant args, c
     }
 
     static assertConstant(Map args, Value c) {
         epsilon = args.epsilon
-        assertDecimalEquals c.value, args.value
+        assertDecimalEquals c.value, args.value as double
     }
 }

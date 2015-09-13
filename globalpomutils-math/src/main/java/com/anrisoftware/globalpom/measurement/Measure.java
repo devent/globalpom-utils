@@ -23,34 +23,40 @@ import javax.measure.unit.Unit;
 
 /**
  * Defines a measurement with a physical unit.
- * 
+ *
  * @param <UnitType>
  *            the {@link Quantity} of the unit.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.10
+ * @since 2.4
  */
 public interface Measure<UnitType extends Quantity> extends Value {
 
     /**
      * Returns the unit of the gauge.
-     * 
+     *
      * @return the {@link Unit}.
      */
     Unit<UnitType> getUnit();
 
     /**
      * Returns the measured value.
-     * 
+     *
      * @return the {@link Value}.
      */
     Value getMeasureValue();
 
     @Override
-    Measure<UnitType> getRoundedValue();
+    Measure<UnitType> getMinValue();
 
     @Override
-    Measure<UnitType> roundedValue(int sig, int dec);
+    Measure<UnitType> minValue(double deviation);
+
+    @Override
+    Measure<UnitType> getMaxValue();
+
+    @Override
+    Measure<UnitType> maxValue(double deviation);
 
     @Override
     Measure<UnitType> add(Value addend);
@@ -59,16 +65,34 @@ public interface Measure<UnitType extends Quantity> extends Value {
     Measure<UnitType> add(double addend);
 
     @Override
+    Measure<UnitType> plus(Value addend);
+
+    @Override
+    Measure<UnitType> plus(double addend);
+
+    @Override
     Measure<UnitType> sub(Value subtrahend);
 
     @Override
     Measure<UnitType> sub(double subtrahend);
 
     @Override
+    Measure<UnitType> minus(Value subtrahend);
+
+    @Override
+    Measure<UnitType> minus(double subtrahend);
+
+    @Override
     Measure<UnitType> mul(Value factor);
 
     @Override
     Measure<UnitType> mul(double factor);
+
+    @Override
+    Measure<UnitType> multiply(Value factor);
+
+    @Override
+    Measure<UnitType> multiply(double factor);
 
     @Override
     Measure<UnitType> div(Value divisor);

@@ -18,139 +18,261 @@
  */
 package com.anrisoftware.globalpom.format.measurement;
 
-import static com.anrisoftware.globalpom.math.MathUtils.decimalPlaces;
-import static com.anrisoftware.globalpom.math.MathUtils.sigPlaces;
+import static com.anrisoftware.globalpom.measurement.RoundToSignificantFigures.roundToDecimal;
+import static com.anrisoftware.globalpom.measurement.RoundToSignificantFigures.roundToSignificant;
+import static org.apache.commons.lang3.StringUtils.split;
+import static org.apache.commons.lang3.Validate.isTrue;
+import static org.apache.commons.math3.util.FastMath.abs;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.FieldPosition;
 import java.text.Format;
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
-import com.anrisoftware.globalpom.measurement.ExactValueFactory;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.math3.util.FastMath;
+
 import com.anrisoftware.globalpom.measurement.Value;
 import com.anrisoftware.globalpom.measurement.ValueFactory;
-import com.anrisoftware.globalpom.measurement.ValueToString;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 /**
  * Formats and parses a {@link Value} value.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.10
+ * @since 2.4
  */
 @SuppressWarnings("serial")
 public class ValueFormat extends Format {
 
-    private final String VALUE_GROUP = "(.*?)";
-
-    private final String PARANTHESIS_GROUP = "\\((.*?)\\)";
-
-    private final String PERCENT_GROUP = "\\((.*?)%\\)";
-
-    private final String SIG_GROUP = ";(\\d+);(\\d+);";
-
-    private final Pattern VALUE_PATTERN = Pattern.compile(String.format(
-            "^%s(?:%s|%s)?(?:%s)?$", VALUE_GROUP, PARANTHESIS_GROUP,
-            PERCENT_GROUP, SIG_GROUP));
-
-    private final NumberFormat valueFormat;
-
     private final ValueFactory valueFactory;
-
-    private final ExactValueFactory exactValueFactory;
-
-    private final NumberFormat uncFormat;
-
-    @Inject
-    private ValueToString valueToString;
 
     @Inject
     private ValueFormatLogger log;
 
-    public char decimalSeparator;
+    private boolean scientificNotation;
 
-    public String exponentSeparator;
+    private Integer sig;
+
+    private Integer dec;
+
+    private final DecimalFormatSymbols symbols;
 
     /**
-     * @see ValueFormatFactory#create(ValueFactory, ExactValueFactory)
+     * @see ValueFormatFactory#create(ValueFactory)
      */
     @AssistedInject
-    ValueFormat(@Assisted ValueFactory valueFactory,
-            @Assisted ExactValueFactory exactValueFactory) {
-        this(valueFactory, exactValueFactory, new DecimalFormat("#.#########"));
+    ValueFormat(@Assisted ValueFactory valueFactory) {
+        this(valueFactory, Locale.getDefault());
     }
 
     /**
-     * @see ValueFormatFactory#create(ValueFactory, ExactValueFactory,
-     *      NumberFormat)
+     * @see ValueFormatFactory#create(Locale, ValueFactory)
      */
     @AssistedInject
-    ValueFormat(@Assisted ValueFactory valueFactory,
-            @Assisted ExactValueFactory exactValueFactory,
-            @Assisted NumberFormat format) {
-        this(valueFactory, exactValueFactory, format, format);
+    ValueFormat(@Assisted ValueFactory valueFactory, @Assisted Locale locale) {
+        this(valueFactory, DecimalFormatSymbols.getInstance(locale));
     }
 
     /**
-     * @see ValueFormatFactory#create(ValueFactory, ExactValueFactory,
-     *      NumberFormat, NumberFormat)
+     * @see ValueFormatFactory#create(DecimalFormatSymbols, ValueFactory)
      */
     @AssistedInject
     ValueFormat(@Assisted ValueFactory valueFactory,
-            @Assisted ExactValueFactory exactValueFactory,
-            @Assisted("format") NumberFormat format,
-            @Assisted("uncFormat") NumberFormat uncFormat) {
+            @Assisted DecimalFormatSymbols symbols) {
+        this.sig = null;
+        this.dec = null;
         this.valueFactory = valueFactory;
-        this.exactValueFactory = exactValueFactory;
-        this.valueFormat = format;
-        this.uncFormat = uncFormat;
-        if (format instanceof DecimalFormat) {
-            DecimalFormat dec = (DecimalFormat) format;
-            DecimalFormatSymbols symbols = dec.getDecimalFormatSymbols();
-            this.decimalSeparator = symbols.getDecimalSeparator();
-            this.exponentSeparator = symbols.getExponentSeparator();
-        } else {
-            DecimalFormat dec = new DecimalFormat();
-            DecimalFormatSymbols symbols = dec.getDecimalFormatSymbols();
-            this.decimalSeparator = symbols.getDecimalSeparator();
-            this.exponentSeparator = symbols.getExponentSeparator();
-        }
+        this.symbols = symbols;
     }
 
     /**
-     * Formats the specified point.
+     * Set to use the scientific notation for formatting the value.
+     *
+     * @param scientificNotation
+     *            set to {@code true} to use the scientific notation.
+     */
+    public void setUseScientificNotation(boolean scientificNotation) {
+        this.scientificNotation = scientificNotation;
+    }
+
+    /**
+     * Sets the significant figures for formatting the value.
+     *
+     * @param sig
+     *            the {@link Integer} significant figures.
+     */
+    public void setSignificant(int sig) {
+        isTrue(sig > 0);
+        this.sig = sig;
+    }
+
+    /**
+     * Sets the least significant decimal for formatting the value.
+     *
+     * @param dec
+     *            the {@link Integer} least significant decimal.
+     */
+    public void setDecimal(int dec) {
+        isTrue(dec > 0);
+        this.dec = dec;
+    }
+
+    /**
+     * Formats the specified value.
      * <p>
      * The format follows the pattern:
-     * 
+     *
      * <pre>
-     * &lt;value&gt;[(&lt;uncertainty&gt;);&lt;significant&gt;;&lt;decimal&gt;;]
+     * value[(uncertainty)]
      * </pre>
-     * 
+     *
      * <p>
      * <h2>Examples</h2>
      * <p>
      * <ul>
      * <li>exact value: {@code 0.0123}
-     * <li>uncertain value: {@code 5.0(0.2);1;1;}
+     * <li>uncertain value: {@code 5.0(0.2)}
      * </ul>
-     * 
+     *
      * @param obj
      *            the {@link Value}.
      */
     @Override
     public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos) {
         if (obj instanceof Value) {
-            valueToString.format(buff, (Value) obj, valueFormat, uncFormat);
+            Value value = (Value) obj;
+            double v = value.getValue();
+            double unc = value.getUncertainty();
+            int order = value.getOrder();
+            int sig = this.sig == null ? value.getSignificant() : this.sig;
+            int dec = value.getDecimal();
+            if (this.dec != null) {
+                dec = FastMath.max(-this.dec, dec);
+            }
+            if (scientificNotation) {
+                buff.append(formatScientificValue(v, order, sig, dec));
+            } else {
+                buff.append(formatNumber(v, order, sig, dec));
+            }
+            if (!value.isExact()) {
+                buff.append('(');
+                buff.append(formatUncertainty(unc, order, sig, dec));
+                buff.append(')');
+            }
         }
         return buff;
+    }
+
+    /**
+     * Formats the value according to the significant figure and least
+     * significant decimal.
+     *
+     * @param value
+     *            the {@link Double} value.
+     *
+     * @param order
+     *            the {@link Integer} order.
+     *
+     * @param sig
+     *            the {@link Integer} significant figure.
+     *
+     * @param dec
+     *            the {@link Integer} least significant decimal,
+     *
+     * @return the formatted {@link String}.
+     */
+    public String formatNumber(double value, int order, int sig, int dec) {
+        StringBuilder pattern = new StringBuilder("0");
+        dec = abs(dec);
+        double rvalue = roundValue(value, sig, dec);
+        if (dec > 0) {
+            pattern.append('.');
+            for (int i = order; i < 0; i++) {
+                pattern.append('0');
+            }
+            for (int i = 0; i < sig; i++) {
+                pattern.append('#');
+            }
+        }
+        DecimalFormat format = new DecimalFormat(pattern.toString(), symbols);
+        return format.format(rvalue);
+    }
+
+    private String formatUncertainty(double unc, int order, int sig, int dec) {
+        StringBuilder pattern = new StringBuilder("0");
+        if (dec < 0) {
+            pattern.append('.');
+            for (int i = dec; i < 0; i++) {
+                pattern.append('0');
+            }
+        }
+        DecimalFormat format = new DecimalFormat(pattern.toString(), symbols);
+        return format.format(unc);
+    }
+
+    /**
+     * Formats the value according to the significant figure and least
+     * significant decimal in a scientific format.
+     *
+     * @param value
+     *            the {@link Double} value.
+     *
+     * @param order
+     *            the {@link Integer} order.
+     *
+     * @param sig
+     *            the {@link Integer} significant figure.
+     *
+     * @param dec
+     *            the {@link Integer} least significant decimal,
+     *
+     * @return the formatted {@link String}.
+     */
+    public String formatScientificValue(double value, int order, int sig,
+            int dec) {
+        StringBuilder pattern = new StringBuilder("0");
+        dec = abs(dec);
+        double avalue = abs(value);
+        double rvalue = roundValue(value, sig, dec);
+        if (dec != 0 && avalue < 1 || avalue > 9) {
+            pattern.append('.');
+            for (int i = order; i < 0; i++) {
+                pattern.append('0');
+            }
+            int s = avalue < 0 ? 0 : 1;
+            for (int i = s; i < sig; i++) {
+                pattern.append('#');
+            }
+            pattern.append("E0");
+        } else if (isFraction(avalue)) {
+            pattern.append('.');
+            for (int i = 1; i < sig; i++) {
+                pattern.append('#');
+            }
+        }
+        DecimalFormat format = new DecimalFormat(pattern.toString(), symbols);
+        return format.format(rvalue);
+    }
+
+    private double roundValue(double value, int sig, int dec) {
+        value = roundToSignificant(value, sig);
+        value = roundToDecimal(value, dec);
+        return value;
+    }
+
+    private boolean isFraction(double avalue) {
+        return avalue - (long) avalue != 0;
     }
 
     @Override
@@ -162,22 +284,21 @@ public class ValueFormat extends Format {
      * Parses the specified string to value.
      * <p>
      * The format follows the pattern:
-     * 
+     *
      * <pre>
-     * &lt;value&gt;;&lt;uncertainty%&gt;)[;&lt;significant&gt;;&lt;decimal&gt;;]
-     * &lt;value&gt;(&lt;uncertainty&gt;)[;&lt;significant&gt;;&lt;decimal&gt;;]
+     * value[(uncertain)]
      * </pre>
-     * 
+     *
      * <p>
      * <h2>Examples</h2>
      * <p>
      * <ul>
      * <li>exact value: {@code 0.0123}
-     * <li>uncertain value: {@code 5.0(0.2);1;1;}
+     * <li>uncertain value: {@code 5.0(0.2)}
      * </ul>
-     * 
+     *
      * @return the parsed {@link Value}.
-     * 
+     *
      * @throws ParseException
      *             if the string cannot be parsed to a value.
      */
@@ -192,7 +313,7 @@ public class ValueFormat extends Format {
 
     /**
      * @see #parse(String)
-     * 
+     *
      * @param pos
      *            the index {@link ParsePosition} position from where to start
      *            parsing.
@@ -211,89 +332,203 @@ public class ValueFormat extends Format {
         }
     }
 
+    private static final Pattern VALUE_GROUP_PATTERN = Pattern
+            .compile("(.*?)(\\(.*?\\))?");
+
     private Value parseValue(String string, ParsePosition pos)
             throws ParseException {
-        Matcher matcher = VALUE_PATTERN.matcher(string);
-        if (matcher.matches()) {
-            return parseValue(matcher);
-        } else {
+        Matcher matcher = VALUE_GROUP_PATTERN.matcher(string);
+        if (!matcher.matches()) {
             throw log.errorParseValue(string, pos);
+        }
+        String valueStr = matcher.group(1);
+        String uncStr = matcher.group(2);
+        double unc = Double.NaN;
+        String value = valueStr;
+        ParseValue parseValue = new ParseValue(value);
+        int order = parseValue.parseOrder();
+        String mantissa = parseValue.parseMantissa();
+        int sig = mantissa.length();
+        int dec = order - sig;
+        long man = Long.valueOf(mantissa);
+        man = parseValue.isNegative() ? -man : man;
+        if (uncStr != null) {
+            unc = parseUncertainty(uncStr, calculateValue(man, dec));
+        }
+        return valueFactory.create(man, order, sig, dec, unc);
+    }
+
+    private double calculateValue(long man, int dec) {
+        return man * FastMath.pow(10, dec);
+    }
+
+    private double parseUncertainty(String str, double value) {
+        char percent = symbols.getPercent();
+        str = StringUtils.substringBetween(str, "(", ")");
+        if (StringUtils.contains(str, percent)) {
+            int idx = str.indexOf(percent);
+            str = str.substring(0, idx);
+            return Double.valueOf(str) / 100 * value;
+        } else {
+            return Double.valueOf(str);
         }
     }
 
-    private class ParseValue {
+    class ParseValue {
 
-        Double value = null;
+        private final List<String> valueSplit;
 
-        Double unc = null;
+        private final char decimalSeparator;
 
-        Integer sig = null;
+        private final String exponentSeparator;
 
-        Integer dec = null;
+        private final boolean negative;
 
-        String valueStr = null;
+        private final char minusSign;
 
-        String uncStr = null;
+        ParseValue(String value) {
+            this.valueSplit = new ArrayList<String>(3);
+            this.decimalSeparator = symbols.getDecimalSeparator();
+            this.exponentSeparator = symbols.getExponentSeparator();
+            this.minusSign = symbols.getMinusSign();
+            this.negative = value.charAt(0) == minusSign;
+            splitValue(value);
+        }
 
-        public void parseValue(Matcher matcher) throws ParseException {
-            for (int i = 1; i < matcher.groupCount() + 1; i++) {
-                Number number = parseGroup(i, matcher);
-                switch (i) {
-                case 1:
-                    value = number.doubleValue();
-                    valueStr = matcher.group(i);
-                    break;
-                case 2:
-                    if (number != null) {
-                        unc = number.doubleValue();
-                        uncStr = matcher.group(i);
+        private void splitValue(String value) {
+            String[] vsplit = split(value, exponentSeparator);
+            String[] dsplit = split(vsplit[0], decimalSeparator);
+            // number
+            valueSplit.add(dsplit[0].substring(negative ? 1 : 0));
+            // decimal
+            if (dsplit.length == 2) {
+                valueSplit.add(dsplit[1]);
+            } else {
+                valueSplit.add(null);
+            }
+            // exponent
+            if (vsplit.length == 2) {
+                valueSplit.add(vsplit[1]);
+            }
+        }
+
+        public boolean isNegative() {
+            return negative;
+        }
+
+        public int parseOrder() {
+            int order = 0;
+            // exponent order
+            if (valueSplit.size() > 2) {
+                String exp = valueSplit.get(2);
+                order = Integer.valueOf(exp);
+            }
+            // number order
+            if (valueSplit.size() > 0) {
+                String number = valueSplit.get(0);
+                boolean firstNotNull = false;
+                for (int i = 0; i < number.length(); i++) {
+                    char c = number.charAt(i);
+                    switch (c) {
+                    case '0':
+                        if (firstNotNull) {
+                            order++;
+                        }
+                        break;
+                    default:
+                        firstNotNull = true;
+                        order++;
+                        break;
+                    }
+                }
+            }
+            // decimal order
+            if (order < 1 && valueSplit.size() == 2
+                    && valueSplit.get(1) != null) {
+                String decimal = valueSplit.get(1);
+                boolean onlyNull = true;
+                int oorder = 0;
+                for (int i = 0; i < decimal.length(); i++) {
+                    char c = decimal.charAt(i);
+                    switch (c) {
+                    case '0':
+                        oorder--;
+                        break;
+                    default:
+                        onlyNull = false;
+                        i = decimal.length();
+                        break;
+                    }
+                }
+                if (!onlyNull) {
+                    order += oorder;
+                }
+            }
+            return order;
+        }
+
+        public String parseMantissa() {
+            StringBuilder buff = new StringBuilder();
+            appendNumber(buff);
+            if (valueSplit.size() > 1) {
+                appendDecimal(buff.length() == 0, buff);
+            }
+            if (buff.length() == 0) {
+                buff.append('0');
+            }
+            return buff.toString();
+        }
+
+        private StringBuilder appendNumber(StringBuilder buff) {
+            String number = valueSplit.get(0);
+            if (number.length() == 1 && number.charAt(0) == '0') {
+                return buff;
+            }
+            StringBuilder b = new StringBuilder();
+            boolean firstNotNull = valueSplit.size() > 1
+                    && valueSplit.get(1) != null;
+            for (int i = number.length() - 1; i >= 0; i--) {
+                char c = number.charAt(i);
+                switch (c) {
+                case '0':
+                    if (firstNotNull) {
+                        b.append(c);
                     }
                     break;
-                case 4:
-                    if (number == null) {
-                        return;
-                    }
-                    sig = number.intValue();
-                    break;
-                case 5:
-                    if (number == null) {
-                        return;
-                    }
-                    dec = number.intValue();
+                default:
+                    firstNotNull = true;
+                    b.append(c);
                     break;
                 }
             }
+            buff.append(b.reverse());
+            return buff;
         }
 
-        private Number parseGroup(int i, Matcher matcher) throws ParseException {
-            if (matcher.group(i) == null) {
-                return null;
-            } else {
-                return valueFormat.parse(matcher.group(i));
+        private StringBuilder appendDecimal(boolean isNull, StringBuilder buff) {
+            String decimal = valueSplit.get(1);
+            if (decimal == null) {
+                return buff;
             }
+            StringBuilder b = new StringBuilder();
+            for (int i = 0; i < decimal.length(); i++) {
+                char c = decimal.charAt(i);
+                switch (c) {
+                case '0':
+                    if (!isNull) {
+                        b.append(c);
+                    }
+                    break;
+                default:
+                    isNull = false;
+                    b.append(c);
+                    break;
+                }
+            }
+            buff.append(b);
+            return buff;
         }
 
     }
 
-    private Value parseValue(Matcher matcher) throws ParseException {
-        ParseValue parseValue = new ParseValue();
-        parseValue.parseValue(matcher);
-        if (parseValue.unc == null) {
-            return createExactValue(parseValue.value);
-        } else {
-            return createValue(parseValue);
-        }
-    }
-
-    private Value createExactValue(double value) throws ParseException {
-        return exactValueFactory.create(value);
-    }
-
-    private Value createValue(ParseValue parseValue) {
-        int sig = parseValue.sig != null ? parseValue.sig : sigPlaces(
-                parseValue.uncStr, decimalSeparator, exponentSeparator);
-        int dec = parseValue.dec != null ? parseValue.dec : decimalPlaces(
-                parseValue.valueStr, decimalSeparator, exponentSeparator);
-        return valueFactory.create(parseValue.value, sig, parseValue.unc, dec);
-    }
 }

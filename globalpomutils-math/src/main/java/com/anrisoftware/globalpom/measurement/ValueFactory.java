@@ -22,7 +22,7 @@ import com.google.inject.assistedinject.Assisted;
 
 /**
  * Factory to create a new value with an uncertainty.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
  */
@@ -31,64 +31,134 @@ public interface ValueFactory {
     public static final String DECIMAL = "decimal";
     public static final String UNCERTAINTY = "uncertainty";
     public static final String SIGNIFICANT = "significant";
-    public static final String VALUE = "value";
-    public static final String VALUE_FACTORY = "valueFactory";
+    public static final String MANTISSA = "mantissa";
+    public static final String ORDER = "order";
 
     /**
-     * Creates a new value with an uncertainty.
-     * 
-     * @param value
-     *            the value.
-     * 
-     * @param significant
+     * Creates a new value.
+     *
+     * @param mantissa
+     *            the significant digits of the value.
+     *
+     * @param order
+     *            the order of the value.
+     *
+     * @param sig
      *            the significant figures of the value.
-     * 
-     * @param uncertainty
-     *            the uncertainty of the value.
-     * 
-     * @param decimal
+     *
+     * @param dec
      *            the least significant decimal.
-     * 
+     *
      * @return the {@link Value}.
+     *
+     * @since 2.4
      */
-    Value create(@Assisted(VALUE) double value,
-            @Assisted(SIGNIFICANT) int significant,
-            @Assisted(UNCERTAINTY) double uncertainty,
-            @Assisted(DECIMAL) int decimal);
+    Value create(@Assisted(MANTISSA) long mantissa, @Assisted(ORDER) int order,
+            @Assisted(SIGNIFICANT) int sig, @Assisted(DECIMAL) int dec);
 
     /**
+     * Creates a new value with the specified value factory.
+     *
+     * @param mantissa
+     *            the significant digits of the value.
+     *
+     * @param order
+     *            the order of the value.
+     *
+     * @param sig
+     *            the significant figures of the value.
+     *
+     * @param dec
+     *            the least significant decimal.
+     *
      * @param valueFactory
-     *            the {@link ValueFactory} to create the value for calculations.
-     * 
-     * @see ValueFactory#create(double, int, double, int)
+     *            the {@link ValueFactory}.
+     *
+     * @return the {@link Value}.
+     *
+     * @since 2.4
      */
-    Value create(@Assisted(VALUE) double value,
-            @Assisted(SIGNIFICANT) int significant,
-            @Assisted(UNCERTAINTY) double uncertainty,
-            @Assisted(DECIMAL) int decimal,
-            @Assisted(VALUE_FACTORY) ValueFactory valueFactory);
+    Value create(@Assisted(MANTISSA) long mantissa, @Assisted(ORDER) int order,
+            @Assisted(SIGNIFICANT) int sig, @Assisted(DECIMAL) int dec,
+            ValueFactory valueFactory);
+
+    /**
+     * Creates a new value with the specified uncertainty.
+     *
+     * @param mantissa
+     *            the significant digits of the value.
+     *
+     * @param order
+     *            the order of the value.
+     *
+     * @param sig
+     *            the significant figures of the value.
+     *
+     * @param dec
+     *            the least significant decimal.
+     *
+     * @param unc
+     *            the uncertainty {@link Value}.
+     *
+     * @return the {@link Value}.
+     *
+     * @since 2.4
+     */
+    Value create(@Assisted(MANTISSA) long mantissa, @Assisted(ORDER) int order,
+            @Assisted(SIGNIFICANT) int sig, @Assisted(DECIMAL) int dec,
+            double unc);
+
+    /**
+     * Creates a new value with the specified uncertainty and value factory.
+     *
+     * @param mantissa
+     *            the significant digits of the value.
+     *
+     * @param order
+     *            the order of the value.
+     *
+     * @param sig
+     *            the significant figures of the value.
+     *
+     * @param dec
+     *            the least significant decimal.
+     *
+     * @param unc
+     *            the uncertainty {@link Value}.
+     *
+     * @param valueFactory
+     *            the {@link ValueFactory}.
+     *
+     * @return the {@link Value}.
+     *
+     * @since 2.4
+     */
+    Value create(@Assisted(MANTISSA) long mantissa, @Assisted(ORDER) int order,
+            @Assisted(SIGNIFICANT) int sig, @Assisted(DECIMAL) int dec,
+            double unc, ValueFactory valueFactory);
 
     /**
      * Creates a new value from the specified value.
-     * 
+     *
      * @param value
      *            the {@link Value}.
-     * 
+     *
      * @return the {@link Value}.
      */
     Value create(Value value);
 
     /**
-     * Creates a new value from the specified value.
-     * 
+     * Creates a new value from the specified value with the specified value
+     * factory.
+     *
      * @param value
      *            the {@link Value}.
-     * 
+     *
      * @param valueFactory
      *            the {@link ValueFactory} to create the value for calculations.
-     * 
+     *
      * @return the {@link Value}.
      */
-    Value create(Value value, @Assisted(VALUE_FACTORY) ValueFactory valueFactory);
+    Value create(Value value, ValueFactory valueFactory);
 
 }

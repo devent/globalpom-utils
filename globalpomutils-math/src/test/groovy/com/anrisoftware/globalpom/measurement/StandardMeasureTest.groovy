@@ -30,7 +30,6 @@ import com.thoughtworks.xstream.XStream
 
 /**
  * @see StandardMeasure
- * @see StandardMeasureData
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
@@ -39,35 +38,22 @@ import com.thoughtworks.xstream.XStream
 class StandardMeasureTest extends ValueTestBase {
 
     @Test
-    void "standard measure"() {
-        standardMeasureData.each {
-            epsilon = it.epsilon
-            def x = it.x
-            def y = it.y
-            def f = it.f(x, y)
-            log.info "$it.name x:=$x; y:=$y; $it.func=$f"
-            it.result(f)
-            it.rounded(f)
-        }
-    }
-
-    @Test
     void "serialize"() {
-        def value = standardValueFactory.create(5.0, 1, 0.1, 1)
+        def value = standardValueFactory.create(123, 4, 3, 1)
         def measure = standardMeasureFactory.create value, SI.METER
         def measureB = standardMeasureFactory.create reserialize(measure)
-        assertDecimalEquals measureB.value, 5.0
-        def v = measureB.mul 1.0
+        assertDecimalEquals measureB.getValue(), 1230
+        def v = measureB.mul standardValueFactory.create(1, 1, 1, 0)
     }
 
     @Test
     void "xstream, serialize"() {
         def xstream = new XStream()
-        def value = standardValueFactory.create(5.0, 1, 0.1, 1)
+        def value = standardValueFactory.create(123, 4, 3, 1)
         def measure = standardMeasureFactory.create value, SI.METER
         def xml = xstream.toXML measure
         def measureB = standardMeasureFactory.create xstream.fromXML(xml)
-        assertDecimalEquals measureB.value, 5.0
-        def v = measureB.mul 1.0
+        assertDecimalEquals measureB.getValue(), 1230
+        def v = measureB.mul standardValueFactory.create(1, 1, 1, 0)
     }
 }

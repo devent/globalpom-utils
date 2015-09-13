@@ -28,14 +28,14 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * Defines a measurement with a physical unit.
- * 
+ *
  * @param <UnitType>
  *            the {@link Quantity} of the unit.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.10
+ * @since 2.4
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "unchecked" })
 public abstract class AbstractMeasure<UnitType extends Quantity> implements
         Measure<UnitType>, Serializable {
 
@@ -64,9 +64,7 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
         this.unit = unit;
         this.valueFactory = valueFactory;
         this.measureFactory = measureFactory;
-        this.value = valueFactory.create(value.getValue(),
-                value.getSignificant(), value.getUncertainty(),
-                value.getDecimal(), valueFactory);
+        this.value = valueFactory.create(value, valueFactory);
     }
 
     public void setValueFactory(ValueFactory factory) {
@@ -87,38 +85,14 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
         return value;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Measure<UnitType> valueOf(double value) {
-        Value v = this.value.valueOf(value);
-        return measureFactory.create(v, unit, valueFactory);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public Measure<UnitType> valueOf(double value, int significant,
-            double uncertainty, int decimal) {
-        Value v = this.value.valueOf(value, significant, uncertainty, decimal);
-        return measureFactory.create(v, unit, valueFactory);
+    public long getMantissa() {
+        return value.getMantissa();
     }
 
     @Override
-    public double getValue() {
-        return value.getValue();
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public Measure<UnitType> getRoundedValue() {
-        Value value = this.value.getRoundedValue();
-        return measureFactory.create(value, unit, valueFactory);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public Measure<UnitType> roundedValue(int sig, int dec) {
-        Value value = this.value.roundedValue(sig, dec);
-        return measureFactory.create(value, unit, valueFactory);
+    public int getOrder() {
+        return value.getOrder();
     }
 
     @Override
@@ -142,26 +116,50 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
     }
 
     @Override
-    public double getMinValue() {
-        return value.getMinValue();
+    public double getValue() {
+        return value.getValue();
     }
 
     @Override
-    public double minValue(double deviation) {
-        return value.minValue(deviation);
+    public double getRoundedValue() {
+        return value.getRoundedValue();
     }
 
     @Override
-    public double getMaxValue() {
-        return value.getMaxValue();
+    public double roundedValue(int sig, int dec) {
+        return value.roundedValue(sig, dec);
     }
 
     @Override
-    public double maxValue(double deviation) {
-        return value.maxValue(deviation);
+    public Measure<UnitType> getMinValue() {
+        Value value = this.value.getMinValue();
+        return measureFactory.create(value, getUnit(), valueFactory);
     }
 
-    @SuppressWarnings("unchecked")
+    @Override
+    public Measure<UnitType> minValue(double deviation) {
+        Value value = this.value.minValue(deviation);
+        return measureFactory.create(value, getUnit(), valueFactory);
+    }
+
+    @Override
+    public Measure<UnitType> getMaxValue() {
+        Value value = this.value.getMaxValue();
+        return measureFactory.create(value, getUnit(), valueFactory);
+    }
+
+    @Override
+    public Measure<UnitType> maxValue(double deviation) {
+        Value value = this.value.maxValue(deviation);
+        return measureFactory.create(value, getUnit(), valueFactory);
+    }
+
+    @Override
+    public Value valueOf(long mantissa, int order, int sig, int dec, double unc) {
+        Value value = this.value.valueOf(mantissa, order, sig, dec, unc);
+        return measureFactory.create(value, getUnit(), valueFactory);
+    }
+
     @Override
     public Measure<UnitType> add(Value addend) {
         Value value = this.value.add(addend);
@@ -169,23 +167,21 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
     }
 
     @Override
-    public Value plus(Value addend) {
-        return add(addend);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public Measure<UnitType> add(double addend) {
         Value value = this.value.add(addend);
         return measureFactory.create(value, unit, valueFactory);
     }
 
     @Override
-    public Value plus(double addend) {
+    public Measure<UnitType> plus(Value addend) {
         return add(addend);
     }
 
-    @SuppressWarnings("unchecked")
+    @Override
+    public Measure<UnitType> plus(double addend) {
+        return add(addend);
+    }
+
     @Override
     public Measure<UnitType> sub(Value subtrahend) {
         Value value = this.value.sub(subtrahend);
@@ -193,23 +189,21 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
     }
 
     @Override
-    public Value minus(Value subtrahend) {
-        return sub(subtrahend);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public Measure<UnitType> sub(double subtrahend) {
         Value value = this.value.sub(subtrahend);
         return measureFactory.create(value, unit, valueFactory);
     }
 
     @Override
-    public Value minus(double subtrahend) {
+    public Measure<UnitType> minus(Value subtrahend) {
         return sub(subtrahend);
     }
 
-    @SuppressWarnings("unchecked")
+    @Override
+    public Measure<UnitType> minus(double subtrahend) {
+        return sub(subtrahend);
+    }
+
     @Override
     public Measure<UnitType> mul(Value factor) {
         Value value = this.value.mul(factor);
@@ -217,30 +211,27 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
     }
 
     @Override
-    public Value multiply(Value factor) {
-        return mul(factor);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public Measure<UnitType> mul(double factor) {
         Value value = this.value.mul(factor);
         return measureFactory.create(value, unit, valueFactory);
     }
 
     @Override
-    public Value multiply(double factor) {
+    public Measure<UnitType> multiply(Value factor) {
         return mul(factor);
     }
 
-    @SuppressWarnings("unchecked")
+    @Override
+    public Measure<UnitType> multiply(double factor) {
+        return mul(factor);
+    }
+
     @Override
     public Measure<UnitType> div(Value divisor) {
         Value value = this.value.div(divisor);
         return measureFactory.create(value, unit, valueFactory);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Measure<UnitType> div(double divisor) {
         Value value = this.value.div(divisor);
@@ -248,33 +239,23 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
     }
 
     @Override
-    public Value divNum(double numerator) {
-        Value value = this.value.divNum(numerator);
-        return measureFactory.create(value, unit, valueFactory);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     public Measure<UnitType> log() {
         Value value = this.value.log();
         return measureFactory.create(value, unit, valueFactory);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Measure<UnitType> exp() {
         Value value = this.value.exp();
         return measureFactory.create(value, unit, valueFactory);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Measure<UnitType> reciprocal() {
         Value value = this.value.reciprocal();
         return measureFactory.create(value, unit, valueFactory);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Measure<UnitType> abs() {
         Value value = this.value.abs();
@@ -282,37 +263,12 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
     }
 
     @Override
-    public int compare(Value value) {
-        return this.value.compare(value);
-    }
-
-    @Override
-    public int compare(Value value, double dev) {
-        return this.value.compare(value, dev);
-    }
-
-    @Override
-    public int compareTo(Object o) {
-        return value.compareTo(o);
-    }
-
-    @Override
-    public int compare(Number value) {
-        return this.value.compare(value);
-    }
-
-    @Override
-    public int compare(Number value, double dev) {
-        return this.value.compare(value, dev);
+    public int compareTo(Value v) {
+        return value.compareTo(v);
     }
 
     @Override
     public boolean equals(Object obj) {
-        return equals(obj, 3.0);
-    }
-
-    @Override
-    public boolean equals(Object obj, double dev) {
         if (obj == null) {
             return false;
         }
@@ -325,7 +281,18 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
         @SuppressWarnings("rawtypes")
         Measure rhs = (Measure) obj;
         if (getUnit().equals(rhs.getUnit())) {
-            return getMeasureValue().equals(rhs.getMeasureValue(), dev);
+            return value.equals(obj);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean isConsistent(Value rhs) {
+        @SuppressWarnings("rawtypes")
+        Measure mrhs = (Measure) rhs;
+        if (getUnit().equals(mrhs.getUnit())) {
+            return value.isConsistent(rhs);
         } else {
             return false;
         }
@@ -339,8 +306,8 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append(value).append(getUnit())
-                .toString();
+        return new ToStringBuilder(this).append(value.toString())
+                .append(getUnit()).toString();
     }
 
 }

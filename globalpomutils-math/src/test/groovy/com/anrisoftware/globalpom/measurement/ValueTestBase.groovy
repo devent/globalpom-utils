@@ -20,6 +20,7 @@ package com.anrisoftware.globalpom.measurement
 
 import org.junit.BeforeClass
 
+import com.anrisoftware.globalpom.format.measurement.MeasurementFormatModule
 import com.anrisoftware.globalpom.utils.TestUtils
 import com.google.inject.Guice
 import com.google.inject.Injector
@@ -36,8 +37,6 @@ class ValueTestBase {
 
     static StandardValueFactory standardValueFactory
 
-    static ExactStandardValueFactory exactStandardValueFactory
-
     static StandardMeasureFactory standardMeasureFactory
 
     static List standardValueData
@@ -47,11 +46,9 @@ class ValueTestBase {
     @BeforeClass
     static void createFactories() {
         TestUtils.toStringStyle
-        injector = Guice.createInjector new MeasurementStandardModule()
+        injector = Guice.createInjector new MeasurementStandardModule(), new MeasurementFormatModule()
         standardValueFactory = injector.getInstance StandardValueFactory
-        exactStandardValueFactory = injector.getInstance ExactStandardValueFactory
+        standardValueData = new StandardValueData().create(standardValueFactory)
         standardMeasureFactory = injector.getInstance StandardMeasureFactory
-        standardValueData = new StandardValueData().create(standardValueFactory, exactStandardValueFactory)
-        standardMeasureData = new StandardMeasureData().create(standardMeasureFactory, standardValueFactory, exactStandardValueFactory)
     }
 }
