@@ -154,6 +154,41 @@ public interface Value extends Comparable<Value> {
     Value valueOf(long mantissa, int order, int sig, int dec, double unc);
 
     /**
+     * Returns the value with the specified uncertainty.
+     *
+     * @param value
+     *            the {@link Double} value.
+     *
+     * @param sig
+     *            the significant figures of the value.
+     *
+     * @param dec
+     *            the least significant decimal.
+     *
+     * @param unc
+     *            the uncertainty {@link Double} or {@link Double#NaN}.
+     *
+     * @return the {@link Value}.
+     */
+    Value valueOf(double value, int sig, int dec, double unc);
+
+    /**
+     * Returns the value with the specified uncertainty.
+     *
+     * @param value
+     *            the {@link Double} value.
+     *
+     * @param dec
+     *            the least significant decimal.
+     *
+     * @param unc
+     *            the uncertainty {@link Double} or {@link Double#NaN}.
+     *
+     * @return the {@link Value}.
+     */
+    Value valueOf(double value, int dec, double unc);
+
+    /**
      * Calculates the addition of this value with the addend.
      *
      * @param addend

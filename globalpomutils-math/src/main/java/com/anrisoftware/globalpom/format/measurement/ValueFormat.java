@@ -321,7 +321,7 @@ public class ValueFormat extends Format {
     public Value parse(String source, ParsePosition pos) {
         source = source.substring(pos.getIndex());
         try {
-            Value address = parseValue(source, pos);
+            Value address = parseValue(source, null, pos);
             pos.setErrorIndex(-1);
             pos.setIndex(source.length());
             return address;
@@ -332,10 +332,61 @@ public class ValueFormat extends Format {
         }
     }
 
+    /**
+     * Parses the value with the specified uncertainty.
+     *
+     * @param source
+     *            the {@link String} source.
+     *
+     * @param unc
+     *            the {@link Double} uncertainty or {@link Double#NaN}.
+     *
+     * @param pos
+     *            the index {@link ParsePosition} position from where to start
+     *            parsing.
+     *
+     * @return the {@link Value}.
+     */
+    public Value parse(String source, double unc, ParsePosition pos) {
+        try {
+            Value value = parseValue(source, unc, pos);
+            pos.setErrorIndex(-1);
+            pos.setIndex(source.length());
+            return value;
+        } catch (ParseException e) {
+            pos.setIndex(0);
+            pos.setErrorIndex(0);
+            return null;
+        }
+    }
+
+    /**
+     * Parses the value with the specified uncertainty.
+     *
+     * @param source
+     *            the {@link String} source.
+     *
+     * @param unc
+     *            the {@link Double} uncertainty.
+     *
+     * @return the {@link Value}.
+     *
+     * @throws ParseException
+     *             if the string cannot be parsed to a value.
+     */
+    public Value parse(String source, double unc) throws ParseException {
+        ParsePosition pos = new ParsePosition(0);
+        Value result = parse(source, pos);
+        if (pos.getIndex() == 0) {
+            throw log.errorParseValue(source, pos);
+        }
+        return result;
+    }
+
     private static final Pattern VALUE_GROUP_PATTERN = Pattern
             .compile("(.*?)(\\(.*?\\))?");
 
-    private Value parseValue(String string, ParsePosition pos)
+    private Value parseValue(String string, Double unc, ParsePosition pos)
             throws ParseException {
         Matcher matcher = VALUE_GROUP_PATTERN.matcher(string);
         if (!matcher.matches()) {
@@ -343,7 +394,7 @@ public class ValueFormat extends Format {
         }
         String valueStr = matcher.group(1);
         String uncStr = matcher.group(2);
-        double unc = Double.NaN;
+        valueStr = setupDecimal(valueStr, dec);
         String value = valueStr;
         ParseValue parseValue = new ParseValue(value);
         int order = parseValue.parseOrder();
@@ -352,10 +403,28 @@ public class ValueFormat extends Format {
         int dec = order - sig;
         long man = Long.valueOf(mantissa);
         man = parseValue.isNegative() ? -man : man;
-        if (uncStr != null) {
-            unc = parseUncertainty(uncStr, calculateValue(man, dec));
+        if (unc == null) {
+            unc = Double.NaN;
+            if (uncStr != null) {
+                unc = parseUncertainty(uncStr, calculateValue(man, dec));
+            }
         }
         return valueFactory.create(man, order, sig, dec, unc);
+    }
+
+    private String setupDecimal(String str, Integer dec) {
+        if (dec == null) {
+            return str;
+        }
+        StringBuilder pattern = new StringBuilder("0");
+        if (dec > 0) {
+            pattern.append('.');
+            for (int i = 0; i < dec; i++) {
+                pattern.append('0');
+            }
+        }
+        double value = Double.valueOf(str);
+        return new DecimalFormat(pattern.toString(), symbols).format(value);
     }
 
     private double calculateValue(long man, int dec) {

@@ -155,9 +155,22 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
     }
 
     @Override
-    public Value valueOf(long mantissa, int order, int sig, int dec, double unc) {
+    public Measure<UnitType> valueOf(long mantissa, int order, int sig,
+            int dec, double unc) {
         Value value = this.value.valueOf(mantissa, order, sig, dec, unc);
         return measureFactory.create(value, getUnit(), valueFactory);
+    }
+
+    @Override
+    public Measure<UnitType> valueOf(double value, int sig, int dec, double unc) {
+        Value vvalue = this.value.valueOf(value, sig, dec, unc);
+        return measureFactory.create(vvalue, getUnit(), valueFactory);
+    }
+
+    @Override
+    public Measure<UnitType> valueOf(double value, int dec, double unc) {
+        Value vvalue = this.value.valueOf(value, dec, unc);
+        return measureFactory.create(vvalue, getUnit(), valueFactory);
     }
 
     @Override

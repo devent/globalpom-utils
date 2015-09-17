@@ -47,6 +47,16 @@ public interface Measure<UnitType extends Quantity> extends Value {
     Value getMeasureValue();
 
     @Override
+    Measure<UnitType> valueOf(long mantissa, int order, int sig, int dec,
+            double unc);
+
+    @Override
+    Measure<UnitType> valueOf(double value, int sig, int dec, double unc);
+
+    @Override
+    Measure<UnitType> valueOf(double value, int dec, double unc);
+
+    @Override
     Measure<UnitType> getMinValue();
 
     @Override

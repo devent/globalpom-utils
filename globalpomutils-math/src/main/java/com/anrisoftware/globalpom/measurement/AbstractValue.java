@@ -25,7 +25,8 @@ import static org.apache.commons.math3.util.FastMath.max;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
-import java.text.ParseException;
+import java.text.DecimalFormatSymbols;
+import java.text.ParsePosition;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -33,6 +34,7 @@ import javax.inject.Inject;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.math3.util.FastMath;
 
+import com.anrisoftware.globalpom.format.measurement.ValueFormat;
 import com.anrisoftware.globalpom.format.measurement.ValueFormatFactory;
 
 /**
@@ -165,13 +167,23 @@ public abstract class AbstractValue implements Value, Serializable {
     }
 
     @Override
+    public Value valueOf(double value, int sig, int dec, double unc) {
+        return createValue(value, sig, dec, unc);
+    }
+
+    @Override
+    public Value valueOf(double value, int dec, double unc) {
+        return createValue(value, dec, unc);
+    }
+
+    @Override
     public Value add(Value addend) {
         double value = this.getValue() + addend.getValue();
         double unc = addUncertainty(addend, value);
         int sig = min(significant, addend.getSignificant());
         int dec = max(decimal, addend.getDecimal());
         double rvalue = roundToDecimal(value, getAbsDec());
-        return createValue(rvalue, sig, dec, unc);
+        return valueOf(rvalue, sig, dec, unc);
     }
 
     @Override
@@ -181,7 +193,7 @@ public abstract class AbstractValue implements Value, Serializable {
         int sig = significant;
         int dec = decimal;
         double rvalue = roundToDecimal(value, getAbsDec());
-        return createValue(rvalue, sig, dec, unc);
+        return valueOf(rvalue, sig, dec, unc);
     }
 
     @Override
@@ -229,7 +241,7 @@ public abstract class AbstractValue implements Value, Serializable {
         int sig = min(significant, subtrahend.getSignificant());
         int dec = max(decimal, subtrahend.getDecimal());
         double rvalue = roundToDecimal(value, getAbsDec());
-        return createValue(rvalue, sig, dec, unc);
+        return valueOf(rvalue, sig, dec, unc);
     }
 
     @Override
@@ -239,7 +251,7 @@ public abstract class AbstractValue implements Value, Serializable {
         int sig = significant;
         int dec = decimal;
         double rvalue = roundToDecimal(value, getAbsDec());
-        return createValue(rvalue, sig, dec, unc);
+        return valueOf(rvalue, sig, dec, unc);
     }
 
     @Override
@@ -285,7 +297,7 @@ public abstract class AbstractValue implements Value, Serializable {
         int sig = min(significant, factor.getSignificant());
         int dec = max(decimal, factor.getDecimal());
         double rvalue = roundToSignificant(value, sig);
-        return createValue(rvalue, sig, dec, unc);
+        return valueOf(rvalue, sig, dec, unc);
     }
 
     @Override
@@ -295,7 +307,7 @@ public abstract class AbstractValue implements Value, Serializable {
         int sig = significant;
         int dec = decimal;
         double rvalue = roundToSignificant(value, sig);
-        return createValue(rvalue, sig, dec, unc);
+        return valueOf(rvalue, sig, dec, unc);
     }
 
     @Override
@@ -341,7 +353,7 @@ public abstract class AbstractValue implements Value, Serializable {
         int sig = min(significant, divisor.getSignificant());
         int dec = max(decimal, divisor.getDecimal());
         double rvalue = roundToSignificant(value, sig);
-        return createValue(rvalue, sig, dec, unc);
+        return valueOf(rvalue, sig, dec, unc);
     }
 
     @Override
@@ -351,7 +363,7 @@ public abstract class AbstractValue implements Value, Serializable {
         int sig = significant;
         int dec = decimal;
         double rvalue = roundToSignificant(value, FastMath.abs(dec));
-        return createValue(rvalue, sig, dec, unc);
+        return valueOf(rvalue, sig, dec, unc);
     }
 
     /**
@@ -387,7 +399,7 @@ public abstract class AbstractValue implements Value, Serializable {
         int sig = significant;
         int dec = decimal;
         double rvalue = roundToSignificant(value, sig);
-        return createValue(rvalue, sig, dec, unc);
+        return valueOf(rvalue, sig, dec, unc);
     }
 
     /**
@@ -407,7 +419,7 @@ public abstract class AbstractValue implements Value, Serializable {
         int sig = significant;
         int dec = decimal;
         double rvalue = roundToSignificant(value, sig);
-        return createValue(rvalue, sig, dec, unc);
+        return valueOf(rvalue, sig, dec, unc);
     }
 
     /**
@@ -427,7 +439,7 @@ public abstract class AbstractValue implements Value, Serializable {
         int sig = significant;
         int dec = decimal;
         double rvalue = roundToDecimal(value, getAbsDec());
-        return createValue(rvalue, sig, dec, unc);
+        return valueOf(rvalue, sig, dec, unc);
     }
 
     /**
@@ -447,7 +459,7 @@ public abstract class AbstractValue implements Value, Serializable {
         int sig = significant;
         int dec = decimal;
         double rvalue = roundToSignificant(value, sig);
-        return createValue(rvalue, sig, dec, unc);
+        return valueOf(rvalue, sig, dec, unc);
     }
 
     /**
@@ -546,19 +558,30 @@ public abstract class AbstractValue implements Value, Serializable {
             }
             pattern.append("E0");
         }
-        String svalue = new DecimalFormat(pattern.toString()).format(value);
+        String svalue;
+        Locale locale = Locale.ENGLISH;
+        DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance(locale);
+        svalue = new DecimalFormat(pattern.toString(), symbols).format(value);
         if (!Double.isNaN(unc)) {
             String uvalue = new DecimalFormat(String.format("(%s)",
                     pattern.toString())).format(unc);
             svalue += uvalue;
         }
-        try {
-            Value vv = valueFormatFactory.create(Locale.getDefault(),
-                    valueFactory).parse(svalue);
-            return vv;
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        ValueFormat format = valueFormatFactory.create(locale, valueFactory);
+        ParsePosition pos = new ParsePosition(0);
+        Value vv = format.parse(svalue, pos);
+        return vv;
+    }
+
+    private Value createValue(double value, int dec, double unc) {
+        String svalue = Double.toString(value);
+        Locale locale = Locale.ENGLISH;
+        ValueFormat format;
+        format = valueFormatFactory.create(locale, valueFactory);
+        format.setDecimal(dec);
+        ParsePosition pos = new ParsePosition(0);
+        Value vv = format.parse(svalue, unc, pos);
+        return vv;
     }
 
     private int getAbsDec() {
