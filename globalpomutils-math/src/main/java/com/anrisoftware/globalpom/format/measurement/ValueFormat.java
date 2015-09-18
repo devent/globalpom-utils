@@ -153,7 +153,7 @@ public class ValueFormat extends Format {
         if (obj instanceof Value) {
             Value value = (Value) obj;
             double v = value.getValue();
-            double unc = value.getUncertainty();
+            double unc = value.getRoundedUncertainty();
             int order = value.getOrder();
             int sig = this.sig == null ? value.getSignificant() : this.sig;
             int dec = value.getDecimal();
@@ -162,13 +162,18 @@ public class ValueFormat extends Format {
             }
             if (scientificNotation) {
                 buff.append(formatScientificValue(v, order, sig, dec));
+                if (!value.isExact()) {
+                    buff.append('(');
+                    buff.append(formatScienceUnc(v, unc, order, sig, dec));
+                    buff.append(')');
+                }
             } else {
                 buff.append(formatNumber(v, order, sig, dec));
-            }
-            if (!value.isExact()) {
-                buff.append('(');
-                buff.append(formatUncertainty(unc, order, sig, dec));
-                buff.append(')');
+                if (!value.isExact()) {
+                    buff.append('(');
+                    buff.append(formatUncertainty(unc, order, sig, dec));
+                    buff.append(')');
+                }
             }
         }
         return buff;
@@ -247,12 +252,9 @@ public class ValueFormat extends Format {
         double rvalue = roundValue(value, sig, dec);
         if (dec != 0 && avalue < 1 || avalue > 9) {
             pattern.append('.');
-            for (int i = order; i < 0; i++) {
-                pattern.append('0');
-            }
             int s = avalue < 0 ? 0 : 1;
             for (int i = s; i < sig; i++) {
-                pattern.append('#');
+                pattern.append('0');
             }
             pattern.append("E0");
         } else if (isFraction(avalue)) {
@@ -263,6 +265,30 @@ public class ValueFormat extends Format {
         }
         DecimalFormat format = new DecimalFormat(pattern.toString(), symbols);
         return format.format(rvalue);
+    }
+
+    private String formatScienceUnc(double value, double unc, int order,
+            int sig, int dec) {
+        if (unc == 0) {
+            return "0";
+        }
+        double aunc = abs(unc);
+        int oorder = order - 1;
+        double vunc = unc / FastMath.pow(10, oorder);
+        StringBuilder pattern = new StringBuilder("0");
+        if (dec != 0) {
+            pattern.append('.');
+            int s = aunc < 0 ? 0 : 1;
+            for (int i = s; i < sig; i++) {
+                pattern.append('0');
+            }
+        }
+        DecimalFormat format = new DecimalFormat(pattern.toString(), symbols);
+        String str = format.format(vunc);
+        if (oorder != 0) {
+            str = String.format("%sE%d", str, oorder);
+        }
+        return str;
     }
 
     private double roundValue(double value, int sig, int dec) {

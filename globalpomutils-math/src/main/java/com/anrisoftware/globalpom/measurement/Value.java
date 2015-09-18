@@ -62,6 +62,13 @@ public interface Value extends Comparable<Value> {
     double getUncertainty();
 
     /**
+     * Returns the rounded to the least decimal uncertainty of the value.
+     *
+     * @return the {@link Value} uncertainty or {@code Double#NaN}.
+     */
+    double getRoundedUncertainty();
+
+    /**
      * Returns whether the value is exact.
      *
      * @return {@code true} if the value is exact.

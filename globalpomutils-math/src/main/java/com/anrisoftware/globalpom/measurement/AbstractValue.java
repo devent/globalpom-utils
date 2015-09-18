@@ -98,11 +98,15 @@ public abstract class AbstractValue implements Value, Serializable {
         if (isExact()) {
             return Double.NaN;
         }
-        if (decimal >= 0) {
-            return roundToDecimal(uncertainty, 0);
-        } else {
-            return roundToDecimal(uncertainty, FastMath.abs(decimal));
+        return uncertainty;
+    }
+
+    @Override
+    public double getRoundedUncertainty() {
+        if (isExact()) {
+            return Double.NaN;
         }
+        return roundToDecimal(uncertainty, getAbsDec());
     }
 
     @Override

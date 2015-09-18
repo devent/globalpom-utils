@@ -111,6 +111,11 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
     }
 
     @Override
+    public double getRoundedUncertainty() {
+        return value.getRoundedUncertainty();
+    }
+
+    @Override
     public boolean isExact() {
         return value.isExact();
     }

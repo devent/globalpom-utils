@@ -131,6 +131,7 @@ class ValueFormatTest {
     @Test
     void "format value scientific"() {
         def formats = [
+            [expected: "7.4E-35", value: valueFactory.create(74, -34, 2, -36)],
             [expected: "1.23E3", value: valueFactory.create(123, 4, 3, 1)],
             [expected: "1.03E3", value: valueFactory.create(103, 4, 3, 1)],
             [expected: "1.23E2", value: valueFactory.create(123, 3, 3, 0)],
@@ -186,6 +187,9 @@ class ValueFormatTest {
     @Test
     void "format value scientific with uncertainty"() {
         def formats = [
+            [expected: "1.23E3(2.00E3)", value: valueFactory.create(123, 4, 3, 1, 2000.0d)],
+            [expected: "1.23E3(0.20E3)", value: valueFactory.create(123, 4, 3, 1, 200.0d)],
+            [expected: "1.672621777E-27(0.000000074E-27)", value: valueFactory.create(1672621777, -26, 10, -36, 0.000000074E-27d)],
             [expected: "1.23E3(0)", value: valueFactory.create(123, 4, 3, 1, 0.1d)],
             [expected: "1.23E3(0)", value: valueFactory.create(123, 4, 3, 1, 0.1d)],
             [expected: "1.03E3(0)", value: valueFactory.create(103, 4, 3, 1, 0.1d)],
@@ -194,14 +198,15 @@ class ValueFormatTest {
             [expected: "-1(0)", value: valueFactory.create(-1, 1, 1, 0, 0.1d)],
             [expected: "0(0)", value: valueFactory.create(0, 0, 1, 0, 0.1d)],
             [expected: "0(0)", value: valueFactory.create(-0, 0, 1, 0, 0.1d)],
-            [expected: "1.23E1(0.1)", value: valueFactory.create(123, 2, 3, -1, 0.1d)],
-            [expected: "-1.23E1(0.1)", value: valueFactory.create(-123, 2, 3, -1, 0.1d)],
+            [expected: "1.00E-1(0)", value: valueFactory.create(1, 0, 3, -1, 0.0d)],
+            [expected: "1.23E1(0.01E1)", value: valueFactory.create(123, 2, 3, -1, 0.1d)],
+            [expected: "-1.23E1(0.01E1)", value: valueFactory.create(-123, 2, 3, -1, 0.1d)],
             [expected: "1.23(0.10)", value: valueFactory.create(123, 1, 3, -2, 0.1d)],
-            [expected: "1.23E-1(0.100)", value: valueFactory.create(123, 0, 3, -3, 0.1d)],
-            [expected: "1.23E-2(0.1000)", value: valueFactory.create(123, -1, 3, -4, 0.1d)],
-            [expected: "1.23E-3(0.10000)", value: valueFactory.create(123, -2, 3, -5, 0.1d)],
-            [expected: "1.2123E-1(0.10000)", value: valueFactory.create(12123, 0, 5, -5, 0.1d)],
-            [expected: "1.20123E-1(0.100000)", value: valueFactory.create(120123, 0, 6, -6, 0.1d)],
+            [expected: "1.23E-1(1.00E-1)", value: valueFactory.create(123, 0, 3, -3, 0.1d)],
+            [expected: "1.23E-2(10.00E-2)", value: valueFactory.create(123, -1, 3, -4, 0.1d)],
+            [expected: "1.23E-3(100.00E-3)", value: valueFactory.create(123, -2, 3, -5, 0.1d)],
+            [expected: "1.2123E-1(1.0000E-1)", value: valueFactory.create(12123, 0, 5, -5, 0.1d)],
+            [expected: "1.20123E-1(1.00000E-1)", value: valueFactory.create(120123, 0, 6, -6, 0.1d)],
         ]
         def format = formatFactory.create(locale, valueFactory)
         format.setUseScientificNotation true
