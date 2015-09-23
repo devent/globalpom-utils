@@ -21,11 +21,9 @@ package com.anrisoftware.globalpom.measurement;
 import static com.anrisoftware.globalpom.measurement.RoundToSignificantFigures.roundToDecimal;
 import static com.anrisoftware.globalpom.measurement.RoundToSignificantFigures.roundToSignificant;
 import static java.lang.Math.min;
-import static java.math.MathContext.DECIMAL128;
 import static org.apache.commons.math3.util.FastMath.max;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -40,6 +38,7 @@ import org.apache.commons.math3.util.FastMath;
 
 import com.anrisoftware.globalpom.format.measurement.ValueFormat;
 import com.anrisoftware.globalpom.format.measurement.ValueFormatFactory;
+import com.anrisoftware.globalpom.math.MathUtils;
 
 /**
  * Implements exact value's operators.
@@ -49,8 +48,6 @@ import com.anrisoftware.globalpom.format.measurement.ValueFormatFactory;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractValue implements Value, Serializable {
-
-    private static final BigDecimal DECIMAL_10 = new BigDecimal("10");
 
     private static final double DEFAULT_DIV = 3.0;
 
@@ -137,8 +134,7 @@ public abstract class AbstractValue implements Value, Serializable {
 
     @Override
     public double getValue() {
-        return new BigDecimal(getMantissa()).multiply(
-                DECIMAL_10.pow(getDecimal(), DECIMAL128)).doubleValue();
+        return MathUtils.calculateValue(mantissa, decimal);
     }
 
     @Override
@@ -571,17 +567,16 @@ public abstract class AbstractValue implements Value, Serializable {
     }
 
     private Value createValue(double value, int sig, int dec, double unc) {
+        double avalue = FastMath.abs(value);
         StringBuilder pattern = new StringBuilder("0");
-        if (decimal < 0) {
-            pattern.append('.');
-            for (int i = 0; i < sig; i++) {
-                pattern.append('0');
-            }
-            for (int i = dec; i < 0; i++) {
-                pattern.append('#');
-            }
-            pattern.append("E0");
+        pattern.append('.');
+        if (avalue > 0) {
+            sig--;
         }
+        for (int i = 0; i < sig; i++) {
+            pattern.append('0');
+        }
+        pattern.append("E0");
         String svalue;
         Locale locale = Locale.ENGLISH;
         DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance(locale);

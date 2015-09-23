@@ -18,11 +18,14 @@
  */
 package com.anrisoftware.globalpom.math;
 
+import static java.math.MathContext.DECIMAL128;
 import static org.apache.commons.lang3.StringUtils.split;
 import static org.apache.commons.math3.util.FastMath.abs;
 import static org.apache.commons.math3.util.FastMath.ceil;
 import static org.apache.commons.math3.util.FastMath.floor;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.DecimalFormatSymbols;
 
 import org.apache.commons.lang3.StringUtils;
@@ -30,18 +33,38 @@ import org.apache.commons.math3.util.FastMath;
 
 /**
  * Various mathematical utilities.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
  */
 public class MathUtils {
 
+    private static final BigDecimal DECIMAL_10 = new BigDecimal("10");
+
+    /**
+     * Calculates the value.
+     *
+     * @param mantissa
+     *            the {@link BigInteger} mantissa.
+     *
+     * @param decimal
+     *            the decimal place.
+     *
+     * @return the {@link Double} value.
+     *
+     * @since 2.4
+     */
+    public static double calculateValue(BigInteger mantissa, int decimal) {
+        return new BigDecimal(mantissa).multiply(
+                DECIMAL_10.pow(decimal, DECIMAL128)).doubleValue();
+    }
+
     /**
      * Rounds the specified value toward zero.
-     * 
+     *
      * @param value
      *            the value.
-     * 
+     *
      * @return the rounded value.
      */
     public static double fix(double value) {
@@ -60,12 +83,12 @@ public class MathUtils {
      * Rounds the value to the next mod 3 value. The function breaks for
      * {@link Double#NaN}, {@link Double#POSITIVE_INFINITY} and
      * {@link Double#NEGATIVE_INFINITY}.
-     * 
+     *
      * @param value
      *            the value.
-     * 
+     *
      * @return the rounded value.
-     * 
+     *
      * @since 2.1
      */
     public static double roundThree(double value) {
@@ -84,7 +107,7 @@ public class MathUtils {
      * Returns the values after the decimal of a real value. I.e. for
      * value=5.123 it returns 0.123. The function breaks for {@link Double#NaN},
      * {@link Double#POSITIVE_INFINITY} and {@link Double#NEGATIVE_INFINITY}.
-     * 
+     *
      * @since 2.1
      */
     public static double frac(double value) {
@@ -93,18 +116,32 @@ public class MathUtils {
     }
 
     /**
+     * Checks if the value is a fraction.
+     *
+     * @param value
+     *            the {@link Double} value.
+     *
+     * @return {@code true} if the value is a fraction.
+     *
+     * @since 2.4
+     */
+    public static boolean isFraction(double value) {
+        return value - (long) value != 0;
+    }
+
+    /**
      * Returns the number of decimal places from the specified number string.
-     * 
+     *
      * @param str
      *            the {@link String} of the number.
-     * 
+     *
      * @param decimalSeparator
      *            the decimal separator character.
-     * 
+     *
      * @return the number of decimal places.
-     * 
+     *
      * @see DecimalFormatSymbols#getDecimalSeparator()
-     * 
+     *
      * @since 2.1
      */
     public static int decimalPlaces(String str, char decimalSeparator,
@@ -127,8 +164,8 @@ public class MathUtils {
     /**
      * Returns the number of significant places from the specified number
      * string.
-     * 
-     * 
+     *
+     *
      * <ul>
      * <li>"4" - 1 significant</li>
      * <li>"1.3" - 2 significant</li>
@@ -145,17 +182,17 @@ public class MathUtils {
      * <li>"2.00E7" - 3 significant</li>
      * <li>"1.500E-2" - 4 significant</li>
      * </ul>
-     * 
+     *
      * @param str
      *            the {@link String} of the number.
-     * 
+     *
      * @param decimalSeparator
      *            the decimal separator character.
-     * 
+     *
      * @return the number of decimal places.
-     * 
+     *
      * @see DecimalFormatSymbols#getDecimalSeparator()
-     * 
+     *
      * @since 2.1
      */
     public static int sigPlaces(String str, char decimalSeparator,

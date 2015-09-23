@@ -18,6 +18,8 @@
  */
 package com.anrisoftware.globalpom.format.measurement;
 
+import static com.anrisoftware.globalpom.math.MathUtils.calculateValue;
+import static com.anrisoftware.globalpom.math.MathUtils.isFraction;
 import static com.anrisoftware.globalpom.measurement.RoundToSignificantFigures.roundToDecimal;
 import static com.anrisoftware.globalpom.measurement.RoundToSignificantFigures.roundToSignificant;
 import static org.apache.commons.lang3.StringUtils.split;
@@ -114,7 +116,7 @@ public class ValueFormat extends Format {
      *            the {@link Integer} significant figures.
      */
     public void setSignificant(int sig) {
-        isTrue(sig > 0);
+        isTrue(sig > 0, "%d>0", sig);
         this.sig = sig;
     }
 
@@ -125,7 +127,7 @@ public class ValueFormat extends Format {
      *            the {@link Integer} least significant decimal.
      */
     public void setDecimal(int dec) {
-        isTrue(dec > 0);
+        isTrue(dec > 0, "%d>0", dec);
         this.dec = dec;
     }
 
@@ -298,10 +300,6 @@ public class ValueFormat extends Format {
         return value;
     }
 
-    private boolean isFraction(double avalue) {
-        return avalue - (long) avalue != 0;
-    }
-
     @Override
     public Object parseObject(String source, ParsePosition pos) {
         return parse(source, pos);
@@ -436,16 +434,15 @@ public class ValueFormat extends Format {
         String mantissa = parseValue.parseMantissa();
         int sig = mantissa.length();
         int dec = order - sig;
-        long man = Long.valueOf(mantissa);
-        man = parseValue.isNegative() ? -man : man;
+        BigInteger man = new BigInteger(mantissa);
+        man = parseValue.isNegative() ? man.negate() : man;
         if (unc == null) {
             unc = Double.NaN;
             if (uncStr != null) {
                 unc = parseUncertainty(uncStr, calculateValue(man, dec));
             }
         }
-        return valueFactory.create(BigInteger.valueOf(man), order, sig, dec,
-                unc);
+        return valueFactory.create(man, order, sig, dec, unc);
     }
 
     private String setupDecimal(String str, Integer dec) {
@@ -461,10 +458,6 @@ public class ValueFormat extends Format {
         }
         double value = Double.valueOf(str);
         return new DecimalFormat(pattern.toString(), symbols).format(value);
-    }
-
-    private double calculateValue(long man, int dec) {
-        return man * FastMath.pow(10, dec);
     }
 
     private double parseUncertainty(String str, double value) {
