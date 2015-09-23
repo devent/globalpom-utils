@@ -18,6 +18,8 @@
  */
 package com.anrisoftware.globalpom.measurement;
 
+import java.math.BigInteger;
+
 /**
  * Measured value with uncertainty.
  *
@@ -31,7 +33,7 @@ public interface Value extends Comparable<Value> {
      *
      * @return the mantissa.
      */
-    long getMantissa();
+    BigInteger getMantissa();
 
     /**
      * Returns the order of the value.
@@ -158,7 +160,7 @@ public interface Value extends Comparable<Value> {
      *
      * @return the {@link Value}.
      */
-    Value valueOf(long mantissa, int order, int sig, int dec, double unc);
+    Value valueOf(BigInteger mantissa, int order, int sig, int dec, double unc);
 
     /**
      * Returns the value with the specified uncertainty.

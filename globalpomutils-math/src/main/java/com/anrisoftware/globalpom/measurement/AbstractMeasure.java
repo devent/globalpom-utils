@@ -19,6 +19,7 @@
 package com.anrisoftware.globalpom.measurement;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 import javax.measure.quantity.Quantity;
 import javax.measure.unit.Unit;
@@ -86,7 +87,7 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
     }
 
     @Override
-    public long getMantissa() {
+    public BigInteger getMantissa() {
         return value.getMantissa();
     }
 
@@ -160,7 +161,7 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
     }
 
     @Override
-    public Measure<UnitType> valueOf(long mantissa, int order, int sig,
+    public Measure<UnitType> valueOf(BigInteger mantissa, int order, int sig,
             int dec, double unc) {
         Value value = this.value.valueOf(mantissa, order, sig, dec, unc);
         return measureFactory.create(value, getUnit(), valueFactory);

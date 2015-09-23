@@ -18,6 +18,8 @@
  */
 package com.anrisoftware.globalpom.measurement;
 
+import java.math.BigInteger;
+
 import com.google.inject.assistedinject.Assisted;
 
 /**
@@ -57,6 +59,29 @@ public interface ValueFactory {
             @Assisted(SIGNIFICANT) int sig, @Assisted(DECIMAL) int dec);
 
     /**
+     * Creates a new value.
+     *
+     * @param mantissa
+     *            the significant digits of the value.
+     *
+     * @param order
+     *            the order of the value.
+     *
+     * @param sig
+     *            the significant figures of the value.
+     *
+     * @param dec
+     *            the least significant decimal.
+     *
+     * @return the {@link Value}.
+     *
+     * @since 2.4
+     */
+    Value create(@Assisted(MANTISSA) BigInteger mantissa,
+            @Assisted(ORDER) int order, @Assisted(SIGNIFICANT) int sig,
+            @Assisted(DECIMAL) int dec);
+
+    /**
      * Creates a new value with the specified value factory.
      *
      * @param mantissa
@@ -83,6 +108,32 @@ public interface ValueFactory {
             ValueFactory valueFactory);
 
     /**
+     * Creates a new value with the specified value factory.
+     *
+     * @param mantissa
+     *            the significant digits of the value.
+     *
+     * @param order
+     *            the order of the value.
+     *
+     * @param sig
+     *            the significant figures of the value.
+     *
+     * @param dec
+     *            the least significant decimal.
+     *
+     * @param valueFactory
+     *            the {@link ValueFactory}.
+     *
+     * @return the {@link Value}.
+     *
+     * @since 2.4
+     */
+    Value create(@Assisted(MANTISSA) BigInteger mantissa,
+            @Assisted(ORDER) int order, @Assisted(SIGNIFICANT) int sig,
+            @Assisted(DECIMAL) int dec, ValueFactory valueFactory);
+
+    /**
      * Creates a new value with the specified uncertainty.
      *
      * @param mantissa
@@ -107,6 +158,32 @@ public interface ValueFactory {
     Value create(@Assisted(MANTISSA) long mantissa, @Assisted(ORDER) int order,
             @Assisted(SIGNIFICANT) int sig, @Assisted(DECIMAL) int dec,
             double unc);
+
+    /**
+     * Creates a new value with the specified uncertainty.
+     *
+     * @param mantissa
+     *            the significant digits of the value.
+     *
+     * @param order
+     *            the order of the value.
+     *
+     * @param sig
+     *            the significant figures of the value.
+     *
+     * @param dec
+     *            the least significant decimal.
+     *
+     * @param unc
+     *            the uncertainty {@link Value}.
+     *
+     * @return the {@link Value}.
+     *
+     * @since 2.4
+     */
+    Value create(@Assisted(MANTISSA) BigInteger mantissa,
+            @Assisted(ORDER) int order, @Assisted(SIGNIFICANT) int sig,
+            @Assisted(DECIMAL) int dec, double unc);
 
     /**
      * Creates a new value with the specified uncertainty and value factory.
@@ -136,6 +213,35 @@ public interface ValueFactory {
     Value create(@Assisted(MANTISSA) long mantissa, @Assisted(ORDER) int order,
             @Assisted(SIGNIFICANT) int sig, @Assisted(DECIMAL) int dec,
             double unc, ValueFactory valueFactory);
+
+    /**
+     * Creates a new value with the specified uncertainty and value factory.
+     *
+     * @param mantissa
+     *            the significant digits of the value.
+     *
+     * @param order
+     *            the order of the value.
+     *
+     * @param sig
+     *            the significant figures of the value.
+     *
+     * @param dec
+     *            the least significant decimal.
+     *
+     * @param unc
+     *            the uncertainty {@link Value}.
+     *
+     * @param valueFactory
+     *            the {@link ValueFactory}.
+     *
+     * @return the {@link Value}.
+     *
+     * @since 2.4
+     */
+    Value create(@Assisted(MANTISSA) BigInteger mantissa,
+            @Assisted(ORDER) int order, @Assisted(SIGNIFICANT) int sig,
+            @Assisted(DECIMAL) int dec, double unc, ValueFactory valueFactory);
 
     /**
      * Creates a new value from the specified value.

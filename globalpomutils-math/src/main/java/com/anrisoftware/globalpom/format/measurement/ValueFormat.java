@@ -24,6 +24,7 @@ import static org.apache.commons.lang3.StringUtils.split;
 import static org.apache.commons.lang3.Validate.isTrue;
 import static org.apache.commons.math3.util.FastMath.abs;
 
+import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.FieldPosition;
@@ -355,6 +356,10 @@ public class ValueFormat extends Format {
             pos.setIndex(0);
             pos.setErrorIndex(0);
             return null;
+        } catch (NumberFormatException e) {
+            pos.setIndex(0);
+            pos.setErrorIndex(0);
+            return null;
         }
     }
 
@@ -380,6 +385,10 @@ public class ValueFormat extends Format {
             pos.setIndex(source.length());
             return value;
         } catch (ParseException e) {
+            pos.setIndex(0);
+            pos.setErrorIndex(0);
+            return null;
+        } catch (NumberFormatException e) {
             pos.setIndex(0);
             pos.setErrorIndex(0);
             return null;
@@ -435,7 +444,8 @@ public class ValueFormat extends Format {
                 unc = parseUncertainty(uncStr, calculateValue(man, dec));
             }
         }
-        return valueFactory.create(man, order, sig, dec, unc);
+        return valueFactory.create(BigInteger.valueOf(man), order, sig, dec,
+                unc);
     }
 
     private String setupDecimal(String str, Integer dec) {

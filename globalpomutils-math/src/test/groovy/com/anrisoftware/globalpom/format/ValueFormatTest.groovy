@@ -131,6 +131,7 @@ class ValueFormatTest {
     @Test
     void "format value scientific"() {
         def formats = [
+            [expected: "2.99792458000000000E8", value: valueFactory.create(299792458000000000, 9, 18, -9)],
             [expected: "7.4E-35", value: valueFactory.create(74, -34, 2, -36)],
             [expected: "1.23E3", value: valueFactory.create(123, 4, 3, 1)],
             [expected: "1.03E3", value: valueFactory.create(103, 4, 3, 1)],
@@ -220,6 +221,7 @@ class ValueFormatTest {
     @Test
     void "parse value"() {
         def parses = [
+            [input: "299792458.000000000", expected: valueFactory.create(299792458000000000, 9, 18, -9)],
             [input: "-1230", expected: valueFactory.create(-123, 4, 3, 1)],
             [input: "1230", expected: valueFactory.create(123, 4, 3, 1)],
             [input: "1030", expected: valueFactory.create(103, 4, 3, 1)],
@@ -228,8 +230,8 @@ class ValueFormatTest {
             [input: "5.6445E2", expected: valueFactory.create(56445, 3, 5, -2)],
             [input: "1", expected: valueFactory.create(1, 1, 1, 0)],
             [input: "-1", expected: valueFactory.create(-1, 1, 1, 0)],
-            [input: "0", expected: valueFactory.create(0, 0, 1, 0)],
-            [input: "-0", expected: valueFactory.create(0, 0, 1, 0)],
+            [input: "0", expected: valueFactory.create(0, 0, 1, -1)],
+            [input: "-0", expected: valueFactory.create(0, 0, 1, -1)],
             [input: "7E-1", expected: valueFactory.create(7, 0, 1, -1)],
             [input: "0.7", expected: valueFactory.create(7, 0, 1, -1)],
             [input: "0.07", expected: valueFactory.create(7, -1, 1, -2)],
@@ -251,8 +253,13 @@ class ValueFormatTest {
         ]
         parses.eachWithIndex { testCase, int k ->
             log.info "{}. case: {}", k, testCase
-            def value = formatFactory.create(locale, valueFactory).parse(testCase.input as String)
-            assert value == testCase.expected
+            Value value = formatFactory.create(locale, valueFactory).parse(testCase.input as String)
+            Value expected = testCase.expected
+            assert value == expected
+            assert value.mantissa == expected.mantissa
+            assert value.order == expected.order
+            assert value.significant == expected.significant
+            assert value.decimal == expected.decimal
         }
     }
 

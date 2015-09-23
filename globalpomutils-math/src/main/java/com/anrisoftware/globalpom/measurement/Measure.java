@@ -18,6 +18,8 @@
  */
 package com.anrisoftware.globalpom.measurement;
 
+import java.math.BigInteger;
+
 import javax.measure.quantity.Quantity;
 import javax.measure.unit.Unit;
 
@@ -47,7 +49,7 @@ public interface Measure<UnitType extends Quantity> extends Value {
     Value getMeasureValue();
 
     @Override
-    Measure<UnitType> valueOf(long mantissa, int order, int sig, int dec,
+    Measure<UnitType> valueOf(BigInteger mantissa, int order, int sig, int dec,
             double unc);
 
     @Override

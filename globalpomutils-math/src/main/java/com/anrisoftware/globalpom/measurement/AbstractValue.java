@@ -21,9 +21,12 @@ package com.anrisoftware.globalpom.measurement;
 import static com.anrisoftware.globalpom.measurement.RoundToSignificantFigures.roundToDecimal;
 import static com.anrisoftware.globalpom.measurement.RoundToSignificantFigures.roundToSignificant;
 import static java.lang.Math.min;
+import static java.math.MathContext.DECIMAL128;
 import static org.apache.commons.math3.util.FastMath.max;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParsePosition;
@@ -31,6 +34,7 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.math3.util.FastMath;
 
@@ -46,9 +50,11 @@ import com.anrisoftware.globalpom.format.measurement.ValueFormatFactory;
 @SuppressWarnings("serial")
 public abstract class AbstractValue implements Value, Serializable {
 
+    private static final BigDecimal DECIMAL_10 = new BigDecimal("10");
+
     private static final double DEFAULT_DIV = 3.0;
 
-    private final long mantissa;
+    private final BigInteger mantissa;
 
     private final int significant;
 
@@ -70,6 +76,16 @@ public abstract class AbstractValue implements Value, Serializable {
 
     protected AbstractValue(long mantissa, int order, int sig, int dec,
             double unc, ValueFactory valueFactory) {
+        this.mantissa = BigInteger.valueOf(mantissa);
+        this.uncertainty = unc;
+        this.order = order;
+        this.significant = sig;
+        this.decimal = dec;
+        this.valueFactory = valueFactory;
+    }
+
+    protected AbstractValue(BigInteger mantissa, int order, int sig, int dec,
+            double unc, ValueFactory valueFactory) {
         this.mantissa = mantissa;
         this.uncertainty = unc;
         this.order = order;
@@ -79,7 +95,7 @@ public abstract class AbstractValue implements Value, Serializable {
     }
 
     @Override
-    public long getMantissa() {
+    public BigInteger getMantissa() {
         return mantissa;
     }
 
@@ -121,7 +137,8 @@ public abstract class AbstractValue implements Value, Serializable {
 
     @Override
     public double getValue() {
-        return getMantissa() * FastMath.pow(10, getDecimal());
+        return new BigDecimal(getMantissa()).multiply(
+                DECIMAL_10.pow(getDecimal(), DECIMAL128)).doubleValue();
     }
 
     @Override
@@ -166,7 +183,8 @@ public abstract class AbstractValue implements Value, Serializable {
     }
 
     @Override
-    public Value valueOf(long mantissa, int order, int sig, int dec, double unc) {
+    public Value valueOf(BigInteger mantissa, int order, int sig, int dec,
+            double unc) {
         return createValue(mantissa, order, sig, dec, unc);
     }
 
@@ -496,7 +514,8 @@ public abstract class AbstractValue implements Value, Serializable {
      *
      * @return the {@link Value}.
      */
-    protected Value createValue(long m, int order, int sig, int dec, double unc) {
+    protected Value createValue(BigInteger m, int order, int sig, int dec,
+            double unc) {
         return valueFactory.create(m, order, sig, dec, unc, valueFactory);
     }
 
@@ -539,7 +558,8 @@ public abstract class AbstractValue implements Value, Serializable {
 
     @Override
     public int hashCode() {
-        return new Double(mantissa).hashCode();
+        return new HashCodeBuilder().append(getMantissa()).append(getDecimal())
+                .hashCode();
     }
 
     @Override

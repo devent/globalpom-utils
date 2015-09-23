@@ -23,6 +23,8 @@ import static com.anrisoftware.globalpom.measurement.ValueFactory.MANTISSA;
 import static com.anrisoftware.globalpom.measurement.ValueFactory.ORDER;
 import static com.anrisoftware.globalpom.measurement.ValueFactory.SIGNIFICANT;
 
+import java.math.BigInteger;
+
 import javax.inject.Inject;
 
 import com.google.inject.assistedinject.Assisted;
@@ -38,12 +40,33 @@ import com.google.inject.assistedinject.AssistedInject;
 public class StandardValue extends AbstractValue {
 
     /**
+     * @see StandardValueFactory#create(BigInteger, int, int, int)
+     */
+    @AssistedInject
+    StandardValue(StandardValueFactory valueFactory,
+            @Assisted(MANTISSA) BigInteger mantissa,
+            @Assisted(ORDER) int order, @Assisted(SIGNIFICANT) int sig,
+            @Assisted(DECIMAL) int dec) {
+        super(mantissa, order, sig, dec, Double.NaN, valueFactory);
+    }
+
+    /**
      * @see StandardValueFactory#create(long, int, int, int)
      */
     @AssistedInject
     StandardValue(StandardValueFactory valueFactory,
             @Assisted(MANTISSA) long mantissa, @Assisted(ORDER) int order,
             @Assisted(SIGNIFICANT) int sig, @Assisted(DECIMAL) int dec) {
+        super(mantissa, order, sig, dec, Double.NaN, valueFactory);
+    }
+
+    /**
+     * @see StandardValueFactory#create(BigInteger, int, int, int, ValueFactory)
+     */
+    @AssistedInject
+    StandardValue(@Assisted(MANTISSA) BigInteger mantissa,
+            @Assisted(ORDER) int order, @Assisted(SIGNIFICANT) int sig,
+            @Assisted(DECIMAL) int dec, @Assisted ValueFactory valueFactory) {
         super(mantissa, order, sig, dec, Double.NaN, valueFactory);
     }
 
@@ -58,6 +81,17 @@ public class StandardValue extends AbstractValue {
     }
 
     /**
+     * @see StandardValueFactory#create(BigInteger, int, int, int, double)
+     */
+    @AssistedInject
+    StandardValue(StandardValueFactory valueFactory,
+            @Assisted(MANTISSA) BigInteger mantissa,
+            @Assisted(ORDER) int order, @Assisted(SIGNIFICANT) int sig,
+            @Assisted(DECIMAL) int dec, @Assisted double unc) {
+        super(mantissa, order, sig, dec, unc, valueFactory);
+    }
+
+    /**
      * @see StandardValueFactory#create(long, int, int, int, double)
      */
     @AssistedInject
@@ -65,6 +99,18 @@ public class StandardValue extends AbstractValue {
             @Assisted(MANTISSA) long mantissa, @Assisted(ORDER) int order,
             @Assisted(SIGNIFICANT) int sig, @Assisted(DECIMAL) int dec,
             @Assisted double unc) {
+        super(mantissa, order, sig, dec, unc, valueFactory);
+    }
+
+    /**
+     * @see StandardValueFactory#create(long, int, int, int, double,
+     *      ValueFactory)
+     */
+    @AssistedInject
+    StandardValue(@Assisted(MANTISSA) BigInteger mantissa,
+            @Assisted(ORDER) int order, @Assisted(SIGNIFICANT) int sig,
+            @Assisted(DECIMAL) int dec, @Assisted double unc,
+            @Assisted ValueFactory valueFactory) {
         super(mantissa, order, sig, dec, unc, valueFactory);
     }
 
