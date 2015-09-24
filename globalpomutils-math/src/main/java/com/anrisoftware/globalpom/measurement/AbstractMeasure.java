@@ -258,6 +258,18 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
     }
 
     @Override
+    public Measure<UnitType> divNum(Value numerator) {
+        Value value = this.value.divNum(numerator);
+        return measureFactory.create(value, unit, valueFactory);
+    }
+
+    @Override
+    public Measure<UnitType> divNum(double numerator) {
+        Value value = this.value.divNum(numerator);
+        return measureFactory.create(value, unit, valueFactory);
+    }
+
+    @Override
     public Measure<UnitType> log() {
         Value value = this.value.log();
         return measureFactory.create(value, unit, valueFactory);
@@ -278,6 +290,18 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
     @Override
     public Measure<UnitType> abs() {
         Value value = this.value.abs();
+        return measureFactory.create(value, unit, valueFactory);
+    }
+
+    @Override
+    public Measure<UnitType> square() {
+        Value value = this.value.square();
+        return measureFactory.create(value, unit, valueFactory);
+    }
+
+    @Override
+    public Measure<UnitType> cube() {
+        Value value = this.value.cube();
         return measureFactory.create(value, unit, valueFactory);
     }
 

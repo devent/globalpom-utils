@@ -338,6 +338,26 @@ public interface Value extends Comparable<Value> {
     Value div(double divisor);
 
     /**
+     * Calculates the division of this value with the numerator.
+     *
+     * @param numerator
+     *            the {@link Value} numerator.
+     *
+     * @return the result {@link Value}.
+     */
+    Value divNum(Value numerator);
+
+    /**
+     * Calculates the division of this value with the numerator.
+     *
+     * @param numerator
+     *            the {@link Double} numerator.
+     *
+     * @return the result {@link Value}.
+     */
+    Value divNum(double numerator);
+
+    /**
      * Calculates the reciprocal of this value.
      *
      * @return the result {@link Value}.
@@ -364,6 +384,20 @@ public interface Value extends Comparable<Value> {
      * @return the {@link Value}.
      */
     Value abs();
+
+    /**
+     * Calculates the square this value.
+     *
+     * @return the square {@link Value}.
+     */
+    Value square();
+
+    /**
+     * Calculates the cube this value.
+     *
+     * @return the cube {@link Value}.
+     */
+    Value cube();
 
     /**
      * Compares this value to the specified value using the absolute value.

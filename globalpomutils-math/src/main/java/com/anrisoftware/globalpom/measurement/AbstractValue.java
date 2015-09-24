@@ -380,7 +380,27 @@ public abstract class AbstractValue implements Value, Serializable {
         double unc = divUncertainty(divisor, value);
         int sig = significant;
         int dec = decimal;
-        double rvalue = roundToSignificant(value, FastMath.abs(dec));
+        double rvalue = roundToSignificant(value, sig);
+        return valueOf(rvalue, sig, dec, unc);
+    }
+
+    @Override
+    public Value divNum(Value numerator) {
+        double value = numerator.getValue() / this.getValue();
+        double unc = divUncertainty(numerator, value);
+        int sig = min(significant, numerator.getSignificant());
+        int dec = max(decimal, numerator.getDecimal());
+        double rvalue = roundToSignificant(value, sig);
+        return valueOf(rvalue, sig, dec, unc);
+    }
+
+    @Override
+    public Value divNum(double numerator) {
+        double value = numerator / this.getValue();
+        double unc = divUncertainty(numerator, value);
+        int sig = significant;
+        int dec = decimal;
+        double rvalue = roundToSignificant(value, sig);
         return valueOf(rvalue, sig, dec, unc);
     }
 
@@ -489,6 +509,16 @@ public abstract class AbstractValue implements Value, Serializable {
      * @return the uncertainly.
      */
     protected abstract double absUncertainty(double value);
+
+    @Override
+    public Value square() {
+        return this.mul(this);
+    }
+
+    @Override
+    public Value cube() {
+        return this.square().mul(this);
+    }
 
     /**
      * Creates a new value with the specified uncertainty.

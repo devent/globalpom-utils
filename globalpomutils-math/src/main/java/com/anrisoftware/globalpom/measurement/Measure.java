@@ -113,6 +113,12 @@ public interface Measure<UnitType extends Quantity> extends Value {
     Measure<UnitType> div(double divisor);
 
     @Override
+    Measure<UnitType> divNum(Value numerator);
+
+    @Override
+    Measure<UnitType> divNum(double numerator);
+
+    @Override
     Measure<UnitType> reciprocal();
 
     @Override
@@ -124,4 +130,9 @@ public interface Measure<UnitType extends Quantity> extends Value {
     @Override
     Measure<UnitType> abs();
 
+    @Override
+    Measure<UnitType> square();
+
+    @Override
+    Measure<UnitType> cube();
 }
