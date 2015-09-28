@@ -578,7 +578,7 @@ public abstract class AbstractValue implements Value, Serializable {
     }
 
     private boolean equalExact(Value lhs, Value rhs) {
-        return lhs.getMantissa() == rhs.getMantissa()
+        return lhs.getMantissa().equals(rhs.getMantissa())
                 && lhs.getDecimal() == rhs.getDecimal();
     }
 
