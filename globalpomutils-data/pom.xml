@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.anrisoftware.globalpom</groupId>
 		<artifactId>globalpomutils-parent</artifactId>
-        <version>2.9-SNAPSHOT</version>
+        <version>2.9</version>
 		<relativePath>../globalpomutils-parent</relativePath>
 	</parent>
 
@@ -20,7 +20,7 @@
 			<dependency>
 				<groupId>com.anrisoftware.globalpom</groupId>
 				<artifactId>globalpomutils-core</artifactId>
-				<version>2.9-SNAPSHOT</version>
+				<version>2.9</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
