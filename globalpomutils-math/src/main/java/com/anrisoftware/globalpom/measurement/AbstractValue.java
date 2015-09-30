@@ -613,7 +613,7 @@ public abstract class AbstractValue implements Value, Serializable {
         svalue = new DecimalFormat(pattern.toString(), symbols).format(value);
         if (!Double.isNaN(unc)) {
             String uvalue = new DecimalFormat(String.format("(%s)",
-                    pattern.toString())).format(unc);
+                    pattern.toString()), symbols).format(unc);
             svalue += uvalue;
         }
         ValueFormat format = valueFormatFactory.create(locale, valueFactory);

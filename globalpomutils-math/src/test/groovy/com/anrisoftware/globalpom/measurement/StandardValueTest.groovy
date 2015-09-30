@@ -148,6 +148,22 @@ class StandardValueTest extends ValueTestBase {
     }
 
     @Test
+    void "standard value, german locale"() {
+        def oldLocale = Locale.getDefault()
+        Locale.setDefault Locale.GERMAN
+        standardValueData.each {
+            epsilon = it.epsilon
+            def x = it.x
+            def y = it.y
+            def f = it.f(x, y)
+            log.info "$it.name x:=$x; y:=$y; $it.func=$f"
+            it.result(f)
+            it.rounded(f)
+        }
+        Locale.setDefault oldLocale
+    }
+
+    @Test
     void "serialize, inject members"() {
         def value = standardValueFactory.create(123, 4, 3, 1)
         StandardValue valueB = reserialize(value)

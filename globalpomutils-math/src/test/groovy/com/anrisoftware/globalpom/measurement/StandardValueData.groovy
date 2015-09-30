@@ -52,6 +52,23 @@ class StandardValueData {
                 name: "add",
                 func: "f(x,y):=x+y",
                 epsilon: 10**-8,
+                x: v.create(2, 1, 1, 0, 0.1),
+                y: v.create(3, 1, 1, 0, 0.1),
+                f: { Value x, Value y -> x.add y },
+                result: {  Value f ->
+                    assert f.exact == false
+                    assertDecimalEquals f.uncertainty, 0.1
+                    assertDecimalEquals f.value, 2.0d+3.0d
+                },
+                rounded: {  Value f ->
+                    double s = f.roundedValue
+                    assert s == 5d
+                },
+            ],
+            [
+                name: "add",
+                func: "f(x,y):=x+y",
+                epsilon: 10**-8,
                 x: v.create(5, 0, 1, -1),
                 y: v.create(3, 1, 1, 0),
                 f: { Value x, Value y -> x.add y },
