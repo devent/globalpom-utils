@@ -18,11 +18,12 @@
  */
 package com.anrisoftware.globalpom.measurement;
 
+import static org.apache.commons.math3.util.FastMath.abs;
 import static org.apache.commons.math3.util.FastMath.sqrt;
 
 /**
  * Calculation of error propagation using the standard deviation.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
@@ -34,23 +35,23 @@ public class StandardValueMath {
 
     public static double mulUncertaintly(double a, double sa, double b,
             double sb, double z) {
-        return sqrt(pow2(sa / a) + pow2(sb / b)) * z;
+        return sqrt(pow2(sa / a) + pow2(sb / b)) * abs(z);
     }
 
     public static double mulUncertaintly(double b, double sb, double z) {
-        return sqrt(pow2(sb / b)) * z;
+        return sqrt(pow2(sb / b)) * abs(z);
     }
 
     public static double logUncertainty(double a, double sa) {
-        return sa / a;
+        return sa / abs(a);
     }
 
     public static double expUncertainty(double sa, double z) {
-        return sa * z;
+        return sa * abs(z);
     }
 
     public static double reciprocalUncertaintly(double a, double sa, double z) {
-        return z * sa / a;
+        return abs(z) * sa / a;
     }
 
     private static double pow2(double value) {

@@ -248,6 +248,22 @@ class StandardValueData {
                 name: "div",
                 func: "f(x,y):=x/y",
                 epsilon: 10**-8,
+                x: v.create(-2630500, 3, 7, -4),
+                y: v.create(108881983, 14, 9, 5, 6200000.0),
+                f: { Value x, Value y -> x.div y },
+                result: {  Value f ->
+                    assertDecimalEquals f.uncertainty, -1.37568167E-11d
+                    assertDecimalEquals f.value, -2.41591853E-17d
+                },
+                rounded: {  Value f ->
+                    assertDecimalEquals f.uncertainty, -1.37568167E-11d
+                    assertDecimalEquals f.value, -2.41591853E-17d
+                },
+            ],
+            [
+                name: "div",
+                func: "f(x,y):=x/y",
+                epsilon: 10**-8,
                 x: v.create(5, 0, 1, -1),
                 y: v.create(3, 1, 1, 0),
                 f: { Value x, Value y -> x.div y },
