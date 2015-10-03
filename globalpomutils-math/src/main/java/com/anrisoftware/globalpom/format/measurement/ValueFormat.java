@@ -60,6 +60,10 @@ public class ValueFormat extends Format {
 
     private final ValueFactory valueFactory;
 
+    private final DecimalFormatSymbols symbols;
+
+    private final Locale locale;
+
     @Inject
     private ValueFormatLogger log;
 
@@ -68,8 +72,6 @@ public class ValueFormat extends Format {
     private Integer sig;
 
     private Integer dec;
-
-    private final DecimalFormatSymbols symbols;
 
     /**
      * @see ValueFormatFactory#create(ValueFactory)
@@ -84,19 +86,11 @@ public class ValueFormat extends Format {
      */
     @AssistedInject
     ValueFormat(@Assisted ValueFactory valueFactory, @Assisted Locale locale) {
-        this(valueFactory, DecimalFormatSymbols.getInstance(locale));
-    }
-
-    /**
-     * @see ValueFormatFactory#create(DecimalFormatSymbols, ValueFactory)
-     */
-    @AssistedInject
-    ValueFormat(@Assisted ValueFactory valueFactory,
-            @Assisted DecimalFormatSymbols symbols) {
         this.sig = null;
         this.dec = null;
         this.valueFactory = valueFactory;
-        this.symbols = symbols;
+        this.symbols = DecimalFormatSymbols.getInstance(locale);
+        this.locale = locale;
     }
 
     /**
@@ -421,7 +415,8 @@ public class ValueFormat extends Format {
 
     private Value parseValue(String string, Double unc, ParsePosition pos)
             throws ParseException {
-        Matcher matcher = VALUE_GROUP_PATTERN.matcher(string);
+        String astring = string.toUpperCase(locale);
+        Matcher matcher = VALUE_GROUP_PATTERN.matcher(astring);
         if (!matcher.matches()) {
             throw log.errorParseValue(string, pos);
         }

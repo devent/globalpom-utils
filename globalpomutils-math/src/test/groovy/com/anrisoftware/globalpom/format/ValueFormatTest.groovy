@@ -250,6 +250,7 @@ class ValueFormatTest {
             [input: "0.123E-2", expected: valueFactory.create(123, -2, 3, -5)],
             [input: "12.123E-2", expected: valueFactory.create(12123, 0, 5, -5)],
             [input: "12.0123E-2", expected: valueFactory.create(120123, 0, 6, -6)],
+            [input: "12.0123e-2", expected: valueFactory.create(120123, 0, 6, -6)],
         ]
         parses.eachWithIndex { testCase, int k ->
             log.info "{}. case: {}", k, testCase

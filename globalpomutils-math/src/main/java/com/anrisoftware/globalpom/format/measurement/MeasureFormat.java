@@ -18,7 +18,6 @@
  */
 package com.anrisoftware.globalpom.format.measurement;
 
-import java.text.DecimalFormatSymbols;
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParseException;
@@ -73,20 +72,7 @@ public class MeasureFormat extends Format {
     MeasureFormat(ValueFormatFactory valueFormatFactory,
             @Assisted Locale locale, @Assisted ValueFactory valueFactory,
             @Assisted MeasureFactory measureFactory) {
-        this(valueFormatFactory, DecimalFormatSymbols.getInstance(locale),
-                valueFactory, measureFactory);
-    }
-
-    /**
-     * @see MeasureFormatFactory#create(DecimalFormatSymbols, ValueFactory,
-     *      MeasureFactory)
-     */
-    @AssistedInject
-    MeasureFormat(ValueFormatFactory valueFormatFactory,
-            @Assisted DecimalFormatSymbols symbols,
-            @Assisted ValueFactory valueFactory,
-            @Assisted MeasureFactory measureFactory) {
-        this.valueFormat = valueFormatFactory.create(symbols, valueFactory);
+        this.valueFormat = valueFormatFactory.create(locale, valueFactory);
         this.measureFactory = measureFactory;
     }
 

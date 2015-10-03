@@ -18,7 +18,6 @@
  */
 package com.anrisoftware.globalpom.format.measurement;
 
-import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
 import com.anrisoftware.globalpom.measurement.MeasureFactory;
@@ -62,22 +61,5 @@ public interface MeasureFormatFactory {
      */
     MeasureFormat create(Locale locale, ValueFactory valueFactory,
             MeasureFactory measureFactory);
-
-    /**
-     * Create value format with the specified decimal format.
-     *
-     * @param symbols
-     *            the {@link DecimalFormatSymbols}.
-     *
-     * @param valueFactory
-     *            the {@link ValueFactory} to create the value.
-     *
-     * @param measureFactory
-     *            the {@link MeasureFactory} to create the measure.
-     *
-     * @return the {@link ValueFormat}.
-     */
-    MeasureFormat create(DecimalFormatSymbols symbols,
-            ValueFactory valueFactory, MeasureFactory measureFactory);
 
 }
