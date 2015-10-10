@@ -440,7 +440,7 @@ public class ValueFormat extends Format {
         return valueFactory.create(man, order, sig, dec, unc);
     }
 
-    private String setupDecimal(String str, Integer dec) {
+    private String setupDecimal(String str, Integer dec) throws ParseException {
         if (dec == null) {
             return str;
         }
@@ -451,7 +451,8 @@ public class ValueFormat extends Format {
                 pattern.append('0');
             }
         }
-        double value = Double.valueOf(str);
+        Number parse = DecimalFormat.getInstance(locale).parse(str);
+        double value = parse.doubleValue();
         return new DecimalFormat(pattern.toString(), symbols).format(value);
     }
 
