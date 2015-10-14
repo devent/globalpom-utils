@@ -19,69 +19,47 @@
 
 Description
 
-  Command execution helper.
+    Command execution helper.
 
-Anrisoftware.com SCM
+    * Api
 
-  * {{{https://anrisoftware.com/projects/projects/globalpomutils-exec/repository}Repository}}
-
-  * git@anrisoftware.com:globalpom-utils.git
-
-GitHub SCM
-
-  * {{{https://github.com/devent/globalpom-utils}Repository}}
-
-  * git@github.com:devent/globalpom-utils.git
-
-Maven Module
-
----
-<dependency>
-    <groupId>com.anrisoftware.globalpom</groupId>
-    <artifactId>globalpomutils-exec</artifactId>
-    <version>2.4</version>
-</dependency>
----
-
-  * Api
-
-  The public application interface, containing the interfaces for the
+    The public application interface, containing the interfaces for the
 command execution, command line, command output;
 
-  * Command
+    * Command
 
-  Implements the command line;
+    Implements the command line;
 
-  * Core
+    * Core
 
-  Implements the command execution;
+    Implements the command execution;
 
-  * Logoutputs
+    * Logoutputs
 
-  Implements command outputs that redirects the standard outputs to the
+    Implements command outputs that redirects the standard outputs to the
 info, debug and error logger;
 
-  * Pipeoutputs
+    * Pipeoutputs
 
-  Implements command outputs that pipes the standard outputs into a sink;
+    Implements command outputs that pipes the standard outputs into a sink;
 
-  * Runcommands
+    * Runcommands
 
-  Implements a collection of run commands for debug purposes;
+    Implements a collection of run commands for debug purposes;
 
-  * Script
+    * Script
 
-  Implements a command execution that creates the command from a template
+    Implements a command execution that creates the command from a template
 resource;
 
-  * Scriptprocess
+    * Scriptprocess
 
-  Implements a command execution that creates the command from a template
+    Implements a command execution that creates the command from a template
 resource;
 
-* Runcommands
+    * Runcommands
 
-  Logs and saves the run commands in a collection. The logger can be configured
+    Logs and saves the run commands in a collection. The logger can be configured
 to log the executed commands in a separate log file. The logger can be
 configured at runtime:
 
@@ -143,3 +121,42 @@ static attachRunCommandsLog(File prefix) {
 
 </configuration>
 ---
+
+SCM
+
+    * {{{https://anrisoftware.com/projects/projects/globalpom-utils/repository}Main Repository}}
+
+    * git@anrisoftware.com:globalpom-utils.git
+
+    * {{{https://github.com/devent/globalpom-groovy}Github Mirror Repository}}
+
+    * git@github.com:devent/globalpom-utils.git
+
+Maven
+
+---
+<dependency>
+    <groupId>com.anrisoftware.globalpom</groupId>
+    <artifactId>globalpomutils-exec</artifactId>
+    <version>2.11</version>
+</dependency>
+---
+
+License
+
+    Copyright 2014-2015 Erwin Müller erwin.mueller@deventm.org
+
+    This file is part of globalpomutils-exec.
+
+    globalpomutils-exec is free software: you can redistribute it and/or modify it
+under the terms of the GNU Lesser General Public License as published by the
+Free Software Foundation, either version 3 of the License, or (at your
+option) any later version.
+
+    globalpomutils-exec is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details.
+
+    You should have received a copy of the GNU Lesser General Public License
+along with globalpomutils-exec. If not, see {{{http://www.gnu.org/licenses/}}}

@@ -19,42 +19,59 @@
 
 Description
 
-  Threads pool for listenable future tasks.
+    Threads pool for listenable future tasks.
 
-Anrisoftware.com SCM
+    * Api
 
-  * {{{https://anrisoftware.com/projects/projects/globalpomutils-threads/repository}Repository}}
+    Public interface defines the listenable future and the threads;
 
-  * git@anrisoftware.com:globalpom-utils.git
+    * listenablefuture
 
-GitHub SCM
+    Implements the listenable future;
 
-  * {{{https://github.com/devent/globalpom-utils}Repository}}
+    * Properties
 
-  * git@github.com:devent/globalpom-utils.git
+    Threads pool that is contracted from the loaded properties;
 
-Maven Module
+    * Watchdog
+
+    Watching the threading pool and informs the listenable future tasks;
+
+SCM
+
+    * {{{https://anrisoftware.com/projects/projects/globalpom-utils/repository}Main Repository}}
+
+    * git@anrisoftware.com:globalpom-utils.git
+
+    * {{{https://github.com/devent/globalpom-groovy}Github Mirror Repository}}
+
+    * git@github.com:devent/globalpom-utils.git
+
+Maven
 
 ---
 <dependency>
     <groupId>com.anrisoftware.globalpom</groupId>
     <artifactId>globalpomutils-threads</artifactId>
-    <version>2.3</version>
+    <version>2.11</version>
 </dependency>
 ---
 
-  * Api
+License
 
-  Public interface defines the listenable future and the threads;
+    Copyright 2013-2015 Erwin Müller erwin.mueller@deventm.org
 
-  * listenablefuture
+    This file is part of globalpomutils-threads.
 
-  Implements the listenable future;
+    globalpomutils-threads is free software: you can redistribute it and/or modify it
+under the terms of the GNU Lesser General Public License as published by the
+Free Software Foundation, either version 3 of the License, or (at your
+option) any later version.
 
-  * Properties
+    globalpomutils-threads is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details.
 
-  Threads pool that is contracted from the loaded properties;
-
-  * Watchdog
-
-  Watching the threading pool and informs the listenable future tasks;
+    You should have received a copy of the GNU Lesser General Public License
+along with globalpomutils-threads. If not, see {{{http://www.gnu.org/licenses/}}}

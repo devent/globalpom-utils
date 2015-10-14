@@ -43,11 +43,11 @@ xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache
         </links>
         <menu name="Overview">
             <item name="Home" href="/index.html" />
-            <item name="Download" href="https://anrisoftware.com/l/43" />
-            <item name="Javadoc" href="https://anrisoftware.com/javadoc/com.anrisoftware.globalpom/globalpomutils-data/apidocs/index.html" />
+            <item name="Download" href="https://anrisoftware.com/l/4t" />
+            <item name="Javadoc" href="/apidocs/index.html" />
             <item name="Source code" href="https://anrisoftware.com/l/47" />
             <item name="Source code (Github)" href="https://github.com/devent/globalpom-utils" />
-            <item name="Roadmap" href="https://anrisoftware.com/l/45" />
+            <item name="Roadmap" href="https://anrisoftware.com/l/4r" />
             <item name="Issues" href="https://anrisoftware.com/l/46" />
         </menu>
         <menu ref="parent" />

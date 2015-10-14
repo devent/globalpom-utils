@@ -17,40 +17,57 @@
 ~~ along with globalpomutils-reflection. If not, see <http://www.gnu.org/licenses/>.
 ~~
 
-  Access Java beans through reflection.
+Description
 
-Anrisoftware.com SCM
+    Access Java beans through reflection.
 
-  * {{{https://anrisoftware.com/projects/projects/globalpomutils-reflection/repository}Repository}}
+    * Annotationclass
 
-  * git@anrisoftware.com:globalpom-utils.git
+    Creates an instance from an annotation attribute;
 
-GitHub SCM
+    * Annotations
 
-  * {{{https://github.com/devent/globalpom-utils}Repository}}
+    Access to annotation attributes;
 
-  * git@github.com:devent/globalpom-utils.git
+    * Beans
 
-Maven Module
+    Access to class fields;
+
+SCM
+
+    * {{{https://anrisoftware.com/projects/projects/globalpom-utils/repository}Main Repository}}
+
+    * git@anrisoftware.com:globalpom-utils.git
+
+    * {{{https://github.com/devent/globalpom-groovy}Github Mirror Repository}}
+
+    * git@github.com:devent/globalpom-utils.git
+
+Maven
 
 ---
 <dependency>
     <groupId>com.anrisoftware.globalpom</groupId>
     <artifactId>globalpomutils-reflection</artifactId>
-    <version>2.3</version>
+    <version>2.11</version>
 </dependency>
 ---
 
-Description
+License
 
-  * Annotationclass
+    Copyright 2013-2015 Erwin Müller erwin.mueller@deventm.org
 
-  Creates an instance from an annotation attribute;
+    This file is part of globalpomutils-reflection.
 
-  * Annotations
+    globalpomutils-reflection is free software: you can redistribute it and/or modify it
+under the terms of the GNU Lesser General Public License as published by the
+Free Software Foundation, either version 3 of the License, or (at your
+option) any later version.
 
-  Access to annotation attributes;
+    globalpomutils-reflection is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details.
 
-  * Beans
-
-  Access to class fields;
+    You should have received a copy of the GNU Lesser General Public License
+along with globalpomutils-reflection. If not, see {{{http://www.gnu.org/licenses/}}}

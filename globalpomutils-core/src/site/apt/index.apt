@@ -19,80 +19,95 @@
 
 Description
 
-  Offers various utilities for various tasks.
+    Offers various utilities for various tasks.
 
-  * Arrays
+    * Arrays
 
-  Convert arrays to list;
+    Convert arrays to list;
 
-  * Charset
+    * Charset
 
-  Serializable character set class;
+    Serializable character set class;
 
-  * {{{./format.html}Format}}
+    * {{{./format.html}Format}}
 
-  Format and parsers for byte unit, color, date duration, enums, Internet
+    Format and parsers for byte unit, color, date duration, enums, Internet
 socket address, local and graphics point;
 
-  * Mnemonic
+    * Mnemonic
 
-  Accelerator and mnemonic classes;
+    Accelerator and mnemonic classes;
 
-  * {{{./posixlocale.html}POSIX Locale}}
+    * {{{./posixlocale.html}POSIX Locale}}
 
-  Locale as used in POSIX platforms. Contains the language, country and
+    Locale as used in POSIX platforms. Contains the language, country and
 character set.
 
-  * Properties
+    * Properties
 
-  List property change event and support;
+    List property change event and support;
 
-  * Resources
+    * Resources
 
-  Converter utilities for URI and URL;
+    Converter utilities for URI and URL;
 
-  * Strings
+    * Strings
 
-  Map to table string, to underscore converter;
+    Map to table string, to underscore converter;
 
-  * System
+    * System
 
-  System selector;
+    System selector;
 
-  * Textmatch
+    * Textmatch
 
-  Search and replaces tokens of texts, is used to set configurations in
+    Search and replaces tokens of texts, is used to set configurations in
 text configuration files;
 
-  * Textposition
+    * Textposition
 
-  Text and icon positions for tool bars and buttons;
+    Text and icon positions for tool bars and buttons;
 
-  * Version
+    * Version
 
-  Comparable version number. Compares the major, minor and revision version
+    Comparable version number. Compares the major, minor and revision version
 numbers.
 
 SCM
 
-* Main
+    * {{{https://anrisoftware.com/projects/projects/prefdialog-misc-swing/repository}Main Repository}}
 
-  * {{{https://anrisoftware.com/projects/projects/globalpomutils-core/repository}Repository}}
+    * git@anrisoftware.com:globalpom-utils.git
 
-  * git@anrisoftware.com:globalpom-utils.git
+    * {{{https://github.com/devent/globalpom-utils}Github Mirror Repository}}
 
-* GitHub
+    * git@github.com:devent/globalpom-utils.git
 
-  * {{{https://github.com/devent/globalpom-utils}Repository}}
-
-  * git@github.com:devent/globalpom-utils.git
-
-Maven Module
+Maven
 
 ---
 <dependency>
     <groupId>com.anrisoftware.globalpom</groupId>
     <artifactId>globalpomutils-core</artifactId>
-    <version>2.7</version>
+    <version>2.11</version>
 </dependency>
 ---
+
+License
+
+    Copyright 2013-2015 Erwin Müller erwin.mueller@deventm.org
+
+    This file is part of globalpomutils-core.
+
+    globalpomutils-core is free software: you can redistribute it and/or modify it
+under the terms of the GNU Lesser General Public License as published by the
+Free Software Foundation, either version 3 of the License, or (at your
+option) any later version.
+
+    globalpomutils-core is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details.
+
+    You should have received a copy of the GNU Lesser General Public License
+along with globalpomutils-core. If not, see {{{http://www.gnu.org/licenses/}}}

@@ -17,52 +17,69 @@
 ~~ along with globalpomutils-math. If not, see <http://www.gnu.org/licenses/>.
 ~~
 
-  Mathematical classes.
+Description
 
-Anrisoftware.com SCM
+    Mathematical classes.
 
-  * {{{https://anrisoftware.com/projects/projects/globalpomutils-math/repository}Repository}}
+    * Arraysminmax
 
-  * git@anrisoftware.com:globalpom-utils.git
+    Classes to return the minimal and maximal value of a given array;
 
-GitHub SCM
+    * Constants
 
-  * {{{https://github.com/devent/globalpom-utils}Repository}}
+    Physical constants with an uncertainty and dimension;
 
-  * git@github.com:devent/globalpom-utils.git
+    * Format
 
-Maven Module
+    Formats and parses the degree, the latitude and longitude coordinates and
+the physical measurement.
+
+    * Math
+
+    Various mathematical utilities;
+
+    * Measurement
+
+    Classes for physical measurements with an uncertainty and the possibility
+to calculate the error propagation. The physical value Value can be an exact
+value ExactStandardValue or a value with an uncertainty StandardValue. The
+physical measurement Measure is a value with a dimension;
+
+SCM
+
+    * {{{https://anrisoftware.com/projects/projects/globalpom-utils/repository}Main Repository}}
+
+    * git@anrisoftware.com:globalpom-utils.git
+
+    * {{{https://github.com/devent/globalpom-groovy}Github Mirror Repository}}
+
+    * git@github.com:devent/globalpom-utils.git
+
+Maven
 
 ---
 <dependency>
     <groupId>com.anrisoftware.globalpom</groupId>
     <artifactId>globalpomutils-math</artifactId>
-    <version>2.3</version>
+    <version>2.11</version>
 </dependency>
 ---
 
-Description
+License
 
-  * Arraysminmax
+    Copyright 2013-2015 Erwin Müller erwin.mueller@deventm.org
 
-  Classes to return the minimal and maximal value of a given array;
+    This file is part of globalpomutils-math.
 
-  * Constants
+    globalpomutils-math is free software: you can redistribute it and/or modify it
+under the terms of the GNU Lesser General Public License as published by the
+Free Software Foundation, either version 3 of the License, or (at your
+option) any later version.
 
-  Physical constants with an uncertainty and dimension;
+    globalpomutils-math is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details.
 
-  * Format
-
-  Formats and parses the degree, the latitude and longitude coordinates and
-the physical measurement.
-
-  * Math
-
-  Various mathematical utilities;
-
-  * Measurement
-
-  Classes for physical measurements with an uncertainty and the possibility
-to calculate the error propagation. The physical value Value can be an exact
-value ExactStandardValue or a value with an uncertainty StandardValue. The
-physical measurement Measure is a value with a dimension;
+    You should have received a copy of the GNU Lesser General Public License
+along with globalpomutils-math. If not, see {{{http://www.gnu.org/licenses/}}}
