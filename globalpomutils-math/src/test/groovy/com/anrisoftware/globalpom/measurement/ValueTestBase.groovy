@@ -18,9 +18,13 @@
  */
 package com.anrisoftware.globalpom.measurement
 
+import groovy.transform.CompileStatic
+
 import org.junit.BeforeClass
 
 import com.anrisoftware.globalpom.format.measurement.MeasurementFormatModule
+import com.anrisoftware.globalpom.format.measurement.ValueFormat
+import com.anrisoftware.globalpom.format.measurement.ValueFormatFactory
 import com.anrisoftware.globalpom.utils.TestUtils
 import com.google.inject.Guice
 import com.google.inject.Injector
@@ -31,6 +35,7 @@ import com.google.inject.Injector
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
  */
+@CompileStatic
 class ValueTestBase {
 
     static Injector injector
@@ -39,7 +44,7 @@ class ValueTestBase {
 
     static StandardMeasureFactory standardMeasureFactory
 
-    static List standardValueData
+    static ValueFormatFactory valueFormatFactory
 
     static List standardMeasureData
 
@@ -48,7 +53,11 @@ class ValueTestBase {
         TestUtils.toStringStyle
         injector = Guice.createInjector new MeasurementStandardModule(), new MeasurementFormatModule()
         standardValueFactory = injector.getInstance StandardValueFactory
-        standardValueData = new StandardValueData().create(standardValueFactory)
+        valueFormatFactory = injector.getInstance ValueFormatFactory
         standardMeasureFactory = injector.getInstance StandardMeasureFactory
+    }
+
+    static ValueFormat createValueFormat() {
+        valueFormatFactory.create(Locale.ENGLISH, standardValueFactory)
     }
 }

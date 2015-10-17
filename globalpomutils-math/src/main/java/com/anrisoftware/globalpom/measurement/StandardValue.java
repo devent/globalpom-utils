@@ -202,7 +202,9 @@ public class StandardValue extends AbstractValue {
 
     @Override
     protected double divUncertainty(double divisor, double quotient) {
-        return getUncertainty();
+        double sa = getUncertainty();
+        double a = getValue();
+        return StandardValueMath.mulUncertaintly(a, sa, quotient);
     }
 
     @Override

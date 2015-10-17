@@ -21,6 +21,8 @@ package com.anrisoftware.globalpom.measurement
 import static com.anrisoftware.globalpom.utils.TestUtils.*
 import groovy.transform.CompileStatic
 
+import com.anrisoftware.globalpom.format.measurement.ValueFormat
+
 /**
  * Standard error propagation data.
  *
@@ -30,7 +32,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class StandardValueData {
 
-    List create(ValueFactory v) {
+    List create(ValueFormat format, ValueFactory v) {
         [
             [
                 name: "add",
@@ -227,6 +229,22 @@ class StandardValueData {
                     assert s == 0.1d
                 },
             ],
+            [
+                name: "mul",
+                func: "f(x,y):=x*y",
+                epsilon: 10**-26,
+                x: format.parse("1.672621777E-27(0.000000074E-27)"),
+                y: format.parse("299792458.000000000"),
+                f: { Value x, Value y -> x.mul y },
+                result: {  Value f ->
+                    assertDecimalEquals f.value, 5.0143939E-019
+                    assertDecimalEquals f.uncertainty, 2.2E-026
+                },
+                rounded: {  Value f ->
+                    double s = f.roundedValue
+                    assertDecimalEquals s, 5.0143939E-019
+                },
+            ],
             // div
             [
                 name: "div",
@@ -292,6 +310,70 @@ class StandardValueData {
                     assert s == 3.0d
                 },
             ],
+            [
+                name: "div unc/unc",
+                func: "f(x,y):=x/y",
+                epsilon: 10**-23,
+                x: format.parse("1.054571726E-34(0.000000047E-34)"),
+                y: format.parse("5.0143939E-019(2.2E-026)"),
+                f: { Value x, Value y -> x.div y },
+                result: {  Value f ->
+                    assertDecimalEquals f.value, 2.1030891E-016
+                    assertDecimalEquals f.uncertainty, 1.3E-023
+                },
+                rounded: {  Value f ->
+                    double s = f.roundedValue
+                    assertDecimalEquals s, 2.1030891E-016
+                },
+            ],
+            [
+                name: "div const/unc",
+                func: "f(x,y):=x/y",
+                epsilon: 10**15,
+                x: format.parse("299792458.000000000"),
+                y: format.parse("2.103089105E-16(0.000000132E-16)"),
+                f: { Value x, Value y -> x.div y },
+                result: {  Value f ->
+                    assertDecimalEquals f.value, 1.42548624E+024
+                    assertDecimalEquals f.uncertainty, 8.9E+016
+                },
+                rounded: {  Value f ->
+                    double s = f.roundedValue
+                    assertDecimalEquals s, 1.42548624E+024
+                },
+            ],
+            [
+                name: "div unc/const",
+                func: "f(x,y):=x/y",
+                epsilon: 10**-34,
+                x: format.parse("7.015150143E-25(0.000000441E-25)"),
+                y: 60.0,
+                f: { Value x, double y -> x.div y },
+                result: {  Value f ->
+                    assertDecimalEquals f.value, 1.169191690E-26
+                    assertDecimalEquals f.uncertainty, 7.4E-034
+                },
+                rounded: {  Value f ->
+                    double s = f.roundedValue
+                    assertDecimalEquals s, 1.169191690E-26
+                },
+            ],
+            [
+                name: "div unc/unc",
+                func: "f(x,y):=x/y",
+                epsilon: 10**5,
+                x: format.parse("1.503277490E-10(6.700000000E-18)"),
+                y: format.parse("1.38064852E-23(0.00000079E-23)"),
+                f: { Value x, Value y -> x.div y },
+                result: {  Value f ->
+                    assertDecimalEquals f.value, 1.088819830E+13
+                    assertDecimalEquals f.uncertainty, 6.200000000E+06
+                },
+                rounded: {  Value f ->
+                    double s = f.roundedValue
+                    assertDecimalEquals s, 1.088819830E+13
+                },
+            ],
             // reciprocal
             [
                 name: "reciprocal",
@@ -339,6 +421,22 @@ class StandardValueData {
                 rounded: {  Value f ->
                     double s = f.roundedValue
                     assert s == 0.02d
+                },
+            ],
+            [
+                name: "reciprocal unc",
+                func: "f(x):=1/x",
+                epsilon: 10**-32,
+                x: format.parse("1.425486240E24(0.000000090E24)"),
+                y: null,
+                f: { Value x, Value y -> x.reciprocal() },
+                result: {  Value f ->
+                    assertDecimalEquals f.value, 7.0151501E-025
+                    assertDecimalEquals f.uncertainty, 4.4E-032
+                },
+                rounded: {  Value f ->
+                    double s = f.roundedValue
+                    assertDecimalEquals s, 7.0151501E-025
                 },
             ],
             // log

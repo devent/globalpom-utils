@@ -136,7 +136,8 @@ class StandardValueTest extends ValueTestBase {
 
     @Test
     void "standard value"() {
-        standardValueData.each {
+        List data = new StandardValueData().create(createValueFormat(), standardValueFactory)
+        data.each {
             epsilon = it.epsilon
             def x = it.x
             def y = it.y
@@ -150,8 +151,10 @@ class StandardValueTest extends ValueTestBase {
     @Test
     void "standard value, german locale"() {
         def oldLocale = Locale.getDefault()
-        Locale.setDefault Locale.GERMAN
-        standardValueData.each {
+        def locale = Locale.GERMAN
+        Locale.setDefault locale
+        List data = new StandardValueData().create(createValueFormat(), standardValueFactory)
+        data.each {
             epsilon = it.epsilon
             def x = it.x
             def y = it.y
