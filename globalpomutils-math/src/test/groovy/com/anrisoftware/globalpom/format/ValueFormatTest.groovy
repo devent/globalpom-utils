@@ -291,49 +291,72 @@ class ValueFormatTest {
 
     @Test
     void "parse value with uncertainty"() {
-        def parses = [
-            [input: "1230(0.5)", expected: valueFactory.create(123, 4, 3, 1, 0.5d)],
-            [input: "1030(0.5)", expected: valueFactory.create(103, 4, 3, 1, 0.5d)],
-            [input: "123(0.5)", expected: valueFactory.create(123, 3, 3, 0, 0.5d)],
-            [input: "1(0.5)", expected: valueFactory.create(1, 1, 1, 0, 0.5d)],
-            [input: "0.123E2(0.5)", expected: valueFactory.create(123, 2, 3, -1, 0.5d)],
-            [input: "1.23(0.5)", expected: valueFactory.create(123, 1, 3, -2, 0.5d)],
-            [input: "0.123(0.5)", expected: valueFactory.create(123, 0, 3, -3, 0.5d)],
-            [input: "0.0123(0.5)", expected: valueFactory.create(123, -1, 3, -4, 0.5d)],
-            [input: "0.00123(0.5)", expected: valueFactory.create(123, -2, 3, -5, 0.5d)],
-            [input: "0.123E-2(0.5)", expected: valueFactory.create(123, -2, 3, -5, 0.5d)],
-            [input: "12.123E-2(0.5)", expected: valueFactory.create(12123, 0, 5, -5, 0.5d)],
-            [input: "12.0123E-2(0.5)", expected: valueFactory.create(120123, 0, 6, -6, 0.5d)],
-            [input: "6.62606957E-34(0.00000029E-34)", expected: valueFactory.create(662606957, -33, 9, -42, 2.9E-41)],
-        ]
-        parses.eachWithIndex { testCase, int k ->
+        def binding = new Binding([valueFactory: valueFactory])
+        def parses = new parse_value_with_uncertainty_cases(binding).run()
+        def valueFormat = formatFactory.create(locale, valueFactory)
+        parses.eachWithIndex { Map testCase, int k ->
+            log.info "{}. case: {}", k, testCase
+            def value = valueFormat.parse(testCase.input as String)
+            def expected = testCase.expected as Value
+            assert value == expected
+            assert value.mantissa == expected.mantissa
+            assert value.order == expected.order
+            assert value.significant == expected.significant
+            assert value.decimal == expected.decimal
+            assertDecimalEquals value.uncertainty, expected.uncertainty
+        }
+    }
+
+    @Test
+    void "parse value with uncertainty and decimal"() {
+        def binding = new Binding([valueFactory: valueFactory])
+        def parses = new parse_value_with_uncertainty_decimal_cases(binding).run()
+        def valueFormat = formatFactory.create(locale, valueFactory)
+        valueFormat.setDecimal 3
+        parses.eachWithIndex { Map testCase, int k ->
+            log.info "{}. case: {}", k, testCase
+            def value = valueFormat.parse(testCase.input as String)
+            def expected = testCase.expected as Value
+            assert value == expected
+            assert value.mantissa == expected.mantissa
+            assert value.order == expected.order
+            assert value.significant == expected.significant
+            assert value.decimal == expected.decimal
+            assertDecimalEquals value.uncertainty, expected.uncertainty
+        }
+    }
+
+    @Test
+    void "parse value with uncertainty in paranthesis short"() {
+        def binding = new Binding([valueFactory: valueFactory])
+        def parses = new parse_value_with_uncertainty_short_cases(binding).run()
+        parses.eachWithIndex { Map testCase, int k ->
             log.info "{}. case: {}", k, testCase
             def value = formatFactory.create(locale, valueFactory).parse(testCase.input as String)
-            assert value == testCase.expected
+            def expected = testCase.expected as Value
+            assert value == expected
+            assert value.mantissa == expected.mantissa
+            assert value.order == expected.order
+            assert value.significant == expected.significant
+            assert value.decimal == expected.decimal
+            assertDecimalEquals value.uncertainty, expected.uncertainty
         }
     }
 
     @Test
     void "parse value with uncertainty percent"() {
-        def parses = [
-            [input: "1230(1%)", expected: valueFactory.create(123, 4, 3, 1, 0.5d)],
-            [input: "1030(1%)", expected: valueFactory.create(103, 4, 3, 1, 0.5d)],
-            [input: "123(1%)", expected: valueFactory.create(123, 3, 3, 0, 0.5d)],
-            [input: "1(1%)", expected: valueFactory.create(1, 1, 1, 0, 0.5d)],
-            [input: "0.123E2(1%)", expected: valueFactory.create(123, 2, 3, -1, 0.5d)],
-            [input: "1.23(1%)", expected: valueFactory.create(123, 1, 3, -2, 0.5d)],
-            [input: "0.123(1%)", expected: valueFactory.create(123, 0, 3, -3, 0.5d)],
-            [input: "0.0123(1%)", expected: valueFactory.create(123, -1, 3, -4, 0.5d)],
-            [input: "0.00123(1%)", expected: valueFactory.create(123, -2, 3, -5, 0.5d)],
-            [input: "0.123E-2(1%)", expected: valueFactory.create(123, -2, 3, -5, 0.5d)],
-            [input: "12.123E-2(1%)", expected: valueFactory.create(12123, 0, 5, -5, 0.5d)],
-            [input: "12.0123E-2(1%)", expected: valueFactory.create(120123, 0, 6, -6, 0.5d)],
-        ]
-        parses.eachWithIndex { testCase, int k ->
+        def binding = new Binding([valueFactory: valueFactory])
+        def parses = new parse_value_with_uncertainty_percent_cases(binding).run()
+        parses.eachWithIndex { Map testCase, int k ->
             log.info "{}. case: {}", k, testCase
             def value = formatFactory.create(locale, valueFactory).parse(testCase.input as String)
             log.info "value: {}", value
-            assert value == testCase.expected
+            def expected = testCase.expected as Value
+            assert value == expected
+            assert value.mantissa == expected.mantissa
+            assert value.order == expected.order
+            assert value.significant == expected.significant
+            assert value.decimal == expected.decimal
         }
     }
 
