@@ -16,28 +16,35 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-data. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.data;
+package com.anrisoftware.globalpom.csvimport;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /**
- * Installs matrix data factory.
+ * Installs CSV importer factory.
  *
- * @see MatrixDataFactory
- * @see DefaultDataBeanFactory
+ * @see CsvImporter
+ * @see CsvImporterFactory
+ * @see MatrixDataCsvImportFactory
+ * @see DefaultCsvImportPropertiesFactory
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
  */
-public class DataModule extends AbstractModule {
+public class CsvImportModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        install(new FactoryModuleBuilder().implement(Data.class,
-                MatrixData.class).build(MatrixDataFactory.class));
-        install(new FactoryModuleBuilder().implement(DefaultDataBean.class,
-                DefaultDataBean.class).build(DefaultDataBeanFactory.class));
+        install(new FactoryModuleBuilder().implement(CsvImporter.class,
+                CsvImporterImpl.class).build(CsvImporterFactory.class));
+        install(new FactoryModuleBuilder().implement(
+                DefaultCsvImportProperties.class,
+                DefaultCsvImportProperties.class).build(
+                DefaultCsvImportPropertiesFactory.class));
+        install(new FactoryModuleBuilder().implement(MatrixDataCsvImport.class,
+                MatrixDataCsvImport.class).build(
+                MatrixDataCsvImportFactory.class));
     }
 
 }

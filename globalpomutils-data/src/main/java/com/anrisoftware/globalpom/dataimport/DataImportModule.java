@@ -22,11 +22,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /**
- * Installs CSV importer factory.
+ * Installs data import factory.
  *
- * @see CsvImporter
- * @see CsvImporterFactory
- * @see DefaultCsvImportPropertiesFactory
  * @see CharColumnFactory
  * @see StringColumnFactory
  * @see TypedColumnFactory
@@ -41,16 +38,10 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
  */
-public class CsvImportModule extends AbstractModule {
+public class DataImportModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        install(new FactoryModuleBuilder().implement(CsvImporter.class,
-                CsvImporterImpl.class).build(CsvImporterFactory.class));
-        install(new FactoryModuleBuilder().implement(
-                DefaultCsvImportProperties.class,
-                DefaultCsvImportProperties.class).build(
-                DefaultCsvImportPropertiesFactory.class));
         install(new FactoryModuleBuilder().implement(Column.class,
                 StringColumn.class).build(StringColumnFactory.class));
         install(new FactoryModuleBuilder().implement(Column.class,

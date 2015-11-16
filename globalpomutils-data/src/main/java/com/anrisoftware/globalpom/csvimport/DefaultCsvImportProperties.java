@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-data. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.dataimport;
+package com.anrisoftware.globalpom.csvimport;
 
 import static com.anrisoftware.globalpom.charset.SerializableCharset.decorate;
 
@@ -61,7 +61,7 @@ public class DefaultCsvImportProperties implements CsvImportProperties,
     private boolean haveHeader;
 
     /**
-     * Sets system based default values.
+     * @see DefaultCsvImportPropertiesFactory#create(CsvImportProperties)
      */
     @AssistedInject
     public DefaultCsvImportProperties(@Assisted CsvImportProperties properties) {
@@ -77,7 +77,7 @@ public class DefaultCsvImportProperties implements CsvImportProperties,
     }
 
     /**
-     * Sets system based default values.
+     * @see DefaultCsvImportPropertiesFactory#create()
      */
     @AssistedInject
     public DefaultCsvImportProperties() {

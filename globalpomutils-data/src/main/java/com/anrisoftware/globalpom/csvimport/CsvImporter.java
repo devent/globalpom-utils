@@ -16,12 +16,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-data. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.dataimport;
+package com.anrisoftware.globalpom.csvimport;
 
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
+
+import com.anrisoftware.globalpom.dataimport.Column;
 
 /**
  * Reads CSV formatted data.

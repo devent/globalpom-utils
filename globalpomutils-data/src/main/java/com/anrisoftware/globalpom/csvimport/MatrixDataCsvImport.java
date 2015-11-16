@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-data. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.data;
+package com.anrisoftware.globalpom.csvimport;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -32,8 +32,8 @@ import org.ejml.data.MatrixIterator;
 import org.ejml.data.ReshapeMatrix64F;
 import org.ejml.simple.SimpleMatrix;
 
-import com.anrisoftware.globalpom.dataimport.CsvImportException;
-import com.anrisoftware.globalpom.dataimport.CsvImporter;
+import com.anrisoftware.globalpom.data.Data;
+import com.anrisoftware.globalpom.data.MatrixDataFactory;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 

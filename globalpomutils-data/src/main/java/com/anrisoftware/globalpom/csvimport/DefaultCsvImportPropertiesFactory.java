@@ -16,23 +16,31 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-data. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.dataimport;
+package com.anrisoftware.globalpom.csvimport;
 
 /**
- * Factory to create a CSV data importer.
+ * Factory to create default CSV importer properties.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
  */
-public interface CsvImporterFactory {
+public interface DefaultCsvImportPropertiesFactory {
 
 	/**
-	 * Create the importer with the CSV import properties.
+	 * Creates the default CSV importer properties.
+	 * 
+	 * @return the {@link DefaultCsvImportProperties}.
+	 */
+	DefaultCsvImportProperties create();
+
+	/**
+	 * Creates the default CSV importer properties which values are copied from
+	 * the specified properties.
 	 * 
 	 * @param properties
 	 *            the {@link CsvImportProperties}.
 	 * 
-	 * @return the {@link CsvImporter}.
+	 * @return the {@link DefaultCsvImportProperties}.
 	 */
-	CsvImporter create(CsvImportProperties properties);
+	DefaultCsvImportProperties create(CsvImportProperties properties);
 }

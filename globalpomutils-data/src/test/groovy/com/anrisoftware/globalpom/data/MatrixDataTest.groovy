@@ -25,7 +25,7 @@ import org.ejml.simple.SimpleMatrix
 import org.junit.BeforeClass
 import org.junit.Test
 
-import com.anrisoftware.globalpom.dataimport.CsvImporterFactory
+import com.anrisoftware.globalpom.csvimport.CsvImporterFactory;
 import com.google.inject.Guice
 import com.google.inject.Injector
 

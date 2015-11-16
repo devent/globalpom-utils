@@ -16,11 +16,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-data. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.data;
+package com.anrisoftware.globalpom.csvimport;
 
 import java.text.Format;
-
-import com.anrisoftware.globalpom.dataimport.CsvImporter;
 
 /**
  * Factory to import data from CSV file importer.

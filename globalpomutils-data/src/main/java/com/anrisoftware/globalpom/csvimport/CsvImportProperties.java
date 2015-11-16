@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-data. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.dataimport;
+package com.anrisoftware.globalpom.csvimport;
 
 import java.io.File;
 import java.net.URI;

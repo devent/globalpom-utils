@@ -16,33 +16,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-data. If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * <h1>Global POM Utilities :: Data</h1>
- *
- * <p>
- * Arbitrary data for mathematical calculations.
- *
- * <h2>Maven Module</h2>
- *
- * <pre>
- * &lt;dependency>
- * &lt;groupId>com.anrisoftware.globalpom&lt;/groupId>
- * &lt;artifactId>globalpomutils-data&lt;/artifactId>
- * &lt;version>2.14&lt;/version>
- * &lt;/dependency>
- * </pre>
- *
- * <h2>SCM</h2>
- *
- * <ul>
- * <li><a href="https://anrisoftware.com/projects/projects/globalpomutils-data/repository">Repository</a></li>
- * <li>{@code git@anrisoftware.com:globalpom-utils.git}</a>
- * <li><a href="https://github.com/devent/globalpom-utils.git">Github Mirror</a>
- * <li>{@code git://git@github.com:devent/globalpom-utils.git}</a>
- * </ul>
- *
- * @version 2.14
- * @author Erwin Mueller, erwin.mueller@deventm.org
- */
-package com.anrisoftware.globalpom;
+package com.anrisoftware.globalpom.spreadsheetimport;
 
+/**
+ * Factory to create a spreadsheet data importer.
+ *
+ * @author Erwin Mueller, erwin.mueller@deventm.org
+ * @since 2.14
+ */
+public interface SpreadsheetImporterFactory {
+
+    /**
+     * Create the importer with the spreadsheet import properties.
+     *
+     * @param properties
+     *            the {@link SpreadsheetImportProperties}.
+     *
+     * @return the {@link SpreadsheetImporter}.
+     */
+    SpreadsheetImporter create(SpreadsheetImportProperties properties);
+}

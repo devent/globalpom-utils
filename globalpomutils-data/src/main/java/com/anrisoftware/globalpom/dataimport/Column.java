@@ -21,8 +21,8 @@ package com.anrisoftware.globalpom.dataimport;
 import java.text.ParseException;
 
 /**
- * CSV column.
- * 
+ * Data column.
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
@@ -30,19 +30,19 @@ public interface Column {
 
     /**
      * Returns the name of the column.
-     * 
+     *
      * @return the {@link String} name.
      */
     String getName();
 
     /**
      * Parse the value of the column.
-     * 
+     *
      * @param string
      *            the {@link String} value of the column.
-     * 
+     *
      * @return the value of the column.
-     * 
+     *
      * @throws ParseException
      *             if the value could not be parsed.
      */

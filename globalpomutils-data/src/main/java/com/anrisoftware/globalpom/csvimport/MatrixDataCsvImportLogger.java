@@ -16,14 +16,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-data. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.data;
+package com.anrisoftware.globalpom.csvimport;
 
-import static com.anrisoftware.globalpom.data.MatrixDataCsvImportLogger._.imported_data_debug;
-import static com.anrisoftware.globalpom.data.MatrixDataCsvImportLogger._.imported_data_trace;
+import static com.anrisoftware.globalpom.csvimport.MatrixDataCsvImportLogger._.imported_data_debug;
+import static com.anrisoftware.globalpom.csvimport.MatrixDataCsvImportLogger._.imported_data_trace;
 
 import javax.inject.Singleton;
 
-import com.anrisoftware.globalpom.dataimport.CsvImporter;
 import com.anrisoftware.globalpom.log.AbstractLogger;
 
 /**

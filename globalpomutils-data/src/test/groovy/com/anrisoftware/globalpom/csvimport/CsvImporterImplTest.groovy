@@ -16,13 +16,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-data. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.dataimport
+package com.anrisoftware.globalpom.csvimport
 
 import static com.anrisoftware.globalpom.utils.TestUtils.*
 
 import org.junit.BeforeClass
 import org.junit.Test
 
+import com.anrisoftware.globalpom.csvimport.CsvImportModule;
+import com.anrisoftware.globalpom.csvimport.CsvImporterFactory;
+import com.anrisoftware.globalpom.csvimport.DefaultCsvImportProperties;
+import com.anrisoftware.globalpom.dataimport.StringColumnFactory;
 import com.anrisoftware.globalpom.utils.TestUtils
 import com.google.inject.Guice
 import com.google.inject.Injector

@@ -16,17 +16,18 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-data. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.dataimport;
+package com.anrisoftware.globalpom.csvimport;
 
-import static com.anrisoftware.globalpom.dataimport.CsvImporterImplLogger._.column_for_name_null;
-import static com.anrisoftware.globalpom.dataimport.CsvImporterImplLogger._.error_open_file;
-import static com.anrisoftware.globalpom.dataimport.CsvImporterImplLogger._.error_open_file_message;
-import static com.anrisoftware.globalpom.dataimport.CsvImporterImplLogger._.error_read;
-import static com.anrisoftware.globalpom.dataimport.CsvImporterImplLogger._.error_read_message;
+import static com.anrisoftware.globalpom.csvimport.CsvImporterImplLogger._.column_for_name_null;
+import static com.anrisoftware.globalpom.csvimport.CsvImporterImplLogger._.error_open_file;
+import static com.anrisoftware.globalpom.csvimport.CsvImporterImplLogger._.error_open_file_message;
+import static com.anrisoftware.globalpom.csvimport.CsvImporterImplLogger._.error_read;
+import static com.anrisoftware.globalpom.csvimport.CsvImporterImplLogger._.error_read_message;
 import static org.apache.commons.lang3.Validate.notNull;
 
 import java.io.IOException;
 
+import com.anrisoftware.globalpom.dataimport.Column;
 import com.anrisoftware.globalpom.log.AbstractLogger;
 
 /**

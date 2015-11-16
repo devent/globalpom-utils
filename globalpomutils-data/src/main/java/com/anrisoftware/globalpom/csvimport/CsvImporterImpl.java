@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-data. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.dataimport;
+package com.anrisoftware.globalpom.csvimport;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,6 +36,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.prefs.CsvPreference;
 
+import com.anrisoftware.globalpom.dataimport.Column;
 import com.google.inject.assistedinject.Assisted;
 
 /**
