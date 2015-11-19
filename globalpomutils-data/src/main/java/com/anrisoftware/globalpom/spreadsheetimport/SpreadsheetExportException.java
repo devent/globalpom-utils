@@ -23,22 +23,22 @@ import java.io.IOException;
 import org.apache.commons.lang3.exception.DefaultExceptionContext;
 
 /**
- * Thrown if there was an error importing the spreadsheet file.
+ * Thrown if there was an error exporting data to the spreadsheet file.
  *
  * @author Erwin Müller, erwin.mueller@deventm.de
  * @since 2.14
  */
 @SuppressWarnings("serial")
-public class SpreadsheetImportException extends IOException {
+public class SpreadsheetExportException extends IOException {
 
     private final DefaultExceptionContext exceptionContext;
 
-    public SpreadsheetImportException(String message, Throwable cause) {
+    public SpreadsheetExportException(String message, Throwable cause) {
         super(message, cause);
         this.exceptionContext = new DefaultExceptionContext();
     }
 
-    public SpreadsheetImportException(String message) {
+    public SpreadsheetExportException(String message) {
         super(message);
         this.exceptionContext = new DefaultExceptionContext();
     }
@@ -48,7 +48,7 @@ public class SpreadsheetImportException extends IOException {
         return getFormattedExceptionMessage(super.getMessage());
     }
 
-    public SpreadsheetImportException addContextValue(String label, Object value) {
+    public SpreadsheetExportException addContextValue(String label, Object value) {
         exceptionContext.addContextValue(label, value);
         return this;
     }

@@ -25,7 +25,8 @@ import org.ejml.simple.SimpleMatrix
 import org.junit.BeforeClass
 import org.junit.Test
 
-import com.anrisoftware.globalpom.csvimport.CsvImporterFactory;
+import com.anrisoftware.globalpom.csvimport.CsvImporterFactory
+import com.anrisoftware.globalpom.csvimport.CsvImporterImplTest
 import com.google.inject.Guice
 import com.google.inject.Injector
 
@@ -49,14 +50,13 @@ class MatrixDataTest {
         assert MatrixFeatures.isEquals(data.matrix, dataB.matrix)
     }
 
-
     static Injector injector
 
     static MatrixDataFactory matrixDataFactory
 
     static CsvImporterFactory importFactory
 
-    static LONG_DATA = MatrixDataCsvImportTest.class.getResource("lotto_2001_numbers.csv").toURI()
+    static LONG_DATA = CsvImporterImplTest.class.getResource("lotto_2001_numbers.csv").toURI()
 
     @BeforeClass
     static void createFactory() {

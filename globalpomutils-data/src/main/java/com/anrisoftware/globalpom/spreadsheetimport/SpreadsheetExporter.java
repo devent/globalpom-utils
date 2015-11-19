@@ -18,30 +18,31 @@
  */
 package com.anrisoftware.globalpom.spreadsheetimport;
 
+import java.io.File;
+
 /**
- * Factory to create the default spreadsheet import properties.
+ * Export data to spreadsheet.
  *
- * @author Erwin Müller, erwin.mueller@deventm.de
+ * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.14
  */
-public interface DefaultSpreadsheetImportPropertiesFactory {
+public interface SpreadsheetExporter {
 
     /**
-     * Creates the default spreadsheet import properties.
+     * Writes the data to the spreadsheet.
      *
-     * @return the {@link DefaultSpreadsheetImportProperties}.
+     * @param file
+     *            the {@link File}.
+     *
+     * @return this {@link SpreadsheetExporter}.
      */
-    DefaultSpreadsheetImportProperties create();
+    SpreadsheetExporter write(File file) throws SpreadsheetExportException;
 
     /**
-     * Creates the default spreadsheet import properties from the specified
-     * properties.
+     * Returns the import properties.
      *
-     * @param properties
-     *            the {@link SpreadsheetImportProperties}.
-     *
-     * @return the {@link DefaultSpreadsheetImportProperties}.
+     * @return the {@link SpreadsheetImportProperties}.
      */
-    DefaultSpreadsheetImportProperties create(
-            SpreadsheetImportProperties properties);
+    SpreadsheetImportProperties getProperties();
+
 }

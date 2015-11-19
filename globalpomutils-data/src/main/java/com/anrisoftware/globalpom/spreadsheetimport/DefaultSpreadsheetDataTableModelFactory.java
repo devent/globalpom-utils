@@ -18,30 +18,28 @@
  */
 package com.anrisoftware.globalpom.spreadsheetimport;
 
+import java.util.List;
+
+import com.anrisoftware.globalpom.data.Data;
+
 /**
- * Factory to create the default spreadsheet import properties.
+ * Factory to create the default spreadsheet data table model.
  *
  * @author Erwin Müller, erwin.mueller@deventm.de
  * @since 2.14
  */
-public interface DefaultSpreadsheetImportPropertiesFactory {
+public interface DefaultSpreadsheetDataTableModelFactory {
 
     /**
-     * Creates the default spreadsheet import properties.
+     * Creates the default spreadsheet data table model.
      *
-     * @return the {@link DefaultSpreadsheetImportProperties}.
+     * @param data
+     *            the {@link Data}.
+     *
+     * @param columnNames
+     *            the {@link List} of the column names.
+     *
+     * @return the {@link DefaultSpreadsheetDataTableModel}.
      */
-    DefaultSpreadsheetImportProperties create();
-
-    /**
-     * Creates the default spreadsheet import properties from the specified
-     * properties.
-     *
-     * @param properties
-     *            the {@link SpreadsheetImportProperties}.
-     *
-     * @return the {@link DefaultSpreadsheetImportProperties}.
-     */
-    DefaultSpreadsheetImportProperties create(
-            SpreadsheetImportProperties properties);
+    DefaultSpreadsheetDataTableModel create(Data data, List<String> columnNames);
 }

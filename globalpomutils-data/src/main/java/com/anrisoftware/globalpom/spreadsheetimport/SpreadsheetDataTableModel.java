@@ -18,30 +18,14 @@
  */
 package com.anrisoftware.globalpom.spreadsheetimport;
 
+import javax.swing.table.TableModel;
+
 /**
- * Factory to create the default spreadsheet import properties.
+ * Spreadsheet table model for data.
  *
  * @author Erwin Müller, erwin.mueller@deventm.de
  * @since 2.14
  */
-public interface DefaultSpreadsheetImportPropertiesFactory {
+public interface SpreadsheetDataTableModel extends TableModel {
 
-    /**
-     * Creates the default spreadsheet import properties.
-     *
-     * @return the {@link DefaultSpreadsheetImportProperties}.
-     */
-    DefaultSpreadsheetImportProperties create();
-
-    /**
-     * Creates the default spreadsheet import properties from the specified
-     * properties.
-     *
-     * @param properties
-     *            the {@link SpreadsheetImportProperties}.
-     *
-     * @return the {@link DefaultSpreadsheetImportProperties}.
-     */
-    DefaultSpreadsheetImportProperties create(
-            SpreadsheetImportProperties properties);
 }

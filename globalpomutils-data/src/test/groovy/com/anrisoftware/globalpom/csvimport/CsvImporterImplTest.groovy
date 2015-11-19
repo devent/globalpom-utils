@@ -23,10 +23,9 @@ import static com.anrisoftware.globalpom.utils.TestUtils.*
 import org.junit.BeforeClass
 import org.junit.Test
 
-import com.anrisoftware.globalpom.csvimport.CsvImportModule;
-import com.anrisoftware.globalpom.csvimport.CsvImporterFactory;
-import com.anrisoftware.globalpom.csvimport.DefaultCsvImportProperties;
-import com.anrisoftware.globalpom.dataimport.StringColumnFactory;
+import com.anrisoftware.globalpom.data.DataModule
+import com.anrisoftware.globalpom.dataimport.DataImportModule
+import com.anrisoftware.globalpom.dataimport.StringColumnFactory
 import com.anrisoftware.globalpom.utils.TestUtils
 import com.google.inject.Guice
 import com.google.inject.Injector
@@ -128,7 +127,7 @@ class CsvImporterImplTest {
     @BeforeClass
     static void createFactory() {
         TestUtils.toStringStyle
-        injector = Guice.createInjector(new CsvImportModule())
+        injector = Guice.createInjector(new CsvImportModule(), new DataModule(), new DataImportModule())
         factory = injector.getInstance(CsvImporterFactory)
         stringColumnFactory = injector.getInstance(StringColumnFactory)
     }

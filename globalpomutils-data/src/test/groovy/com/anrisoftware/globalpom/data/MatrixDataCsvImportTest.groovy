@@ -23,10 +23,11 @@ import static com.anrisoftware.globalpom.utils.TestUtils.*
 import org.junit.BeforeClass
 import org.junit.Test
 
-import com.anrisoftware.globalpom.csvimport.CsvImportModule;
-import com.anrisoftware.globalpom.csvimport.CsvImporterFactory;
-import com.anrisoftware.globalpom.csvimport.DefaultCsvImportProperties;
-import com.anrisoftware.globalpom.csvimport.MatrixDataCsvImportFactory;
+import com.anrisoftware.globalpom.csvimport.CsvImportModule
+import com.anrisoftware.globalpom.csvimport.CsvImporterFactory
+import com.anrisoftware.globalpom.csvimport.CsvImporterImplTest
+import com.anrisoftware.globalpom.csvimport.DefaultCsvImportProperties
+import com.anrisoftware.globalpom.csvimport.MatrixDataCsvImportFactory
 import com.google.inject.Guice
 import com.google.inject.Injector
 
@@ -61,7 +62,7 @@ class MatrixDataCsvImportTest {
 
     static CsvImporterFactory importFactory
 
-    static LONG_DATA = MatrixDataCsvImportTest.class.getResource("lotto_2001_numbers.csv").toURI()
+    static LONG_DATA = CsvImporterImplTest.class.getResource("lotto_2001_numbers.csv").toURI()
 
     @BeforeClass
     static void createFactory() {

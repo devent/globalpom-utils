@@ -38,8 +38,8 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
 /**
- * Default generic data.
- * 
+ * Imports data from a CSV file.
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
  */
@@ -47,10 +47,10 @@ import com.google.inject.assistedinject.AssistedInject;
 public class MatrixDataCsvImport implements Callable<MatrixDataCsvImport>,
 		Data, Serializable {
 
-	@Inject
-	private MatrixDataCsvImportLogger log;
+    private final Format format;
 
-	private final Format format;
+    @Inject
+    private MatrixDataCsvImportLogger log;
 
 	@Inject
 	private MatrixDataFactory dataFactory;
