@@ -63,6 +63,8 @@ public class OpenDocumentImporter implements SpreadsheetImporter {
 
     private List<Cell<?>> currentCells;
 
+    private SpreadSheet spreadsheet;
+
     /**
      * @see OpenDocumentImporterFactory#create(SpreadsheetImportProperties)
      */
@@ -84,12 +86,27 @@ public class OpenDocumentImporter implements SpreadsheetImporter {
     }
 
     @Override
+    public void close() throws IOException {
+        this.spreadsheet = null;
+        this.sheet = null;
+        this.tableModel = null;
+        this.headers = null;
+        this.currentCells = null;
+    }
+
+    @Override
+    public int getSheetsCount() {
+        return spreadsheet.getSheetCount();
+    }
+
+    @Override
     public boolean loadNext() throws SpreadsheetImportException {
         if (currentRow < tableModel.getRowCount()) {
             currentCells.clear();
             Cell<SpreadSheet> cell;
             for (int i = 0; i < columns.length; i++) {
-                cell = tableModel.getImmutableCellAt(currentRow, columns[i]);
+                int index = columns[i] - columns[0];
+                cell = tableModel.getImmutableCellAt(currentRow, index);
                 currentCells.add(cell);
             }
             currentRow++;
@@ -149,17 +166,21 @@ public class OpenDocumentImporter implements SpreadsheetImporter {
 
     private void loadSpreadsheet() throws IOException {
         File file = new File(properties.getFile());
-        SpreadSheet spreadsheet = SpreadSheet.createFromFile(file);
+        this.spreadsheet = SpreadSheet.createFromFile(file);
         this.sheet = spreadsheet.getSheet(properties.getSheetNumber());
         this.columns = getColumns();
         int firstColumn = columns[0];
         int firstRow = properties.getStartRow();
         int lastCol = columns[columns.length - 1] + 1;
-        this.properties.setEndRow(sheet.getRowCount() - 1);
-        int lastRow = properties.getEndRow() + 1;
+        int lastRow = properties.getEndRow();
+        if (lastRow == -1) {
+            lastRow = sheet.getRowCount();
+        } else {
+            lastRow += 1;
+        }
         this.tableModel = sheet.getTableModel(firstColumn, firstRow, lastCol,
                 lastRow);
-        this.currentRow = properties.getStartRow();
+        this.currentRow = 0;
         this.currentCells = new ArrayList<Cell<?>>(columns.length);
         loadHeaderRow();
     }

@@ -119,7 +119,8 @@ public class DefaultSpreadsheetImportProperties implements
     }
 
     public void setEndRow(int endRow) {
-        isTrue(endRow == -1 || endRow > startRow, "endRow > startRow");
+        isTrue(endRow == -1 || endRow >= startRow,
+                "endRow(%d) >= startRow(%d)", endRow, startRow);
         this.endRow = endRow;
     }
 

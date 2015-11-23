@@ -18,6 +18,8 @@
  */
 package com.anrisoftware.globalpom.spreadsheetimport;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +32,7 @@ import com.anrisoftware.globalpom.dataimport.Column;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.14
  */
-public interface SpreadsheetImporter {
+public interface SpreadsheetImporter extends Closeable {
 
     /**
      * Opens the spreadsheet to read data.
@@ -38,6 +40,23 @@ public interface SpreadsheetImporter {
      * @return this {@link SpreadsheetImporter}.
      */
     SpreadsheetImporter open() throws SpreadsheetImportException;
+
+    /**
+     * Closes the spreadsheet.
+     *
+     * @since 2.15
+     */
+    @Override
+    void close() throws IOException;
+
+    /**
+     * Returns how many sheets are in the spreadsheet document.
+     *
+     * @return the sheets {@link Integer} count.
+     *
+     * @since 2.15
+     */
+    int getSheetsCount();
 
     /**
      * Loads the next row
