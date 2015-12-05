@@ -40,7 +40,6 @@ import com.google.inject.Injector
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.14
  */
-@CompileStatic
 @Slf4j
 class OpenDocumentImporterTest {
 
