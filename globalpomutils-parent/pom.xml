@@ -11,12 +11,15 @@
 	</parent>
 
 	<artifactId>globalpomutils-parent</artifactId>
-	<version>2.15</version>
+	<version>2.16-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Global POM Utilities :: Parent</name>
 	<description>Manages the version and dependencies for the utilities modules.</description>
 	<url>https://anrisoftware.com/projects/projects/globalpomutils-parent</url>
 	<inceptionYear>2013</inceptionYear>
+	<properties>
+		<project.custom.current.year>2016</project.custom.current.year>
+	</properties>
 
 	<developers>
 		<developer>
@@ -45,26 +48,26 @@
 		<url>https://anrisoftware.com/projects/globalpom-utils</url>
 	</issueManagement>
 
-    <scm>
-        <connection>scm:git:git@anrisoftware.com:globalpom-utils.git</connection>
-        <developerConnection>scm:git:git@anrisoftware.com:globalpom-utils.git</developerConnection>
-        <url>https://anrisoftware.com/projects/projects/globalpomutils-parent/repository</url>
-    </scm>
+	<scm>
+		<connection>scm:git:git@anrisoftware.com:globalpom-utils.git</connection>
+		<developerConnection>scm:git:git@anrisoftware.com:globalpom-utils.git</developerConnection>
+		<url>https://anrisoftware.com/projects/projects/globalpomutils-parent/repository</url>
+	</scm>
 
-    <distributionManagement>
-        <site>
-          <id>anrisoftware</id>
-          <url>dav:https://anrisoftware.com/javadoc/${project.groupId}/${project.artifactId}</url>
-        </site>
-        <repository>
-            <id>osssonatype</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-        </repository>
-        <snapshotRepository>
-            <id>osssonatype_snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
+	<distributionManagement>
+		<site>
+			<id>anrisoftware</id>
+			<url>dav:https://anrisoftware.com/javadoc/${project.groupId}/${project.artifactId}</url>
+		</site>
+		<repository>
+			<id>osssonatype</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+		</repository>
+		<snapshotRepository>
+			<id>osssonatype_snapshots</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<dependencyManagement>
 		<dependencies>
@@ -85,14 +88,19 @@
 			</dependency>
             <dependency>
                 <groupId>com.anrisoftware.resources</groupId>
-                <artifactId>resources-st</artifactId>
+                <artifactId>resources-texts</artifactId>
                 <version>1.18</version>
             </dependency>
-            <dependency>
-                <groupId>com.anrisoftware.resources</groupId>
-                <artifactId>resources-templates</artifactId>
-                <version>1.18</version>
-            </dependency>
+			<dependency>
+				<groupId>com.anrisoftware.resources</groupId>
+				<artifactId>resources-st</artifactId>
+				<version>1.18</version>
+			</dependency>
+			<dependency>
+				<groupId>com.anrisoftware.resources</groupId>
+				<artifactId>resources-templates</artifactId>
+				<version>1.18</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
