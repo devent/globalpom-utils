@@ -96,6 +96,11 @@
 			<artifactId>commons-io</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<!-- for textscentral -->
+		<dependency>
+			<groupId>com.anrisoftware.resources</groupId>
+			<artifactId>resources-texts</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>
