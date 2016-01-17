@@ -192,7 +192,8 @@ public class OpenDocumentImporter implements SpreadsheetImporter {
         List<String> headers = new ArrayList<String>();
         Cell<SpreadSheet> cell;
         for (int i = 0; i < columns.length; i++) {
-            cell = tableModel.getImmutableCellAt(0, columns[i]);
+            int index = columns[i] - columns[0];
+            cell = tableModel.getImmutableCellAt(0, index);
             headers.add(cell.getTextValue());
         }
         currentRow++;
