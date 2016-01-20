@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.anrisoftware.globalpom</groupId>
 		<artifactId>globalpomutils-parent</artifactId>
-		<version>2.16-SNAPSHOT</version>
+		<version>3.0</version>
 		<relativePath>../globalpomutils-parent</relativePath>
 	</parent>
 
@@ -15,10 +15,6 @@
 	<description>Project saving, loading and management.</description>
 	<url>https://anrisoftware.com/projects/projects/globalpomutils-projects</url>
 	<inceptionYear>2015</inceptionYear>
-
-	<properties>
-		<project.custom.year>${project.inceptionYear}</project.custom.year>
-	</properties>
 
 	<issueManagement>
 		<system>Redmine</system>
@@ -62,12 +58,12 @@
 		<dependency>
 			<groupId>com.anrisoftware.globalpom</groupId>
 			<artifactId>globalpomutils-fileresources</artifactId>
-			<version>2.15-SNAPSHOT</version>
+			<version>3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.anrisoftware.globalpom</groupId>
 			<artifactId>globalpomutils-threads</artifactId>
-			<version>2.15-SNAPSHOT</version>
+			<version>3.0</version>
 		</dependency>
 
 		<!-- compile dependencies -->
