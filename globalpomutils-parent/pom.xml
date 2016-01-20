@@ -11,7 +11,7 @@
 	</parent>
 
 	<artifactId>globalpomutils-parent</artifactId>
-	<version>3.0-SNAPSHOT</version>
+	<version>3.0</version>
 	<packaging>pom</packaging>
 	<name>Global POM Utilities :: Parent</name>
 	<description>Manages the version and dependencies for the utilities modules.</description>
