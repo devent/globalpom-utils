@@ -253,14 +253,30 @@ public abstract class AbstractAppResources implements Serializable, Resource,
     /**
      * Returns the application property.
      *
-     * @param name
+     * @param property
      *            the {@link Object} property.
      *
      * @return the application {@link Object} property.
      */
     @SuppressWarnings("unchecked")
-    public <T> T getProperty(Object name) {
-        return (T) properties.get(name.toString());
+    public <T> T getProperty(Object property) {
+        return (T) properties.get(property.toString());
+    }
+
+    /**
+     * Returns the application property.
+     *
+     * @param property
+     *            the {@link Object} property.
+     *
+     * @return the application {@link Object} property.
+     *
+     * @since 3.1
+     */
+    @SuppressWarnings("unchecked")
+    public <T> T getProperty(Object property, T defaultValue) {
+        Object value = properties.get(property.toString());
+        return value == null ? defaultValue : (T) value;
     }
 
     /**
