@@ -57,7 +57,7 @@ public abstract class AbstractAppResources implements Serializable, Resource,
 
     private static final String PROPERTY = "property";
 
-    private transient Map<String, Object> properties;
+    private transient Map<Enum<?>, Object> properties;
 
     private transient PropertyChangeSupport p;
 
@@ -80,7 +80,7 @@ public abstract class AbstractAppResources implements Serializable, Resource,
     private AppResourcesLogger log;
 
     @XStreamAlias("properties")
-    private Map<String, Object> storedProperties;
+    private Map<Enum<?>, Object> storedProperties;
 
     private String appConfigFileName;
 
@@ -91,7 +91,7 @@ public abstract class AbstractAppResources implements Serializable, Resource,
     public Object readResolve() {
         this.storedPropertiesLocked = true;
         this.p = new PropertyChangeSupport(this);
-        this.properties = new ConcurrentHashMap<String, Object>();
+        this.properties = new ConcurrentHashMap<Enum<?>, Object>();
         this.resourcesSavedListener = new PropertyChangeListener() {
 
             @Override
@@ -101,7 +101,7 @@ public abstract class AbstractAppResources implements Serializable, Resource,
 
         };
         if (storedProperties == null) {
-            this.storedProperties = new ConcurrentHashMap<String, Object>();
+            this.storedProperties = new ConcurrentHashMap<Enum<?>, Object>();
         }
         return this;
     }
@@ -152,12 +152,12 @@ public abstract class AbstractAppResources implements Serializable, Resource,
      * or {@code null} and the <i>new value</i> is set to the new value.
      *
      * @param property
-     *            the {@link Object} property.
+     *            the {@link Enum} property.
      *
      * @param value
      *            the property {@link Object} value.
      */
-    public void setProperty(Object property, Object value) {
+    public void setProperty(Enum<?> property, Object value) {
         setProperty(property, value, true);
     }
 
@@ -171,7 +171,7 @@ public abstract class AbstractAppResources implements Serializable, Resource,
      * or {@code null} and the <i>new value</i> is set to the new value.
      *
      * @param property
-     *            the {@link Object} property.
+     *            the {@link Enum} property.
      *
      * @param value
      *            the property {@link Object} value.
@@ -179,17 +179,17 @@ public abstract class AbstractAppResources implements Serializable, Resource,
      * @param thread
      *            set to {@code true} to execute on an extra thread.
      */
-    public void setProperty(Object property, Object value, boolean thread) {
+    public void setProperty(Enum<?> property, Object value, boolean thread) {
         Object oldValue = getProperty(property);
         if (value == null) {
-            properties.remove(property.toString());
+            properties.remove(property);
         } else {
-            properties.put(property.toString(), value);
+            properties.put(property, value);
         }
         if (thread) {
             firePropertyChangeOnThread(property, oldValue, value);
         } else {
-            p.firePropertyChange(property.toString(), oldValue, value);
+            p.firePropertyChange(property.name(), oldValue, value);
         }
     }
 
@@ -203,7 +203,7 @@ public abstract class AbstractAppResources implements Serializable, Resource,
      * or {@code null} and the <i>new value</i> is set to the new value.
      *
      * @param property
-     *            the {@link Object} property.
+     *            the {@link Enum} property.
      *
      * @param oldValue
      *            the old {@link Object} value.
@@ -211,7 +211,7 @@ public abstract class AbstractAppResources implements Serializable, Resource,
      * @param value
      *            the {@link Object} value.
      */
-    public void setProperty(Object property, Object oldValue, Object value) {
+    public void setProperty(Enum<?> property, Object oldValue, Object value) {
         setProperty(property, oldValue, value, true);
     }
 
@@ -225,7 +225,7 @@ public abstract class AbstractAppResources implements Serializable, Resource,
      * or {@code null} and the <i>new value</i> is set to the new value.
      *
      * @param property
-     *            the {@link Object} property.
+     *            the {@link Enum} property.
      *
      * @param oldValue
      *            the old {@link Object} value.
@@ -236,17 +236,17 @@ public abstract class AbstractAppResources implements Serializable, Resource,
      * @param thread
      *            set to {@code true} to execute on an extra thread.
      */
-    public void setProperty(Object property, Object oldValue, Object value,
+    public void setProperty(Enum<?> property, Object oldValue, Object value,
             boolean thread) {
         if (value == null) {
-            properties.remove(property.toString());
+            properties.remove(property);
         } else {
-            properties.put(property.toString(), value);
+            properties.put(property, value);
         }
         if (thread) {
             firePropertyChangeOnThread(property, oldValue, value);
         } else {
-            p.firePropertyChange(property.toString(), oldValue, value);
+            p.firePropertyChange(property.name(), oldValue, value);
         }
     }
 
@@ -254,28 +254,28 @@ public abstract class AbstractAppResources implements Serializable, Resource,
      * Returns the application property.
      *
      * @param property
-     *            the {@link Object} property.
+     *            the {@link Enum} property.
      *
      * @return the application {@link Object} property.
      */
     @SuppressWarnings("unchecked")
-    public <T> T getProperty(Object property) {
-        return (T) properties.get(property.toString());
+    public <T> T getProperty(Enum<?> property) {
+        return (T) properties.get(property);
     }
 
     /**
      * Returns the application property.
      *
      * @param property
-     *            the {@link Object} property.
+     *            the {@link Enum} property.
      *
      * @return the application {@link Object} property.
      *
      * @since 3.1
      */
     @SuppressWarnings("unchecked")
-    public <T> T getProperty(Object property, T defaultValue) {
-        Object value = properties.get(property.toString());
+    public <T> T getProperty(Enum<?> property, T defaultValue) {
+        Object value = properties.get(property);
         return value == null ? defaultValue : (T) value;
     }
 
@@ -290,17 +290,17 @@ public abstract class AbstractAppResources implements Serializable, Resource,
      * or {@code null} and the <i>new value</i> is set to the new value.
      *
      * @param property
-     *            the {@link Object} property.
+     *            the {@link Enum} property.
      *
      * @param value
      *            the property {@link Object} value.
      */
-    public void setStoredPropertyOnThread(Object property, Object value) {
+    public void setStoredPropertyOnThread(Enum<?> property, Object value) {
         Object oldValue = getStoredProperty(property);
         if (value == null) {
-            storedProperties.remove(property.toString());
+            storedProperties.remove(property);
         } else {
-            storedProperties.put(property.toString(), value);
+            storedProperties.put(property, value);
         }
         firePropertyChangeOnThread(property, oldValue, value);
         saveAppResources();
@@ -317,17 +317,17 @@ public abstract class AbstractAppResources implements Serializable, Resource,
      * or {@code null} and the <i>new value</i> is set to the new value.
      *
      * @param property
-     *            the {@link Object} property.
+     *            the {@link Enum} property.
      *
      * @param value
      *            the property {@link Object} value.
      */
-    public void setStoredProperty(Object property, Object value) {
+    public void setStoredProperty(Enum<?> property, Object value) {
         Object oldValue = getStoredProperty(property);
         if (value == null) {
-            storedProperties.remove(property.toString());
+            storedProperties.remove(property);
         } else {
-            storedProperties.put(property.toString(), value);
+            storedProperties.put(property, value);
         }
         p.firePropertyChange(property.toString(), oldValue, value);
         saveAppResources();
@@ -344,7 +344,7 @@ public abstract class AbstractAppResources implements Serializable, Resource,
      * or {@code null} and the <i>new value</i> is set to the new value.
      *
      * @param property
-     *            the {@link Object} property.
+     *            the {@link Enum} property.
      *
      * @param oldValue
      *            the {@link Object} old value.
@@ -352,12 +352,12 @@ public abstract class AbstractAppResources implements Serializable, Resource,
      * @param value
      *            the property {@link Object} value.
      */
-    public void setStoredPropertyOnThread(Object property, Object oldValue,
+    public void setStoredPropertyOnThread(Enum<?> property, Object oldValue,
             Object value) {
         if (value == null) {
-            storedProperties.remove(property.toString());
+            storedProperties.remove(property);
         } else {
-            storedProperties.put(property.toString(), value);
+            storedProperties.put(property, value);
         }
         firePropertyChangeOnThread(property, oldValue, value);
         saveAppResources();
@@ -382,11 +382,12 @@ public abstract class AbstractAppResources implements Serializable, Resource,
      * @param value
      *            the property {@link Object} value.
      */
-    public void setStoredProperty(Object property, Object oldValue, Object value) {
+    public void setStoredProperty(Enum<?> property, Object oldValue,
+            Object value) {
         if (value == null) {
-            storedProperties.remove(property.toString());
+            storedProperties.remove(property);
         } else {
-            storedProperties.put(property.toString(), value);
+            storedProperties.put(property, value);
         }
         p.firePropertyChange(property.toString(), oldValue, value);
         saveAppResources();
@@ -396,20 +397,20 @@ public abstract class AbstractAppResources implements Serializable, Resource,
      * Returns the current stored property.
      *
      * @param property
-     *            the {@link Object} property.
+     *            the {@link Enum} property.
      *
      * @return the stored property.
      */
     @SuppressWarnings("unchecked")
-    public <T> T getStoredProperty(Object property) {
-        return (T) storedProperties.get(property.toString());
+    public <T> T getStoredProperty(Enum<?> property) {
+        return (T) storedProperties.get(property);
     }
 
     /**
      * Returns the current stored property.
      *
      * @param property
-     *            the {@link Object} property.
+     *            the {@link Enum} property.
      *
      * @param defaultValue
      *            the default value.
@@ -418,8 +419,8 @@ public abstract class AbstractAppResources implements Serializable, Resource,
      *         {@code null}.
      */
     @SuppressWarnings("unchecked")
-    public <T> T getStoredProperty(Object property, T defaultValue) {
-        Object value = storedProperties.get(property.toString());
+    public <T> T getStoredProperty(Enum<?> property, T defaultValue) {
+        Object value = storedProperties.get(property);
         return value == null ? defaultValue : (T) value;
     }
 
