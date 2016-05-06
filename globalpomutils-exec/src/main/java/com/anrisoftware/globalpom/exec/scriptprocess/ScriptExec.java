@@ -29,7 +29,7 @@ import com.anrisoftware.globalpom.exec.api.ProcessTask;
 import com.anrisoftware.globalpom.exec.runcommands.RunCommands;
 import com.anrisoftware.globalpom.exec.script.ScriptCommandLineFactory;
 import com.anrisoftware.globalpom.threads.api.Threads;
-import com.anrisoftware.resources.templates.api.TemplateResource;
+import com.anrisoftware.resources.templates.external.TemplateResource;
 import com.google.inject.assistedinject.Assisted;
 
 /**

@@ -25,7 +25,7 @@ import org.joda.time.Duration;
 import com.anrisoftware.globalpom.exec.api.ProcessTask;
 import com.anrisoftware.globalpom.exec.runcommands.RunCommands;
 import com.anrisoftware.globalpom.threads.api.Threads;
-import com.anrisoftware.resources.templates.api.TemplateResource;
+import com.anrisoftware.resources.templates.external.TemplateResource;
 
 /**
  * Factory to create the script exec.

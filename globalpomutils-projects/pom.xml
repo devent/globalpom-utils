@@ -12,6 +12,7 @@
 
 	<artifactId>globalpomutils-projects</artifactId>
 	<name>Global POM Utilities :: Projects</name>
+	<packaging>bundle</packaging>
 	<description>Project saving, loading and management.</description>
 	<url>https://anrisoftware.com/projects/projects/globalpomutils-projects</url>
 	<inceptionYear>2015</inceptionYear>
@@ -52,6 +53,7 @@
 		<dependency>
 			<groupId>com.anrisoftware.globalpom</groupId>
 			<artifactId>globalpom-log</artifactId>
+			<type>bundle</type>
 		</dependency>
 
 		<!-- own modules dependencies -->
@@ -59,17 +61,20 @@
 			<groupId>com.anrisoftware.globalpom</groupId>
 			<artifactId>globalpomutils-fileresources</artifactId>
 			<version>3.1-SNAPSHOT</version>
+			<type>bundle</type>
 		</dependency>
 		<dependency>
 			<groupId>com.anrisoftware.globalpom</groupId>
 			<artifactId>globalpomutils-threads</artifactId>
 			<version>3.1-SNAPSHOT</version>
+			<type>bundle</type>
 		</dependency>
 
 		<!-- compile dependencies -->
 		<dependency>
 			<groupId>com.anrisoftware.resources</groupId>
 			<artifactId>resources-texts</artifactId>
+			<type>bundle</type>
 		</dependency>
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>

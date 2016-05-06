@@ -19,7 +19,7 @@
 package com.anrisoftware.globalpom.exec.script;
 
 import com.anrisoftware.globalpom.exec.api.CommandLine;
-import com.anrisoftware.resources.templates.api.TemplateResource;
+import com.anrisoftware.resources.templates.external.TemplateResource;
 
 /**
  * Factory to create a command line.

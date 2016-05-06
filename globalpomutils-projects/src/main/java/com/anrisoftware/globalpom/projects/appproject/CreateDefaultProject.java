@@ -26,7 +26,7 @@ import javax.inject.Inject;
 
 import com.anrisoftware.globalpom.projects.appresources.AbstractAppResources;
 import com.anrisoftware.globalpom.projects.appresources.AppProjects;
-import com.anrisoftware.resources.texts.api.Texts;
+import com.anrisoftware.resources.texts.external.Texts;
 
 /**
  * Creates a default project.

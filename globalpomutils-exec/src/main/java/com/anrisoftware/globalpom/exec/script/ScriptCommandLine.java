@@ -36,8 +36,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import com.anrisoftware.globalpom.exec.api.CommandExecException;
 import com.anrisoftware.globalpom.exec.api.CommandLine;
 import com.anrisoftware.globalpom.exec.command.DefaultCommandLineFactory;
-import com.anrisoftware.resources.api.ResourcesException;
-import com.anrisoftware.resources.templates.api.TemplateResource;
+import com.anrisoftware.resources.external.ResourcesException;
+import com.anrisoftware.resources.templates.external.TemplateResource;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 

@@ -30,7 +30,7 @@ import java.io.IOException;
 
 import com.anrisoftware.globalpom.exec.api.CommandExecException;
 import com.anrisoftware.globalpom.log.AbstractLogger;
-import com.anrisoftware.resources.api.ResourcesException;
+import com.anrisoftware.resources.external.ResourcesException;
 
 /**
  * Logging for {@link ScriptCommandLine}.
