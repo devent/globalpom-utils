@@ -20,7 +20,7 @@ package com.anrisoftware.globalpom.posixlocale;
 
 import static com.google.inject.Guice.createInjector;
 
-import com.anrisoftware.globalpom.format.locale.LocaleFormatModule;
+import com.anrisoftware.globalpom.localeformat.LocaleFormatModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.assistedinject.FactoryModuleBuilder;

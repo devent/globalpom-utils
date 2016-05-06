@@ -24,7 +24,7 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 /**
  * Installs the tokens template worker factory.
  * 
- * @see DefaultTokensTemplateFactory
+ * @see TokensTemplateFactory
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.0
@@ -34,7 +34,7 @@ public class TokensTemplateModule extends AbstractModule {
     @Override
     protected void configure() {
         install(new FactoryModuleBuilder().implement(
-                DefaultTokensTemplate.class, DefaultTokensTemplate.class)
-                .build(DefaultTokensTemplateFactory.class));
+                TokensTemplate.class, TokensTemplate.class)
+                .build(TokensTemplateFactory.class));
     }
 }

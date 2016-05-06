@@ -19,7 +19,6 @@
 package com.anrisoftware.globalpom.mnemonic
 
 import static com.anrisoftware.globalpom.utils.TestUtils.*
-import static java.awt.event.KeyEvent.*
 
 import org.junit.BeforeClass
 import org.junit.Test
@@ -28,43 +27,35 @@ import com.google.inject.Guice
 
 /**
  * @see Mnemonic
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.5
  */
 class MnemonicTest {
 
-	@Test
-	void "mnemonic from string"() {
-		Mnemonic mnemonic
-		data.each { d ->
-			if (d.ex != null) {
-				shouldFailWith(d.ex) {
-					mnemonic = factory.create(d.string)
-					assert mnemonic.isValid() == d.valid
-					mnemonic.mnemonic
-				}
-			} else {
-				mnemonic = factory.create(d.string)
-				assert mnemonic.isValid() == d.valid
-				assert mnemonic.mnemonic == d.code
-				assert mnemonic.mnemonicIndex == d.index
-			}
-		}
-	}
+    @Test
+    void "mnemonic from string"() {
+        Mnemonic mnemonic
+        new tests_mnemonic().run().each { d ->
+            if (d.ex != null) {
+                shouldFailWith(d.ex) {
+                    mnemonic = factory.create(d.string)
+                    assert mnemonic.isValid() == d.valid
+                    mnemonic.mnemonic
+                }
+            } else {
+                mnemonic = factory.create(d.string)
+                assert mnemonic.isValid() == d.valid
+                assert mnemonic.mnemonic == d.code
+                assert mnemonic.mnemonicIndex == d.index
+            }
+        }
+    }
 
-	static MnemonicFactory factory
+    static MnemonicFactory factory
 
-	static data = [
-		[string: "a", code: VK_A, index: -1, valid: true, ex: null],
-		[string: "a,5", code: VK_A, index: 5, valid: true, ex: null],
-		[string: "VK_A", code: VK_A, index: -1, valid: true, ex: null],
-		[string: "", code: null, index: -1, valid: false, ex: null],
-		[string: "SOME", code: null, index: -1, valid: false, ex: IllegalArgumentException],
-	]
-
-	@BeforeClass
-	static void createFactory() {
-		factory = Guice.createInjector(new MnemonicModule()).getInstance(MnemonicFactory)
-	}
+    @BeforeClass
+    static void createFactory() {
+        factory = Guice.createInjector(new MnemonicModule()).getInstance(MnemonicFactory)
+    }
 }

@@ -1,0 +1,68 @@
+/*
+ * Copyright 2013-2016 Erwin Müller <erwin.mueller@deventm.org>
+ *
+ * This file is part of globalpomutils-core.
+ *
+ * globalpomutils-core is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
+ *
+ * globalpomutils-core is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with globalpomutils-core. If not, see <http://www.gnu.org/licenses/>.
+ */
+package com.anrisoftware.globalpom.localeformat
+
+import static com.anrisoftware.globalpom.utils.TestUtils.*
+import groovy.util.logging.Slf4j
+
+import org.junit.BeforeClass
+import org.junit.Test
+
+import com.anrisoftware.globalpom.utils.TestUtils
+import com.google.inject.Guice
+import com.google.inject.Injector
+
+/**
+ * @see LocaleFormat
+ *
+ * @author Erwin Mueller, erwin.mueller@deventm.org
+ * @since 1.10
+ */
+@Slf4j
+class LocaleFormatTest {
+
+    @Test
+    void "format duration"() {
+        new tests_formats().run().each {
+            def str = formatFactory.create().format(it.value)
+            log.info "Format {} {} as '{}'", it.value.getClass(), it.value, str
+            assertStringContent str, it.format
+        }
+    }
+
+    @Test
+    void "parse duration"() {
+        new tests_formats().run().each {
+            def value = formatFactory.create().parse(it.format)
+            log.info "Parse '{}' as {} {}", it.format, value.getClass(), value
+            assert value == it.value
+        }
+    }
+
+    static Injector injector
+
+    static LocaleFormatFactory formatFactory
+
+    @BeforeClass
+    static void createFactories() {
+        TestUtils.toStringStyle
+        injector = Guice.createInjector(new LocaleFormatModule())
+        formatFactory = injector.getInstance LocaleFormatFactory
+    }
+}

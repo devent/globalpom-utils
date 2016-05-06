@@ -25,8 +25,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import javax.inject.Inject;
-
 /**
  * Converts a path to a URI.
  *
@@ -47,13 +45,6 @@ public class ToURI {
      */
     public static URI toURI(Object path) throws ConvertException {
         return ResourcesModule.getToURIFactory().create().convert(path);
-    }
-
-    private final ToURILogger log;
-
-    @Inject
-    ToURI(ToURILogger logger) {
-        this.log = logger;
     }
 
     /**
@@ -101,7 +92,7 @@ public class ToURI {
         try {
             return path.toURI();
         } catch (URISyntaxException e) {
-            throw log.errorConvert(e, path);
+            throw new ConvertException(e, path);
         }
     }
 
@@ -119,7 +110,7 @@ public class ToURI {
                 return null;
             }
         } catch (Exception e) {
-            throw log.errorConvert(e, path);
+            throw new ConvertException(e, path);
         }
     }
 
@@ -127,7 +118,7 @@ public class ToURI {
         try {
             return new URI(format("%s%s", scheme, path));
         } catch (Exception e) {
-            throw log.errorConvert(e, path, scheme);
+            throw new ConvertException(e, path, scheme);
         }
     }
 }

@@ -24,7 +24,7 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 /**
  * Installs the match text factory.
  * 
- * @see DefaultMatchTextFactory
+ * @see MatchTextFactory
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.0
@@ -33,7 +33,7 @@ public class MatchTextModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		install(new FactoryModuleBuilder().implement(DefaultMatchText.class,
-				DefaultMatchText.class).build(DefaultMatchTextFactory.class));
+		install(new FactoryModuleBuilder().implement(MatchText.class,
+				MatchText.class).build(MatchTextFactory.class));
 	}
 }

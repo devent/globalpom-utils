@@ -22,11 +22,10 @@ import static com.anrisoftware.globalpom.utils.TestUtils.*
 import static com.google.inject.Guice.createInjector
 import groovy.util.logging.Slf4j
 
-import org.apache.commons.io.Charsets
 import org.junit.BeforeClass
 import org.junit.Test
 
-import com.anrisoftware.globalpom.format.locale.LocaleFormatModule
+import com.anrisoftware.globalpom.localeformat.LocaleFormatModule
 import com.google.inject.Injector
 
 /**
@@ -40,11 +39,9 @@ class PosixLocaleFormatTest {
 
     @Test
     void "formats locale"() {
-        def cases = [
-            [input: localeFactory.create(Locale.GERMAN, Charsets.UTF_8), expected: "de.UTF-8"],
-            [input: localeFactory.create(Locale.US, Charsets.UTF_8), expected: "en_US.UTF-8"],
-            [input: localeFactory.create(Locale.US, Charsets.ISO_8859_1), expected: "en_US.ISO-8859-1"],
-        ]
+        def formats = new tests_formats()
+        formats.localeFactory = localeFactory
+        List<Map> cases = formats.run()
         cases.eachWithIndex { it, k ->
             log.info "{}. test case: format {} to expected '{}'", k, it.input, it.expected
             def str = localeFormatFactory.create().format(it.input)
@@ -54,11 +51,9 @@ class PosixLocaleFormatTest {
 
     @Test
     void "parses locale"() {
-        def cases = [
-            [input: "de", expected: localeFactory.create(Locale.GERMAN, Charsets.UTF_8)],
-            [input: "en_US", expected: localeFactory.create(Locale.US, Charsets.UTF_8)],
-            [input: "en_US.ISO-8859-1", expected: localeFactory.create(Locale.US, Charsets.ISO_8859_1)],
-        ]
+        def formats = new tests_parses()
+        formats.localeFactory = localeFactory
+        List<Map> cases = formats.run()
         cases.eachWithIndex { it, k ->
             log.info "{}. test case: parse '{}' to expected {}", k, it.input, it.expected
             def locale = localeFormatFactory.create().parse(it.input)

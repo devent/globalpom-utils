@@ -39,7 +39,7 @@ class TokensTemplateTest {
         def replace = "bar"
         def tokens = new TokenMarker("#BEGIN", "#END\n")
         def template = new TokenTemplate("foo", "$replace")
-        DefaultTokensTemplate worker = factory.create tokens, template,
+        TokensTemplate worker = factory.create tokens, template,
                 "foo\n"
         worker.replace()
         assertStringContent worker.text, """#BEGIN
@@ -54,7 +54,7 @@ $replace
         def replace = "bar"
         def tokens = new TokenMarker("#BEGIN", "#END\n")
         def template = new TokenTemplate("foo", "$replace")
-        DefaultTokensTemplate worker = factory.create tokens, template,
+        TokensTemplate worker = factory.create tokens, template,
                 "foo\nbar\n"
         worker.replace()
         assertStringContent worker.text, """#BEGIN
@@ -70,7 +70,7 @@ bar
         def replace = "bar"
         def tokens = new TokenMarker("#BEGIN", "#END\n")
         def template = new TokenTemplate("foo", "$replace")
-        DefaultTokensTemplate worker = factory.create tokens, template,
+        TokensTemplate worker = factory.create tokens, template,
                 "#BEGIN\nfoo\n#END\n"
         worker.replace()
         assertStringContent worker.text, """#BEGIN
@@ -84,7 +84,7 @@ $replace
         def replace = "bar"
         def tokens = new TokenMarker("#BEGIN", "#END\n")
         def template = new TokenTemplate("foo", "$replace")
-        DefaultTokensTemplate worker = factory.create tokens, template,
+        TokensTemplate worker = factory.create tokens, template,
                 "#BEGIN\nfoo\n#END\nbar\n"
         worker.replace()
         assertStringContent worker.text, """#BEGIN
@@ -99,7 +99,7 @@ bar
         def replace = "bar"
         def tokens = new TokenMarker("#BEGIN", "#END\n")
         def template = new TokenTemplate("foo\nbar", "baz\nbaz")
-        DefaultTokensTemplate worker = factory.create tokens, template,
+        TokensTemplate worker = factory.create tokens, template,
                 "#BEGIN\nfoo\nbar\n#END\n"
         worker.replace()
         assertStringContent worker.text, """#BEGIN
@@ -114,7 +114,7 @@ baz
         def replace = "bar"
         def tokens = new TokenMarker("#BEGIN", "#END\n")
         def template = new TokenTemplate("foo\nbar", "baz\nbaz")
-        DefaultTokensTemplate worker = factory.create tokens, template,
+        TokensTemplate worker = factory.create tokens, template,
                 ""
         worker.replace()
         assertStringContent worker.text, """#BEGIN
@@ -129,7 +129,7 @@ baz
         def replace = "bar"
         def tokens = new TokenMarker("#BEGIN", "#END\n")
         def template = new TokenTemplate("foo", "$replace")
-        DefaultTokensTemplate worker = factory.create tokens, template,
+        TokensTemplate worker = factory.create tokens, template,
                 "\n"
         worker.replace()
         assertStringContent worker.text, """
@@ -144,7 +144,7 @@ $replace
         def replace = "bar"
         def tokens = new TokenMarker("#BEGIN", "#END\n")
         def template = new TokenTemplate("foo", "$replace")
-        DefaultTokensTemplate worker = factory.create tokens, template,
+        TokensTemplate worker = factory.create tokens, template,
                 "bar\n"
         worker.replace()
         assertStringContent worker.text, """bar
@@ -159,7 +159,7 @@ $replace
         def replace = "bar"
         def tokens = new TokenMarker("#BEGIN", "#END\n")
         def template = new TokenTemplate("foo", "$replace")
-        DefaultTokensTemplate worker = factory.create tokens, template,
+        TokensTemplate worker = factory.create tokens, template,
                 "\n"
         def workerB = reserialize worker
         workerB.replace()
@@ -172,16 +172,12 @@ $replace
 
     static Injector injector
 
-    static DefaultTokensTemplateFactory factory
+    static TokensTemplateFactory factory
 
     @BeforeClass
     static void createFactories() {
         toStringStyle
-        injector = createInjector()
-        factory = injector.getInstance DefaultTokensTemplateFactory
-    }
-
-    static Injector createInjector() {
-        Guice.createInjector(new TokensTemplateModule())
+        injector = Guice.createInjector(new TokensTemplateModule())
+        factory = injector.getInstance TokensTemplateFactory
     }
 }

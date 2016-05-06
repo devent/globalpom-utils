@@ -30,7 +30,7 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-import com.anrisoftware.globalpom.format.locale.LocaleFormatFactory;
+import com.anrisoftware.globalpom.localeformat.LocaleFormatFactory;
 
 /**
  * Formats and parses a {@link PosixLocale} POSIX locale.

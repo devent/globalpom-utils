@@ -23,10 +23,10 @@ import static com.anrisoftware.globalpom.utils.TestUtils.*
 import java.util.regex.Pattern
 
 import org.apache.commons.io.FileUtils
-import org.junit.After
-import org.junit.Before
 import org.junit.BeforeClass
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TemporaryFolder
 
 import com.google.inject.Guice
 import com.google.inject.Injector
@@ -43,9 +43,9 @@ class MatchTextTest {
     void "compare text files matching"() {
         def text = "aaa"
         def pattern = Pattern.compile(/aaa/)
-        def file = new File(tmpdir, "file_a")
+        def file = folder.newFile("file_a")
         FileUtils.write file, text
-        DefaultMatchText worker = factory.create file, pattern, charset
+        MatchText worker = factory.create file, pattern, charset
         worker.match()
         assert worker.matches == true
     }
@@ -54,9 +54,9 @@ class MatchTextTest {
     void "compare text files not matching"() {
         def text = "aaa"
         def pattern = Pattern.compile(/bbb/)
-        def file = new File(tmpdir, "file_a")
+        def file = folder.newFile("file_a")
         FileUtils.write file, text
-        DefaultMatchText worker = factory.create file, pattern, charset
+        MatchText worker = factory.create file, pattern, charset
         worker.match()
         assert worker.matches == false
     }
@@ -65,9 +65,9 @@ class MatchTextTest {
     void "serialize and compare text files matching"() {
         def text = "aaa"
         def pattern = Pattern.compile(/aaa/)
-        def file = new File(tmpdir, "file_a")
+        def file = folder.newFile("file_a")
         FileUtils.write file, text
-        DefaultMatchText worker = factory.create file, pattern, charset
+        MatchText worker = factory.create file, pattern, charset
         def workerB = reserialize worker
         workerB.match()
         assert workerB.matches == true
@@ -77,10 +77,10 @@ class MatchTextTest {
     void "compare text resource URI matching"() {
         def text = "aaa"
         def pattern = Pattern.compile(/aaa/)
-        def file = new File(tmpdir, "file_a")
+        def file = folder.newFile("file_a")
         FileUtils.write file, text
         file = file.toURI()
-        DefaultMatchText worker = factory.create file, pattern, charset
+        MatchText worker = factory.create file, pattern, charset
         worker.match()
         assert worker.matches == true
     }
@@ -89,38 +89,25 @@ class MatchTextTest {
     void "compare text resource URL matching"() {
         def text = "aaa"
         def pattern = Pattern.compile(/aaa/)
-        def file = new File(tmpdir, "file_a")
+        def file = folder.newFile("file_a")
         FileUtils.write file, text
         file = file.toURI().toURL()
-        DefaultMatchText worker = factory.create file, pattern, charset
+        MatchText worker = factory.create file, pattern, charset
         worker.match()
         assert worker.matches == true
     }
 
-    File tmpdir
-
-    @Before
-    void createTmpDir() {
-        tmpdir = File.createTempDir("MatchTextTest", null)
-    }
-
-    @After
-    void deleteTmpDir() {
-        tmpdir.deleteDir()
-    }
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder()
 
     static Injector injector
 
-    static DefaultMatchTextFactory factory
+    static MatchTextFactory factory
 
     @BeforeClass
     static void createFactories() {
         toStringStyle
-        injector = createInjector()
-        factory = injector.getInstance DefaultMatchTextFactory
-    }
-
-    static Injector createInjector() {
-        Guice.createInjector(new MatchTextModule())
+        injector = Guice.createInjector(new MatchTextModule())
+        factory = injector.getInstance MatchTextFactory
     }
 }

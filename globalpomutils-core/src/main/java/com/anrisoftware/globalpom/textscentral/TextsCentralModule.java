@@ -18,7 +18,6 @@
  */
 package com.anrisoftware.globalpom.textscentral;
 
-import com.anrisoftware.globalpom.textscentral.TextsResources.TextsResourcesFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 

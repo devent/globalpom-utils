@@ -18,81 +18,30 @@
  */
 package com.anrisoftware.globalpom.resources;
 
-import java.util.Map;
-
-import com.anrisoftware.globalpom.exceptions.Context;
+import org.apache.commons.lang3.exception.ContextedRuntimeException;
 
 /**
  * Exception if the input can not be converted to URL or URI.
- * 
+ *
  * @see StringToURI
  * @see ToURL
  * @see ToURI
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.0
  */
 @SuppressWarnings("serial")
-public class ConvertException extends RuntimeException {
+public class ConvertException extends ContextedRuntimeException {
 
-    private final Context<ConvertException> context;
-
-    /**
-     * @see RuntimeException#RuntimeException(String, Throwable)
-     */
-    public ConvertException(String message, Throwable cause) {
-        super(message, cause);
-        this.context = new Context<ConvertException>(this);
+    public ConvertException(Exception e, String path, String protocol) {
+        super("Error convert", e);
+        addContextValue("path", path);
+        addContextValue("protocol", protocol);
     }
 
-    /**
-     * @see RuntimeException#RuntimeException(String, Throwable)
-     */
-    public ConvertException(Object message, Throwable cause) {
-        super(message.toString(), cause);
-        this.context = new Context<ConvertException>(this);
-    }
-
-    /**
-     * @see RuntimeException#RuntimeException(String)
-     */
-    public ConvertException(String message) {
-        super(message);
-        this.context = new Context<ConvertException>(this);
-    }
-
-    /**
-     * @see RuntimeException#RuntimeException(String)
-     */
-    public ConvertException(Object message) {
-        super(message.toString());
-        this.context = new Context<ConvertException>(this);
-    }
-
-    /**
-     * @see Context#addContext(String, Object)
-     */
-    public ConvertException add(String name, Object value) {
-        return context.addContext(name, value);
-    }
-
-    /**
-     * @see Context#addContext(String, Object)
-     */
-    public ConvertException add(Object name, Object value) {
-        return context.addContext(name.toString(), value);
-    }
-
-    /**
-     * @see Context#getContext()
-     */
-    public Map<String, Object> getContext() {
-        return context.getContext();
-    }
-
-    @Override
-    public String toString() {
-        return context.toString();
+    public ConvertException(Exception e, Object path) {
+        super("Error convert", e);
+        addContextValue("path", path);
     }
 
 }

@@ -18,9 +18,7 @@
  */
 package com.anrisoftware.globalpom.textmatch.match;
 
-import java.util.Map;
-
-import com.anrisoftware.globalpom.exceptions.Context;
+import org.apache.commons.lang3.exception.ContextedException;
 
 /**
  * Exception for match text.
@@ -29,16 +27,13 @@ import com.anrisoftware.globalpom.exceptions.Context;
  * @since 2.0
  */
 @SuppressWarnings("serial")
-public class MatchTextException extends Exception {
-
-    private final Context<MatchTextException> context;
+public class MatchTextException extends ContextedException {
 
     /**
      * @see Exception#Exception(String, Throwable)
      */
     public MatchTextException(String message, Throwable cause) {
         super(message, cause);
-        this.context = new Context<MatchTextException>(this);
     }
 
     /**
@@ -46,7 +41,6 @@ public class MatchTextException extends Exception {
      */
     public MatchTextException(String message) {
         super(message);
-        this.context = new Context<MatchTextException>(this);
     }
 
     /**
@@ -54,7 +48,6 @@ public class MatchTextException extends Exception {
      */
     public MatchTextException(Object message, Throwable cause) {
         super(message.toString(), cause);
-        this.context = new Context<MatchTextException>(this);
     }
 
     /**
@@ -62,44 +55,6 @@ public class MatchTextException extends Exception {
      */
     public MatchTextException(Object message) {
         super(message.toString());
-        this.context = new Context<MatchTextException>(this);
     }
 
-    /**
-     * @see Context#addContext(String, Object)
-     */
-    public MatchTextException add(String name, Object value) {
-        context.addContext(name, value);
-        return this;
-    }
-
-    /**
-     * @see Context#addContext(String, Object)
-     */
-    public MatchTextException add(Object name, Object value) {
-        context.addContext(name.toString(), value);
-        return this;
-    }
-
-    /**
-     * @see Context#getContext()
-     */
-    public Map<String, Object> getContext() {
-        return context.getContext();
-    }
-
-    @Override
-    public String getMessage() {
-        return context.message(super.getMessage());
-    }
-
-    @Override
-    public String getLocalizedMessage() {
-        return context.localizedMessage(super.getMessage());
-    }
-
-    @Override
-    public String toString() {
-        return context.toString();
-    }
 }

@@ -24,11 +24,9 @@ import java.io.File;
 import java.net.URI;
 import java.net.URL;
 
-import javax.inject.Inject;
-
 /**
  * Converts a path to a URL.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.0
  */
@@ -48,16 +46,9 @@ public class ToURL {
         return ResourcesModule.getToURLFactory().create().convert(path);
     }
 
-    private final ToURLLogger log;
-
-    @Inject
-    ToURL(ToURLLogger logger) {
-        this.log = logger;
-    }
-
     /**
      * @see #convert(Object, String)
-     * 
+     *
      * @param path
      *            the path; can be of type {@link URL}, {@link URI},
      *            {@link File}, {@link String} or {@link Object}. If the path is
@@ -69,17 +60,17 @@ public class ToURL {
 
     /**
      * Converts the specified path to a URL.
-     * 
+     *
      * @param path
      *            the path; can be of type {@link URL}, {@link URI},
      *            {@link File}, {@link String} or {@link Object}. If the path is
      *            not absolute the scheme {@code "file://"} will be added.
-     * 
+     *
      * @param scheme
      *            the scheme of the URL if the path is not absolute.
-     * 
+     *
      * @return the {@link URL}.
-     * 
+     *
      * @throws ConvertException
      *             if there were errors converting the path to the URL.
      */
@@ -100,7 +91,7 @@ public class ToURL {
         try {
             return uri.toURL();
         } catch (Exception e) {
-            throw log.errorConvert(e, uri);
+            throw new ConvertException(e, uri);
         }
     }
 
@@ -108,7 +99,7 @@ public class ToURL {
         try {
             return file.toURI().toURL();
         } catch (Exception e) {
-            throw log.errorConvert(e, file);
+            throw new ConvertException(e, file);
         }
     }
 
@@ -126,7 +117,7 @@ public class ToURL {
                 return null;
             }
         } catch (Exception e) {
-            throw log.errorConvert(e, path);
+            throw new ConvertException(e, path);
         }
     }
 
@@ -135,7 +126,7 @@ public class ToURL {
             URI uri = new URI(format("%s%s", scheme, path));
             return uri.toURL();
         } catch (Exception e) {
-            throw log.errorConvert(e, path, scheme);
+            throw new ConvertException(e, path, scheme);
         }
     }
 }

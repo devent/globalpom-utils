@@ -26,39 +26,36 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /**
  * Installs the mnemonic factory.
- * 
+ *
  * @see Mnemonic
  * @see MnemonicFactory
  * @see Accelerator
  * @see AcceleratorFactory
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.5
  */
 public class MnemonicModule extends AbstractModule {
 
-	private static Injector injector;
+    public static Injector getInjector() {
+        return InjectorInstance.injector;
+    }
 
-	/**
-	 * Creates the Guice injector.
-	 * 
-	 * @return the {@link Injector}.
-	 */
-	public static Injector getInjector() {
-		if (injector == null) {
-			synchronized (MnemonicModule.class) {
-				injector = createInjector(new MnemonicModule());
-			}
-		}
-		return injector;
-	}
+    public static Injector getMnemonicInjector() {
+        return InjectorInstance.injector;
+    }
 
-	@Override
-	protected void configure() {
-		install(new FactoryModuleBuilder().implement(Mnemonic.class,
-				Mnemonic.class).build(MnemonicFactory.class));
-		install(new FactoryModuleBuilder().implement(Accelerator.class,
-				Accelerator.class).build(AcceleratorFactory.class));
-	}
+    private static class InjectorInstance {
+
+        static final Injector injector = createInjector(new MnemonicModule());
+    }
+
+    @Override
+    protected void configure() {
+        install(new FactoryModuleBuilder().implement(Mnemonic.class,
+                Mnemonic.class).build(MnemonicFactory.class));
+        install(new FactoryModuleBuilder().implement(Accelerator.class,
+                Accelerator.class).build(AcceleratorFactory.class));
+    }
 
 }

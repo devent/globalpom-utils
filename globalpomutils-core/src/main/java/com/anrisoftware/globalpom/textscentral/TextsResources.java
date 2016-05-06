@@ -30,10 +30,10 @@ import com.anrisoftware.globalpom.mnemonic.Accelerator;
 import com.anrisoftware.globalpom.mnemonic.AcceleratorFactory;
 import com.anrisoftware.globalpom.mnemonic.Mnemonic;
 import com.anrisoftware.globalpom.mnemonic.MnemonicFactory;
-import com.anrisoftware.resources.api.LocaleListener;
-import com.anrisoftware.resources.api.ResourcesException;
-import com.anrisoftware.resources.texts.api.Texts;
-import com.anrisoftware.resources.texts.api.TextsFactory;
+import com.anrisoftware.resources.external.LocaleListener;
+import com.anrisoftware.resources.external.ResourcesException;
+import com.anrisoftware.resources.texts.external.Texts;
+import com.anrisoftware.resources.texts.external.TextsFactory;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -44,30 +44,6 @@ import com.google.inject.assistedinject.AssistedInject;
  * @since 2.0
  */
 public class TextsResources {
-
-    /**
-     * Factory for centralized access to all text resources.
-     *
-     * @author Erwin Mueller, erwin.mueller@deventm.org
-     * @since 2.0
-     */
-    public interface TextsResourcesFactory {
-
-        /**
-         * Sets the properties for the texts resources.
-         *
-         * @param properties
-         *            the {@link Properties}.
-         *
-         * @return the {@link TextsResources}.
-         *
-         * @see TextsResources#ACTION_ACCELERATORS_PROPERTY
-         * @see TextsResources#ACTION_MNEMONICS_PROPERTY
-         * @see TextsResources#ACTIONS_PROPERTY
-         * @see TextsResources#TEXTS_PROPERTY
-         */
-        TextsResources create(Properties properties);
-    }
 
     /**
      * Action accelerator keys resource bundle.

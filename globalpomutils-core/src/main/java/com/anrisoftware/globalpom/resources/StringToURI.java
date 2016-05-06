@@ -22,11 +22,9 @@ import java.net.URI;
 import java.net.URL;
 import java.util.regex.Pattern;
 
-import javax.inject.Inject;
-
 /**
  * Converts a string path to a URI.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.2
  */
@@ -50,17 +48,10 @@ public class StringToURI {
                 .convert(path, protocol);
     }
 
-    private final StringToURILogger log;
-
-    @Inject
-    StringToURI(StringToURILogger logger) {
-        this.log = logger;
-    }
-
     /**
      * Converts the specified path to a URI with the default protocol
      * {@code "file://".}
-     * 
+     *
      * @see #convert(String, String)
      */
     public URI convert(String path) throws ConvertException {
@@ -69,15 +60,15 @@ public class StringToURI {
 
     /**
      * Converts the specified path to a URI.
-     * 
+     *
      * @param path
      *            the path.
-     * 
+     *
      * @param protocol
      *            the protocol of the path.
-     * 
+     *
      * @return the {@link URI}
-     * 
+     *
      * @throws ConvertException
      *             if the path is not a valid {@link URL}.
      */
@@ -89,7 +80,7 @@ public class StringToURI {
             return new URI(url.getProtocol(), url.getHost(), url.getPath(),
                     url.getQuery(), nullFragment);
         } catch (Exception e) {
-            throw log.errorConvert(e, path);
+            throw new ConvertException(e, path, protocol);
         }
     }
 
