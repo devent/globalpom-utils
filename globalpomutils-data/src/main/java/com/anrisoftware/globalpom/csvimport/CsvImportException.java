@@ -19,78 +19,68 @@
 package com.anrisoftware.globalpom.csvimport;
 
 import java.io.IOException;
-import java.util.Map;
 
-import com.anrisoftware.globalpom.exceptions.Context;
+import org.apache.commons.lang3.exception.DefaultExceptionContext;
 
 /**
  * Import exception.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
  */
 @SuppressWarnings("serial")
 public class CsvImportException extends IOException {
 
-	private final Context<CsvImportException> context;
+    private final DefaultExceptionContext exceptionContext;
 
-	/**
-	 * @see IOException#IOException(String, Throwable)
-	 */
-	public CsvImportException(String message, Throwable cause) {
-		super(message, cause);
-		this.context = new Context<CsvImportException>(this);
-	}
+    /**
+     * @see IOException#IOException(String, Throwable)
+     */
+    public CsvImportException(String message, Throwable cause) {
+        super(message, cause);
+        this.exceptionContext = new DefaultExceptionContext();
+    }
 
-	/**
-	 * @see IOException#IOException(String)
-	 */
-	public CsvImportException(String message) {
-		super(message);
-		this.context = new Context<CsvImportException>(this);
-	}
+    /**
+     * @see IOException#IOException(String)
+     */
+    public CsvImportException(String message) {
+        super(message);
+        this.exceptionContext = new DefaultExceptionContext();
+    }
 
-	/**
-	 * @see IOException#IOException(String, Throwable)
-	 */
-	public CsvImportException(Object message, Throwable cause) {
-		super(message.toString(), cause);
-		this.context = new Context<CsvImportException>(this);
-	}
+    /**
+     * @see IOException#IOException(String, Throwable)
+     */
+    public CsvImportException(Object message, Throwable cause) {
+        super(message.toString(), cause);
+        this.exceptionContext = new DefaultExceptionContext();
+    }
 
-	/**
-	 * @see IOException#IOException(String)
-	 */
-	public CsvImportException(Object message) {
-		super(message.toString());
-		this.context = new Context<CsvImportException>(this);
-	}
+    /**
+     * @see IOException#IOException(String)
+     */
+    public CsvImportException(Object message) {
+        super(message.toString());
+        this.exceptionContext = new DefaultExceptionContext();
+    }
 
-	/**
-	 * @see Context#addContext(String, Object)
-	 */
-	public CsvImportException add(String name, Object value) {
-		context.addContext(name, value);
-		return this;
-	}
+    public CsvImportException addContextValue(String label, Object value) {
+        exceptionContext.addContextValue(label, value);
+        return this;
+    }
 
-	/**
-	 * @see Context#addContext(String, Object)
-	 */
-	public CsvImportException add(Object name, Object value) {
-		context.addContext(name.toString(), value);
-		return this;
-	}
+    @Override
+    public String getMessage() {
+        return getFormattedExceptionMessage(super.getMessage());
+    }
 
-	/**
-	 * @see Context#getContext()
-	 */
-	public Map<String, Object> getContext() {
-		return context.getContext();
-	}
+    public String getRawMessage() {
+        return super.getMessage();
+    }
 
-	@Override
-	public String toString() {
-		return context.toString();
-	}
+    public String getFormattedExceptionMessage(String baseMessage) {
+        return exceptionContext.getFormattedExceptionMessage(baseMessage);
+    }
+
 }

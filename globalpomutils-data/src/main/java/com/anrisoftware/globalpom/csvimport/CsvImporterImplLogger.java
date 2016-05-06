@@ -19,20 +19,14 @@
 package com.anrisoftware.globalpom.csvimport;
 
 import static com.anrisoftware.globalpom.csvimport.CsvImporterImplLogger._.column_for_name_null;
-import static com.anrisoftware.globalpom.csvimport.CsvImporterImplLogger._.error_open_file;
-import static com.anrisoftware.globalpom.csvimport.CsvImporterImplLogger._.error_open_file_message;
-import static com.anrisoftware.globalpom.csvimport.CsvImporterImplLogger._.error_read;
-import static com.anrisoftware.globalpom.csvimport.CsvImporterImplLogger._.error_read_message;
 import static org.apache.commons.lang3.Validate.notNull;
-
-import java.io.IOException;
 
 import com.anrisoftware.globalpom.dataimport.Column;
 import com.anrisoftware.globalpom.log.AbstractLogger;
 
 /**
  * Logging messages for {@link CsvImporterImpl}.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
  */
@@ -69,18 +63,6 @@ class CsvImporterImplLogger extends AbstractLogger {
      */
     public CsvImporterImplLogger() {
         super(CsvImporterImpl.class);
-    }
-
-    CsvImportException errorOpenFile(CsvImporterImpl importer, Exception e) {
-        return logException(new CsvImportException(error_open_file, e).add(
-                importer, importer), error_open_file_message, importer
-                .getProperties().getFile());
-    }
-
-    CsvImportException errorRead(CsvImporterImpl importer, IOException e) {
-        return logException(
-                new CsvImportException(error_read, e).add(importer, importer),
-                error_read_message, importer.getProperties().getFile());
     }
 
     void checkColumnForName(Column column, String name) {

@@ -141,7 +141,7 @@ class CsvImporterImpl implements CsvImporter {
         try {
             return reader.read();
         } catch (IOException e) {
-            throw log.errorRead(this, e);
+            throw new ReadValuesException(this, e);
         }
     }
 
@@ -169,9 +169,9 @@ class CsvImporterImpl implements CsvImporter {
         try {
             return properties.getFile().toURL().openStream();
         } catch (MalformedURLException e) {
-            throw log.errorOpenFile(this, e);
+            throw new OpenCsvException(this, e);
         } catch (IOException e) {
-            throw log.errorOpenFile(this, e);
+            throw new OpenCsvException(this, e);
         }
     }
 
