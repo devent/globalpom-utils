@@ -19,34 +19,37 @@
 package com.anrisoftware.globalpom.exec.internal.command
 
 import static com.anrisoftware.globalpom.utils.TestUtils.*
+import groovy.util.logging.Slf4j
 
-import org.junit.BeforeClass
+import org.apache.sling.testing.mock.osgi.junit.OsgiContext
+import org.junit.Before
+import org.junit.Rule
 
 import com.anrisoftware.globalpom.exec.external.command.CommandLineFactory
+import com.anrisoftware.globalpom.exec.external.command.CommandLineService
 import com.anrisoftware.globalpom.utils.TestUtils
-import com.google.inject.Guice
-import com.google.inject.Injector
 
 /**
- * @see CommandLine
+ * @see DefaultCommandLineServiceImpl
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.11
+ * @since 3.1
  */
-class CommandLineTest extends AbstractCommandLineTest {
+@Slf4j
+class DefaultCommandLineServiceImplTest extends AbstractCommandLineTest {
+
+    @Rule
+    public final OsgiContext context = new OsgiContext()
 
     CommandLineFactory getCommandLineFactory() {
-        commandLineFactory
+        service
     }
 
-    static Injector injector
+    CommandLineService service
 
-    static CommandLineFactory commandLineFactory
-
-    @BeforeClass
-    static void createFactory() {
+    @Before
+    void createFactories() {
         TestUtils.toStringStyle
-        injector = Guice.createInjector(new DefaultCommandLineModule())
-        commandLineFactory = injector.getInstance CommandLineFactory
+        this.service = context.registerInjectActivateService(new DefaultCommandLineServiceImpl(), null)
     }
 }
