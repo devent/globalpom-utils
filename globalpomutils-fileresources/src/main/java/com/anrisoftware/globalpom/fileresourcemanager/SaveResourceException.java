@@ -18,23 +18,21 @@
  */
 package com.anrisoftware.globalpom.fileresourcemanager;
 
-import org.apache.commons.lang3.exception.ContextedException;
+import java.io.File;
+import java.util.Arrays;
 
-/**
- * Errors from file resource manager.
- *
- * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.8
- */
 @SuppressWarnings("serial")
-public class FileResourceException extends ContextedException {
+public class SaveResourceException extends FileResourceException {
 
-    protected FileResourceException(String message, Throwable cause) {
-        super(message, cause);
+    public SaveResourceException(Throwable e, Resource[] resources,
+            File storeDir) {
+        super("Error save resource", e);
+        addContextValue("resources", Arrays.toString(resources));
+        addContextValue("store-directory", storeDir);
     }
 
-    protected FileResourceException(String message) {
-        super(message);
+    public SaveResourceException(Exception e, Resource resource, File storeDir) {
+        this(e, new Resource[] { resource }, storeDir);
     }
 
 }
