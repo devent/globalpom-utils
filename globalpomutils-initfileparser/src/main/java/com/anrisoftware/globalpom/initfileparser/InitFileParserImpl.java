@@ -63,9 +63,6 @@ class InitFileParserImpl implements InitFileParser {
     private final InitFileAttributes attributes;
 
     @Inject
-    private InitFileParserImplLogger log;
-
-    @Inject
     private SectionFactory sectionFactory;
 
     private URL url;
@@ -290,7 +287,7 @@ class InitFileParserImpl implements InitFileParser {
 
         private void checkMultiLineAllowed() throws InitFileParserException {
             if (!allowMultiLineProperties) {
-                throw log.errorMultiLineProperty(InitFileParserImpl.this);
+                throw new MultiLinePropertyException(InitFileParserImpl.this);
             }
         }
 
@@ -360,7 +357,7 @@ class InitFileParserImpl implements InitFileParser {
         try {
             return IOUtils.lineIterator(stream, charset);
         } catch (IOException e) {
-            throw log.lineIteratorError(this, e);
+            throw new ReadResourceException(this, e);
         }
     }
 
@@ -374,7 +371,7 @@ class InitFileParserImpl implements InitFileParser {
         try {
             return new FileInputStream(file);
         } catch (FileNotFoundException e) {
-            throw log.openStreamError(this, e);
+            throw new ReadResourceException(this, e);
         }
     }
 
@@ -382,7 +379,7 @@ class InitFileParserImpl implements InitFileParser {
         try {
             return openURLStream(uri.toURL());
         } catch (MalformedURLException e) {
-            throw log.openStreamError(this, e);
+            throw new ReadResourceException(this, e);
         }
     }
 
@@ -390,7 +387,7 @@ class InitFileParserImpl implements InitFileParser {
         try {
             return url.openStream();
         } catch (IOException e) {
-            throw log.openStreamError(this, e);
+            throw new ReadResourceException(this, e);
         }
     }
 

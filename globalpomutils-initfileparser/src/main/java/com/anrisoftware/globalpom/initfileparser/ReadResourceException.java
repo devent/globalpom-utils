@@ -16,33 +16,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-initfileparser. If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * <h1>Global POM Utilities :: Init File Parser</h1>
- *
- * <p>
- * Parses INI like files.
- *
- * <h2>Maven Module</h2>
- *
- * <pre>
- * &lt;dependency>
- * &lt;groupId>com.anrisoftware.globalpom&lt;/groupId>
- * &lt;artifactId>globalpomutils-initfileparser&lt;/artifactId>
- * &lt;version>2.5&lt;/version>
- * &lt;/dependency>
- * </pre>
- *
- * <h2>SCM</h2>
- *
- * <ul>
- * <li><a href="https://anrisoftware.com/projects/projects/globalpomutils-initfileparser/repository">Repository</a></li>
- * <li>{@code git@anrisoftware.com:globalpom-utils.git}</a>
- * <li><a href="https://github.com/devent/globalpom-utils.git">Github Mirror</a>
- * <li>{@code git://git@github.com:devent/globalpom-utils.git}</a>
- * </ul>
- *
- * @version 2.5
- * @author Erwin Mueller, erwin.mueller@deventm.org
- */
 package com.anrisoftware.globalpom.initfileparser;
 
+import java.io.IOException;
+
+@SuppressWarnings("serial")
+public class ReadResourceException extends InitFileParserException {
+
+    public ReadResourceException(InitFileParserImpl parser, IOException e) {
+        super("Error read resource");
+        addContextValue("parser", parser);
+    }
+
+}
