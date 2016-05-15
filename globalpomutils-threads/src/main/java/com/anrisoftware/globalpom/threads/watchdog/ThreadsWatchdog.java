@@ -32,10 +32,10 @@ import javax.inject.Inject;
 
 import org.joda.time.Duration;
 
-import com.anrisoftware.globalpom.threads.api.ListenableFuture;
-import com.anrisoftware.globalpom.threads.api.ListenableFuture.Status;
-import com.anrisoftware.globalpom.threads.api.Threads;
-import com.anrisoftware.globalpom.threads.listenablefuture.DefaultListenableFuture;
+import com.anrisoftware.globalpom.threads.external.core.ListenableFuture;
+import com.anrisoftware.globalpom.threads.external.core.Threads;
+import com.anrisoftware.globalpom.threads.external.core.ListenableFuture.Status;
+import com.anrisoftware.globalpom.threads.external.listenablefuture.DefaultListenableFuture;
 
 /**
  * Keeps track of the submitted tasks.

@@ -16,9 +16,11 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-threads. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.threads.properties;
+package com.anrisoftware.globalpom.threads.properties.internal;
 
-import static com.anrisoftware.globalpom.threads.properties.PropertiesThreadsModule.getPropertiesThreadsFactory;
+import static com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsModule.getPropertiesThreadsFactory;
+import static org.apache.commons.lang3.Validate.notBlank;
+import static org.apache.commons.lang3.Validate.notNull;
 
 import java.beans.PropertyChangeListener;
 import java.util.Collection;
@@ -37,24 +39,25 @@ import javax.inject.Inject;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.joda.time.Duration;
 
-import com.anrisoftware.globalpom.threads.api.ListenableFuture;
-import com.anrisoftware.globalpom.threads.api.ThreadingPolicy;
-import com.anrisoftware.globalpom.threads.api.Threads;
-import com.anrisoftware.globalpom.threads.api.ThreadsException;
+import com.anrisoftware.globalpom.threads.external.core.ListenableFuture;
+import com.anrisoftware.globalpom.threads.external.core.ThreadingPolicy;
+import com.anrisoftware.globalpom.threads.external.core.ThreadsException;
+import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreads;
+import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreadsFactory;
 import com.anrisoftware.globalpom.threads.watchdog.ThreadsWatchdog;
 import com.anrisoftware.propertiesutils.ContextProperties;
 
 /**
  * Loads the thread pool properties from a properties file.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.5
  */
-public class PropertiesThreads implements Threads {
+public class PropertiesThreadsImpl implements PropertiesThreads {
 
     /**
      * @see PropertiesThreadsFactory#create()
-     * 
+     *
      * @since 1.11
      */
     public static PropertiesThreads createPropertiesThreads() {
@@ -62,13 +65,10 @@ public class PropertiesThreads implements Threads {
     }
 
     @Inject
-    private PropertiesThreadsLogger log;
-
-    @Inject
     private CachedThreadingPropertiesFactory cachedFactory;
 
     @Inject
-    private ThreadingPropertiesFactory propertiesFactory;
+    private DefaultThreadingPropertiesFactory propertiesFactory;
 
     @Inject
     private FixedThreadingPropertiesFactory fixedFactory;
@@ -85,20 +85,15 @@ public class PropertiesThreads implements Threads {
 
     private ExecutorService executor;
 
-    /**
-     * Sets the properties for the thread pool.
-     * 
-     * @param properties
-     *            the {@link Properties}.
-     */
+    @Override
     public void setProperties(Properties properties) {
-        log.checkProperties(this, properties);
+        notNull(properties, "properties = null");
         this.properties = new ContextProperties(this, properties);
     }
 
     @Override
     public void setName(String name) throws ThreadsException {
-        log.checkName(this, name);
+        notBlank(name, "name blank");
         String oldValue = this.name;
         this.name = name;
         if (!name.equals(oldValue)) {
@@ -124,7 +119,7 @@ public class PropertiesThreads implements Threads {
         case SINGLE:
             return createSinglePool(factory);
         default:
-            throw log.invalidPolicy(this, policy);
+            throw new InvalidThreadPoolPolicyException(policy);
         }
     }
 

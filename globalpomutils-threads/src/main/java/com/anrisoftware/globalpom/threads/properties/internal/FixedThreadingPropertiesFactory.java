@@ -16,33 +16,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-threads. If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * <h1>Global POM Utilities :: Threads</h1>
- *
- * <p>
- * Threads pool for listenable future tasks.
- *
- * <h2>Maven Module</h2>
- *
- * <pre>
- * &lt;dependency>
- * &lt;groupId>com.anrisoftware.globalpom&lt;/groupId>
- * &lt;artifactId>globalpomutils-threads&lt;/artifactId>
- * &lt;version>2.3&lt;/version>
- * &lt;/dependency>
- * </pre>
- *
- * <h2>SCM</h2>
- *
- * <ul>
- * <li><a href="https://anrisoftware.com/projects/projects/globalpomutils-threads/repository">Repository</a></li>
- * <li>{@code git@anrisoftware.com:globalpom-utils.git}</a>
- * <li><a href="https://github.com/devent/globalpom-utils.git">Github Mirror</a>
- * <li>{@code git://git@github.com:devent/globalpom-utils.git}</a>
- * </ul>
- *
- * @version 2.3
- * @author Erwin Mueller, erwin.mueller@deventm.org
- */
-package com.anrisoftware.globalpom.threads;
+package com.anrisoftware.globalpom.threads.properties.internal;
 
+import com.anrisoftware.propertiesutils.ContextProperties;
+
+/**
+ * Factory to create the fixed thread pool properties.
+ * 
+ * @author Erwin Mueller, erwin.mueller@deventm.org
+ * @since 1.5
+ */
+interface FixedThreadingPropertiesFactory {
+
+	FixedThreadingProperties create(ContextProperties properties, String name);
+}

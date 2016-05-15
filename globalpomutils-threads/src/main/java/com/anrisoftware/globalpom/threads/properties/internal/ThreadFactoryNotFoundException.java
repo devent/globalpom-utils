@@ -16,17 +16,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-threads. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.threads.properties;
+package com.anrisoftware.globalpom.threads.properties.internal;
 
-import com.anrisoftware.propertiesutils.ContextProperties;
+import com.anrisoftware.globalpom.threads.external.core.ThreadsException;
 
-/**
- * Factory to create the fixed thread pool properties.
- * 
- * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.5
- */
-interface FixedThreadingPropertiesFactory {
+@SuppressWarnings("serial")
+public class ThreadFactoryNotFoundException extends ThreadsException {
 
-	FixedThreadingProperties create(ContextProperties properties, String name);
+    public ThreadFactoryNotFoundException(ClassNotFoundException e, String name) {
+        super("Thread factory not found", e);
+        addContextValue("name", name);
+    }
+
 }

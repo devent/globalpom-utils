@@ -16,46 +16,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-threads. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.threads.properties;
-
-import static java.util.concurrent.Executors.newCachedThreadPool;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadFactory;
-
-import javax.inject.Inject;
+package com.anrisoftware.globalpom.threads.properties.internal;
 
 import com.anrisoftware.propertiesutils.ContextProperties;
-import com.google.inject.assistedinject.Assisted;
 
 /**
- * Cached thread pool properties.
+ * Factory to create the cached thread pool properties.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.5
  */
-@SuppressWarnings("serial")
-class CachedThreadingProperties extends ThreadingProperties {
+interface CachedThreadingPropertiesFactory {
 
-	/**
-	 * @see CachedThreadingPropertiesFactory#create(ContextProperties, String)
-	 */
-	@Inject
-	CachedThreadingProperties(@Assisted ContextProperties p,
-			@Assisted String name) {
-		super(p, name);
-	}
-
-	/**
-	 * Create the cached executor service.
-	 * 
-	 * @param factory
-	 *            optional the {@link ThreadFactory}.
-	 * 
-	 * @return the cached {@link ExecutorService}.
-	 */
-	public ExecutorService createExecutorService(ThreadFactory factory) {
-		return factory == null ? newCachedThreadPool()
-				: newCachedThreadPool(factory);
-	}
+	CachedThreadingProperties create(ContextProperties properties, String name);
 }

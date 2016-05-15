@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-threads. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.threads.listenablefuture;
+package com.anrisoftware.globalpom.threads.external.listenablefuture;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -30,7 +30,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.anrisoftware.globalpom.threads.api.ListenableFuture;
+import com.anrisoftware.globalpom.threads.external.core.ListenableFuture;
+import com.anrisoftware.globalpom.threads.external.listenablefuture.DefaultListenableFuture;
 
 /**
  * Informs property change listener when the task is finish.

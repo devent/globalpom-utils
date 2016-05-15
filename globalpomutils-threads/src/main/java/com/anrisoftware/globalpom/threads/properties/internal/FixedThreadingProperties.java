@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-threads. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.threads.properties;
+package com.anrisoftware.globalpom.threads.properties.internal;
 
 import static java.lang.String.format;
 import static java.util.concurrent.Executors.newFixedThreadPool;
@@ -36,7 +36,7 @@ import com.google.inject.assistedinject.Assisted;
  * @since 1.5
  */
 @SuppressWarnings("serial")
-class FixedThreadingProperties extends ThreadingProperties {
+class FixedThreadingProperties extends DefaultThreadingProperties {
 
 	/**
 	 * Property name of number of maximum threads.

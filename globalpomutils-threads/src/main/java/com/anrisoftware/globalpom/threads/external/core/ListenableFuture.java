@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-threads. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.threads.api;
+package com.anrisoftware.globalpom.threads.external.core;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

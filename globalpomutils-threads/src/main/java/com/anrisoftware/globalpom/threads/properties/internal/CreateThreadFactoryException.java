@@ -16,20 +16,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-threads. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.threads.properties;
+package com.anrisoftware.globalpom.threads.properties.internal;
 
-/**
- * Factory to create threads pool based on a properties file.
- * 
- * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.5
- */
-public interface PropertiesThreadsFactory {
+import com.anrisoftware.globalpom.threads.external.core.ThreadsException;
 
-    /**
-     * Creates the threads.
-     * 
-     * @return the {@link PropertiesThreads}.
-     */
-    PropertiesThreads create();
+@SuppressWarnings("serial")
+public class CreateThreadFactoryException extends ThreadsException {
+
+    public CreateThreadFactoryException(Exception cause, Class<?> type) {
+        super("Error create thread factory", cause);
+        addContextValue("type", type);
+    }
+
 }

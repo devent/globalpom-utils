@@ -16,29 +16,34 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-threads. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.threads.properties;
+package com.anrisoftware.globalpom.threads.properties
 
+import static com.anrisoftware.globalpom.utils.TestUtils.*
 import groovy.util.logging.Slf4j
 
+import javax.inject.Inject
+
+import org.apache.sling.testing.mock.osgi.junit.OsgiContext
+import org.junit.Before
 import org.junit.BeforeClass
+import org.junit.Rule
 import org.junit.Test
 
 import com.anrisoftware.globalpom.threads.external.core.Threads
+import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreadsService
 import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsImpl
-import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsModule
+import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsServiceImpl
 import com.anrisoftware.globalpom.utils.TestUtils
 import com.anrisoftware.propertiesutils.ContextPropertiesFactory
-import com.google.inject.Guice
-import com.google.inject.Injector
 
 /**
- * @see PropertiesThreads
+ * @see PropertiesThreadsServiceImpl
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.5
+ * @since 3.1
  */
 @Slf4j
-class PropertiesThreadsTest extends AbstractPropertiesThreadsTest {
+class PropertiesThreadsServiceTest extends AbstractPropertiesThreadsTest {
 
     @Test
     void "cached pool"() {
@@ -60,10 +65,8 @@ class PropertiesThreadsTest extends AbstractPropertiesThreadsTest {
         super."single pool, task exception"()
     }
 
-    PropertiesThreadsImpl threads
-
     Threads createThreads() {
-        injector.getInstance PropertiesThreadsImpl
+        service.create()
     }
 
     Properties createThreadsProperties() {
@@ -74,14 +77,23 @@ class PropertiesThreadsTest extends AbstractPropertiesThreadsTest {
         return { Thread.sleep 500 }
     }
 
-    static Injector injector
-
     static Properties properties
+
+    @Rule
+    public final OsgiContext context = new OsgiContext()
+
+    @Inject
+    PropertiesThreadsService service
+
+    @Before
+    void createFactories() {
+        toStringStyle
+        this.service = context.registerInjectActivateService(new PropertiesThreadsServiceImpl(), null)
+    }
 
     @BeforeClass
     static void setupThreads() {
         TestUtils.toStringStyle
-        injector = Guice.createInjector(new PropertiesThreadsModule())
         properties = new ContextPropertiesFactory(PropertiesThreadsImpl).fromResource(propertiesResource)
     }
 }

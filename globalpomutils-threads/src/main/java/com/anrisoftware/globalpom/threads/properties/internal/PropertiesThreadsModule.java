@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-threads. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.threads.properties;
+package com.anrisoftware.globalpom.threads.properties.internal;
 
+import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreads;
+import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreadsFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -25,9 +27,9 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /**
  * Install the properties threads factory.
- * 
+ *
  * @see PropertiesThreadsFactory
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.5
  */
@@ -35,9 +37,9 @@ public class PropertiesThreadsModule extends AbstractModule {
 
     /**
      * Returns the properties threads factory.
-     * 
+     *
      * @return the {@link PropertiesThreadsFactory}.
-     * 
+     *
      * @since 1.11
      */
     public static PropertiesThreadsFactory getPropertiesThreadsFactory() {
@@ -52,10 +54,11 @@ public class PropertiesThreadsModule extends AbstractModule {
     @Override
     protected void configure() {
         install(new FactoryModuleBuilder().implement(PropertiesThreads.class,
-                PropertiesThreads.class).build(PropertiesThreadsFactory.class));
+                PropertiesThreadsImpl.class).build(
+                PropertiesThreadsFactory.class));
         install(new FactoryModuleBuilder().implement(ThreadingProperties.class,
-                ThreadingProperties.class).build(
-                ThreadingPropertiesFactory.class));
+                DefaultThreadingProperties.class).build(
+                DefaultThreadingPropertiesFactory.class));
         install(new FactoryModuleBuilder().implement(
                 CachedThreadingProperties.class,
                 CachedThreadingProperties.class).build(

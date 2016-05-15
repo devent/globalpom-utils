@@ -16,17 +16,25 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-threads. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.threads.properties;
+package com.anrisoftware.globalpom.threads.external.core;
 
-import com.anrisoftware.propertiesutils.ContextProperties;
+import org.apache.commons.lang3.exception.ContextedException;
 
 /**
- * Factory to create the cached thread pool properties.
- * 
+ * Threads exception.
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.5
+ * @since 1.0
  */
-interface CachedThreadingPropertiesFactory {
+@SuppressWarnings("serial")
+public class ThreadsException extends ContextedException {
 
-	CachedThreadingProperties create(ContextProperties properties, String name);
+    protected ThreadsException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    protected ThreadsException(String message) {
+        super(message);
+    }
+
 }

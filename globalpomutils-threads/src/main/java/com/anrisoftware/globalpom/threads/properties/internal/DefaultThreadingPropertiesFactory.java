@@ -16,33 +16,28 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-threads. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.threads.properties;
+package com.anrisoftware.globalpom.threads.properties.internal;
 
-import static org.apache.commons.lang3.Validate.notNull;
-
-import javax.inject.Singleton;
-
-import com.anrisoftware.globalpom.log.AbstractLogger;
+import com.anrisoftware.propertiesutils.ContextProperties;
 
 /**
- * Logging messages for {@link FixedThreadingProperties}.
- * 
- * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.5
+ * Factory to create the threading properties from a properties file.
+ *
+ * @author Erwin Müller, erwin.mueller@deventm.de
+ * @since 3.1
  */
-@Singleton
-class FixedThreadingPropertiesLogger extends AbstractLogger {
+interface DefaultThreadingPropertiesFactory {
 
-	private static final String MAXIMUM_NUMBER_NULL = "No maximum number of threads property found.";
-
-	/**
-	 * Create logger for {@link FixedThreadingProperties}.
-	 */
-	public FixedThreadingPropertiesLogger() {
-		super(FixedThreadingProperties.class);
-	}
-
-	void checkMaxThreads(FixedThreadingProperties p, Number value) {
-		notNull(value, MAXIMUM_NUMBER_NULL);
-	}
+    /**
+     * Creates the threading properties.
+     *
+     * @param properties
+     *            the {@link ContextProperties} properties that were loaded.
+     *
+     * @param name
+     *            the {@link String} name of the thread pool.
+     *
+     * @return the {@link ThreadingProperties}.
+     */
+    ThreadingProperties create(ContextProperties properties, String name);
 }

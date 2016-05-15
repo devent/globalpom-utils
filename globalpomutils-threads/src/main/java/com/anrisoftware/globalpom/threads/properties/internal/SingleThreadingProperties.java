@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-threads. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.threads.properties;
+package com.anrisoftware.globalpom.threads.properties.internal;
 
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
@@ -35,7 +35,7 @@ import com.google.inject.assistedinject.Assisted;
  * @since 1.5
  */
 @SuppressWarnings("serial")
-class SingleThreadingProperties extends ThreadingProperties {
+class SingleThreadingProperties extends DefaultThreadingProperties {
 
 	/**
 	 * @see SingleThreadingPropertiesFactory#create(ContextProperties, String)

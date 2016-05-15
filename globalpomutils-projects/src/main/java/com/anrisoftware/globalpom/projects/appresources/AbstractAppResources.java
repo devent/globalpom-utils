@@ -34,8 +34,8 @@ import javax.inject.Provider;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.anrisoftware.globalpom.fileresourcemanager.Resource;
-import com.anrisoftware.globalpom.threads.api.ListenableFuture;
-import com.anrisoftware.globalpom.threads.api.Threads;
+import com.anrisoftware.globalpom.threads.external.core.ListenableFuture;
+import com.anrisoftware.globalpom.threads.external.core.Threads;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.XStreamException;
 import com.thoughtworks.xstream.annotations.XStreamAlias;

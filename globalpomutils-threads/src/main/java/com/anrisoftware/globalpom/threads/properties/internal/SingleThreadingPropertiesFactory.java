@@ -16,39 +16,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-threads. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.threads.watchdog;
+package com.anrisoftware.globalpom.threads.properties.internal;
 
-import java.util.concurrent.Future;
-
-import javax.inject.Singleton;
-
-import com.anrisoftware.globalpom.log.AbstractLogger;
-import com.anrisoftware.globalpom.threads.external.listenablefuture.DefaultListenableFuture;
+import com.anrisoftware.propertiesutils.ContextProperties;
 
 /**
- * Logging messages for {@link ThreadsWatchdog}.
+ * Factory to create the single thread pool properties.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.5
  */
-@Singleton
-class ThreadsWatchdogLogger extends AbstractLogger {
+interface SingleThreadingPropertiesFactory {
 
-	private static final String TASK_DONE = "Task {} done.";
-	private static final String TASK_SUBMITTED = "Task {} submitted.";
-
-	/**
-	 * Create logger for {@link ThreadsWatchdog}.
-	 */
-	public ThreadsWatchdogLogger() {
-		super(ThreadsWatchdog.class);
-	}
-
-	void taskSubmitted(DefaultListenableFuture<?> task) {
-		log.debug(TASK_SUBMITTED, task);
-	}
-
-	void taskDone(Future<?> future) {
-		log.debug(TASK_DONE, future);
-	}
+	SingleThreadingProperties create(ContextProperties properties, String name);
 }

@@ -16,17 +16,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-threads. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.threads.properties;
+package com.anrisoftware.globalpom.threads.properties.external;
 
-import com.anrisoftware.propertiesutils.ContextProperties;
+import java.util.Properties;
+
+import com.anrisoftware.globalpom.threads.external.core.Threads;
 
 /**
- * Factory to create the single thread pool properties.
- * 
+ * Loads the thread pool properties from a properties file.
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.5
+ * @since 3.1
  */
-interface SingleThreadingPropertiesFactory {
+public interface PropertiesThreads extends Threads {
 
-	SingleThreadingProperties create(ContextProperties properties, String name);
+    /**
+     * Sets the properties for the thread pool.
+     *
+     * @param properties
+     *            the {@link Properties}.
+     */
+    void setProperties(Properties properties);
+
 }
