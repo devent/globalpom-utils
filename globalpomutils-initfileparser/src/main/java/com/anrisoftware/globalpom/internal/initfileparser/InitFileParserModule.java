@@ -16,8 +16,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-initfileparser. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.initfileparser;
+package com.anrisoftware.globalpom.internal.initfileparser;
 
+import com.anrisoftware.globalpom.external.initfileparser.DefaultInitFileAttributes;
+import com.anrisoftware.globalpom.external.initfileparser.DefaultInitFileAttributesFactory;
+import com.anrisoftware.globalpom.external.initfileparser.InitFileParser;
+import com.anrisoftware.globalpom.external.initfileparser.InitFileParserFactory;
+import com.anrisoftware.globalpom.external.initfileparser.Section;
+import com.anrisoftware.globalpom.external.initfileparser.SectionFactory;
+import com.anrisoftware.globalpom.external.initfileparser.SectionFormatter;
+import com.anrisoftware.globalpom.external.initfileparser.SectionFormatterFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 

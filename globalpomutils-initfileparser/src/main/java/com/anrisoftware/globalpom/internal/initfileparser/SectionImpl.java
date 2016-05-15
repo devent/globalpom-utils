@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-initfileparser. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.initfileparser;
+package com.anrisoftware.globalpom.internal.initfileparser;
 
 import java.io.Serializable;
 import java.util.Properties;
@@ -25,6 +25,7 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import com.anrisoftware.globalpom.external.initfileparser.Section;
 import com.google.inject.assistedinject.Assisted;
 
 /**

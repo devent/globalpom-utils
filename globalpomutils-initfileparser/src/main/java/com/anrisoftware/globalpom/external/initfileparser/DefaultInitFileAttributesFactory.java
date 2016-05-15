@@ -16,36 +16,30 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-initfileparser. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.initfileparser;
-
-import java.util.Iterator;
-import java.util.concurrent.Callable;
+package com.anrisoftware.globalpom.external.initfileparser;
 
 /**
- * Parses INI files.
- * 
+ * Factory to create mutable INI file attributes.
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.0
  */
-public interface InitFileParser extends Callable<InitFileParser>,
-        Iterable<Section> {
+public interface DefaultInitFileAttributesFactory {
 
     /**
-     * Loads the INI file to parsing it.
-     * 
-     * @return this {@link InitFileParser}
-     * 
-     * @throws InitFileParserException
-     *             when an error opening or reading the INI file was encounted.
+     * Creates default INI file attributes.
+     *
+     * @return {@link DefaultInitFileAttributes}.
      */
-    @Override
-    InitFileParser call() throws InitFileParserException;
+    DefaultInitFileAttributes create();
 
     /**
-     * Parses and returns the sections of the INI file.
-     * 
-     * @return the {@link Iterator} that returns the {@link Section} sections.
+     * Creates INI file attributes copied from the specified attributes.
+     *
+     * @param attributes
+     *            the {@link InitFileAttributes}.
+     *
+     * @return {@link DefaultInitFileAttributes}.
      */
-    @Override
-    Iterator<Section> iterator();
+    DefaultInitFileAttributes create(InitFileAttributes attributes);
 }

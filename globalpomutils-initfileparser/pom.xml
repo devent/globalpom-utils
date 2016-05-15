@@ -62,6 +62,10 @@
 			<type>bundle</type>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.felix</groupId>
+			<artifactId>org.apache.felix.scr.annotations</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.google.inject.extensions</groupId>
 			<artifactId>guice-assistedinject</artifactId>
 		</dependency>
@@ -74,5 +78,22 @@
 			<artifactId>commons-io</artifactId>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-scr-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-scr-scrdescriptor</id>
+						<goals>
+							<goal>scr</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

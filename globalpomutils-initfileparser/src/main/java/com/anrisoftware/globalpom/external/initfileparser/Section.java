@@ -16,30 +16,29 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-initfileparser. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.initfileparser;
+package com.anrisoftware.globalpom.external.initfileparser;
+
+import java.util.Properties;
 
 /**
- * Factory to create mutable INI file attributes.
+ * INI file section.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.0
  */
-public interface DefaultInitFileAttributesFactory {
+public interface Section {
 
     /**
-     * Creates default INI file attributes.
+     * Returns the name of the section.
      * 
-     * @return {@link DefaultInitFileAttributes}.
+     * @return the {@link String} name.
      */
-    DefaultInitFileAttributes create();
+    String getName();
 
     /**
-     * Creates INI file attributes copied from the specified attributes.
+     * Returns the properties of the section.
      * 
-     * @param attributes
-     *            the {@link InitFileAttributes}.
-     * 
-     * @return {@link DefaultInitFileAttributes}.
+     * @return the {@link Properties} properties.
      */
-    DefaultInitFileAttributes create(InitFileAttributes attributes);
+    Properties getProperties();
 }

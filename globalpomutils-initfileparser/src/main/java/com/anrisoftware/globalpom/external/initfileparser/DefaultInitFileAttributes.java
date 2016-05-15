@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-initfileparser. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.initfileparser;
+package com.anrisoftware.globalpom.external.initfileparser;
 
 import java.io.Serializable;
 

@@ -16,25 +16,39 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-initfileparser. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.initfileparser
+package com.anrisoftware.globalpom.internal.initfileparser
 
 import static com.anrisoftware.globalpom.utils.TestUtils.*
 
-import org.junit.BeforeClass
-import org.junit.Test
-
-import com.google.inject.Guice
-import com.google.inject.Injector
+import com.anrisoftware.globalpom.external.initfileparser.DefaultInitFileAttributesFactory
+import com.anrisoftware.globalpom.external.initfileparser.InitFileParserFactory
+import com.anrisoftware.globalpom.external.initfileparser.SectionFactory
+import com.anrisoftware.globalpom.external.initfileparser.SectionFormatterFactory
 
 /**
- * @see InitFileParser
  *
- * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.0
+ *
+ * @author Erwin Müller, erwin.mueller@deventm.de
+ * @since 3.1
  */
-class ParserTest {
+abstract class AbstractParserTest {
 
-    @Test
+    static URL inifile = AbstractParserTest.class.getResource("inifile.txt")
+
+    static URL inifileNoSection = AbstractParserTest.class.getResource("inifile_no_section.txt")
+
+    static URL inifileMultiLine = AbstractParserTest.class.getResource("inifile_multiline.txt")
+
+    static URL inifilePiwikConfig = AbstractParserTest.class.getResource("piwik_config_ini_php.txt")
+
+    abstract DefaultInitFileAttributesFactory getAttributesFactory()
+
+    abstract InitFileParserFactory getParserFactory()
+
+    abstract SectionFormatterFactory getSectionFormatterFactory()
+
+    abstract SectionFactory getSectionFactory()
+
     void "parse INI-file"() {
         def attributes = attributesFactory.create()
         def parser = parserFactory.create(inifile, attributes)()
@@ -44,7 +58,6 @@ class ParserTest {
         assert sections[0].properties.size() == 5
     }
 
-    @Test
     void "parse INI-file, no section"() {
         def attributes = attributesFactory.create()
         def parser = parserFactory.create(inifileNoSection, attributes)()
@@ -54,7 +67,6 @@ class ParserTest {
         assert sections[0].properties.size() == 5
     }
 
-    @Test
     void "parse INI-file, multi-line property"() {
         def attributes = attributesFactory.create()
         def parser = parserFactory.create(inifileMultiLine, attributes)()
@@ -70,7 +82,6 @@ class ParserTest {
         assert sections[0].properties.getProperty("action_mw") == "%(banaction)s[name=%(__name__)s, port=\"%(port)s\", protocol=\"%(protocol)s]%(mta)s-whois[name=%(__name__)s, dest=\"%(destemail)s\", protocol=\"%(protocol)s]"
     }
 
-    @Test
     void "parse piwik INI-file"() {
         def attributes = attributesFactory.create()
         attributes.comment = ';'
@@ -98,7 +109,6 @@ class ParserTest {
         assert sections[3].properties["Plugins_Tracker"].size() == 7
     }
 
-    @Test
     void "format section"() {
         def attributes = attributesFactory.create()
         def formatter = sectionFormatterFactory.create(attributes)
@@ -117,7 +127,6 @@ value_a = a
 """
     }
 
-    @Test
     void "format section, no string quote"() {
         def attributes = attributesFactory.create()
         attributes.stringQuoteEnabled = false
@@ -137,7 +146,6 @@ value_a = a
 """
     }
 
-    @Test
     void "format multi-value section"() {
         def attributes = attributesFactory.create()
         def formatter = sectionFormatterFactory.create(attributes)
@@ -153,33 +161,5 @@ value_b = b
 value_a[] = a
 value_a[] = b
 """
-    }
-
-    static URL inifile = ParserTest.class.getResource("inifile.txt")
-
-    static URL inifileNoSection = ParserTest.class.getResource("inifile_no_section.txt")
-
-    static URL inifileMultiLine = ParserTest.class.getResource("inifile_multiline.txt")
-
-    static URL inifilePiwikConfig = ParserTest.class.getResource("piwik_config_ini_php.txt")
-
-    static Injector injector
-
-    static InitFileParserFactory parserFactory
-
-    static DefaultInitFileAttributesFactory attributesFactory
-
-    static SectionFormatterFactory sectionFormatterFactory
-
-    static SectionFactory sectionFactory
-
-    @BeforeClass
-    static void createFactory() {
-        toStringStyle
-        injector = Guice.createInjector(new InitFileParserModule())
-        parserFactory = injector.getInstance InitFileParserFactory
-        attributesFactory = injector.getInstance DefaultInitFileAttributesFactory
-        sectionFormatterFactory = injector.getInstance SectionFormatterFactory
-        sectionFactory = injector.getInstance SectionFactory
     }
 }

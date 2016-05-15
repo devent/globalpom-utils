@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-initfileparser. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.initfileparser;
+package com.anrisoftware.globalpom.internal.initfileparser;
 
 import static java.nio.charset.Charset.defaultCharset;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
@@ -47,6 +47,12 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import com.anrisoftware.globalpom.external.initfileparser.InitFileAttributes;
+import com.anrisoftware.globalpom.external.initfileparser.InitFileParser;
+import com.anrisoftware.globalpom.external.initfileparser.InitFileParserException;
+import com.anrisoftware.globalpom.external.initfileparser.InitFileParserFactory;
+import com.anrisoftware.globalpom.external.initfileparser.Section;
+import com.anrisoftware.globalpom.external.initfileparser.SectionFactory;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 

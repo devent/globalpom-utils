@@ -16,29 +16,28 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-initfileparser. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.initfileparser;
+package com.anrisoftware.globalpom.external.initfileparser;
 
 import java.util.Properties;
 
 /**
- * INI file section.
+ * Factory to create the INI file section.
  * 
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.0
  */
-public interface Section {
+public interface SectionFactory {
 
     /**
-     * Returns the name of the section.
+     * Creates the INI file section.
      * 
-     * @return the {@link String} name.
-     */
-    String getName();
-
-    /**
-     * Returns the properties of the section.
+     * @param name
+     *            the {@link String} name.
      * 
-     * @return the {@link Properties} properties.
+     * @param properties
+     *            the {@link Properties} properties.
+     * 
+     * @return the {@link Section}.
      */
-    Properties getProperties();
+    Section create(String name, Properties properties);
 }

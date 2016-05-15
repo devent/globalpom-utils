@@ -16,13 +16,17 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-initfileparser. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.initfileparser;
+package com.anrisoftware.globalpom.internal.initfileparser;
+
+import java.io.IOException;
+
+import com.anrisoftware.globalpom.external.initfileparser.InitFileParserException;
 
 @SuppressWarnings("serial")
-public class MultiLinePropertyException extends InitFileParserException {
+public class ReadResourceException extends InitFileParserException {
 
-    public MultiLinePropertyException(InitFileParserImpl parser) {
-        super("Multi-line properties are not allowed");
+    public ReadResourceException(InitFileParserImpl parser, IOException e) {
+        super("Error read resource");
         addContextValue("parser", parser);
     }
 
