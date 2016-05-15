@@ -16,25 +16,27 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-reflection. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.reflection.exceptions;
+package com.anrisoftware.globalpom.reflection.beans;
 
-import org.apache.commons.lang3.exception.ContextedRuntimeException;
+import java.lang.reflect.Method;
 
-/**
- * Error while accessing fields or methods with reflection.
- *
- * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.4
- */
+import com.anrisoftware.globalpom.reflection.exceptions.ReflectionError;
+
 @SuppressWarnings("serial")
-public class ReflectionError extends ContextedRuntimeException {
+public class SetValueError extends ReflectionError {
 
-    protected ReflectionError(String message, Throwable cause) {
-        super(message, cause);
+    public SetValueError(Throwable cause, Object bean, String fieldName,
+            Method setter) {
+        super("Set value with setter error", cause);
+        addContextValue("bean", bean);
+        addContextValue("field-name", fieldName);
+        addContextValue("setter", setter);
     }
 
-    protected ReflectionError(String message) {
-        super(message);
+    public SetValueError(Exception cause, Object bean, String fieldName) {
+        super("Set value via field error", cause);
+        addContextValue("bean", bean);
+        addContextValue("field-name", fieldName);
     }
 
 }

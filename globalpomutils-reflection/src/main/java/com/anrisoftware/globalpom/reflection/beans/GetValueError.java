@@ -16,33 +16,27 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-reflection. If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * <h1>Global POM Utilities :: Reflection</h1>
- *
- * <p>
- * Access Java beans through reflection.
- *
- * <h2>Maven Module</h2>
- *
- * <pre>
- * &lt;dependency>
- * &lt;groupId>com.anrisoftware.globalpom&lt;/groupId>
- * &lt;artifactId>globalpomutils-reflection&lt;/artifactId>
- * &lt;version>2.3&lt;/version>
- * &lt;/dependency>
- * </pre>
- *
- * <h2>SCM</h2>
- *
- * <ul>
- * <li><a href="https://anrisoftware.com/projects/projects/globalpomutils-reflection/repository">Repository</a></li>
- * <li>{@code git@anrisoftware.com:globalpom-utils.git}</a>
- * <li><a href="https://github.com/devent/globalpom-utils.git">Github Mirror</a>
- * <li>{@code git://git@github.com:devent/globalpom-utils.git}</a>
- * </ul>
- *
- * @version 2.3
- * @author Erwin Mueller, erwin.mueller@deventm.org
- */
-package com.anrisoftware.globalpom.reflection;
+package com.anrisoftware.globalpom.reflection.beans;
 
+import java.lang.reflect.Method;
+
+import com.anrisoftware.globalpom.reflection.exceptions.ReflectionError;
+
+@SuppressWarnings("serial")
+public class GetValueError extends ReflectionError {
+
+    public GetValueError(Throwable cause, Object bean, String fieldName,
+            Method getter) {
+        super("Get value from getter error", cause);
+        addContextValue("bean", bean);
+        addContextValue("field-name", fieldName);
+        addContextValue("getter", getter);
+    }
+
+    public GetValueError(Exception cause, Object bean, String fieldName) {
+        super("Get value from field error", cause);
+        addContextValue("bean", bean);
+        addContextValue("field-name", fieldName);
+    }
+
+}

@@ -26,7 +26,6 @@ import org.apache.commons.lang3.reflect.MethodUtils
 import org.junit.BeforeClass
 import org.junit.Test
 
-import com.anrisoftware.globalpom.reflection.exceptions.ReflectionError
 import com.anrisoftware.globalpom.reflection.utils.Bean
 import com.anrisoftware.globalpom.reflection.utils.BeanAnnotation
 import com.anrisoftware.globalpom.reflection.utils.ParentBean
@@ -34,59 +33,59 @@ import com.google.inject.Injector
 
 /**
  * Tests for {@link AnnotationAccessImpl}.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.4
  */
 class AnnotationAccessTest extends AnnotationUtils {
 
-	@Test
-	void "read annotation value"() {
-		def access = factory.create BeanAnnotation, field
-		def value = access.getValue()
-		assertStringContent value, "Annotation Value"
-	}
+    @Test
+    void "read annotation value"() {
+        def access = factory.create BeanAnnotation, field
+        def value = access.getValue()
+        assertStringContent value, "Annotation Value"
+    }
 
-	@Test
-	void "read annotation title value"() {
-		def name = "title"
-		def access = factory.create BeanAnnotation, field
-		def value = access.getValue(name)
-		assertStringContent value, "Annotation Title"
-	}
+    @Test
+    void "read annotation title value"() {
+        def name = "title"
+        def access = factory.create BeanAnnotation, field
+        def value = access.getValue(name)
+        assertStringContent value, "Annotation Title"
+    }
 
-	@Test
-	void "read undefined annotation element"() {
-		def name = "not defined"
-		def access = factory.create BeanAnnotation, field
-		shouldFailWith(ReflectionError) {
-			def value = access.getValue(name)
-		}
-	}
+    @Test
+    void "read undefined annotation element"() {
+        def name = "not defined"
+        def access = factory.create BeanAnnotation, field
+        shouldFailWith(GetValueError) {
+            def value = access.getValue(name)
+        }
+    }
 
-	@Test
-	void "read annotation value from method"() {
-		def access = factory.create BeanAnnotation, method
-		def value = access.getValue()
-		assertStringContent value, "Annotation Method"
-	}
+    @Test
+    void "read annotation value from method"() {
+        def access = factory.create BeanAnnotation, method
+        def value = access.getValue()
+        assertStringContent value, "Annotation Method"
+    }
 
-	static Injector injector
+    static Injector injector
 
-	static AnnotationAccessFactory factory
+    static AnnotationAccessFactory factory
 
-	static ParentBean bean
+    static ParentBean bean
 
-	static Field field
+    static Field field
 
-	static Method method
+    static Method method
 
-	@BeforeClass
-	static void setupFactory() {
-		injector = createInjector()
-		factory = createAnnotationAccessFactory(injector)
-		bean = new ParentBean()
-		field = FieldUtils.getField Bean, "annotatedField", true
-		method = MethodUtils.getAccessibleMethod Bean, "getAnnotatedMethod"
-	}
+    @BeforeClass
+    static void setupFactory() {
+        injector = createInjector()
+        factory = createAnnotationAccessFactory(injector)
+        bean = new ParentBean()
+        field = FieldUtils.getField Bean, "annotatedField", true
+        method = MethodUtils.getAccessibleMethod Bean, "getAnnotatedMethod"
+    }
 }

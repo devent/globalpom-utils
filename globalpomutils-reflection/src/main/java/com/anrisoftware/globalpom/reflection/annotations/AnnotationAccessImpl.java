@@ -31,79 +31,77 @@ import com.google.inject.assistedinject.Assisted;
 
 /**
  * Read access to the elements of an annotation via reflection.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.4
  */
 class AnnotationAccessImpl implements AnnotationAccess {
 
-	private static final String ACCESSIBLE_OBJECT = "accessible object";
+    private static final String ACCESSIBLE_OBJECT = "accessible object";
 
-	private static final String ANNOTATION = "annotation";
+    private static final String ANNOTATION = "annotation";
 
-	private final AnnotationAccessImplLogger log;
+    private final Class<? extends Annotation> annotationClass;
 
-	private final Class<? extends Annotation> annotationClass;
+    private final AccessibleObject accessible;
 
-	private final AccessibleObject accessible;
+    /**
+     * @see AnnotationAccessFactory#create(Class, AccessibleObject)
+     *
+     * @since 1.5
+     */
+    @Inject
+    AnnotationAccessImpl(@Assisted Class<? extends Annotation> annotationClass,
+            @Assisted AccessibleObject accessible) {
+        this.annotationClass = annotationClass;
+        this.accessible = accessible;
+    }
 
-	/**
-	 * @see AnnotationAccessFactory#create(Class, AccessibleObject)
-	 * 
-	 * @since 1.5
-	 */
-	@Inject
-	AnnotationAccessImpl(AnnotationAccessImplLogger logger,
-			@Assisted Class<? extends Annotation> annotationClass,
-			@Assisted AccessibleObject accessible) {
-		this.log = logger;
-		this.annotationClass = annotationClass;
-		this.accessible = accessible;
-	}
+    @Override
+    public <T> T getValue() {
+        return getValue("value");
+    }
 
-	@Override
-	public <T> T getValue() {
-		return getValue("value");
-	}
+    @Override
+    public <T> T getValue(String name) {
+        Annotation a = getAnnotation();
+        try {
+            return asType(name, a);
+        } catch (NoSuchMethodException e) {
+            throw new GetValueError(e, annotationClass, accessible, name);
+        } catch (IllegalAccessException e) {
+            throw new GetValueError(e, annotationClass, accessible, name);
+        } catch (InvocationTargetException e) {
+            throw new GetValueError(e.getTargetException(), annotationClass,
+                    accessible, name);
+        }
+    }
 
-	@Override
-	public <T> T getValue(String name) {
-		Annotation a = getAnnotation();
-		log.checkAnnotation(a, annotationClass, accessible);
-		try {
-			return asType(name, a);
-		} catch (NoSuchMethodException e) {
-			throw log.noSuchMethodError(e, annotationClass, accessible, name);
-		} catch (IllegalAccessException e) {
-			throw log.illegalAccessError(e, annotationClass, accessible, name);
-		} catch (InvocationTargetException e) {
-			throw log.invocationTargetError(e, annotationClass, accessible,
-					name);
-		}
-	}
+    @Override
+    public boolean haveValue(String name) {
+        getAnnotation();
+        return MethodUtils.getAccessibleMethod(annotationClass, name) != null;
+    }
 
-	@Override
-	public boolean haveValue(String name) {
-		Annotation a = getAnnotation();
-		log.checkAnnotation(a, annotationClass, accessible);
-		return MethodUtils.getAccessibleMethod(annotationClass, name) != null;
-	}
+    @Override
+    public Annotation getAnnotation() {
+        Annotation a = accessible.getAnnotation(annotationClass);
+        if (a == null) {
+            throw new NoAnnotationFoundError(annotationClass, accessible);
+        }
+        return a;
+    }
 
-	@Override
-	public Annotation getAnnotation() {
-		return accessible.getAnnotation(annotationClass);
-	}
+    @SuppressWarnings("unchecked")
+    private <T> T asType(String name, Annotation a)
+            throws NoSuchMethodException, IllegalAccessException,
+            InvocationTargetException {
+        return (T) MethodUtils.invokeMethod(a, name);
+    }
 
-	@SuppressWarnings("unchecked")
-	private <T> T asType(String name, Annotation a)
-			throws NoSuchMethodException, IllegalAccessException,
-			InvocationTargetException {
-		return (T) MethodUtils.invokeMethod(a, name);
-	}
-
-	@Override
-	public String toString() {
-		return new ToStringBuilder(this).append(ANNOTATION, annotationClass)
-				.append(ACCESSIBLE_OBJECT, accessible).toString();
-	}
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).append(ANNOTATION, annotationClass)
+                .append(ACCESSIBLE_OBJECT, accessible).toString();
+    }
 }

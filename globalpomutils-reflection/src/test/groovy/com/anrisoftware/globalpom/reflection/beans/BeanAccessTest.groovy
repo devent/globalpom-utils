@@ -18,115 +18,112 @@
  */
 package com.anrisoftware.globalpom.reflection.beans
 
-import java.beans.PropertyVetoException
-
 import org.apache.commons.lang3.reflect.FieldUtils
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 
-import com.anrisoftware.globalpom.reflection.exceptions.ReflectionError
 import com.anrisoftware.globalpom.reflection.utils.Bean
 import com.anrisoftware.globalpom.reflection.utils.ParentBean
 import com.google.inject.Injector
 
 /**
  * Tests for {@link BeanAccessImpl}.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.4
  */
 class BeanAccessTest extends BeanUtils {
 
-	@Test
-	void "read field value"() {
-		def field = FieldUtils.getField Bean, "stringField", true
-		def value = factory.create(field, bean.bean).getValue()
-		assertStringContent value, "Text"
-	}
+    @Test
+    void "read field value"() {
+        def field = FieldUtils.getField Bean, "stringField", true
+        def value = factory.create(field, bean.bean).getValue()
+        assertStringContent value, "Text"
+    }
 
-	@Test
-	void "read field value via getter"() {
-		def field = FieldUtils.getField Bean, "getterField", true
-		def value = factory.create(field, bean.bean).getValue()
-		assertStringContent value, "Getter Text"
-		assert bean.bean.getterOfGetterFieldCalled
-	}
+    @Test
+    void "read field value via getter"() {
+        def field = FieldUtils.getField Bean, "getterField", true
+        def value = factory.create(field, bean.bean).getValue()
+        assertStringContent value, "Getter Text"
+        assert bean.bean.getterOfGetterFieldCalled
+    }
 
-	@Test
-	void "read field value via getter that throws exception"() {
-		def field = FieldUtils.getField Bean, "getterFieldThatThrowsException", true
-		shouldFailWith(ReflectionError) {
-			def value = factory.create(field, bean.bean).getValue()
-		}
-	}
+    @Test
+    void "read field value via getter that throws exception"() {
+        def field = FieldUtils.getField Bean, "getterFieldThatThrowsException", true
+        shouldFailWith(GetValueError) {
+            def value = factory.create(field, bean.bean).getValue()
+        }
+    }
 
-	@Test
-	void "read method value"() {
-		def field = "methodOnly"
-		def value = factory.create(field, bean.bean).getValue()
-		assertStringContent value, "MethodOnly"
-		assert bean.bean.getterMethodOnlyCalled
-	}
+    @Test
+    void "read method value"() {
+        def field = "methodOnly"
+        def value = factory.create(field, bean.bean).getValue()
+        assertStringContent value, "MethodOnly"
+        assert bean.bean.getterMethodOnlyCalled
+    }
 
-	@Test
-	void "write field value"() {
-		def field = FieldUtils.getField Bean, "stringField", true
-		String value = "value"
-		factory.create(field, bean.bean).setValue(value)
-		assertStringContent bean.bean.stringField, value
-	}
+    @Test
+    void "write field value"() {
+        def field = FieldUtils.getField Bean, "stringField", true
+        String value = "value"
+        factory.create(field, bean.bean).setValue(value)
+        assertStringContent bean.bean.stringField, value
+    }
 
-	@Test
-	void "write field value via setter"() {
-		def field = FieldUtils.getField Bean, "setterField", true
-		String value = "value"
-		factory.create(field, bean.bean).setValue(value)
-		assertStringContent bean.bean.setterField, value
-		assert bean.bean.setterOfSetterFieldCalled
-	}
+    @Test
+    void "write field value via setter"() {
+        def field = FieldUtils.getField Bean, "setterField", true
+        String value = "value"
+        factory.create(field, bean.bean).setValue(value)
+        assertStringContent bean.bean.setterField, value
+        assert bean.bean.setterOfSetterFieldCalled
+    }
 
-	@Test
-	void "write field value via setter that throws exception"() {
-		def field = FieldUtils.getField Bean, "setterFieldThatThrowsException", true
-		String value = "value"
-		shouldFailWith(ReflectionError) {
-			factory.create(field, bean.bean).setValue(value)
-		}
-	}
+    @Test
+    void "write field value via setter that throws exception"() {
+        def field = FieldUtils.getField Bean, "setterFieldThatThrowsException", true
+        String value = "value"
+        shouldFailWith(SetValueError) {
+            factory.create(field, bean.bean).setValue(value)
+        }
+    }
 
-	@Test
-	void "write method value"() {
-		def field = "methodOnly"
-		String value = "value"
-		factory.create(field, bean.bean).setValue(value)
-		assert bean.bean.setterMethodOnlyCalled
-	}
+    @Test
+    void "write method value"() {
+        def field = "methodOnly"
+        String value = "value"
+        factory.create(field, bean.bean).setValue(value)
+        assert bean.bean.setterMethodOnlyCalled
+    }
 
-	@Test
-	void "write method value with veto"() {
-		def field = "getterMethodOnlyVetoException"
-		String value = "value"
-		shouldFailWith(PropertyVetoException) {
-			factory.create(field, bean.bean).setValue(value)
-		}
-		assert bean.bean.setterMethodOnlyVetoExceptionCalled
-	}
+    @Test
+    void "write method value with veto"() {
+        def field = "getterMethodOnlyVetoException"
+        String value = "value"
+        shouldFailWith(ValueVetoedError) {
+            factory.create(field, bean.bean).setValue(value)
+        }
+        assert bean.bean.setterMethodOnlyVetoExceptionCalled
+    }
 
-	static Injector injector
+    static Injector injector
 
-	static BeanAccessFactory factory
+    static BeanAccessFactory factory
 
-	ParentBean bean
+    ParentBean bean
 
-	@Before
-	void setupBean() {
-		bean = new ParentBean()
-	}
+    @Before
+    void setupBean() {
+        bean = new ParentBean()
+    }
 
-	@BeforeClass
-	static void setupFactory() {
-		injector = createInjector()
-		factory = createFactory(injector)
-	}
+    @BeforeClass
+    static void setupFactory() {
+        injector = createInjector()
+        factory = createFactory(injector)
+    }
 }

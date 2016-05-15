@@ -39,134 +39,130 @@ import com.google.inject.assistedinject.Assisted;
  * Search an object's fields for {@link Annotation}s and if an annotation is
  * found it will call the {@link AnnotationListener} callback. The annotations
  * are defined by a {@link AnnotationFilter}.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.4
  */
 class AnnotationDiscoveryImpl implements AnnotationDiscovery {
 
-	private final AnnotationDiscoveryImplLogger log;
+    private final EventListenerSupport<AnnotationListener> listeners;
 
-	private final EventListenerSupport<AnnotationListener> listeners;
+    private final AnnotationFilter filter;
 
-	private final AnnotationFilter filter;
+    private final Object bean;
 
-	private final Object bean;
+    private final BeanAccessFactory accessFactory;
 
-	private final BeanAccessFactory accessFactory;
+    /**
+     * @see AnnotationDiscoveryFactory#create(Object, AnnotationFilter)
+     */
+    @Inject
+    AnnotationDiscoveryImpl(BeanAccessFactory accessFactory,
+            @Assisted Object bean, @Assisted AnnotationFilter filter) {
+        this.bean = bean;
+        this.filter = filter;
+        this.accessFactory = accessFactory;
+        this.listeners = new EventListenerSupport<AnnotationListener>(
+                AnnotationListener.class);
+    }
 
-	/**
-	 * @see AnnotationDiscoveryFactory#create(Object, AnnotationFilter)
-	 */
-	@Inject
-	AnnotationDiscoveryImpl(AnnotationDiscoveryImplLogger logger,
-			BeanAccessFactory accessFactory, @Assisted Object bean,
-			@Assisted AnnotationFilter filter) {
-		this.log = logger;
-		this.bean = bean;
-		this.filter = filter;
-		this.accessFactory = accessFactory;
-		this.listeners = new EventListenerSupport<AnnotationListener>(
-				AnnotationListener.class);
-	}
+    @Override
+    public AnnotationFilter getFilter() {
+        return filter;
+    }
 
-	@Override
-	public AnnotationFilter getFilter() {
-		return filter;
-	}
+    @Override
+    public void addListener(AnnotationListener l) {
+        listeners.addListener(l);
+    }
 
-	@Override
-	public void addListener(AnnotationListener l) {
-		listeners.addListener(l);
-	}
+    @Override
+    public void removeListener(AnnotationListener l) {
+        listeners.removeListener(l);
+    }
 
-	@Override
-	public void removeListener(AnnotationListener l) {
-		listeners.removeListener(l);
-	}
+    @Override
+    public Collection<AnnotationBean> call() {
+        Set<AnnotationBean> result = new LinkedHashSet<AnnotationBean>();
+        result = findFields(result, bean);
+        result = findMethods(result, bean);
+        return result;
+    }
 
-	@Override
-	public Collection<AnnotationBean> call() {
-		Set<AnnotationBean> result = new LinkedHashSet<AnnotationBean>();
-		result = findFields(result, bean);
-		result = findMethods(result, bean);
-		return result;
-	}
+    private Set<AnnotationBean> findFields(Set<AnnotationBean> result,
+            Object bean) {
+        Class<? extends Object> type = bean.getClass();
+        return findAnnotations(result, bean, asList(type.getFields()));
+    }
 
-	private Set<AnnotationBean> findFields(Set<AnnotationBean> result,
-			Object bean) {
-		Class<? extends Object> type = bean.getClass();
-		return findAnnotations(result, bean, asList(type.getFields()));
-	}
+    private Set<AnnotationBean> findMethods(Set<AnnotationBean> result,
+            Object bean) {
+        Class<? extends Object> type = bean.getClass();
+        return findAnnotations(result, bean, asList(type.getMethods()));
+    }
 
-	private Set<AnnotationBean> findMethods(Set<AnnotationBean> result,
-			Object bean) {
-		Class<? extends Object> type = bean.getClass();
-		return findAnnotations(result, bean, asList(type.getMethods()));
-	}
+    private Set<AnnotationBean> findAnnotations(Set<AnnotationBean> result,
+            Object bean, List<? extends AccessibleObject> members) {
+        for (AccessibleObject member : members) {
+            Annotation[] annotations = member.getDeclaredAnnotations();
+            findAnnotations(result, member, bean, annotations);
+        }
+        return result;
+    }
 
-	private Set<AnnotationBean> findAnnotations(Set<AnnotationBean> result,
-			Object bean, List<? extends AccessibleObject> members) {
-		for (AccessibleObject member : members) {
-			Annotation[] annotations = member.getDeclaredAnnotations();
-			findAnnotations(result, member, bean, annotations);
-		}
-		return result;
-	}
+    private void findAnnotations(Set<AnnotationBean> result,
+            AccessibleObject member, Object bean, Annotation[] annotations) {
+        AnnotationBean event;
+        for (Annotation annotation : annotations) {
+            if (filter.accept(annotation)) {
+                event = createAnnotationFoundEvent(bean, annotation, member);
+                result.add(event);
+                listeners.fire().memberFound(event);
+            }
+        }
+    }
 
-	private void findAnnotations(Set<AnnotationBean> result,
-			AccessibleObject member, Object bean, Annotation[] annotations) {
-		AnnotationBean event;
-		for (Annotation annotation : annotations) {
-			if (filter.accept(annotation)) {
-				event = createAnnotationFoundEvent(bean, annotation, member);
-				result.add(event);
-				listeners.fire().memberFound(event);
-			}
-		}
-	}
+    private AnnotationBean createAnnotationFoundEvent(Object bean,
+            Annotation annotation, AccessibleObject member) {
+        if (member instanceof Field) {
+            return new AnnotationEvent(bean, annotation, member, getValue(bean,
+                    (Field) member));
+        } else if (member instanceof Method) {
+            return new AnnotationEvent(bean, annotation, member, getValue(bean,
+                    (Method) member));
+        }
+        return null;
+    }
 
-	private AnnotationBean createAnnotationFoundEvent(Object bean,
-			Annotation annotation, AccessibleObject member) {
-		if (member instanceof Field) {
-			return new AnnotationEvent(bean, annotation, member, getValue(bean,
-					(Field) member));
-		} else if (member instanceof Method) {
-			return new AnnotationEvent(bean, annotation, member, getValue(bean,
-					(Method) member));
-		}
-		return null;
-	}
+    private Object getValue(Object bean, Method method) {
+        String fieldName = getFieldName(method);
+        return accessFactory.create(fieldName, bean).getValue();
+    }
 
-	private Object getValue(Object bean, Method method) {
-		String fieldName = getFieldName(method);
-		return accessFactory.create(fieldName, bean).getValue();
-	}
+    private String getFieldName(Method method) {
+        StringBuilder str = new StringBuilder();
+        String name = method.getName();
+        int offset = getStartOffset(name);
+        if (offset == -1) {
+            throw new MethodNotGetterError(this, bean, method);
+        }
+        char nameChar = Character.toLowerCase(name.charAt(offset));
+        str.append(nameChar);
+        str.append(name.substring(offset + 1));
+        return str.toString();
+    }
 
-	private String getFieldName(Method method) {
-		StringBuilder str = new StringBuilder();
-		String name = method.getName();
-		int offset = getStartOffset(name);
-		if (offset == -1) {
-			throw log.methodNotGetter(this, bean, method);
-		}
-		char nameChar = Character.toLowerCase(name.charAt(offset));
-		str.append(nameChar);
-		str.append(name.substring(offset + 1));
-		return str.toString();
-	}
+    private int getStartOffset(String name) {
+        if (name.indexOf("get") != -1) {
+            return 3;
+        } else if (name.indexOf("is") != -1) {
+            return 2;
+        }
+        return -1;
+    }
 
-	private int getStartOffset(String name) {
-		if (name.indexOf("get") != -1) {
-			return 3;
-		} else if (name.indexOf("is") != -1) {
-			return 2;
-		}
-		return -1;
-	}
-
-	private Object getValue(Object bean, Field field) {
-		return accessFactory.create(field, bean).getValue();
-	}
+    private Object getValue(Object bean, Field field) {
+        return accessFactory.create(field, bean).getValue();
+    }
 
 }

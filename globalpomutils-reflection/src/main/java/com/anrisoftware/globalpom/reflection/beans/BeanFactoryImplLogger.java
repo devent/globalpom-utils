@@ -18,26 +18,11 @@
  */
 package com.anrisoftware.globalpom.reflection.beans;
 
-import static com.anrisoftware.globalpom.reflection.beans.BeanFactoryImplLogger._.exception_thrown;
-import static com.anrisoftware.globalpom.reflection.beans.BeanFactoryImplLogger._.exception_thrown_message;
-import static com.anrisoftware.globalpom.reflection.beans.BeanFactoryImplLogger._.find;
-import static com.anrisoftware.globalpom.reflection.beans.BeanFactoryImplLogger._.find_message;
-import static com.anrisoftware.globalpom.reflection.beans.BeanFactoryImplLogger._.illegal_access;
-import static com.anrisoftware.globalpom.reflection.beans.BeanFactoryImplLogger._.illegal_access_message;
-import static com.anrisoftware.globalpom.reflection.beans.BeanFactoryImplLogger._.instantiate;
-import static com.anrisoftware.globalpom.reflection.beans.BeanFactoryImplLogger._.instantiate_message;
-import static com.anrisoftware.globalpom.reflection.beans.BeanFactoryImplLogger._.name_;
-import static com.anrisoftware.globalpom.reflection.beans.BeanFactoryImplLogger._.no_standard;
-import static com.anrisoftware.globalpom.reflection.beans.BeanFactoryImplLogger._.no_standard_message;
-
-import java.lang.reflect.InvocationTargetException;
-
 import com.anrisoftware.globalpom.log.AbstractLogger;
-import com.anrisoftware.globalpom.reflection.exceptions.ReflectionError;
 
 /**
  * Logging messages for {@link BeanAccessImpl}.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.4
  */
@@ -88,36 +73,6 @@ class BeanFactoryImplLogger extends AbstractLogger {
 	 */
 	BeanFactoryImplLogger() {
 		super(BeanAccessImpl.class);
-	}
-
-	ReflectionError illegalAccessError(IllegalAccessException e, Class<?> type) {
-		return logException(
-				new ReflectionError(illegal_access, e).add(type, type),
-				illegal_access_message, type);
-	}
-
-	ReflectionError invocationTargetError(InvocationTargetException e,
-			Class<?> type) {
-		return logException(
-				new ReflectionError(exception_thrown, e.getCause()).add(type,
-						type), exception_thrown_message, type);
-	}
-
-	ReflectionError noSuchCtorError(NoSuchMethodException e, Class<?> type) {
-		return logException(
-				new ReflectionError(no_standard, e.getCause()).add(type, type),
-				no_standard_message, type);
-	}
-
-	ReflectionError instantiationError(InstantiationException e, Class<?> type) {
-		return logException(
-				new ReflectionError(instantiate, e.getCause()).add(type, type),
-				instantiate_message, type);
-	}
-
-	ReflectionError classNotFoundError(ClassNotFoundException e, String name) {
-		return logException(new ReflectionError(find, e).add(name_, name),
-				find_message, name);
 	}
 
 }

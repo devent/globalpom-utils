@@ -16,25 +16,16 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-reflection. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.reflection.exceptions;
+package com.anrisoftware.globalpom.reflection.beans;
 
-import org.apache.commons.lang3.exception.ContextedRuntimeException;
+import com.anrisoftware.globalpom.reflection.exceptions.ReflectionError;
 
-/**
- * Error while accessing fields or methods with reflection.
- *
- * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.4
- */
 @SuppressWarnings("serial")
-public class ReflectionError extends ContextedRuntimeException {
+public class CreateBeanError extends ReflectionError {
 
-    protected ReflectionError(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    protected ReflectionError(String message) {
-        super(message);
+    public CreateBeanError(Throwable cause, Class<?> type) {
+        super("Create bean error", cause);
+        addContextValue("type", type);
     }
 
 }

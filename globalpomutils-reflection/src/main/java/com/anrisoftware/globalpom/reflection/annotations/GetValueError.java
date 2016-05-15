@@ -16,25 +16,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-reflection. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.reflection.exceptions;
+package com.anrisoftware.globalpom.reflection.annotations;
 
-import org.apache.commons.lang3.exception.ContextedRuntimeException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AccessibleObject;
 
-/**
- * Error while accessing fields or methods with reflection.
- *
- * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 1.4
- */
+import com.anrisoftware.globalpom.reflection.exceptions.ReflectionError;
+
 @SuppressWarnings("serial")
-public class ReflectionError extends ContextedRuntimeException {
+public class GetValueError extends ReflectionError {
 
-    protected ReflectionError(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    protected ReflectionError(String message) {
-        super(message);
+    public GetValueError(Throwable cause,
+            Class<? extends Annotation> annotationClass,
+            AccessibleObject accessible, String name) {
+        super("Get value from annotation error", cause);
+        addContextValue("annotation-class", annotationClass);
+        addContextValue("accessible", accessible);
+        addContextValue("name", name);
     }
 
 }

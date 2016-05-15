@@ -18,6 +18,7 @@
  */
 package com.anrisoftware.globalpom.reflection.beans;
 
+import static org.apache.commons.lang3.Validate.notNull;
 import static org.apache.commons.lang3.reflect.MethodUtils.getAccessibleMethod;
 
 import java.beans.PropertyVetoException;
@@ -33,207 +34,202 @@ import com.google.inject.assistedinject.AssistedInject;
 
 /**
  * Access the fields of an bean object.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.4
  */
 class BeanAccessImpl implements BeanAccess {
 
-	private static final String SETTER_PREFIX = "set";
+    private static final String SETTER_PREFIX = "set";
 
-	private static final String[] GETTER_PREFIXES = { "get", "is" };
+    private static final String[] GETTER_PREFIXES = { "get", "is" };
 
-	private final BeanAccessImplLogger log;
+    private final Field field;
 
-	private final Field field;
+    private final String fieldName;
 
-	private final String fieldName;
+    private final Object bean;
 
-	private final Object bean;
+    private final Method setter;
 
-	private final Method setter;
+    private final Method getter;
 
-	private final Method getter;
+    private final Class<?> fieldType;
 
-	private final Class<?> fieldType;
+    /**
+     * @see BeanAccessFactory#create(String, Object)
+     */
+    @AssistedInject
+    BeanAccessImpl(@Assisted String fieldName, @Assisted Object bean) {
+        notNull(fieldName, "field-name = null");
+        notNull(bean, "bean = null");
+        this.fieldName = fieldName;
+        this.field = findField(fieldName, bean);
+        this.bean = bean;
+        this.getter = findGetter(fieldName, bean);
+        this.fieldType = findFieldType(fieldName, bean, field, getter);
+        this.setter = findSetter(fieldName, fieldType, bean);
+    }
 
-	/**
-	 * @see BeanAccessFactory#create(String, Object)
-	 */
-	@AssistedInject
-	BeanAccessImpl(BeanAccessImplLogger logger, @Assisted String fieldName,
-			@Assisted Object bean) {
-		this.log = logger;
-		log.checkFieldName(fieldName);
-		log.checkBean(bean);
-		this.fieldName = fieldName;
-		this.field = findField(fieldName, bean);
-		this.bean = bean;
-		this.getter = findGetter(fieldName, bean);
-		this.fieldType = findFieldType(fieldName, bean, field, getter);
-		this.setter = findSetter(fieldName, fieldType, bean);
-	}
+    private Class<?> findFieldType(String fieldName, Object bean, Field field,
+            Method getter) {
+        if (getter != null) {
+            return getter.getReturnType();
+        }
+        if (field != null) {
+            return field.getType();
+        }
+        throw new NoFieldGetterDefinedException(bean, fieldName);
+    }
 
-	private Class<?> findFieldType(String fieldName, Object bean, Field field,
-			Method getter) {
-		if (getter != null) {
-			return getter.getReturnType();
-		}
-		if (field != null) {
-			return field.getType();
-		}
-		throw log.neitherFieldGetter(bean, fieldName);
-	}
+    /**
+     * @see BeanAccessFactory#create(Field, Object)
+     */
+    @AssistedInject
+    BeanAccessImpl(@Assisted Field field, @Assisted Object bean) {
+        notNull(field, "field = null");
+        notNull(bean, "bean = null");
+        this.fieldName = field.getName();
+        this.field = findField(fieldName, bean);
+        this.fieldType = field.getType();
+        this.bean = bean;
+        this.setter = findSetter(fieldName, fieldType, bean);
+        this.getter = findGetter(fieldName, bean);
+    }
 
-	/**
-	 * @see BeanAccessFactory#create(Field, Object)
-	 */
-	@AssistedInject
-	BeanAccessImpl(BeanAccessImplLogger logger, @Assisted Field field,
-			@Assisted Object bean) {
-		this.log = logger;
-		log.checkField(field);
-		log.checkBean(bean);
-		this.fieldName = field.getName();
-		this.field = findField(fieldName, bean);
-		this.fieldType = field.getType();
-		this.bean = bean;
-		this.setter = findSetter(fieldName, fieldType, bean);
-		this.getter = findGetter(fieldName, bean);
-	}
+    private Field findField(String fieldName, Object bean) {
+        return FieldUtils.getField(bean.getClass(), fieldName, true);
+    }
 
-	private Field findField(String fieldName, Object bean) {
-		return FieldUtils.getField(bean.getClass(), fieldName, true);
-	}
+    private Method findSetter(String fieldName, Class<?> type, Object bean) {
+        String name = getSetterName(fieldName);
+        return getAccessibleMethod(bean.getClass(), name, type);
+    }
 
-	private Method findSetter(String fieldName, Class<?> type, Object bean) {
-		String name = getSetterName(fieldName);
-		return getAccessibleMethod(bean.getClass(), name, type);
-	}
+    private String getSetterName(String name) {
+        StringBuilder builder = new StringBuilder();
+        char nameChar = Character.toUpperCase(name.charAt(0));
+        builder.append(SETTER_PREFIX);
+        builder.append(nameChar);
+        builder.append(name.substring(1));
+        return builder.toString();
+    }
 
-	private String getSetterName(String name) {
-		StringBuilder builder = new StringBuilder();
-		char nameChar = Character.toUpperCase(name.charAt(0));
-		builder.append(SETTER_PREFIX);
-		builder.append(nameChar);
-		builder.append(name.substring(1));
-		return builder.toString();
-	}
+    private Method findGetter(String fieldName, Object bean) {
+        for (String prefix : GETTER_PREFIXES) {
+            String name = getGetterName(fieldName, prefix);
+            Method method = getAccessibleMethod(bean.getClass(), name);
+            if (method != null) {
+                return method;
+            }
+        }
+        return null;
+    }
 
-	private Method findGetter(String fieldName, Object bean) {
-		for (String prefix : GETTER_PREFIXES) {
-			String name = getGetterName(fieldName, prefix);
-			Method method = getAccessibleMethod(bean.getClass(), name);
-			if (method != null) {
-				return method;
-			}
-		}
-		return null;
-	}
+    private String getGetterName(String name, String prefix) {
+        StringBuilder builder = new StringBuilder();
+        char nameChar = Character.toUpperCase(name.charAt(0));
+        builder.append(prefix);
+        builder.append(nameChar);
+        builder.append(name.substring(1));
+        return builder.toString();
+    }
 
-	private String getGetterName(String name, String prefix) {
-		StringBuilder builder = new StringBuilder();
-		char nameChar = Character.toUpperCase(name.charAt(0));
-		builder.append(prefix);
-		builder.append(nameChar);
-		builder.append(name.substring(1));
-		return builder.toString();
-	}
+    @Override
+    public Field getField() {
+        return field;
+    }
 
-	@Override
-	public Field getField() {
-		return field;
-	}
+    @Override
+    public Method getGetter() {
+        return getter;
+    }
 
-	@Override
-	public Method getGetter() {
-		return getter;
-	}
+    @Override
+    public Method getSetter() {
+        return setter;
+    }
 
-	@Override
-	public Method getSetter() {
-		return setter;
-	}
+    @Override
+    public AccessibleObject getGettterObject() {
+        return getter != null ? getter : field;
+    }
 
-	@Override
-	public AccessibleObject getGettterObject() {
-		return getter != null ? getter : field;
-	}
+    @Override
+    public Class<?> getType() {
+        return fieldType;
+    }
 
-	@Override
-	public Class<?> getType() {
-		return fieldType;
-	}
+    @Override
+    public <T> T getValue() {
+        if (getter != null) {
+            return getValueFromGetter(getter, bean);
+        } else {
+            return getValueFromField(field, bean);
+        }
+    }
 
-	@Override
-	public <T> T getValue() {
-		if (getter != null) {
-			return getValueFromGetter(getter, bean);
-		} else {
-			return getValueFromField(field, bean);
-		}
-	}
+    private <T> T getValueFromGetter(Method getter, Object bean) {
+        try {
+            return toType(getter.invoke(bean));
+        } catch (IllegalAccessException e) {
+            throw new GetValueError(e, bean, fieldName, getter);
+        } catch (IllegalArgumentException e) {
+            throw new GetValueError(e, bean, fieldName, getter);
+        } catch (InvocationTargetException e) {
+            throw new GetValueError(e.getTargetException(), bean, fieldName,
+                    getter);
+        }
+    }
 
-	private <T> T getValueFromGetter(Method getter, Object bean) {
-		try {
-			return toType(getter.invoke(bean));
-		} catch (IllegalAccessException e) {
-			throw log.illegalAccessError(e, bean, fieldName, getter);
-		} catch (IllegalArgumentException e) {
-			throw log.illegalArgumentError(e, bean, fieldName, getter);
-		} catch (InvocationTargetException e) {
-			throw log.invocationTargetError(e, bean, fieldName, getter);
-		}
-	}
+    @SuppressWarnings("unchecked")
+    private <T> T toType(Object object) {
+        return (T) object;
+    }
 
-	@SuppressWarnings("unchecked")
-	private <T> T toType(Object object) {
-		return (T) object;
-	}
+    private <T> T getValueFromField(Field field, Object bean) {
+        try {
+            return toType(FieldUtils.readField(field, bean, true));
+        } catch (IllegalAccessException e) {
+            throw new GetValueError(e, bean, fieldName);
+        }
+    }
 
-	private <T> T getValueFromField(Field field, Object bean) {
-		try {
-			return toType(FieldUtils.readField(field, bean, true));
-		} catch (IllegalAccessException e) {
-			throw log.illegalAccessError(e, fieldName, bean);
-		}
-	}
+    @Override
+    public void setValue(Object value) throws PropertyVetoException {
+        boolean set = setValueWithSetter(setter, value);
+        if (!set) {
+            setValueToField(value, field, bean);
+        }
+    }
 
-	@Override
-	public void setValue(Object value) throws PropertyVetoException {
-		boolean set = setValueWithSetter(setter, value);
-		if (!set) {
-			setValueToField(value, field, bean);
-		}
-	}
+    private boolean setValueWithSetter(Method setter, Object value)
+            throws PropertyVetoException {
+        if (setter == null) {
+            return false;
+        }
+        try {
+            setter.invoke(bean, value);
+            return true;
+        } catch (IllegalAccessException e) {
+            throw new SetValueError(e, bean, fieldName, setter);
+        } catch (IllegalArgumentException e) {
+            throw new SetValueError(e, bean, fieldName, setter);
+        } catch (InvocationTargetException e) {
+            if (e.getCause() instanceof PropertyVetoException) {
+                PropertyVetoException ex = (PropertyVetoException) e.getCause();
+                throw new ValueVetoedError(ex, bean, fieldName, setter);
+            }
+            throw new SetValueError(e, bean, fieldName, setter);
+        }
+    }
 
-	private boolean setValueWithSetter(Method setter, Object value)
-			throws PropertyVetoException {
-		if (setter == null) {
-			return false;
-		}
-		try {
-			setter.invoke(bean, value);
-			return true;
-		} catch (IllegalAccessException e) {
-			throw log.illegalAccessError(e, bean, fieldName, setter);
-		} catch (IllegalArgumentException e) {
-			throw log.illegalArgumentError(e, bean, fieldName, setter);
-		} catch (InvocationTargetException e) {
-			if (e.getCause() instanceof PropertyVetoException) {
-				PropertyVetoException ex = (PropertyVetoException) e.getCause();
-				throw log.unacceptableValueError(ex, bean, fieldName, setter);
-			}
-			throw log.invocationTargetError(e, bean, fieldName, setter);
-		}
-	}
-
-	private void setValueToField(Object value, Field field, Object bean) {
-		try {
-			FieldUtils.writeField(field, bean, value, true);
-		} catch (IllegalAccessException e) {
-			throw log.illegalAccessError(e, fieldName, bean);
-		}
-	}
+    private void setValueToField(Object value, Field field, Object bean) {
+        try {
+            FieldUtils.writeField(field, bean, value, true);
+        } catch (IllegalAccessException e) {
+            throw new SetValueError(e, bean, fieldName);
+        }
+    }
 
 }
