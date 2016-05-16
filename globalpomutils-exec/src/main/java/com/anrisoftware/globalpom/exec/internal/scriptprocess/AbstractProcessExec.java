@@ -39,7 +39,7 @@ import com.anrisoftware.globalpom.exec.external.logoutputs.ErrorLogCommandOutput
 import com.anrisoftware.globalpom.exec.external.script.ScriptCommandExecFactory;
 import com.anrisoftware.globalpom.exec.external.script.ScriptCommandLineFactory;
 import com.anrisoftware.globalpom.exec.external.scriptprocess.ScriptExec;
-import com.anrisoftware.globalpom.threads.api.Threads;
+import com.anrisoftware.globalpom.threads.external.core.Threads;
 
 /**
  * Executes a script.

@@ -18,6 +18,7 @@
  */
 package com.anrisoftware.globalpom.exec.internal.scriptprocess;
 
+import com.anrisoftware.globalpom.exec.external.scriptprocess.ScriptExec;
 import com.anrisoftware.globalpom.exec.external.scriptprocess.ScriptExecFactory;
 import com.anrisoftware.globalpom.exec.internal.command.DefaultCommandLineModule;
 import com.anrisoftware.globalpom.exec.internal.core.DefaultProcessModule;
@@ -56,8 +57,8 @@ public class ScriptProcessModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        install(new FactoryModuleBuilder().implement(ScriptExecImpl.class,
-                ScriptExecImpl.class).build(ScriptExecFactory.class));
+        install(new FactoryModuleBuilder().implement(ScriptExec.class, ScriptExecImpl.class)
+                .build(ScriptExecFactory.class));
     }
 
 }

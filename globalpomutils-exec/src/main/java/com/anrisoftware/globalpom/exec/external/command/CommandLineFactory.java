@@ -31,24 +31,24 @@ import com.anrisoftware.globalpom.exec.internal.command.DefaultCommandLine;
  */
 public interface CommandLineFactory {
 
-    /**
-     * Create a command line from an executable.
-     * 
-     * @param executable
-     *            the {@link String} executable.
-     * 
-     * @return the {@link DefaultCommandLine}.
-     */
-    CommandLine create(String executable);
+	/**
+	 * Create a command line from an executable.
+	 * 
+	 * @param executable
+	 *            the {@link String} executable.
+	 * 
+	 * @return the {@link DefaultCommandLine}.
+	 */
+	CommandLine create(String executable);
 
-    /**
-     * Create a command line from an executable.
-     * 
-     * @param executable
-     *            the {@link File} executable.
-     * 
-     * @return the {@link DefaultCommandLine}.
-     */
-    CommandLine create(File executable);
+	/**
+	 * Create a command line from an executable.
+	 * 
+	 * @param executable
+	 *            the {@link File} executable.
+	 * 
+	 * @return the {@link DefaultCommandLine}.
+	 */
+	CommandLine create(File executable);
 
 }

@@ -21,7 +21,7 @@ package com.anrisoftware.globalpom.exec.internal.core
 import static com.anrisoftware.globalpom.exec.internal.command.DefaultCommandLine.*
 import static com.anrisoftware.globalpom.exec.internal.core.DefaultCommandExec.*
 import static com.anrisoftware.globalpom.exec.internal.logoutputs.AbstractLogCommandOutput.*
-import static com.anrisoftware.globalpom.threads.properties.PropertiesThreads.*
+import static com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsImpl.*
 import static com.anrisoftware.globalpom.utils.TestUtils.*
 import groovy.util.logging.Slf4j
 
@@ -30,8 +30,11 @@ import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
+import javax.inject.Inject
+
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
+import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
@@ -46,8 +49,9 @@ import com.anrisoftware.globalpom.exec.external.pipeoutputs.PipeCommandOutputFac
 import com.anrisoftware.globalpom.exec.internal.command.DefaultCommandLine
 import com.anrisoftware.globalpom.exec.internal.command.DefaultCommandLineModule
 import com.anrisoftware.globalpom.exec.internal.pipeoutputs.PipeOutputsModule
-import com.anrisoftware.globalpom.threads.properties.PropertiesThreads
-import com.anrisoftware.globalpom.threads.properties.PropertiesThreadsModule
+import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreadsFactory
+import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsImpl
+import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsModule
 import com.anrisoftware.propertiesutils.ContextPropertiesFactory
 import com.google.inject.Guice
 import com.google.inject.Injector
@@ -63,7 +67,7 @@ class DefaultCommandExecTest {
 
     @Test
     void "unknown command"() {
-        def threads = injector.getInstance PropertiesThreads
+        def threads = propertiesThreadsFactory.create()
         threads.setProperties properties
         threads.setName "cached"
         DefaultCommandLine line = commandLineFactory.create("unkxxx")
@@ -77,7 +81,7 @@ class DefaultCommandExecTest {
 
     @Test
     void "read output after task is done"() {
-        def threads = injector.getInstance PropertiesThreads
+        def threads = propertiesThreadsFactory.create()
         threads.setProperties properties
         threads.setName "cached"
         DefaultCommandLine line = commandLineFactory.create("echo").add("-n").add("Text")
@@ -94,7 +98,7 @@ class DefaultCommandExecTest {
 
     @Test
     void "read output after task is done, use factory methods"() {
-        def threads = createPropertiesThreads()
+        def threads = propertiesThreadsFactory.create()
         threads.setProperties properties
         threads.setName "cached"
         DefaultCommandLine line = createCommandLine("echo").add("-n").add("Text")
@@ -112,7 +116,7 @@ class DefaultCommandExecTest {
     @Test
     void "return exit code"() {
         def file = createCommand "command.sh", exitCodeCommand, tmp
-        def threads = injector.getInstance PropertiesThreads
+        def threads = propertiesThreadsFactory.create()
         threads.setProperties properties
         threads.setName "cached"
         DefaultCommandLine line = commandLineFactory.create(file).add(1)
@@ -126,7 +130,7 @@ class DefaultCommandExecTest {
     @Test
     void "check valid exit code"() {
         def file = createCommand "command.sh", exitCodeCommand, tmp
-        def threads = injector.getInstance PropertiesThreads
+        def threads = propertiesThreadsFactory.create()
         threads.setProperties properties
         threads.setName "cached"
         DefaultCommandLine line = commandLineFactory.create(file).add(1)
@@ -141,7 +145,7 @@ class DefaultCommandExecTest {
     @Test
     void "check invalid exit code"() {
         def file = createCommand "command.sh", exitCodeCommand, tmp
-        def threads = injector.getInstance PropertiesThreads
+        def threads = propertiesThreadsFactory.create()
         threads.setProperties properties
         threads.setName "cached"
         DefaultCommandLine line = commandLineFactory.create(file).add(2)
@@ -155,7 +159,7 @@ class DefaultCommandExecTest {
     @Test
     void "check exit codes"() {
         def file = createCommand "command.sh", exitCodeCommand, tmp
-        def threads = injector.getInstance PropertiesThreads
+        def threads = propertiesThreadsFactory.create()
         threads.setProperties properties
         threads.setName "cached"
         DefaultCommandLine line = commandLineFactory.create(file).add(2)
@@ -170,7 +174,7 @@ class DefaultCommandExecTest {
     @Test
     void "check invalid exit codes"() {
         def file = createCommand "command.sh", exitCodeCommand, tmp
-        def threads = injector.getInstance PropertiesThreads
+        def threads = propertiesThreadsFactory.create()
         threads.setProperties properties
         threads.setName "cached"
         DefaultCommandLine line = commandLineFactory.create(file).add(1)
@@ -184,7 +188,7 @@ class DefaultCommandExecTest {
     @Test
     void "read output in parallel"() {
         def file = createCommand "output.sh", outputCommand, tmp
-        def threads = injector.getInstance PropertiesThreads
+        def threads = propertiesThreadsFactory.create()
         threads.setProperties properties
         threads.setName "cached"
         DefaultCommandLine line = commandLineFactory.create(file).add("Text")
@@ -213,7 +217,7 @@ class DefaultCommandExecTest {
     @Test
     void "read output in parallel, as info log"() {
         def file = createCommand "output.sh", outputLinesCommand, tmp
-        def threads = injector.getInstance PropertiesThreads
+        def threads = propertiesThreadsFactory.create()
         threads.setProperties properties
         threads.setName "cached"
         DefaultCommandLine line = commandLineFactory.create(file).add("Text")
@@ -227,7 +231,7 @@ class DefaultCommandExecTest {
     @Test
     void "read output in parallel, as debug log"() {
         def file = createCommand "output.sh", outputLinesCommand, tmp
-        def threads = injector.getInstance PropertiesThreads
+        def threads = propertiesThreadsFactory.create()
         threads.setProperties properties
         threads.setName "cached"
         DefaultCommandLine line = commandLineFactory.create(file).add("Text")
@@ -241,7 +245,7 @@ class DefaultCommandExecTest {
     @Test
     void "read output in parallel, as trace log"() {
         def file = createCommand "output.sh", outputLinesCommand, tmp
-        def threads = injector.getInstance PropertiesThreads
+        def threads = propertiesThreadsFactory.create()
         threads.setProperties properties
         threads.setName "cached"
         DefaultCommandLine line = commandLineFactory.create(file).add("Text")
@@ -255,7 +259,7 @@ class DefaultCommandExecTest {
     @Test
     void "read output in parallel, as error log"() {
         def file = createCommand "output.sh", outputLinesCommand, tmp
-        def threads = injector.getInstance PropertiesThreads
+        def threads = propertiesThreadsFactory.create()
         threads.setProperties properties
         threads.setName "cached"
         DefaultCommandLine line = commandLineFactory.create(file).add("Text")
@@ -269,7 +273,7 @@ class DefaultCommandExecTest {
     @Test
     void "read error in parallel"() {
         def file = createCommand "output.sh", outputErrorCommand, tmp
-        def threads = injector.getInstance PropertiesThreads
+        def threads = propertiesThreadsFactory.create()
         threads.setProperties properties
         threads.setName "cached"
         DefaultCommandLine line = commandLineFactory.create(file).add("Text")
@@ -299,7 +303,7 @@ class DefaultCommandExecTest {
     @Test
     void "read input"() {
         def file = createCommand "command.sh", readInputCommand, tmp
-        def threads = injector.getInstance PropertiesThreads
+        def threads = propertiesThreadsFactory.create()
         threads.setProperties properties
         threads.setName "cached"
         DefaultCommandLine line = commandLineFactory.create(file).add(1)
@@ -332,7 +336,7 @@ class DefaultCommandExecTest {
     @Test
     void "wait command"() {
         def file = createCommand "command.sh", sleepCommand, tmp
-        def threads = injector.getInstance PropertiesThreads
+        def threads = propertiesThreadsFactory.create()
         threads.setProperties properties
         threads.setName "cached"
         DefaultCommandLine line = commandLineFactory.create(file).add(1)
@@ -346,7 +350,7 @@ class DefaultCommandExecTest {
     @Test
     void "wait timeout"() {
         def file = createCommand "command.sh", sleepCommand, tmp
-        def threads = injector.getInstance PropertiesThreads
+        def threads = propertiesThreadsFactory.create()
         threads.setProperties properties
         threads.setName "cached"
         DefaultCommandLine line = commandLineFactory.create(file).add(10)
@@ -362,7 +366,7 @@ class DefaultCommandExecTest {
     @Test
     void "wait task"() {
         def file = createCommand "command.sh", sleepCommand, tmp
-        def threads = injector.getInstance PropertiesThreads
+        def threads = propertiesThreadsFactory.create()
         threads.setProperties properties
         threads.setName "cached"
         DefaultCommandLine line = commandLineFactory.create(file).add(2)
@@ -373,15 +377,30 @@ class DefaultCommandExecTest {
         process = task.get(3, TimeUnit.SECONDS)
     }
 
+    @Rule
+    public TemporaryFolder tmp = new TemporaryFolder();
+
+    @Inject
+    PropertiesThreadsFactory propertiesThreadsFactory
+
+    @Inject
+    CommandLineFactory commandLineFactory
+
+    @Inject
+    CommandExecFactory commandExecFactory
+
+    @Inject
+    PipeCommandOutputFactory pipeCommandOutputFactory
+
+    @Inject
+    PipeCommandInputFactory pipeCommandInputFactory
+
+    @Before
+    void setup() {
+        injector.injectMembers(this)
+    }
+
     static Injector injector
-
-    static CommandLineFactory commandLineFactory
-
-    static CommandExecFactory commandExecFactory
-
-    static PipeCommandOutputFactory pipeCommandOutputFactory
-
-    static PipeCommandInputFactory pipeCommandInputFactory
 
     static threadsProperties = DefaultCommandExecTest.class.getResource("/threads_test.properties")
 
@@ -399,22 +418,15 @@ class DefaultCommandExecTest {
 
     static properties
 
-    @Rule
-    public TemporaryFolder tmp = new TemporaryFolder();
-
     @BeforeClass
     static void createFactory() {
         toStringStyle
-        injector = Guice.createInjector(
+        this.injector = Guice.createInjector(
                 new DefaultCommandLineModule(),
                 new DefaultProcessModule(),
                 new PipeOutputsModule(),
                 new PropertiesThreadsModule())
-        commandLineFactory = injector.getInstance CommandLineFactory
-        commandExecFactory = injector.getInstance CommandExecFactory
-        pipeCommandOutputFactory = injector.getInstance PipeCommandOutputFactory
-        pipeCommandInputFactory = injector.getInstance PipeCommandInputFactory
-        properties = new ContextPropertiesFactory(PropertiesThreads).fromResource(threadsProperties)
+        this.properties = new ContextPropertiesFactory(PropertiesThreadsImpl).fromResource(threadsProperties)
     }
 
     static File createCommand(String name, URL resource, def tmp) {

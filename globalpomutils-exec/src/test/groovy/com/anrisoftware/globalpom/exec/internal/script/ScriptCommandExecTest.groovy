@@ -21,12 +21,15 @@ package com.anrisoftware.globalpom.exec.internal.script
 import static com.anrisoftware.globalpom.exec.internal.logoutputs.AbstractLogCommandOutput.*
 import static com.anrisoftware.globalpom.exec.internal.script.ScriptCommandExec.*
 import static com.anrisoftware.globalpom.exec.internal.script.ScriptCommandLine.*
-import static com.anrisoftware.globalpom.threads.properties.PropertiesThreads.*
+import static com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsImpl.*
 import static com.anrisoftware.globalpom.utils.TestUtils.*
 import groovy.util.logging.Slf4j
 
 import java.util.concurrent.Future
 
+import javax.inject.Inject
+
+import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 
@@ -41,9 +44,11 @@ import com.anrisoftware.globalpom.exec.external.script.ScriptCommandLineFactory
 import com.anrisoftware.globalpom.exec.internal.command.DefaultCommandLineModule
 import com.anrisoftware.globalpom.exec.internal.core.DefaultProcessModule
 import com.anrisoftware.globalpom.exec.internal.pipeoutputs.PipeOutputsModule
-import com.anrisoftware.globalpom.threads.properties.PropertiesThreads
-import com.anrisoftware.globalpom.threads.properties.PropertiesThreadsModule
+import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreadsFactory
+import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsImpl
+import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsModule
 import com.anrisoftware.propertiesutils.ContextPropertiesFactory
+import com.anrisoftware.resources.templates.external.TemplateResource
 import com.anrisoftware.resources.templates.external.Templates
 import com.anrisoftware.resources.templates.external.TemplatesFactory
 import com.anrisoftware.resources.templates.internal.maps.TemplatesDefaultMapsModule
@@ -64,11 +69,10 @@ class ScriptCommandExecTest {
 
     @Test
     void "template script"() {
-        def threads = injector.getInstance PropertiesThreads
+        def threads = propertiesThreadsFactory.create()
         threads.setProperties properties
         threads.setName "cached"
-        def template = scriptTemplates.getResource("output_command")
-        CommandLine line = commandLineFactory.create("output", template).add("Text")
+        CommandLine line = commandLineFactory.create("output", output_command).add("Text")
         CommandExec exec = scriptCommandExecFactory.create(commandExecFactory)
         File scriptFile
         exec.setObserver({ o, arg ->
@@ -87,11 +91,10 @@ class ScriptCommandExecTest {
 
     @Test
     void "template script, use factory methods"() {
-        def threads = createPropertiesThreads()
+        def threads = propertiesThreadsFactory.create()
         threads.setProperties properties
         threads.setName "cached"
-        def template = scriptTemplates.getResource("output_command")
-        CommandLine line = createScriptCommandLine("output", template).add("Text")
+        CommandLine line = createScriptCommandLine("output", output_command).add("Text")
         CommandExec exec = createScriptCommandExec(commandExecFactory)
         exec.setObserver({ o, arg ->
             log.info "Output: ``{}''", o.getOut()
@@ -107,11 +110,10 @@ class ScriptCommandExecTest {
 
     @Test
     void "read output in parallel, as info log"() {
-        def threads = createPropertiesThreads()
+        def threads = propertiesThreadsFactory.create()
         threads.setProperties properties
         threads.setName "cached"
-        def template = scriptTemplates.getResource("output_lines_command")
-        CommandLine line = createScriptCommandLine("output", template).add("Text")
+        CommandLine line = createScriptCommandLine("output", output_command).add("Text")
         CommandExec exec = createScriptCommandExec(commandExecFactory)
         exec.setThreads threads
         exec.setCommandOutput createInfoLogCommandOutput(log, line)
@@ -119,23 +121,36 @@ class ScriptCommandExecTest {
         task.get()
     }
 
+    @Inject
+    PropertiesThreadsFactory propertiesThreadsFactory
+
+    @Inject
+    ScriptCommandLineFactory commandLineFactory
+
+    @Inject
+    ScriptCommandExecFactory scriptCommandExecFactory
+
+    @Inject
+    CommandExecFactory commandExecFactory
+
+    @Inject
+    PipeCommandOutputFactory pipeCommandOutputFactory
+
+    @Inject
+    PipeCommandInputFactory pipeCommandInputFactory
+
+    @Before
+    void setup() {
+        injector.injectMembers(this)
+    }
+
     static Injector injector
-
-    static ScriptCommandLineFactory commandLineFactory
-
-    static ScriptCommandExecFactory scriptCommandExecFactory
-
-    static CommandExecFactory commandExecFactory
-
-    static PipeCommandOutputFactory pipeCommandOutputFactory
-
-    static PipeCommandInputFactory pipeCommandInputFactory
 
     static threadsProperties = ScriptCommandExecTest.class.getResource("/threads_test.properties")
 
-    static TemplatesFactory templatesFactory
-
     static Templates scriptTemplates
+
+    static TemplateResource output_command
 
     static properties
 
@@ -152,13 +167,9 @@ class ScriptCommandExecTest {
                 new TemplatesDefaultMapsModule(),
                 new STWorkerModule(),
                 new STDefaultPropertiesModule())
-        commandLineFactory = injector.getInstance ScriptCommandLineFactory
-        commandExecFactory = injector.getInstance CommandExecFactory
-        scriptCommandExecFactory = injector.getInstance ScriptCommandExecFactory
-        pipeCommandOutputFactory = injector.getInstance PipeCommandOutputFactory
-        pipeCommandInputFactory = injector.getInstance PipeCommandInputFactory
-        properties = new ContextPropertiesFactory(PropertiesThreads).fromResource(threadsProperties)
-        templatesFactory = injector.getInstance TemplatesFactory
+        properties = new ContextPropertiesFactory(PropertiesThreadsImpl).fromResource(threadsProperties)
+        TemplatesFactory templatesFactory = injector.getInstance TemplatesFactory
         scriptTemplates = templatesFactory.create("ScriptTest")
+        output_command = scriptTemplates.getResource("output_command")
     }
 }

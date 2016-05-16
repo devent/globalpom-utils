@@ -31,7 +31,6 @@ import org.apache.felix.scr.annotations.Service;
 import com.anrisoftware.globalpom.exec.external.core.CommandOutput;
 import com.anrisoftware.globalpom.exec.external.pipeoutputs.PipeCommandOutputFactory;
 import com.anrisoftware.globalpom.exec.external.pipeoutputs.PipeCommandOutputService;
-import com.anrisoftware.globalpom.exec.internal.command.DefaultCommandLineModule;
 
 /**
  * Pipe output service.
@@ -53,7 +52,7 @@ public class PipeCommandOutputServiceImpl implements PipeCommandOutputService {
 
     @Activate
     protected void start() {
-        createInjector(new DefaultCommandLineModule()).injectMembers(this);
+        createInjector(new PipeOutputsModule()).injectMembers(this);
     }
 
 }

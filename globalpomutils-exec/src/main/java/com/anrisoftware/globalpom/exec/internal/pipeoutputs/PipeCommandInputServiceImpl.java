@@ -31,7 +31,6 @@ import org.apache.felix.scr.annotations.Service;
 import com.anrisoftware.globalpom.exec.external.core.CommandInput;
 import com.anrisoftware.globalpom.exec.external.pipeoutputs.PipeCommandInputFactory;
 import com.anrisoftware.globalpom.exec.external.pipeoutputs.PipeCommandInputService;
-import com.anrisoftware.globalpom.exec.internal.command.DefaultCommandLineModule;
 
 /**
  * Pipe input service.
@@ -58,7 +57,7 @@ public class PipeCommandInputServiceImpl implements PipeCommandInputService {
 
     @Activate
     protected void start() {
-        createInjector(new DefaultCommandLineModule()).injectMembers(this);
+        createInjector(new PipeOutputsModule()).injectMembers(this);
     }
 
 }

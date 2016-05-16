@@ -20,7 +20,7 @@ package com.anrisoftware.globalpom.exec.internal.scriptprocess;
 
 import java.net.URL;
 
-import com.anrisoftware.globalpom.threads.properties.PropertiesThreads;
+import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsImpl;
 import com.anrisoftware.propertiesutils.AbstractContextPropertiesProvider;
 
 /**
@@ -37,7 +37,7 @@ public class TestThreadsPropertiesProvider extends
             .getResource("test_threads.properties");
 
     TestThreadsPropertiesProvider() {
-        super(PropertiesThreads.class, RES);
+        super(PropertiesThreadsImpl.class, RES);
     }
 
 }

@@ -19,18 +19,22 @@
 package com.anrisoftware.globalpom.exec.internal.script;
 
 import static com.google.inject.Guice.createInjector;
+import static com.google.inject.util.Providers.of;
 
 import javax.inject.Inject;
 
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 
+import com.anrisoftware.globalpom.exec.external.command.CommandLineFactory;
+import com.anrisoftware.globalpom.exec.external.command.CommandLineService;
 import com.anrisoftware.globalpom.exec.external.core.CommandLine;
 import com.anrisoftware.globalpom.exec.external.script.ScriptCommandLineFactory;
 import com.anrisoftware.globalpom.exec.external.script.ScriptCommandLineService;
-import com.anrisoftware.globalpom.exec.internal.command.DefaultCommandLineModule;
 import com.anrisoftware.resources.templates.external.TemplateResource;
+import com.google.inject.AbstractModule;
 
 /**
  * Script command line service.
@@ -45,6 +49,9 @@ public class ScriptCommandLineServiceImpl implements ScriptCommandLineService {
     @Inject
     private ScriptCommandLineFactory factory;
 
+    @Reference
+    private CommandLineService commandLineService;
+
     @Override
     public CommandLine create(String name, TemplateResource template) {
         return factory.create(name, template);
@@ -52,7 +59,14 @@ public class ScriptCommandLineServiceImpl implements ScriptCommandLineService {
 
     @Activate
     protected void start() {
-        createInjector(new DefaultCommandLineModule()).injectMembers(this);
+        createInjector(new ScriptCommandModule(), new AbstractModule() {
+
+            @Override
+            protected void configure() {
+                bind(CommandLineFactory.class).toProvider(
+                        of(commandLineService));
+            }
+        }).injectMembers(this);
     }
 
 }

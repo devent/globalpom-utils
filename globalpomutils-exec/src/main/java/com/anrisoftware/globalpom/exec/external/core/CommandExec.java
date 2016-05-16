@@ -23,7 +23,7 @@ import java.util.Observer;
 import java.util.concurrent.Future;
 
 import com.anrisoftware.globalpom.exec.internal.command.DefaultCommandLine;
-import com.anrisoftware.globalpom.threads.api.Threads;
+import com.anrisoftware.globalpom.threads.external.core.Threads;
 
 /**
  * Executes an external command.

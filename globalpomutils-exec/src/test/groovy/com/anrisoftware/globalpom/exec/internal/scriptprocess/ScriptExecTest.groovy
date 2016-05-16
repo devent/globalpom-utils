@@ -28,9 +28,9 @@ import org.junit.BeforeClass
 import org.junit.Test
 
 import com.anrisoftware.globalpom.exec.external.scriptprocess.ScriptExecFactory
-import com.anrisoftware.globalpom.threads.api.Threads
-import com.anrisoftware.globalpom.threads.properties.PropertiesThreadsFactory
-import com.anrisoftware.globalpom.threads.properties.PropertiesThreadsModule
+import com.anrisoftware.globalpom.threads.external.core.Threads
+import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreadsFactory
+import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsModule
 import com.anrisoftware.resources.templates.external.TemplateResource
 import com.anrisoftware.resources.templates.external.Templates
 import com.anrisoftware.resources.templates.external.TemplatesFactory

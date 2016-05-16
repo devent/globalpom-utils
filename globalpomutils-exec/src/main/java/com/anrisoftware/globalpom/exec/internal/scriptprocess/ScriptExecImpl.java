@@ -29,7 +29,7 @@ import com.anrisoftware.globalpom.exec.external.core.ProcessTask;
 import com.anrisoftware.globalpom.exec.external.script.ScriptCommandLineFactory;
 import com.anrisoftware.globalpom.exec.external.scriptprocess.ScriptExecFactory;
 import com.anrisoftware.globalpom.exec.internal.runcommands.RunCommands;
-import com.anrisoftware.globalpom.threads.api.Threads;
+import com.anrisoftware.globalpom.threads.external.core.Threads;
 import com.anrisoftware.resources.templates.external.TemplateResource;
 import com.google.inject.assistedinject.Assisted;
 

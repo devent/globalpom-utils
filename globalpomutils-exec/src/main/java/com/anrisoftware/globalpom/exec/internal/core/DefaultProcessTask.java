@@ -44,7 +44,7 @@ import com.anrisoftware.globalpom.exec.external.core.CommandOutput;
 import com.anrisoftware.globalpom.exec.external.core.ProcessTask;
 import com.anrisoftware.globalpom.exec.external.pipeoutputs.PipeCommandInputFactory;
 import com.anrisoftware.globalpom.exec.external.pipeoutputs.PipeCommandOutputFactory;
-import com.anrisoftware.globalpom.threads.api.Threads;
+import com.anrisoftware.globalpom.threads.external.core.Threads;
 import com.google.inject.assistedinject.Assisted;
 
 /**

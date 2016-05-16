@@ -19,16 +19,23 @@
 package com.anrisoftware.globalpom.exec.internal.core;
 
 import static com.google.inject.Guice.createInjector;
+import static com.google.inject.util.Providers.of;
 
 import javax.inject.Inject;
 
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 
 import com.anrisoftware.globalpom.exec.external.core.CommandExec;
 import com.anrisoftware.globalpom.exec.external.core.CommandExecFactory;
 import com.anrisoftware.globalpom.exec.external.core.CommandExecService;
+import com.anrisoftware.globalpom.exec.external.pipeoutputs.PipeCommandInputFactory;
+import com.anrisoftware.globalpom.exec.external.pipeoutputs.PipeCommandInputService;
+import com.anrisoftware.globalpom.exec.external.pipeoutputs.PipeCommandOutputFactory;
+import com.anrisoftware.globalpom.exec.external.pipeoutputs.PipeCommandOutputService;
+import com.google.inject.AbstractModule;
 
 /**
  * Command executer service.
@@ -43,6 +50,12 @@ public class DefaultCommandExecServiceImpl implements CommandExecService {
     @Inject
     private CommandExecFactory factory;
 
+    @Reference
+    private PipeCommandOutputService commandOutputService;
+
+    @Reference
+    private PipeCommandInputService commandInputService;
+
     @Override
     public CommandExec create() {
         return factory.create();
@@ -50,7 +63,16 @@ public class DefaultCommandExecServiceImpl implements CommandExecService {
 
     @Activate
     protected void start() {
-        createInjector(new DefaultProcessModule()).injectMembers(this);
+        createInjector(new DefaultProcessModule(), new AbstractModule() {
+
+            @Override
+            protected void configure() {
+                bind(PipeCommandOutputFactory.class)
+                        .toProvider(of(commandOutputService));
+                bind(PipeCommandInputFactory.class)
+                        .toProvider(of(commandInputService));
+            }
+        }).injectMembers(this);
     }
 
 }
