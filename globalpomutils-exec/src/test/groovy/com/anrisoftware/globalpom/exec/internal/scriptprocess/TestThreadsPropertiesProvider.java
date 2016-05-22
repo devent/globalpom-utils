@@ -20,7 +20,6 @@ package com.anrisoftware.globalpom.exec.internal.scriptprocess;
 
 import java.net.URL;
 
-import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsImpl;
 import com.anrisoftware.propertiesutils.AbstractContextPropertiesProvider;
 
 /**
@@ -30,14 +29,14 @@ import com.anrisoftware.propertiesutils.AbstractContextPropertiesProvider;
  * @since 2.3
  */
 @SuppressWarnings("serial")
-public class TestThreadsPropertiesProvider extends
-        AbstractContextPropertiesProvider {
+public class TestThreadsPropertiesProvider
+        extends AbstractContextPropertiesProvider {
 
     private static final URL RES = TestThreadsPropertiesProvider.class
             .getResource("test_threads.properties");
 
     TestThreadsPropertiesProvider() {
-        super(PropertiesThreadsImpl.class, RES);
+        super("com.anrisoftware.globalpom.threads.properties.internal", RES);
     }
 
 }
