@@ -23,7 +23,9 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeoutException;
 
 import javax.inject.Inject;
 
@@ -31,6 +33,7 @@ import org.joda.time.Duration;
 import org.slf4j.Logger;
 
 import com.anrisoftware.globalpom.exec.external.core.CommandExec;
+import com.anrisoftware.globalpom.exec.external.core.CommandExecException;
 import com.anrisoftware.globalpom.exec.external.core.CommandExecFactory;
 import com.anrisoftware.globalpom.exec.external.core.CommandLine;
 import com.anrisoftware.globalpom.exec.external.core.ProcessTask;
@@ -154,12 +157,13 @@ public abstract class AbstractProcessExec implements ScriptExec {
     }
 
     @SuppressWarnings("unchecked")
-    private <T> T getArg(String name, Map<String, Object> args, T defaultValue) {
+    private <T> T getArg(String name, Map<String, Object> args,
+            T defaultValue) {
         return (T) (args.containsKey(name) ? args.get(name) : defaultValue);
     }
 
     @Override
-    public ProcessTask call() throws Exception {
+    public ProcessTask call() throws CommandExecException {
         log.checkArgs(this, args);
         final CommandLine line = createCommandLine(lineFactory);
         CommandExec script = createExec();
@@ -207,14 +211,22 @@ public abstract class AbstractProcessExec implements ScriptExec {
     }
 
     private ProcessTask exec(CommandLine line, CommandExec script)
-            throws Exception {
+            throws CommandExecException {
         setupCommandError(script, line);
         setupCommandOutput(script, line);
         Future<ProcessTask> future = script.exec(line);
-        if (timeout != null) {
-            return future.get(timeout.getMillis(), MILLISECONDS);
-        } else {
-            return future.get();
+        try {
+            if (timeout != null) {
+                return future.get(timeout.getMillis(), MILLISECONDS);
+            } else {
+                return future.get();
+            }
+        } catch (InterruptedException e) {
+            throw new ScriptExecException(e, line, script);
+        } catch (ExecutionException e) {
+            throw new ScriptExecException(e, line, script);
+        } catch (TimeoutException e) {
+            throw new ScriptExecException(e, line, script);
         }
     }
 

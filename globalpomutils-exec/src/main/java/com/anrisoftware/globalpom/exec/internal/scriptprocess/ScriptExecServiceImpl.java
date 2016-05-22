@@ -36,6 +36,8 @@ import com.anrisoftware.globalpom.exec.external.logoutputs.DebugLogCommandOutput
 import com.anrisoftware.globalpom.exec.external.logoutputs.DebugLogCommandOutputService;
 import com.anrisoftware.globalpom.exec.external.logoutputs.ErrorLogCommandOutputFactory;
 import com.anrisoftware.globalpom.exec.external.logoutputs.ErrorLogCommandOutputService;
+import com.anrisoftware.globalpom.exec.external.runcommands.RunCommandsFactory;
+import com.anrisoftware.globalpom.exec.external.runcommands.RunCommandsService;
 import com.anrisoftware.globalpom.exec.external.script.ScriptCommandExecFactory;
 import com.anrisoftware.globalpom.exec.external.script.ScriptCommandExecService;
 import com.anrisoftware.globalpom.exec.external.script.ScriptCommandLineFactory;
@@ -75,6 +77,9 @@ public class ScriptExecServiceImpl implements ScriptExecService {
     @Reference
     private ScriptCommandExecService scriptCommandExecService;
 
+    @Reference
+    private RunCommandsService runCommandsService;
+
     @Override
     public ScriptExec create(Map<String, Object> args, Object parent,
             Threads threads, TemplateResource templateResource, String name) {
@@ -97,6 +102,8 @@ public class ScriptExecServiceImpl implements ScriptExecService {
                         .toProvider(of(scriptCommandLineService));
                 bind(ScriptCommandExecFactory.class)
                         .toProvider(of(scriptCommandExecService));
+                bind(RunCommandsFactory.class)
+                        .toProvider(of(runCommandsService));
             }
         }).injectMembers(this);
     }

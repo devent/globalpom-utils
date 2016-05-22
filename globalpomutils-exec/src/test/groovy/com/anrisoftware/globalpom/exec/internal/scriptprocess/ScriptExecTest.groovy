@@ -20,8 +20,6 @@ package com.anrisoftware.globalpom.exec.internal.scriptprocess
 
 import groovy.util.logging.Slf4j
 
-import java.util.concurrent.TimeoutException
-
 import org.joda.time.Duration
 import org.junit.Before
 import org.junit.BeforeClass
@@ -56,7 +54,7 @@ class ScriptExecTest {
                 log: log, text: "foo", this, threads, echoScriptTemplate, "echo")()
     }
 
-    @Test(expected = TimeoutException)
+    @Test(expected = ScriptExecException)
     void "exec script timeout"() {
         def scriptExec = scriptExecFactory.create(
                 log: log, text: "foo", sleep: 5, timeout: Duration.standardSeconds(1),

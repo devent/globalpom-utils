@@ -34,6 +34,7 @@ import com.anrisoftware.globalpom.exec.internal.logoutputs.DebugLogCommandOutput
 import com.anrisoftware.globalpom.exec.internal.logoutputs.ErrorLogCommandOutputServiceImpl
 import com.anrisoftware.globalpom.exec.internal.pipeoutputs.PipeCommandInputServiceImpl
 import com.anrisoftware.globalpom.exec.internal.pipeoutputs.PipeCommandOutputServiceImpl
+import com.anrisoftware.globalpom.exec.internal.runcommands.RunCommandsServiceImpl
 import com.anrisoftware.globalpom.exec.internal.script.ScriptCommandExecServiceImpl
 import com.anrisoftware.globalpom.exec.internal.script.ScriptCommandLineServiceImpl
 import com.anrisoftware.globalpom.threads.external.core.Threads
@@ -91,6 +92,7 @@ class ScriptExecServiceImplTest {
         context.registerInjectActivateService(new ScriptCommandLineServiceImpl(), null)
         context.registerInjectActivateService(new DefaultCommandExecServiceImpl(), null)
         context.registerInjectActivateService(new ScriptCommandExecServiceImpl(), null)
+        context.registerInjectActivateService(new RunCommandsServiceImpl(), null)
         this.scriptExecService = context.registerInjectActivateService(new ScriptExecServiceImpl(), null)
         this.templatesService = context.registerInjectActivateService(new TemplatesServiceImpl(), null)
         this.threadsService = context.registerInjectActivateService(new PropertiesThreadsServiceImpl(), null)

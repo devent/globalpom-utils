@@ -24,6 +24,7 @@ import com.anrisoftware.globalpom.exec.internal.command.DefaultCommandLineModule
 import com.anrisoftware.globalpom.exec.internal.core.DefaultProcessModule;
 import com.anrisoftware.globalpom.exec.internal.logoutputs.LogOutputsModule;
 import com.anrisoftware.globalpom.exec.internal.pipeoutputs.PipeOutputsModule;
+import com.anrisoftware.globalpom.exec.internal.runcommands.RunCommandsModule;
 import com.anrisoftware.globalpom.exec.internal.script.ScriptCommandModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
@@ -51,13 +52,15 @@ public class ScriptProcessModule extends AbstractModule {
             install(new LogOutputsModule());
             install(new PipeOutputsModule());
             install(new ScriptCommandModule());
+            install(new RunCommandsModule());
         }
 
     }
 
     @Override
     protected void configure() {
-        install(new FactoryModuleBuilder().implement(ScriptExec.class, ScriptExecImpl.class)
+        install(new FactoryModuleBuilder()
+                .implement(ScriptExec.class, ScriptExecImpl.class)
                 .build(ScriptExecFactory.class));
     }
 

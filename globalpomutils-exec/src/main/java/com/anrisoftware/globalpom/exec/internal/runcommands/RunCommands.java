@@ -47,12 +47,12 @@ public class RunCommands {
     private RunCommandsLogger log;
 
     /**
-     * @see RunCommandsFactory#create(String, Object)
+     * @see RunCommandsFactory#create(Object, String)
      */
     @Inject
-    RunCommands(@Assisted String name, @Assisted Object parent) {
-        this.name = name;
+    RunCommands(@Assisted Object parent, @Assisted String name) {
         this.parent = parent;
+        this.name = name;
         this.commands = new ArrayList<Object>();
     }
 

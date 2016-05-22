@@ -23,6 +23,10 @@ import static org.apache.commons.lang3.Validate.isInstanceOf;
 
 import java.util.Map;
 
+import javax.inject.Inject;
+
+import com.anrisoftware.globalpom.exec.external.runcommands.RunCommandsFactory;
+
 /**
  * Checks arguments for the {@link RunCommands} argument.
  *
@@ -30,6 +34,33 @@ import java.util.Map;
  * @since 2.3
  */
 public class RunCommandsArg {
+
+    @Inject
+    private RunCommandsFactory runCommandsFactory;
+
+    /**
+     * Returns the run commands collection if so specified in the arguments.
+     *
+     * @param args
+     *            the {@link Map} arguments.
+     *
+     * @param parent
+     *            the {@link Object} parent.
+     *
+     * @return the {@link RunCommands}.
+     *
+     * @throws IllegalArgumentException
+     *             if the argument is not of type {@link RunCommands}.
+     */
+    public RunCommands runCommands(Map<String, Object> args, Object parent) {
+        if (args.containsKey(RUN_COMMANDS_KEY)) {
+            Object obj = args.get(RUN_COMMANDS_KEY);
+            isInstanceOf(RunCommands.class, obj, run_commands_class.toString(),
+                    RUN_COMMANDS_KEY, RunCommands.class, parent);
+            return (RunCommands) obj;
+        }
+        return runCommandsFactory.create(parent, "default");
+    }
 
     private static final String RUN_COMMANDS_KEY = "runCommands";
 
@@ -47,30 +78,6 @@ public class RunCommandsArg {
         public String toString() {
             return name;
         }
-    }
-
-    /**
-     * Returns the run commands collection if so specified in the arguments.
-     *
-     * @param args
-     *            the {@link Map} arguments.
-     *
-     * @param parent
-     *            the {@link Object} parent.
-     *
-     * @return the {@link RunCommands} or {@code null}.
-     *
-     * @throws IllegalArgumentException
-     *             if the argument is not of type {@link RunCommands}.
-     */
-    public RunCommands runCommands(Map<String, Object> args, Object parent) {
-        if (args.containsKey(RUN_COMMANDS_KEY)) {
-            Object obj = args.get(RUN_COMMANDS_KEY);
-            isInstanceOf(RunCommands.class, obj, run_commands_class.toString(),
-                    RUN_COMMANDS_KEY, RunCommands.class, parent);
-            return (RunCommands) obj;
-        }
-        return null;
     }
 
 }

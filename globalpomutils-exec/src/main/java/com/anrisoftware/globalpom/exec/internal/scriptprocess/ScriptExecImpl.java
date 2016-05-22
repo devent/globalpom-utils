@@ -24,6 +24,7 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import com.anrisoftware.globalpom.exec.external.core.CommandExecException;
 import com.anrisoftware.globalpom.exec.external.core.CommandLine;
 import com.anrisoftware.globalpom.exec.external.core.ProcessTask;
 import com.anrisoftware.globalpom.exec.external.script.ScriptCommandLineFactory;
@@ -74,7 +75,7 @@ public class ScriptExecImpl extends AbstractProcessExec {
     }
 
     @Override
-    public ProcessTask call() throws Exception {
+    public ProcessTask call() throws CommandExecException {
         ProcessTask task = super.call();
         log.scriptDone(parent, runCommands, task, args, name);
         return task;

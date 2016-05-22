@@ -16,32 +16,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-exec. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.exec.external.scriptprocess;
+package com.anrisoftware.globalpom.exec.internal.scriptprocess;
 
-import java.util.concurrent.Callable;
-
+import com.anrisoftware.globalpom.exec.external.core.CommandExec;
 import com.anrisoftware.globalpom.exec.external.core.CommandExecException;
-import com.anrisoftware.globalpom.exec.external.core.ProcessTask;
+import com.anrisoftware.globalpom.exec.external.core.CommandLine;
 
-/**
- * Executes the script from a template.
- *
- * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 3.1
- */
-public interface ScriptExec extends Callable<ProcessTask> {
+@SuppressWarnings("serial")
+public class ScriptExecException extends CommandExecException {
 
-    /**
-     * Executes the script.
-     */
-    @Override
-    ProcessTask call() throws CommandExecException;
-
-    /**
-     * Returns the script that was executed.
-     *
-     * @return the script {@link String}.
-     */
-    String getScriptString();
+    public ScriptExecException(Exception cause, CommandLine line,
+            CommandExec script) {
+        super("Script execution error", cause);
+        addContextValue("command-line", line);
+        addContextValue("script", script);
+    }
 
 }
