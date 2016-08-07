@@ -16,17 +16,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-exec. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.exec.internal.core;
+package com.anrisoftware.globalpom.exec.external.core;
 
-import com.anrisoftware.globalpom.exec.external.core.CommandExecException;
-import com.anrisoftware.globalpom.exec.external.core.CommandLine;
-
+/**
+ * Thrown if there was an error starting the command.
+ *
+ * @author Erwin Müller <erwin.mueller@deventm.de>
+ * @version 1.0
+ */
 @SuppressWarnings("serial")
-public class CommandInterruptedException extends CommandExecException {
+public class StartCommandException extends CommandExecException {
 
-    public CommandInterruptedException(DefaultProcessTask processTask,
-            InterruptedException e, CommandLine commandLine) {
-        super("Command interrupted", e);
+    public StartCommandException(ProcessTask processTask, Throwable cause,
+            CommandLine commandLine) {
+        super("Error start command", cause);
         addContextValue("process-task", processTask);
         addContextValue("command-line", commandLine);
     }

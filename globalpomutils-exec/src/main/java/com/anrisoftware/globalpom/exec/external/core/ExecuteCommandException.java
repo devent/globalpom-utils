@@ -16,18 +16,23 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-exec. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.exec.internal.core;
+package com.anrisoftware.globalpom.exec.external.core;
 
-import com.anrisoftware.globalpom.exec.external.core.CommandExecException;
-import com.anrisoftware.globalpom.exec.external.core.CommandLine;
+import java.io.IOException;
 
+/**
+ * Thrown if there was an error executing the command.
+ *
+ * @author Erwin Müller <erwin.mueller@deventm.de>
+ * @version 1.0
+ */
 @SuppressWarnings("serial")
-public class StartCommandException extends CommandExecException {
+public class ExecuteCommandException extends CommandExecException {
 
-    public StartCommandException(DefaultProcessTask processTask,
-            Throwable cause, CommandLine commandLine) {
-        super("Error start command", cause);
-        addContextValue("process-task", processTask);
+    public ExecuteCommandException(CommandExec commandExec,
+            IOException e, CommandLine commandLine) {
+        super("Error exec command", e);
+        addContextValue("command-exec", commandExec);
         addContextValue("command-line", commandLine);
     }
 

@@ -16,21 +16,26 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with globalpomutils-exec. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.anrisoftware.globalpom.exec.internal.core;
+package com.anrisoftware.globalpom.exec.external.core;
 
-import java.io.IOException;
+import java.util.Arrays;
 
-import com.anrisoftware.globalpom.exec.external.core.CommandExecException;
-import com.anrisoftware.globalpom.exec.external.core.CommandLine;
-
+/**
+ * Thrown if the command returned an invalid exit code.
+ *
+ * @author Erwin Müller <erwin.mueller@deventm.de>
+ * @version 1.0
+ */
 @SuppressWarnings("serial")
-public class ExecuteCommandException extends CommandExecException {
+public class InvalidExitCodeException extends CommandExecException {
 
-    public ExecuteCommandException(DefaultCommandExec commandExec,
-            IOException e, CommandLine commandLine) {
-        super("Error exec command", e);
-        addContextValue("command-exec", commandExec);
+    public InvalidExitCodeException(ProcessTask processTask, int ret,
+            int[] exitCodes, CommandLine commandLine) {
+        super("Error exit code");
+        addContextValue("process-task", processTask);
         addContextValue("command-line", commandLine);
+        addContextValue("return-code", ret);
+        addContextValue("exit-codes", Arrays.toString(exitCodes));
     }
 
 }

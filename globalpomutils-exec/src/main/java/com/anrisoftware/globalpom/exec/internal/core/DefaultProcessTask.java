@@ -39,9 +39,12 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.anrisoftware.globalpom.exec.external.core.CommandExecException;
 import com.anrisoftware.globalpom.exec.external.core.CommandInput;
+import com.anrisoftware.globalpom.exec.external.core.CommandInterruptedException;
 import com.anrisoftware.globalpom.exec.external.core.CommandLine;
 import com.anrisoftware.globalpom.exec.external.core.CommandOutput;
+import com.anrisoftware.globalpom.exec.external.core.InvalidExitCodeException;
 import com.anrisoftware.globalpom.exec.external.core.ProcessTask;
+import com.anrisoftware.globalpom.exec.external.core.StartCommandException;
 import com.anrisoftware.globalpom.exec.external.pipeoutputs.PipeCommandInputFactory;
 import com.anrisoftware.globalpom.exec.external.pipeoutputs.PipeCommandOutputFactory;
 import com.anrisoftware.globalpom.threads.external.core.Threads;

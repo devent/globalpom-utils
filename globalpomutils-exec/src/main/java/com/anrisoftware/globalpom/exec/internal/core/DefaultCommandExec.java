@@ -40,6 +40,7 @@ import com.anrisoftware.globalpom.exec.external.core.CommandExecFactory;
 import com.anrisoftware.globalpom.exec.external.core.CommandInput;
 import com.anrisoftware.globalpom.exec.external.core.CommandLine;
 import com.anrisoftware.globalpom.exec.external.core.CommandOutput;
+import com.anrisoftware.globalpom.exec.external.core.ExecuteCommandException;
 import com.anrisoftware.globalpom.exec.external.core.ProcessTask;
 import com.anrisoftware.globalpom.threads.external.core.Threads;
 import com.anrisoftware.globalpom.threads.external.core.ListenableFuture.Status;
