@@ -18,6 +18,8 @@
  */
 package com.anrisoftware.globalpom.resources;
 
+import static com.anrisoftware.globalpom.resources.ResourcesModule.getStringToURIFactory;
+
 import java.net.URI;
 import java.net.URL;
 import java.util.regex.Pattern;
@@ -36,7 +38,7 @@ public class StringToURI {
      * @see StringToURI#convert(String)
      */
     public static URI toURI(String path) throws ConvertException {
-        return ResourcesModule.getStringToURIFactory().create().convert(path);
+        return getStringToURIFactory().create().convert(path);
     }
 
     /**
@@ -44,8 +46,7 @@ public class StringToURI {
      */
     public static URI toURI(String path, String protocol)
             throws ConvertException {
-        return ResourcesModule.getStringToURIFactory().create()
-                .convert(path, protocol);
+        return getStringToURIFactory().create().convert(path, protocol);
     }
 
     /**
