@@ -95,11 +95,11 @@ public class DurationSimpleFormat extends Format {
 
     private static final String SEP = "";
 
-    private static final Pattern PARSE_PATTERN = Pattern.compile(String.format(
-            "(\\d+)(%s|%s|%s|%s|%s|%s|%s|%s)?", MILLISECONDS.getMetric(),
-            SECONDS.getMetric(), MINUTES.getMetric(), HOURS.getMetric(),
-            DAYS.getMetric(), WEEKS.getMetric(), MONTHS.getMetric(),
-            YEARS.getMetric()));
+    private static final Pattern PARSE_PATTERN = Pattern
+            .compile(String.format("(\\d+)(%s|%s|%s|%s|%s|%s|%s|%s)?",
+                    MILLISECONDS.getMetric(), SECONDS.getMetric(),
+                    MINUTES.getMetric(), HOURS.getMetric(), DAYS.getMetric(),
+                    WEEKS.getMetric(), MONTHS.getMetric(), YEARS.getMetric()));
 
     private final NumberFormat numberFormat;
 
@@ -142,7 +142,8 @@ public class DurationSimpleFormat extends Format {
      *            the {@link Measurable} or {@link Number}.
      */
     @Override
-    public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos) {
+    public StringBuffer format(Object obj, StringBuffer buff,
+            FieldPosition pos) {
         return format(obj, buff, pos, SECONDS);
     }
 
@@ -180,14 +181,18 @@ public class DurationSimpleFormat extends Format {
      *            the unit {@link UnitMultiplier}.
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public StringBuffer format(Object obj, StringBuffer buff,
-            FieldPosition pos, UnitMultiplier multiplier) {
+    public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos,
+            UnitMultiplier multiplier) {
         if (obj instanceof Measurable) {
             Measurable measurable = (Measurable) obj;
-            formatMeasurable(measurable.longValue(SI.SECOND), buff, multiplier);
+            long value = measurable.longValue(SI.SECOND.divide(1000));
+            value /= multiplier.getValue();
+            formatMeasurable(value, buff, multiplier);
         } else if (obj instanceof Duration) {
             Duration value = (Duration) obj;
-            formatMeasurable(value.getMillis(), buff, multiplier);
+            long millis = value.getMillis();
+            millis /= multiplier.getValue();
+            formatMeasurable(millis, buff, multiplier);
         } else if (obj instanceof Number) {
             Number value = (Number) obj;
             formatMeasurable(value.longValue(), buff, multiplier);
@@ -198,11 +203,7 @@ public class DurationSimpleFormat extends Format {
     private void formatMeasurable(long value, StringBuffer buff,
             UnitMultiplier multiplier) {
         buff.append(numberFormat.format(value)).append(SEP);
-        if (multiplier == SECONDS) {
-            buff.append(SECONDS.getMetric());
-        } else {
-            buff.append(multiplier.toString());
-        }
+        buff.append(multiplier.toString());
     }
 
     @Override

@@ -39,9 +39,14 @@ class DurationSimpleFormatTest {
 
     @Test
     void "format simple duration"() {
-        new tests_formats().run().each {
+        new tests_formats_numbers().run().each {
             def str = formatFactory.create().format(it.value, it.multiplier)
             log.info "Format {}{} as '{}'", it.value, it.multiplier, str
+            assertStringContent str, it.format
+        }
+        new tests_formats_durations().run().each {
+            def str = formatFactory.create().format(it.value, it.multiplier)
+            log.info "Format '{}' {} as '{}'", it.value, it.multiplier, str
             assertStringContent str, it.format
         }
     }

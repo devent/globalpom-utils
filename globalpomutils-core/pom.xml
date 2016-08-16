@@ -92,7 +92,7 @@
             <artifactId>joda-time</artifactId>
             <optional>true</optional>
         </dependency>
-        <!-- byte format -->
+        <!-- byte format, simple duration format -->
         <dependency>
             <groupId>org.jscience</groupId>
             <artifactId>jscience</artifactId>
