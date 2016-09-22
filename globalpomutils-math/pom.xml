@@ -1,96 +1,96 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>com.anrisoftware.globalpom</groupId>
-		<artifactId>globalpomutils-parent</artifactId>
-		<version>3.1-SNAPSHOT</version>
-		<relativePath>../globalpomutils-parent</relativePath>
-	</parent>
+    <parent>
+        <groupId>com.anrisoftware.globalpom</groupId>
+        <artifactId>globalpomutils-parent</artifactId>
+        <version>3.1-SNAPSHOT</version>
+        <relativePath>../globalpomutils-parent</relativePath>
+    </parent>
 
-	<artifactId>globalpomutils-math</artifactId>
-	<name>Global POM Utilities :: Math</name>
-	<packaging>bundle</packaging>
-	<description>Mathematical classes.</description>
-	<inceptionYear>2013</inceptionYear>
-	<url>https://anrisoftware.com/projects/projects/globalpomutils-math</url>
+    <artifactId>globalpomutils-math</artifactId>
+    <name>Global POM Utilities :: Math</name>
+    <packaging>bundle</packaging>
+    <description>Mathematical classes.</description>
+    <inceptionYear>2013</inceptionYear>
+    <url>https://anrisoftware.com/projects/projects/globalpomutils-math</url>
 
-	<issueManagement>
-		<system>Redmine</system>
-		<url>https://anrisoftware.com/projects/projects/globalpomutils-math</url>
-	</issueManagement>
+    <issueManagement>
+        <system>Redmine</system>
+        <url>https://anrisoftware.com/projects/projects/globalpomutils-math</url>
+    </issueManagement>
 
-	<scm>
-		<connection>scm:git:git@anrisoftware.com:globalpom-utils.git</connection>
-		<developerConnection>scm:git:git@anrisoftware.com:globalpom-utils.git</developerConnection>
-		<url>https://anrisoftware.com/projects/projects/globalpomutils-math/repository</url>
-	</scm>
+    <scm>
+        <connection>scm:git:git@anrisoftware.com:globalpom-utils.git</connection>
+        <developerConnection>scm:git:git@anrisoftware.com:globalpom-utils.git</developerConnection>
+        <url>https://anrisoftware.com/projects/projects/globalpomutils-math/repository</url>
+    </scm>
 
-	<distributionManagement>
-		<site>
-			<id>anrisoftware</id>
-			<url>dav:https://anrisoftware.com/javadoc/${project.groupId}/${project.artifactId}</url>
-		</site>
-		<repository>
-			<id>osssonatype</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-		</repository>
-		<snapshotRepository>
-			<id>osssonatype_snapshots</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
+    <distributionManagement>
+        <site>
+            <id>anrisoftware</id>
+            <url>dav:https://anrisoftware.com/javadoc/${project.groupId}/${project.artifactId}</url>
+        </site>
+        <repository>
+            <id>osssonatype</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+        <snapshotRepository>
+            <id>osssonatype_snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
-	<dependencies>
-		<!-- test dependencies -->
-		<dependency>
-			<groupId>com.anrisoftware.globalpom</groupId>
-			<artifactId>globalpom-groovytestutils</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.thoughtworks.xstream</groupId>
-			<artifactId>xstream</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.perfidix</groupId>
-			<artifactId>perfidix</artifactId>
-			<scope>test</scope>
-		</dependency>
+    <dependencies>
+        <!-- test dependencies -->
+        <dependency>
+            <groupId>com.anrisoftware.globalpom</groupId>
+            <artifactId>globalpom-groovytestutils</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.perfidix</groupId>
+            <artifactId>perfidix</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-		<!-- for distribution -->
-		<dependency>
-			<groupId>net.sf.trove4j</groupId>
-			<artifactId>trove4j</artifactId>
-			<optional>true</optional>
-		</dependency>
+        <!-- for distribution -->
+        <dependency>
+            <groupId>net.sf.trove4j</groupId>
+            <artifactId>trove4j</artifactId>
+            <optional>true</optional>
+        </dependency>
 
-		<!-- compile dependencies -->
-		<dependency>
-			<groupId>com.anrisoftware.globalpom</groupId>
-			<artifactId>globalpom-log</artifactId>
-			<type>bundle</type>
-		</dependency>
-		<dependency>
-			<groupId>com.google.inject.extensions</groupId>
-			<artifactId>guice-assistedinject</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.anrisoftware.propertiesutils</groupId>
-			<artifactId>propertiesutils-contextproperties</artifactId>
-			<type>bundle</type>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-math3</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jscience</groupId>
-			<artifactId>jscience</artifactId>
-		</dependency>
-	</dependencies>
+        <!-- compile dependencies -->
+        <dependency>
+            <groupId>com.anrisoftware.globalpom</groupId>
+            <artifactId>globalpom-log</artifactId>
+            <type>bundle</type>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject.extensions</groupId>
+            <artifactId>guice-assistedinject</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.anrisoftware.propertiesutils</groupId>
+            <artifactId>propertiesutils-contextproperties</artifactId>
+            <type>bundle</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jscience</groupId>
+            <artifactId>jscience</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
