@@ -19,14 +19,14 @@
     <inceptionYear>2013</inceptionYear>
 
     <properties>
-        <project.custom.year>${project.inceptionYear}-${project.custom.current.year}</project.custom.year>
+        <project.custom.year>2016</project.custom.year>
     </properties>
 
     <developers>
         <developer>
             <id>EM</id>
             <name>Erwin Müller</name>
-            <organization>Advanced Natural Research Insitute GmbH</organization>
+            <organization>Advanced Natural Research Institute</organization>
             <email>erwin.mueller@deventm.org</email>
             <roles>
                 <role>Owner</role>
@@ -38,8 +38,8 @@
 
     <licenses>
         <license>
-            <name>LGPLv3</name>
-            <url>http://www.gnu.org/licenses/lgpl.txt</url>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
