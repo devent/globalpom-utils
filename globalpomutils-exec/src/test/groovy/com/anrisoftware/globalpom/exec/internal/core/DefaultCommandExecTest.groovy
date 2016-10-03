@@ -40,7 +40,9 @@ import org.junit.rules.TemporaryFolder
 import com.anrisoftware.globalpom.exec.external.command.CommandLineFactory
 import com.anrisoftware.globalpom.exec.external.core.CommandExec
 import com.anrisoftware.globalpom.exec.external.core.CommandExecFactory
+import com.anrisoftware.globalpom.exec.external.core.InvalidExitCodeException
 import com.anrisoftware.globalpom.exec.external.core.ProcessTask
+import com.anrisoftware.globalpom.exec.external.core.StartCommandException
 import com.anrisoftware.globalpom.exec.external.pipeoutputs.PipeCommandInputFactory
 import com.anrisoftware.globalpom.exec.external.pipeoutputs.PipeCommandOutputFactory
 import com.anrisoftware.globalpom.exec.internal.command.DefaultCommandLine
