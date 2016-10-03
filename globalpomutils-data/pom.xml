@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.anrisoftware.globalpom</groupId>
         <artifactId>globalpomutils-parent</artifactId>
-        <version>3.1-SNAPSHOT</version>
+        <version>3.1</version>
         <relativePath>../globalpomutils-parent</relativePath>
     </parent>
 
@@ -21,7 +21,7 @@
             <dependency>
                 <groupId>com.anrisoftware.globalpom</groupId>
                 <artifactId>globalpomutils-core</artifactId>
-                <version>3.1-SNAPSHOT</version>
+                <version>3.1</version>
                 <type>bundle</type>
             </dependency>
         </dependencies>
