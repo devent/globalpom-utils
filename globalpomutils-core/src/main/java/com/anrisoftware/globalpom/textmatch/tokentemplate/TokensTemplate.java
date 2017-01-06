@@ -82,6 +82,7 @@ public class TokensTemplate implements Serializable {
     public TokensTemplate replace() {
         Matcher matcher;
         matcher = template.toPattern(beginToken, endToken).matcher(text);
+        System.out.println(matcher); // TODO println
         boolean find = matcher.find();
         String replace = template.toReplace(beginToken, endToken);
         if (find) {

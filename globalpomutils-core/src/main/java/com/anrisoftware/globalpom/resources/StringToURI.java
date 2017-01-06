@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
  */
 public class StringToURI {
 
-    private static final Pattern PROTOCOL = Pattern.compile(".*?://.*");
+    private static final Pattern PROTOCOL = Pattern.compile("^.*?:.*");
 
     /**
      * @see StringToURI#convert(String)
