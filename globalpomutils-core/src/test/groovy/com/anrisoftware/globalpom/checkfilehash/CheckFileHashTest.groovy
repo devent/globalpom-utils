@@ -58,6 +58,15 @@ class CheckFileHashTest {
     }
 
     @Test
+    void "check sha256 hash"() {
+        def file = file
+        def hash = sha256Hash
+        def check = factory.create this, file: file, hash: hash
+        check = check()
+        assert check.matching == true
+    }
+
+    @Test
     void "check sha1 hash, no file"() {
         def file = file
         def hash = sha1NoFileHash
@@ -111,6 +120,15 @@ class CheckFileHashTest {
         assert check.matching == true
     }
 
+    @Test
+    void "check sha256 hash as URI"() {
+        def file = file
+        def hash = new URI("sha256:c71b73872886f8fefdb8c9012a205e57e20bb54858884e0e0571d8df5f18763e")
+        def check = factory.create this, file: file, hash: hash
+        check = check()
+        assert check.matching == true
+    }
+
     static Injector injector
 
     static CheckFileHashFactory factory
@@ -124,6 +142,8 @@ class CheckFileHashTest {
     static sha1Hash = CheckFileHashTest.class.getResource("wordpress_file.tar.gz.sha1")
 
     static sha1NoFileHash = CheckFileHashTest.class.getResource("wordpress_file_no_file.tar.gz.sha1")
+
+    static sha256Hash = CheckFileHashTest.class.getResource("wordpress_file.tar.gz.sha256")
 
     static md5HashUnmatch = CheckFileHashTest.class.getResource("wordpress_file.tar.gz_unmatch.md5")
 
