@@ -78,7 +78,7 @@ class CheckFileHashTest {
     @Test
     void "check md5 hash as URI"() {
         def file = file
-        def hash = new URI("md5:f371147726ecbcb506e3dfe4a0fd4815")
+        def hash = new URI("md5:d1b0c3ffb4dfd8d0f55a2a3d2a317d31")
         def check = factory.create this, file: file, hash: hash
         check = check()
         assert check.matching == true
@@ -87,7 +87,7 @@ class CheckFileHashTest {
     @Test
     void "check sha1 hash as URI"() {
         def file = file
-        def hash = new URI("sha1:6043cedeee89e9a2ff29c04b00b9a2c40f46439a")
+        def hash = new URI("sha1:3d47bc8c8a81efe0b9e47ab4250f1a20ef8c308c")
         def check = factory.create this, file: file, hash: hash
         check = check()
         assert check.matching == true
