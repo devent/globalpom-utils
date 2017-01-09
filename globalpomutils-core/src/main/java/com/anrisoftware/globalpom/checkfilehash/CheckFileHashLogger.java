@@ -21,6 +21,7 @@ import static com.anrisoftware.globalpom.checkfilehash.CheckFileHashLogger._.res
 import static org.apache.commons.lang3.Validate.notNull;
 
 import java.net.URI;
+import java.nio.charset.Charset;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -36,6 +37,7 @@ import com.anrisoftware.globalpom.resources.ToURIFactory;
  */
 class CheckFileHashLogger extends AbstractLogger {
 
+    private static final String CHARSET_ARG = "charset";
     private static final String HASH = "hash";
     private static final String FILE = "file";
 
@@ -84,5 +86,13 @@ class CheckFileHashLogger extends AbstractLogger {
     void hashMatching(CheckFileHash check, String expected, String hashstr,
             boolean matching) {
         info(hash_matching, expected, hashstr, matching, check);
+    }
+
+    Charset charset(Object script, Map<String, Object> args) {
+        Object charset = args.get(CHARSET_ARG);
+        if (charset == null) {
+            charset = Charset.defaultCharset();
+        }
+        return (Charset) charset;
     }
 }

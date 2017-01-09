@@ -30,8 +30,22 @@ enum HashName {
 
     /**
      * SHA-1 algorithm.
+     *
+     * @since 3.1.1
      */
-    sha1("sha1", "SHA-1");
+    sha("sha", "SHA-1"),
+
+    /**
+     * SHA-1 algorithm.
+     */
+    sha1("sha1", "SHA-1"),
+
+    /**
+     * SHA-256 algorithm.
+     *
+     * @since 3.1.1
+     */
+    sha256("sha256", "SHA-256");
 
     private String fileExtention;
 
