@@ -16,7 +16,6 @@
 package com.anrisoftware.globalpom.checkfilehash;
 
 import static com.anrisoftware.globalpom.checkfilehash.HashName.forExtension;
-import static org.apache.commons.io.FilenameUtils.getExtension;
 import static org.apache.commons.io.IOUtils.readLines;
 
 import java.io.IOException;
@@ -72,19 +71,7 @@ public class CheckFileHash implements Callable<CheckFileHash> {
         this.file = log.file(script, args);
         this.hashResource = log.hash(script, args);
         this.charset = log.charset(script, args);
-        this.hashName = hashName(hashResource);
-    }
-
-    private HashName hashName(URI hashResource) {
-        HashName hashName = null;
-        if (hashResource.getScheme() != null) {
-            hashName = forExtension(hashResource.getScheme());
-        }
-        if (hashName == null) {
-            String ex = getExtension(hashResource.getPath());
-            hashName = forExtension(ex);
-        }
-        return hashName;
+        this.hashName = HashName.forResource(hashResource);
     }
 
     @Override

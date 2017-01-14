@@ -15,13 +15,17 @@
  */
 package com.anrisoftware.globalpom.checkfilehash;
 
+import static org.apache.commons.io.FilenameUtils.getExtension;
+
+import java.net.URI;
+
 /**
  * File extensions and hash algorithm names.
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.3
  */
-enum HashName {
+public enum HashName {
 
     /**
      * MD-5 algorithm.
@@ -80,4 +84,27 @@ enum HashName {
         }
         return null;
     }
+
+    /**
+     * Returns the hash algorithm name for the specified resource.
+     *
+     * @param resource
+     *            the {@link URI} resource.
+     *
+     * @return the {@link HashName} or {@code null}.
+     * 
+     * @since 3.1.1
+     */
+    public static HashName forResource(URI resource) {
+        HashName hashName = null;
+        if (resource.getScheme() != null) {
+            hashName = forExtension(resource.getScheme());
+        }
+        if (hashName == null) {
+            String ex = getExtension(resource.getPath());
+            hashName = forExtension(ex);
+        }
+        return hashName;
+    }
+
 }
