@@ -15,9 +15,9 @@
  */
 package com.anrisoftware.globalpom.resources
 
-import groovy.util.logging.Slf4j
-
 import org.junit.Test
+
+import groovy.util.logging.Slf4j
 
 /**
  * @see ToURL
@@ -38,7 +38,7 @@ class ToURLTest {
     }
 
     static inputs = [
-        [path: "file.txt", url: new URL("file://file.txt")],
+        [path: "file.txt", url: new URL("file:file.txt")],
         [path: "file://file.txt", url: new URL("file://file.txt")],
         [path: new File("file.txt"), url: new File("file.txt").toURI().toURL()],
         [path: new URL("file://file.txt"), url: new URL("file://file.txt")],

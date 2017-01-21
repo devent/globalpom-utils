@@ -49,10 +49,10 @@ public class ToURL {
      * @param path
      *            the path; can be of type {@link URL}, {@link URI},
      *            {@link File}, {@link String} or {@link Object}. If the path is
-     *            not absolute the scheme {@code "file://"} will be added.
+     *            not absolute the scheme {@code "file:"} will be added.
      */
     public URL convert(Object path) throws ConvertException {
-        return convert(path, "file://");
+        return convert(path, "file:");
     }
 
     /**
@@ -61,7 +61,7 @@ public class ToURL {
      * @param path
      *            the path; can be of type {@link URL}, {@link URI},
      *            {@link File}, {@link String} or {@link Object}. If the path is
-     *            not absolute the scheme {@code "file://"} will be added.
+     *            not absolute the scheme {@code "file:"} will be added.
      *
      * @param scheme
      *            the scheme of the URL if the path is not absolute.
