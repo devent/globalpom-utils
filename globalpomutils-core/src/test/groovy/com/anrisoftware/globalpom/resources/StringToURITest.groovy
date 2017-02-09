@@ -16,6 +16,10 @@
 package com.anrisoftware.globalpom.resources
 
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
+import org.junit.runners.Parameterized.Parameter
+import org.junit.runners.Parameterized.Parameters
 
 import groovy.util.logging.Slf4j
 
@@ -26,18 +30,35 @@ import groovy.util.logging.Slf4j
  * @since 1.10
  */
 @Slf4j
+@RunWith(Parameterized.class)
 class StringToURITest {
+
+    @Parameters(name = "{index}: {0}={1}")
+    static Collection<Object[]> data() {
+        [
+            [
+                "file.txt",
+                new URI("file:file.txt")
+            ],
+            [
+                "file://file.txt",
+                new URI("file://file.txt")
+            ],
+            [
+                "file:/file.txt",
+                new URI("file:///file.txt")
+            ],
+        ] as Object[][]
+    }
+
+    @Parameter(0)
+    public String path
+
+    @Parameter(1)
+    public URI expected
 
     @Test
     void "convert to URI"() {
-        def inputs = [
-            [path: "file.txt", uri: new URI("file://file.txt")],
-            [path: "file://file.txt", uri: new URI("file://file.txt")],
-            [path: "file:/file.txt", uri: new URI("file:///file.txt")],
-        ]
-        inputs.eachWithIndex { Map test, int k ->
-            log.info '\n######### {}. case: {}', k, test
-            assert StringToURI.toURI(test.path) == test.uri
-        }
+        assert StringToURI.toURI(path) == expected
     }
 }
