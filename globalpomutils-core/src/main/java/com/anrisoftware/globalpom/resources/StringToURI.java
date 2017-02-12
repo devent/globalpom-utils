@@ -48,12 +48,12 @@ public class StringToURI {
 
     /**
      * Converts the specified path to a URI with the default protocol
-     * {@code "file://".}
+     * {@code "file:".}
      *
      * @see #convert(String, String)
      */
     public URI convert(String path) throws ConvertException {
-        return convert(path, "file://");
+        return convert(path, "file:");
     }
 
     /**
@@ -73,10 +73,7 @@ public class StringToURI {
     public URI convert(String path, String protocol) throws ConvertException {
         try {
             path = attachProtocol(path, protocol);
-            URL url = new URL(path);
-            String nullFragment = null;
-            return new URI(url.getProtocol(), url.getHost(), url.getPath(),
-                    url.getQuery(), nullFragment);
+            return new URL(path).toURI();
         } catch (Exception e) {
             throw new ConvertException(e, path, protocol);
         }

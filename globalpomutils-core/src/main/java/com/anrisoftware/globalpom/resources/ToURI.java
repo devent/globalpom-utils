@@ -33,7 +33,8 @@ public class ToURI {
     /**
      * @see ToURI#convert(Object, String)
      */
-    public static URI toURI(Object path, String scheme) throws ConvertException {
+    public static URI toURI(Object path, String scheme)
+            throws ConvertException {
         return ResourcesModule.getToURIFactory().create().convert(path, scheme);
     }
 

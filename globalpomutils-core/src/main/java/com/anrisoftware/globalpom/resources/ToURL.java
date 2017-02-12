@@ -32,7 +32,8 @@ public class ToURL {
     /**
      * @see ToURL#convert(Object, String)
      */
-    public static URL toURL(Object path, String scheme) throws ConvertException {
+    public static URL toURL(Object path, String scheme)
+            throws ConvertException {
         return ResourcesModule.getToURLFactory().create().convert(path, scheme);
     }
 
