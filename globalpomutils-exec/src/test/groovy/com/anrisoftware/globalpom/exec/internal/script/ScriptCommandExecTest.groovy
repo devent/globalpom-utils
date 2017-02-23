@@ -20,7 +20,6 @@ import static com.anrisoftware.globalpom.exec.internal.script.ScriptCommandExec.
 import static com.anrisoftware.globalpom.exec.internal.script.ScriptCommandLine.*
 import static com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsImpl.*
 import static com.anrisoftware.globalpom.utils.TestUtils.*
-import groovy.util.logging.Slf4j
 
 import java.util.concurrent.Future
 
@@ -45,15 +44,17 @@ import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreadsF
 import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsImpl
 import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsModule
 import com.anrisoftware.propertiesutils.ContextPropertiesFactory
+import com.anrisoftware.resources.st.internal.worker.STDefaultPropertiesModule
+import com.anrisoftware.resources.st.internal.worker.STWorkerModule
 import com.anrisoftware.resources.templates.external.TemplateResource
 import com.anrisoftware.resources.templates.external.Templates
 import com.anrisoftware.resources.templates.external.TemplatesFactory
 import com.anrisoftware.resources.templates.internal.maps.TemplatesDefaultMapsModule
 import com.anrisoftware.resources.templates.internal.templates.TemplatesResourcesModule
-import com.anrisoftware.resources.templates.internal.worker.STDefaultPropertiesModule
-import com.anrisoftware.resources.templates.internal.worker.STWorkerModule
 import com.google.inject.Guice
 import com.google.inject.Injector
+
+import groovy.util.logging.Slf4j
 
 /**
  * @see ScriptCommandExec

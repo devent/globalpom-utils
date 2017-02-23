@@ -1,0 +1,80 @@
+/*
+ * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.anrisoftware.globalpom.math.format.measurement;
+
+import static com.anrisoftware.globalpom.math.math.MathUtils.isFraction;
+import static org.apache.commons.math3.util.FastMath.abs;
+
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+
+import org.apache.commons.math3.util.FastMath;
+
+class ScientificValueFormatWorker extends AbstractValueFormatWorker {
+
+    public ScientificValueFormatWorker(DecimalFormatSymbols symbols,
+            Integer significant, Integer decimal) {
+        super(symbols, significant, decimal);
+    }
+
+    @Override
+    public String formatNumber(double value, int order, int sig, int dec) {
+        StringBuilder pattern = new StringBuilder(DIGIT_STR);
+        dec = abs(dec);
+        double avalue = abs(value);
+        double rvalue = ValueFormat.roundValue(value, sig, dec);
+        if (dec != 0 && avalue < 1 || avalue > 9) {
+            pattern.append(DECIMAL_CHAR);
+            int s = avalue < 0 ? 0 : 1;
+            for (int i = s; i < sig; i++) {
+                pattern.append(DIGIT_CHAR);
+            }
+            pattern.append("E0");
+        } else if (isFraction(avalue)) {
+            pattern.append(DECIMAL_CHAR);
+            for (int i = 1; i < sig; i++) {
+                pattern.append(DIGIT_ZERO_CHAR);
+            }
+        }
+        DecimalFormat format = new DecimalFormat(pattern.toString(), symbols);
+        return format.format(rvalue);
+    }
+
+    @Override
+    public String formatUncertainty(double unc, int order, int sig, int dec) {
+        if (unc == 0) {
+            return DIGIT_STR;
+        }
+        double aunc = abs(unc);
+        int oorder = order - 1;
+        double vunc = unc / FastMath.pow(10, oorder);
+        StringBuilder pattern = new StringBuilder(DIGIT_STR);
+        if (dec != 0) {
+            pattern.append(DECIMAL_CHAR);
+            int s = aunc < 0 ? 0 : 1;
+            for (int i = s; i < sig; i++) {
+                pattern.append(DIGIT_CHAR);
+            }
+        }
+        DecimalFormat format = new DecimalFormat(pattern.toString(), symbols);
+        String str = format.format(vunc);
+        if (oorder != 0) {
+            str = String.format("%sE%d", str, oorder);
+        }
+        return str;
+    }
+
+}

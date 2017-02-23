@@ -78,7 +78,7 @@ The <<<PosixLocaleFormatModule>>> provides various factory methods
 to create the POSIX locale format.
 
 ---
-import static com.anrisoftware.globalpom.posixlocale.PosixLocaleFormatModule.getPosixLocaleFormatFactory;
+import static com.anrisoftware.globalpom.core.external.posixlocale.PosixLocaleFormatModule.getPosixLocaleFormatFactory;
 
 PosixLocaleFormat format = getPosixLocaleFormatFactory();
 format.parse(string);

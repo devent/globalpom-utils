@@ -16,7 +16,6 @@
 package com.anrisoftware.globalpom.exec.internal.script
 
 import static com.anrisoftware.globalpom.utils.TestUtils.*
-import groovy.util.logging.Slf4j
 
 import java.util.concurrent.Future
 
@@ -40,12 +39,14 @@ import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreadsS
 import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsServiceImpl
 import com.anrisoftware.globalpom.utils.TestUtils
 import com.anrisoftware.propertiesutils.ContextPropertiesFactory
+import com.anrisoftware.resources.st.internal.worker.STDefaultPropertiesServiceImpl
+import com.anrisoftware.resources.st.internal.worker.STTemplateWorkerServiceImpl
 import com.anrisoftware.resources.templates.external.TemplatesService
 import com.anrisoftware.resources.templates.internal.maps.TemplatesBundlesDefaultMapServiceImpl
 import com.anrisoftware.resources.templates.internal.maps.TemplatesDefaultMapServiceImpl
 import com.anrisoftware.resources.templates.internal.templates.TemplatesServiceImpl
-import com.anrisoftware.resources.templates.internal.worker.STDefaultPropertiesServiceImpl
-import com.anrisoftware.resources.templates.internal.worker.STTemplateWorkerServiceImpl
+
+import groovy.util.logging.Slf4j
 
 /**
  * @see ScriptCommandExecServiceImpl
