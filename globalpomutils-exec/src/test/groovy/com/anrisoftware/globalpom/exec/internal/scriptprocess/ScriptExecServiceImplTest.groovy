@@ -16,7 +16,6 @@
 package com.anrisoftware.globalpom.exec.internal.scriptprocess
 
 import static com.anrisoftware.globalpom.utils.TestUtils.*
-import groovy.util.logging.Slf4j
 
 import org.apache.sling.testing.mock.osgi.junit.OsgiContext
 import org.junit.Before
@@ -38,14 +37,16 @@ import com.anrisoftware.globalpom.threads.external.core.Threads
 import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreadsService
 import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsServiceImpl
 import com.anrisoftware.propertiesutils.ContextPropertiesFactory
+import com.anrisoftware.resources.st.internal.worker.STDefaultPropertiesServiceImpl
+import com.anrisoftware.resources.st.internal.worker.STTemplateWorkerServiceImpl
 import com.anrisoftware.resources.templates.external.TemplateResource
 import com.anrisoftware.resources.templates.external.Templates
 import com.anrisoftware.resources.templates.external.TemplatesService
 import com.anrisoftware.resources.templates.internal.maps.TemplatesBundlesDefaultMapServiceImpl
 import com.anrisoftware.resources.templates.internal.maps.TemplatesDefaultMapServiceImpl
 import com.anrisoftware.resources.templates.internal.templates.TemplatesServiceImpl
-import com.anrisoftware.resources.templates.internal.worker.STDefaultPropertiesServiceImpl
-import com.anrisoftware.resources.templates.internal.worker.STTemplateWorkerServiceImpl
+
+import groovy.util.logging.Slf4j
 
 /**
  * @see ScriptExecServiceImpl

@@ -15,8 +15,6 @@
  */
 package com.anrisoftware.globalpom.exec.internal.scriptprocess
 
-import groovy.util.logging.Slf4j
-
 import org.joda.time.Duration
 import org.junit.Before
 import org.junit.BeforeClass
@@ -26,15 +24,17 @@ import com.anrisoftware.globalpom.exec.external.scriptprocess.ScriptExecFactory
 import com.anrisoftware.globalpom.threads.external.core.Threads
 import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreadsFactory
 import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsModule
+import com.anrisoftware.resources.st.internal.worker.STDefaultPropertiesModule
+import com.anrisoftware.resources.st.internal.worker.STWorkerModule
 import com.anrisoftware.resources.templates.external.TemplateResource
 import com.anrisoftware.resources.templates.external.Templates
 import com.anrisoftware.resources.templates.external.TemplatesFactory
 import com.anrisoftware.resources.templates.internal.maps.TemplatesDefaultMapsModule
 import com.anrisoftware.resources.templates.internal.templates.TemplatesResourcesModule
-import com.anrisoftware.resources.templates.internal.worker.STDefaultPropertiesModule
-import com.anrisoftware.resources.templates.internal.worker.STWorkerModule
 import com.google.inject.Guice
 import com.google.inject.Injector
+
+import groovy.util.logging.Slf4j
 
 /**
  * @see ScriptExec
@@ -93,8 +93,8 @@ class ScriptExecTest {
 
     @Before
     void createThreadsPool() {
-        threads = threadsFactory.create();
+        threads = threadsFactory.create()
         threads.setProperties threadsPoolProvider.get()
-        threads.setName("script");
+        threads.setName("script")
     }
 }

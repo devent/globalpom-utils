@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.anrisoftware.globalpom</groupId>
         <artifactId>globalpomutils-parent</artifactId>
-        <version>3.1</version>
+        <version>3.2-SNAPSHOT</version>
         <relativePath>../globalpomutils-parent</relativePath>
     </parent>
 
@@ -16,12 +16,16 @@
     <description>Arbitrary data for mathematical calculations.</description>
     <url>https://anrisoftware.com/projects/projects/globalpomutils-data</url>
 
+    <properties>
+        <project.custom.bundle.namespace>com.anrisoftware.globalpom.data</project.custom.bundle.namespace>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>com.anrisoftware.globalpom</groupId>
                 <artifactId>globalpomutils-core</artifactId>
-                <version>3.1</version>
+                <version>3.2-SNAPSHOT</version>
                 <type>bundle</type>
             </dependency>
         </dependencies>

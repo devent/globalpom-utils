@@ -6,16 +6,19 @@
     <parent>
         <groupId>com.anrisoftware.globalpom</groupId>
         <artifactId>globalpomutils-parent</artifactId>
-        <version>3.1</version>
+        <version>3.2-SNAPSHOT</version>
         <relativePath>../globalpomutils-parent</relativePath>
     </parent>
 
     <artifactId>globalpomutils-core</artifactId>
     <name>Global POM Utilities :: Core</name>
-    <version>3.1.1-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <description>Various utilities.</description>
     <url>https://anrisoftware.com/projects/projects/globalpomutils-core</url>
+
+    <properties>
+        <project.custom.bundle.namespace>com.anrisoftware.globalpom.core</project.custom.bundle.namespace>
+    </properties>
 
     <issueManagement>
         <system>Redmine</system>

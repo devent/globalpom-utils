@@ -16,7 +16,7 @@
 package com.anrisoftware.globalpom.exec.internal.script;
 
 import com.anrisoftware.globalpom.exec.external.core.CommandExecException;
-import com.anrisoftware.resources.external.ResourcesException;
+import com.anrisoftware.resources.api.external.ResourcesException;
 
 @SuppressWarnings("serial")
 public class ProcessTemplateException extends CommandExecException {

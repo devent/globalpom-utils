@@ -46,6 +46,6 @@
 	</root>
 
 	<logger name="com.anrisoftware" level="ERROR" />
-	<logger name="com.anrisoftware.globalpom" level="ALL" />
+	<logger name="com.anrisoftware.globalpom.core.external" level="ALL" />
 
 </configuration>

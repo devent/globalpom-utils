@@ -16,19 +16,19 @@
 
 Duration Simple Format
 
-  * <<<com.anrisoftware.globalpom.format.durationsimpleformat.DurationSimpleFormatFactory>>>
+  * <<<com.anrisoftware.globalpom.core.external.format.durationsimpleformat.DurationSimpleFormatFactory>>>
 
   Factory to create a new simple duration format.
 
-  * <<<com.anrisoftware.globalpom.format.durationsimpleformat.DurationSimpleFormat>>>
+  * <<<com.anrisoftware.globalpom.core.external.format.durationsimpleformat.DurationSimpleFormat>>>
 
   Formats and parses simple duration.
 
-  * <<<com.anrisoftware.globalpom.format.durationsimpleformat.DurationSimpleFormatModule>>>
+  * <<<com.anrisoftware.globalpom.core.external.format.durationsimpleformat.DurationSimpleFormatModule>>>
 
   Installs the simple duration format factory.
 
-  * <<<com.anrisoftware.globalpom.format.durationsimpleformat.UnitMultiplier>>>
+  * <<<com.anrisoftware.globalpom.core.external.format.durationsimpleformat.UnitMultiplier>>>
 
   Duration unit multiplier.
 
@@ -52,7 +52,7 @@ seconds, minutes, hours, days, weeks, months and years, respectively.
   Example using static import.
 
 ---
-import static com.anrisoftware.globalpom.format.duration.DurationFormat.createDurationFormat;
+import static com.anrisoftware.globalpom.core.external.format.duration.DurationFormat.createDurationFormat;
 
 public class Foo {
 

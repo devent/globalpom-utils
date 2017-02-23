@@ -34,7 +34,7 @@ import com.anrisoftware.globalpom.exec.external.command.CommandLineFactory;
 import com.anrisoftware.globalpom.exec.external.core.CommandExecException;
 import com.anrisoftware.globalpom.exec.external.core.CommandLine;
 import com.anrisoftware.globalpom.exec.external.script.ScriptCommandLineFactory;
-import com.anrisoftware.resources.external.ResourcesException;
+import com.anrisoftware.resources.api.external.ResourcesException;
 import com.anrisoftware.resources.templates.external.TemplateResource;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;

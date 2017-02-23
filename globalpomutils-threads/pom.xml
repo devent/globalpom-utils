@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.anrisoftware.globalpom</groupId>
         <artifactId>globalpomutils-parent</artifactId>
-        <version>3.1</version>
+        <version>3.2-SNAPSHOT</version>
         <relativePath>../globalpomutils-parent</relativePath>
     </parent>
 
@@ -15,6 +15,10 @@
     <packaging>bundle</packaging>
     <description>Threads pool for listenable future tasks.</description>
     <url>https://anrisoftware.com/projects/projects/globalpomutils-threads</url>
+
+    <properties>
+        <project.custom.bundle.namespace>com.anrisoftware.globalpom.threads</project.custom.bundle.namespace>
+    </properties>
 
     <issueManagement>
         <system>Redmine</system>
