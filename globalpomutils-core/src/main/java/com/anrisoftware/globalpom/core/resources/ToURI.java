@@ -21,6 +21,8 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Converts a path to a URI.
@@ -95,8 +97,39 @@ public class ToURI {
     }
 
     private URI toURI(String path, String scheme) throws ConvertException {
+        Matcher scpShortSyntax = isScpShortSyntax(path);
+        if (scpShortSyntax.matches()) {
+            return scpToURI(scpShortSyntax, path);
+        }
         URI uri = absoluteToURL(path);
         return uri == null ? relativeToURL(path, scheme) : uri;
+    }
+
+    private URI scpToURI(Matcher matcher, String path) {
+        String user = matcher.group("user");
+        String host = matcher.group("host");
+        String dir = matcher.group("dir");
+        if (dir.charAt(0) == '/') {
+            dir = dir.substring(1);
+        }
+        String s;
+        if (user != null) {
+            s = String.format("ssh://%s@%s/%s", user, host, dir);
+        } else {
+            s = String.format("ssh://%s/%s", host, dir);
+        }
+        try {
+            return new URI(s);
+        } catch (URISyntaxException e) {
+            throw new ConvertException(e, s);
+        }
+    }
+
+    private final Pattern SCP_PATTERN = Pattern.compile(
+            "(:?(?<user>.*)@)?(?<host>(?:(?:(?:(?:[a-zA-Z0-9][-a-zA-Z0-9]{0,61})?[a-zA-Z0-9])[.])*(?:[a-zA-Z][-a-zA-Z0-9]{0,61}[a-zA-Z0-9]|[a-zA-Z])[.]?)):(?!\\/)(?<dir>.*)");
+
+    private Matcher isScpShortSyntax(String path) {
+        return SCP_PATTERN.matcher(path);
     }
 
     private URI absoluteToURL(String path) {
