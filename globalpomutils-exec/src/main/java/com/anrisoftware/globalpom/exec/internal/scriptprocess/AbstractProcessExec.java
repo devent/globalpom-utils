@@ -17,6 +17,7 @@ package com.anrisoftware.globalpom.exec.internal.scriptprocess;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
+import java.io.File;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -76,6 +77,8 @@ public abstract class AbstractProcessExec implements ScriptExec {
 
     private static final String LOG_KEY = "log";
 
+    private static final String PWD_ARG = "pwd";
+
     private static final String ERR_STRING = "errString";
 
     private static final String OUT_STRING = "outString";
@@ -105,6 +108,8 @@ public abstract class AbstractProcessExec implements ScriptExec {
     private final boolean errString;
 
     private final boolean checkExitCodes;
+
+    private final File pwd;
 
     @Inject
     private AbstractProcessExecLogger log;
@@ -146,6 +151,7 @@ public abstract class AbstractProcessExec implements ScriptExec {
         this.timeout = getArg(TIMEOUT, args, TIMEOUT_DEFAULT);
         this.outString = getArg(OUT_STRING, args, OUT_STRING_DEFAULT);
         this.errString = getArg(ERR_STRING, args, ERR_STRING_DEFAULT);
+        this.pwd = getFileArg(PWD_ARG, args, System.getProperty("user.dir"));
     }
 
     @SuppressWarnings("unchecked")
@@ -159,10 +165,24 @@ public abstract class AbstractProcessExec implements ScriptExec {
         return (T) (args.containsKey(name) ? args.get(name) : defaultValue);
     }
 
+    private File getFileArg(String name, Map<String, Object> args,
+            String defaultValue) {
+        File value = new File(defaultValue);
+        Object f = getArg(name, args, value);
+        if (f instanceof File) {
+            return (File) f;
+        } else if (f != null) {
+            return new File(f.toString());
+        } else {
+            return value;
+        }
+    }
+
     @Override
     public ProcessTask call() throws CommandExecException {
         log.checkArgs(this, args);
         final CommandLine line = createCommandLine(lineFactory);
+        line.setWorkingDir(pwd);
         CommandExec script = createExec();
         script.setObserver(new Observer() {
 
