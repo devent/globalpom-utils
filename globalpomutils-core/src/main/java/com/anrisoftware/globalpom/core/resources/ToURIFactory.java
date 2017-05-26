@@ -15,9 +15,13 @@
  */
 package com.anrisoftware.globalpom.core.resources;
 
+import java.io.File;
+import java.net.URI;
+import java.net.URL;
+
 /**
  * Factory to create the path to a URI converter.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
@@ -25,8 +29,15 @@ public interface ToURIFactory {
 
     /**
      * Creates the path to a URI converter.
-     * 
+     *
+     * @param path
+     *            the path; can be of type {@link URL}, {@link URI},
+     *            {@link File}, {@link String} or {@link Object}. If the path is
+     *            not absolute the scheme {@code "file:"} will be added.
+     *
      * @return the {@link ToURI}.
+     *
+     * @since 3.2
      */
-    ToURI create();
+    ToURI create(Object path);
 }

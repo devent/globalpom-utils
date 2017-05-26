@@ -74,13 +74,13 @@ class CheckFileHashLogger extends AbstractLogger {
     URI file(Object script, Map<String, Object> args) {
         Object file = args.get(FILE);
         notNull(file, file_null.toString(), script);
-        return toURI.create().convert(file.toString());
+        return toURI.create(file.toString()).convert();
     }
 
     URI hash(Object script, Map<String, Object> args) {
         Object resource = args.get(HASH);
         notNull(resource, resource_null.toString(), script);
-        return toURI.create().convert(resource);
+        return toURI.create(resource).convert();
     }
 
     void hashMatching(CheckFileHash check, String expected, String hashstr,

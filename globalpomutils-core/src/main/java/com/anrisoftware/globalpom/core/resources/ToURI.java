@@ -24,6 +24,10 @@ import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.inject.Inject;
+
+import com.google.inject.assistedinject.Assisted;
+
 /**
  * Converts a path to a URI.
  *
@@ -33,49 +37,56 @@ import java.util.regex.Pattern;
 public class ToURI {
 
     /**
-     * @see ToURI#convert(Object, String)
-     */
-    public static URI toURI(Object path, String scheme)
-            throws ConvertException {
-        return ResourcesModule.getToURIFactory().create().convert(path, scheme);
-    }
-
-    /**
-     * @see ToURI#convert(Object)
-     */
-    public static URI toURI(Object path) throws ConvertException {
-        return ResourcesModule.getToURIFactory().create().convert(path);
-    }
-
-    /**
-     * @see #convert(Object, String)
-     *
      * @param path
      *            the path; can be of type {@link URL}, {@link URI},
      *            {@link File}, {@link String} or {@link Object}. If the path is
      *            not absolute the scheme {@code "file:"} will be added.
+     *
+     * @since 3.2
      */
-    public URI convert(Object path) throws ConvertException {
-        return convert(path, "file:");
+    public static ToURI toURI(Object path) throws ConvertException {
+        return ResourcesModule.getToURIFactory().create(path);
+    }
+
+    private final Object path;
+
+    private String scheme;
+
+    private boolean scp;
+
+    @Inject
+    ToURI(@Assisted Object path) {
+        this.scheme = "file:";
+        this.path = path;
+        this.scp = false;
     }
 
     /**
-     * Converts the specified path to a URI.
+     * Sets the default scheme.
      *
-     * @param path
-     *            the path; can be of type {@link URL}, {@link URI},
-     *            {@link File}, {@link String} or {@link Object}. If the path is
-     *            not absolute the specified scheme will be added.
-     *
-     * @param scheme
-     *            the scheme of the URL if the path is not absolute.
-     *
-     * @return the {@link URI}.
-     *
-     * @throws ConvertException
-     *             if there were errors converting the path to the URL.
+     * @since 3.2
      */
-    public URI convert(Object path, String scheme) throws ConvertException {
+    public ToURI withScheme(String scheme) {
+        this.scheme = scheme;
+        return this;
+    }
+
+    /**
+     * Sets to parse SCP syntax.
+     *
+     * @since 3.2
+     */
+    public ToURI withScp() {
+        this.scp = true;
+        return this;
+    }
+
+    /**
+     * Converts the path to a URI.
+     *
+     * @since 3.2
+     */
+    public URI convert() throws ConvertException {
         if (path instanceof URL) {
             return urltoURI((URL) path);
         }
@@ -85,7 +96,7 @@ public class ToURI {
         if (path instanceof File) {
             return ((File) path).toURI();
         }
-        return toURI(path.toString(), scheme);
+        return toURI(path.toString());
     }
 
     private URI urltoURI(URL path) {
@@ -96,13 +107,15 @@ public class ToURI {
         }
     }
 
-    private URI toURI(String path, String scheme) throws ConvertException {
-        Matcher scpShortSyntax = isScpShortSyntax(path);
-        if (scpShortSyntax.matches()) {
-            return scpToURI(scpShortSyntax, path);
+    private URI toURI(String path) throws ConvertException {
+        if (scp) {
+            Matcher scpShortSyntax = isScpShortSyntax(path);
+            if (scpShortSyntax.matches()) {
+                return scpToURI(scpShortSyntax, path);
+            }
         }
         URI uri = absoluteToURL(path);
-        return uri == null ? relativeToURL(path, scheme) : uri;
+        return uri == null ? relativeToURL(path) : uri;
     }
 
     private URI scpToURI(Matcher matcher, String path) {
@@ -145,7 +158,7 @@ public class ToURI {
         }
     }
 
-    private URI relativeToURL(String path, String scheme) {
+    private URI relativeToURL(String path) {
         try {
             return new URI(format("%s%s", scheme, path));
         } catch (Exception e) {
