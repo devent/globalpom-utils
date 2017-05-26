@@ -34,6 +34,7 @@ class ToURITest {
     void "convert to URI"() {
         [
             [path: "file.txt", uri: new URI("file:file.txt")],
+            [path: "id_rsa", uri: new URI("file:id_rsa")],
             [path: "file://file.txt", uri: new URI("file://file.txt")],
             [path: new File("file.txt"), uri: new File("file.txt").toURI()],
             [path: new URL("file://file.txt"), uri: new URI("file://file.txt")],
