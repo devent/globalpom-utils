@@ -139,7 +139,7 @@ public class ToURI {
     }
 
     private final Pattern SCP_PATTERN = Pattern.compile(
-            "(:?(?<user>.*)@)?(?<host>(?:(?:(?:(?:[a-zA-Z0-9][-a-zA-Z0-9]{0,61})?[a-zA-Z0-9])[.])*(?:[a-zA-Z][-a-zA-Z0-9]{0,61}[a-zA-Z0-9]|[a-zA-Z])[.]?)):(?!\\/)(?<dir>.*)");
+            "(?<schema>.*:\\/\\/)?(:?(?<user>.*)@)?(?<host>(?:(?:(?:(?:[a-zA-Z0-9][-a-zA-Z0-9]{0,61})?[a-zA-Z0-9])[.])*(?:[a-zA-Z][-a-zA-Z0-9]{0,61}[a-zA-Z0-9]|[a-zA-Z])[.]?)):(?!\\/)(?<dir>.*)");
 
     private Matcher isScpShortSyntax(String path) {
         return SCP_PATTERN.matcher(path);
