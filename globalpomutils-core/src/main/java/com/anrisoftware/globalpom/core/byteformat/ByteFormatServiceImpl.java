@@ -21,9 +21,8 @@ import java.text.NumberFormat;
 
 import javax.inject.Inject;
 
-import org.apache.felix.scr.annotations.Activate;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Service;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
 
 /**
  * Computer byte format service.
@@ -31,8 +30,7 @@ import org.apache.felix.scr.annotations.Service;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 3.1
  */
-@Component
-@Service(ByteFormatService.class)
+@Component(service = ByteFormatService.class)
 public class ByteFormatServiceImpl implements ByteFormatService {
 
     @Inject

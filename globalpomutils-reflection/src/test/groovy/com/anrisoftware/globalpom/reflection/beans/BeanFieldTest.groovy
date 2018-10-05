@@ -53,7 +53,7 @@ class BeanFieldTest {
 
 	BeanField beanField
 
-	@Before
+	@BeforeEach
 	void createBeanField() {
 		beanField = injector.getInstance(BeanField)
 		foo = new Foo()

@@ -76,7 +76,7 @@ class ScriptExecServiceImplTest {
 
     Threads threads
 
-    @Before
+    @BeforeEach
     void setup() {
         context.registerInjectActivateService(new DefaultCommandLineServiceImpl(), null)
         context.registerInjectActivateService(new PipeCommandInputServiceImpl(), null)
@@ -101,7 +101,7 @@ class ScriptExecServiceImplTest {
 
     static threadsProperties = ScriptExecServiceImplTest.class.getResource("test_threads.properties")
 
-    @BeforeClass
+    @BeforeEachClass
     static void createFactory() {
         toStringStyle
         this.properties = new ContextPropertiesFactory('com.anrisoftware.globalpom.threads.properties.internal').fromResource(threadsProperties)
@@ -112,7 +112,7 @@ class ScriptExecServiceImplTest {
         return templates.getResource("echo_script")
     }
 
-    @Before
+    @BeforeEach
     void createThreadsPool() {
         threads = threadsService.create()
         threads.setProperties properties

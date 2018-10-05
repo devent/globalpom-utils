@@ -121,7 +121,7 @@ class CsvImporterImplTest {
 
     static URI lottoFile = CsvImporterImplTest.class.getResource("lotto_2001.csv").toURI()
 
-    @BeforeClass
+    @BeforeEachClass
     static void createFactory() {
         TestUtils.toStringStyle
         injector = Guice.createInjector(new CsvImportModule(), new DataModule(), new DataImportModule())

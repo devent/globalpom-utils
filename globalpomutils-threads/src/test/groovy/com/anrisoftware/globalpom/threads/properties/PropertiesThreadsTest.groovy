@@ -75,7 +75,7 @@ class PropertiesThreadsTest extends AbstractPropertiesThreadsTest {
 
     static Properties properties
 
-    @BeforeClass
+    @BeforeEachClass
     static void setupThreads() {
         TestUtils.toStringStyle
         injector = Guice.createInjector(new PropertiesThreadsModule())

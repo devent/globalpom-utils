@@ -183,7 +183,7 @@ class ValueParserWorkerFactoryTest {
         }
     }
 
-    @BeforeClass
+    @BeforeEachClass
     static void createFactories() {
         TestUtils.toStringStyle
     }

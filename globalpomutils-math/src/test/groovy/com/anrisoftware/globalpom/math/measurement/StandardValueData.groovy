@@ -54,8 +54,8 @@ class StandardValueData {
                 name: "add",
                 func: "f(x,y):=x+y",
                 epsilon: 10**-8,
-                x: v.create(2, 1, 1, 0, 0.1),
-                y: v.create(3, 1, 1, 0, 0.1),
+                x: v.create(2, 1, 1, 0, (double)0.1),
+                y: v.create(3, 1, 1, 0, (double)0.1),
                 f: { Value x, Value y -> x.add y },
                 result: {  Value f ->
                     assert f.exact == false
@@ -267,7 +267,7 @@ class StandardValueData {
                 func: "f(x,y):=x/y",
                 epsilon: 10**-8,
                 x: v.create(-2630500, 3, 7, -4),
-                y: v.create(108881983, 14, 9, 5, 6200000.0),
+                y: v.create(108881983, 14, 9, 5, (double)6200000.0),
                 f: { Value x, Value y -> x.div y },
                 result: {  Value f ->
                     assertDecimalEquals f.uncertainty, -1.37568167E-11d

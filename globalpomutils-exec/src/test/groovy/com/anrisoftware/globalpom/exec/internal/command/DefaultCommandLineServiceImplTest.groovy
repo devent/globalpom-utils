@@ -44,7 +44,7 @@ class DefaultCommandLineServiceImplTest extends AbstractCommandLineTest {
 
     CommandLineService service
 
-    @Before
+    @BeforeEach
     void createFactories() {
         TestUtils.toStringStyle
         this.service = context.registerInjectActivateService(new DefaultCommandLineServiceImpl(), null)

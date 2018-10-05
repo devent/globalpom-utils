@@ -67,7 +67,7 @@ class LinearDistributionBenchTest {
 
     Distribution distribution
 
-    @BeforeClass
+    @BeforeEachClass
     static void createFactory() {
         TestUtils.toStringStyle
         injector = Guice.createInjector(new DistributionCoreModule(), new LinearDistributionModule())
@@ -75,7 +75,7 @@ class LinearDistributionBenchTest {
         rangeFactory = injector.getInstance RangeFactory
     }
 
-    @BeforeBenchClass
+    @BeforeEachBenchClass
     void beforeBenchmark() {
         data = createData count: 2048, min: -5, max: 5, bins: 256, size: 2048, dec: 2, un: 1
         def range = rangeFactory.create data.min, data.max

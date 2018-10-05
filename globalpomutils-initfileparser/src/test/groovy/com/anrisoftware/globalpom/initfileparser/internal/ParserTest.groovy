@@ -99,7 +99,7 @@ class ParserTest extends AbstractParserTest {
     @Inject
     SectionFactory sectionFactory
 
-    @Before
+    @BeforeEach
     void setup() {
         toStringStyle
         Guice.createInjector(new InitFileParserModule()).injectMembers(this)

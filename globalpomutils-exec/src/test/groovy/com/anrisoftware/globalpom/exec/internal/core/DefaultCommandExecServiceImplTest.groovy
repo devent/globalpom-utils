@@ -74,7 +74,7 @@ class DefaultCommandExecServiceImplTest {
 
     CommandExecService commandExecService
 
-    @Before
+    @BeforeEach
     void createFactories() {
         TestUtils.toStringStyle
         context.registerInjectActivateService(new PipeCommandInputServiceImpl(), null)
@@ -88,7 +88,7 @@ class DefaultCommandExecServiceImplTest {
 
     static threadsProperties = DefaultCommandExecTest.class.getResource("/threads_test.properties")
 
-    @BeforeClass
+    @BeforeEachClass
     static void createFactory() {
         toStringStyle
         this.properties = new ContextPropertiesFactory('com.anrisoftware.globalpom.threads.properties.internal').fromResource(threadsProperties)

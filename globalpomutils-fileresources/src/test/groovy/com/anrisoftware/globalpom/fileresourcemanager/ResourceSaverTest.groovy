@@ -57,13 +57,13 @@ class ResourceSaverTest {
 
     static ResourceSaverFactory factory
 
-    @BeforeClass
+    @BeforeEachClass
     static void createSaver() {
         injector = getInjector()
         factory = injector.getInstance ResourceSaverFactory
     }
 
-    @Before
+    @BeforeEach
     void createResources() {
         resourceA = new ResourceA()
         resourceB = new ResourceB()

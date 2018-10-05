@@ -173,7 +173,7 @@ class OpenDocumentImporterTest {
     @Rule
     public TemporaryFolder folder = new TemporaryFolder()
 
-    @BeforeClass
+    @BeforeEachClass
     static void createFactory() {
         TestUtils.toStringStyle
         injector = Guice.createInjector(new SpreadsheetImporterModule(), new DataImportModule())

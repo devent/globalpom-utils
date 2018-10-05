@@ -70,7 +70,7 @@ class ScriptExecTest {
 
     Threads threads
 
-    @BeforeClass
+    @BeforeEachClass
     static void createFactory() {
         injector = Guice.createInjector(
                 new ScriptProcessModule(),
@@ -91,7 +91,7 @@ class ScriptExecTest {
         echoScriptTemplate = templates.getResource "echo_script"
     }
 
-    @Before
+    @BeforeEach
     void createThreadsPool() {
         threads = threadsFactory.create()
         threads.setProperties threadsPoolProvider.get()

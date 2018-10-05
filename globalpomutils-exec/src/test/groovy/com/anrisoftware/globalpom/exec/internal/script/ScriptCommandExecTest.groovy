@@ -137,7 +137,7 @@ class ScriptCommandExecTest {
     @Inject
     PipeCommandInputFactory pipeCommandInputFactory
 
-    @Before
+    @BeforeEach
     void setup() {
         injector.injectMembers(this)
     }
@@ -152,7 +152,7 @@ class ScriptCommandExecTest {
 
     static properties
 
-    @BeforeClass
+    @BeforeEachClass
     static void createFactory() {
         toStringStyle
         injector = Guice.createInjector(

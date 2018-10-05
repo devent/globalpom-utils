@@ -394,7 +394,7 @@ class DefaultCommandExecTest {
     @Inject
     PipeCommandInputFactory pipeCommandInputFactory
 
-    @Before
+    @BeforeEach
     void setup() {
         injector.injectMembers(this)
     }
@@ -417,7 +417,7 @@ class DefaultCommandExecTest {
 
     static properties
 
-    @BeforeClass
+    @BeforeEachClass
     static void createFactory() {
         toStringStyle
         this.injector = Guice.createInjector(

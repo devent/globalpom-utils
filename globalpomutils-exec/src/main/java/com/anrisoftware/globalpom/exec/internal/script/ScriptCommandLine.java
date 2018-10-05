@@ -228,6 +228,7 @@ public class ScriptCommandLine implements CommandLine {
     private File copyScript(String scriptString) throws CommandExecException {
         try {
             File file = createTempFile(SCRIPT, SCRIPT_POST);
+            System.out.println(scriptString); // TODO println
             FileUtils.write(file, scriptString);
             file.setExecutable(true);
             return file;

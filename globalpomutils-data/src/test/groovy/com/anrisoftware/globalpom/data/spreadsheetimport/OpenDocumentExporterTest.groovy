@@ -75,7 +75,7 @@ class OpenDocumentExporterTest {
 
     static URL lottoFile = CsvImporterImplTest.class.getResource("lotto_2001_numbers.csv")
 
-    @BeforeClass
+    @BeforeEachClass
     static void createFactory() {
         TestUtils.toStringStyle
         injector = Guice.createInjector(

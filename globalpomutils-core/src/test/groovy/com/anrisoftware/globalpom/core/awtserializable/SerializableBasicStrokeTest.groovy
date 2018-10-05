@@ -20,7 +20,7 @@ import static com.anrisoftware.globalpom.utils.TestUtils.*
 
 import java.awt.BasicStroke
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 /**
  * @see SerializableBasicStroke

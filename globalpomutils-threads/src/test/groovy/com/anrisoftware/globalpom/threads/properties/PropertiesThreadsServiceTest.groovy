@@ -82,13 +82,13 @@ class PropertiesThreadsServiceTest extends AbstractPropertiesThreadsTest {
     @Inject
     PropertiesThreadsService service
 
-    @Before
+    @BeforeEach
     void createFactories() {
         toStringStyle
         this.service = context.registerInjectActivateService(new PropertiesThreadsServiceImpl(), null)
     }
 
-    @BeforeClass
+    @BeforeEachClass
     static void setupThreads() {
         TestUtils.toStringStyle
         properties = new ContextPropertiesFactory(PropertiesThreadsImpl).fromResource(propertiesResource)

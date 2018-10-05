@@ -93,7 +93,7 @@ class ScriptCommandExecServiceImplTest {
 
     TemplatesService templatesService
 
-    @Before
+    @BeforeEach
     void createFactories() {
         TestUtils.toStringStyle
         context.registerInjectActivateService(new DefaultCommandLineServiceImpl(), null)
@@ -114,7 +114,7 @@ class ScriptCommandExecServiceImplTest {
 
     static threadsProperties = ScriptCommandExecServiceImplTest.class.getResource("/threads_test.properties")
 
-    @BeforeClass
+    @BeforeEachClass
     static void createFactory() {
         toStringStyle
         this.properties = new ContextPropertiesFactory('com.anrisoftware.globalpom.threads.properties.internal').fromResource(threadsProperties)

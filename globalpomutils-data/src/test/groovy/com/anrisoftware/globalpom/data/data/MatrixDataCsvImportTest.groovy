@@ -61,7 +61,7 @@ class MatrixDataCsvImportTest {
 
     static LONG_DATA = CsvImporterImplTest.class.getResource("lotto_2001_numbers.csv").toURI()
 
-    @BeforeClass
+    @BeforeEachClass
     static void createFactory() {
         injector = Guice.createInjector(new DataModule(), new CsvImportModule())
         matrixDataFactory = injector.getInstance MatrixDataCsvImportFactory

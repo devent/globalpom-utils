@@ -109,7 +109,7 @@ class InitFileParserServiceTest extends AbstractParserTest {
     @Inject
     SectionService sectionService
 
-    @Before
+    @BeforeEach
     void createFactories() {
         toStringStyle
         this.parserService = context.registerInjectActivateService(new InitFileParserServiceImpl(), null)
