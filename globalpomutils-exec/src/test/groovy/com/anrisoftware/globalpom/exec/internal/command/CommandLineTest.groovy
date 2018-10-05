@@ -40,7 +40,7 @@ class CommandLineTest extends AbstractCommandLineTest {
 
     static CommandLineFactory commandLineFactory
 
-    @BeforeEachClass
+    @BeforeAll
     static void createFactory() {
         TestUtils.toStringStyle
         injector = Guice.createInjector(new DefaultCommandLineModule())

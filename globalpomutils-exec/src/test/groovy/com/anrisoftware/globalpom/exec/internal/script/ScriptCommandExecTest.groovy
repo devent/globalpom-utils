@@ -152,7 +152,7 @@ class ScriptCommandExecTest {
 
     static properties
 
-    @BeforeEachClass
+    @BeforeAll
     static void createFactory() {
         toStringStyle
         injector = Guice.createInjector(

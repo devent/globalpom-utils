@@ -70,7 +70,7 @@ class ScriptExecTest {
 
     Threads threads
 
-    @BeforeEachClass
+    @BeforeAll
     static void createFactory() {
         injector = Guice.createInjector(
                 new ScriptProcessModule(),

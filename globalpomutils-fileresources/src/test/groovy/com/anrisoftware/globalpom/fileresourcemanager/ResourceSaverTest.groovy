@@ -57,7 +57,7 @@ class ResourceSaverTest {
 
     static ResourceSaverFactory factory
 
-    @BeforeEachClass
+    @BeforeAll
     static void createSaver() {
         injector = getInjector()
         factory = injector.getInstance ResourceSaverFactory

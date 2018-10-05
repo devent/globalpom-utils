@@ -114,7 +114,7 @@ class ScriptCommandExecServiceImplTest {
 
     static threadsProperties = ScriptCommandExecServiceImplTest.class.getResource("/threads_test.properties")
 
-    @BeforeEachClass
+    @BeforeAll
     static void createFactory() {
         toStringStyle
         this.properties = new ContextPropertiesFactory('com.anrisoftware.globalpom.threads.properties.internal').fromResource(threadsProperties)

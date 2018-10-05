@@ -53,7 +53,7 @@ class BeanFactoryTest extends BeanUtils {
 		bean = new ParentBean()
 	}
 
-	@BeforeEachClass
+	@BeforeAll
 	static void setupFactory() {
 		injector = createInjector()
 		factory = injector.getInstance BeanFactory

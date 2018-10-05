@@ -88,7 +88,7 @@ class DefaultCommandExecServiceImplTest {
 
     static threadsProperties = DefaultCommandExecTest.class.getResource("/threads_test.properties")
 
-    @BeforeEachClass
+    @BeforeAll
     static void createFactory() {
         toStringStyle
         this.properties = new ContextPropertiesFactory('com.anrisoftware.globalpom.threads.properties.internal').fromResource(threadsProperties)

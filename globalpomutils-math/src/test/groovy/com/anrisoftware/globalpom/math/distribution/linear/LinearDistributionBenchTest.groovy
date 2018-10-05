@@ -67,7 +67,7 @@ class LinearDistributionBenchTest {
 
     Distribution distribution
 
-    @BeforeEachClass
+    @BeforeAll
     static void createFactory() {
         TestUtils.toStringStyle
         injector = Guice.createInjector(new DistributionCoreModule(), new LinearDistributionModule())

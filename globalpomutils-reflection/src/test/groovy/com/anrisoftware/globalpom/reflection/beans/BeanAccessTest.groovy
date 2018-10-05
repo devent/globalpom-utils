@@ -118,7 +118,7 @@ class BeanAccessTest extends BeanUtils {
         bean = new ParentBean()
     }
 
-    @BeforeEachClass
+    @BeforeAll
     static void setupFactory() {
         injector = createInjector()
         factory = createFactory(injector)

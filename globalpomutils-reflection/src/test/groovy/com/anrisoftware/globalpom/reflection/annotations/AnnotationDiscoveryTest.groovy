@@ -55,7 +55,7 @@ class AnnotationDiscoveryTest extends AnnotationUtils {
 
 	static Field field
 
-	@BeforeEachClass
+	@BeforeAll
 	static void setupFactory() {
 		injector = createInjector()
 		factory = createAnnotationDiscoveryFactory(injector)

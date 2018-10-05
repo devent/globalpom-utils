@@ -417,7 +417,7 @@ class DefaultCommandExecTest {
 
     static properties
 
-    @BeforeEachClass
+    @BeforeAll
     static void createFactory() {
         toStringStyle
         this.injector = Guice.createInjector(

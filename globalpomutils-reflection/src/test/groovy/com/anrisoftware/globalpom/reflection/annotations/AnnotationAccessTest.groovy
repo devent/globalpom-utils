@@ -77,7 +77,7 @@ class AnnotationAccessTest extends AnnotationUtils {
 
     static Method method
 
-    @BeforeEachClass
+    @BeforeAll
     static void setupFactory() {
         injector = createInjector()
         factory = createAnnotationAccessFactory(injector)

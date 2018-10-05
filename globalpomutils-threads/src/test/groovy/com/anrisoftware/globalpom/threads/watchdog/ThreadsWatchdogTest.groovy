@@ -78,7 +78,7 @@ class ThreadsWatchdogTest {
 
 	static ExecutorService service
 
-	@BeforeEachClass
+	@BeforeAll
 	static void setupService() {
 		injector = Guice.createInjector()
 		service = Executors.newCachedThreadPool()

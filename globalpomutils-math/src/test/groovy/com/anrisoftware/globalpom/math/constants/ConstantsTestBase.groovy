@@ -57,7 +57,7 @@ class ConstantsTestBase {
 
     static StandardValueFactory valueFactory
 
-    @BeforeEachClass
+    @BeforeAll
     static void createFactories() {
         TestUtils.toStringStyle
         injector = Guice.createInjector new ConstantsMapModule(),

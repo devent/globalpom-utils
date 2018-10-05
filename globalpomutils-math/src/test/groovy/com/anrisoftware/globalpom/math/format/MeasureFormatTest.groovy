@@ -112,7 +112,7 @@ class MeasureFormatTest {
 
     static Locale locale = Locale.US
 
-    @BeforeEachClass
+    @BeforeAll
     static void createFactories() {
         TestUtils.toStringStyle
         injector = Guice.createInjector(new MeasurementStandardModule(), new MeasurementFormatModule())

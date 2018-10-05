@@ -71,7 +71,7 @@ class LinearDistributionRangeTest {
 
     static Map data2 = new LinearDistributionRangeData2().run()
 
-    @BeforeEachClass
+    @BeforeAll
     static void createFactory() {
         toStringStyle
         injector = Guice.createInjector(new DistributionCoreModule(), new LinearDistributionModule())
