@@ -22,7 +22,6 @@
         <project.custom.bundle.namespace.internal>com.anrisoftware.globalpom.internal</project.custom.bundle.namespace.internal>
     </properties>
 
-
     <issueManagement>
         <system>Redmine</system>
         <url>${project.custom.home}</url>

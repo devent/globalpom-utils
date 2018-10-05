@@ -8,7 +8,7 @@
         <groupId>com.anrisoftware.globalpom</groupId>
         <artifactId>globalpomutils-parent</artifactId>
         <version>4.5.0-SNAPSHOT</version>
-        <relativePath>../propertiesutils-parent</relativePath>
+        <relativePath>../globalpomutils-parent</relativePath>
     </parent>
 
     <artifactId>globalpomutils-core</artifactId>
