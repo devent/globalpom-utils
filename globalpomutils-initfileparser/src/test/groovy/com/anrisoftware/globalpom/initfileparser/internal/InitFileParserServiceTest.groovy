@@ -1,29 +1,33 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
- *
+/*-
+ * #%L
+ * Global POM Utilities :: Init File Parser
+ * %%
+ * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
+ * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * #L%
  */
 package com.anrisoftware.globalpom.initfileparser.internal
 
 import static com.anrisoftware.globalpom.utils.TestUtils.*
-import groovy.util.logging.Slf4j
 
 import javax.inject.Inject
 
-import org.apache.sling.testing.mock.osgi.junit.OsgiContext
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import org.apache.sling.testing.mock.osgi.junit5.OsgiContext
+import org.apache.sling.testing.mock.osgi.junit5.OsgiContextExtension
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 import com.anrisoftware.globalpom.initfileparser.external.DefaultInitFileAttributesFactory
 import com.anrisoftware.globalpom.initfileparser.external.DefaultInitFileAttributesService
@@ -34,6 +38,8 @@ import com.anrisoftware.globalpom.initfileparser.external.SectionFormatterFactor
 import com.anrisoftware.globalpom.initfileparser.external.SectionFormatterService
 import com.anrisoftware.globalpom.initfileparser.external.SectionService
 
+import groovy.util.logging.Slf4j
+
 /**
  * @see DefaultCommandLineServiceImpl
  *
@@ -41,6 +47,7 @@ import com.anrisoftware.globalpom.initfileparser.external.SectionService
  * @since 3.1
  */
 @Slf4j
+@ExtendWith(OsgiContextExtension.class)
 class InitFileParserServiceTest extends AbstractParserTest {
 
     @Test
@@ -78,8 +85,7 @@ class InitFileParserServiceTest extends AbstractParserTest {
         super."format multi-value section"()
     }
 
-    @Rule
-    public final OsgiContext context = new OsgiContext()
+    final OsgiContext context = new OsgiContext()
 
     DefaultInitFileAttributesFactory getAttributesFactory() {
         attributesService
