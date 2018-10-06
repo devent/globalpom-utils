@@ -1,19 +1,24 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
- *
+package com.anrisoftware.globalpom.exec.internal.core;
+
+/*-
+ * #%L
+ * Global POM Utilities :: Exec
+ * %%
+ * Copyright (C) 2014 - 2018 Advanced Natural Research Institute
+ * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * #L%
  */
-package com.anrisoftware.globalpom.exec.internal.core;
 
 import static java.util.Arrays.asList;
 
@@ -138,8 +143,8 @@ class DefaultProcessTask extends Observable implements ProcessTask {
         return this;
     }
 
-    private void startProcess(ProcessBuilder builder) throws IOException,
-            InterruptedException, CommandExecException, ExecutionException {
+    private void startProcess(ProcessBuilder builder)
+            throws IOException, InterruptedException, CommandExecException, ExecutionException {
         Process process = builder.start();
         List<Future<?>> streamsTasks = createProcessStreams(process);
         this.process = process;
@@ -148,19 +153,16 @@ class DefaultProcessTask extends Observable implements ProcessTask {
         setChanged();
         notifyObservers();
         if (exitCodes != null && !checkExitCodes(ret, exitCodes)) {
-            throw new InvalidExitCodeException(this, ret, exitCodes,
-                    commandLine);
+            throw new InvalidExitCodeException(this, ret, exitCodes, commandLine);
         }
     }
 
-    private void waitForStreams(List<Future<?>> streamsTasks)
-            throws InterruptedException, ExecutionException {
+    private void waitForStreams(List<Future<?>> streamsTasks) throws InterruptedException, ExecutionException {
         for (Future<?> future : streamsTasks) {
             future.get();
         }
     }
 
-    @SuppressWarnings("unchecked")
     private List<Future<?>> createProcessStreams(Process process) {
         if (output == null) {
             this.outputStream = new ByteArrayOutputStream();
@@ -178,8 +180,7 @@ class DefaultProcessTask extends Observable implements ProcessTask {
         input.setOutput(process.getOutputStream());
         output.setInput(process.getInputStream());
         error.setInput(process.getErrorStream());
-        return new ArrayList<Future<?>>(asList(threads.submit(input),
-                threads.submit(output), threads.submit(error)));
+        return new ArrayList<Future<?>>(asList(threads.submit(input), threads.submit(output), threads.submit(error)));
     }
 
     private boolean checkExitCodes(int ret, int[] exitCodes) {
@@ -221,8 +222,7 @@ class DefaultProcessTask extends Observable implements ProcessTask {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append(EXECUTABLE,
-                commandLine.getExecutable()).toString();
+        return new ToStringBuilder(this).append(EXECUTABLE, commandLine.getExecutable()).toString();
     }
 
     @Override
