@@ -1,31 +1,14 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.anrisoftware.globalpom.math.distribution.linear
 
-import org.junit.BeforeClass
-import org.junit.Test
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.perfidix.Benchmark
-import org.perfidix.annotation.BeforeBenchClass
 import org.perfidix.annotation.Bench
 import org.perfidix.ouput.TabularSummaryOutput
 
 import com.anrisoftware.globalpom.math.distribution.api.Distribution
 import com.anrisoftware.globalpom.math.distribution.core.DistributionCoreModule
-import com.anrisoftware.globalpom.math.distribution.linear.LinearDistributionFactory
-import com.anrisoftware.globalpom.math.distribution.linear.LinearDistributionModule
 import com.anrisoftware.globalpom.math.distribution.range.RangeFactory
 import com.anrisoftware.globalpom.utils.TestUtils
 import com.google.inject.Guice
@@ -44,7 +27,28 @@ class LinearDistributionBenchTest {
 
     @Bench(runs = 32)
     void "linear distribution"() {
-        for (int i = 0; i < data.values.length; i++) {
+        for (int i = 0;
+
+/*-
+ * #%L
+ * Global POM Utilities :: Math
+ * %%
+ * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+i < data.values.length; i++) {
             distribution.add data.values[i]
         }
     }
@@ -75,7 +79,7 @@ class LinearDistributionBenchTest {
         rangeFactory = injector.getInstance RangeFactory
     }
 
-    @BeforeEachBenchClass
+    @BeforeEach
     void beforeBenchmark() {
         data = createData count: 2048, min: -5, max: 5, bins: 256, size: 2048, dec: 2, un: 1
         def range = rangeFactory.create data.min, data.max

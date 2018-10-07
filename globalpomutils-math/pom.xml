@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.anrisoftware.globalpom</groupId>
         <artifactId>globalpomutils-parent</artifactId>
-        <version>3.2-SNAPSHOT</version>
+        <version>4.5.0-SNAPSHOT</version>
         <relativePath>../globalpomutils-parent</relativePath>
     </parent>
 
@@ -15,35 +15,37 @@
     <packaging>bundle</packaging>
     <description>Mathematical classes.</description>
     <inceptionYear>2013</inceptionYear>
-    <url>https://anrisoftware.com/projects/projects/globalpomutils-math</url>
+    <url>https://javadoc.anrisoftware.com/${project.groupId}/${project.artifactId}/${project.version}/</url>
 
     <properties>
         <project.custom.bundle.namespace>com.anrisoftware.globalpom.math</project.custom.bundle.namespace>
+        <project.custom.bundle.namespace.internal>com.anrisoftware.globalpom.math.internal</project.custom.bundle.namespace.internal>
     </properties>
 
     <issueManagement>
         <system>Redmine</system>
-        <url>https://anrisoftware.com/projects/projects/globalpomutils-math</url>
+        <url>${project.custom.home}</url>
     </issueManagement>
 
     <scm>
-        <connection>scm:git:git@anrisoftware.com:globalpom-utils.git</connection>
-        <developerConnection>scm:git:git@anrisoftware.com:globalpom-utils.git</developerConnection>
-        <url>https://anrisoftware.com/projects/projects/globalpomutils-math/repository</url>
+        <connection>${project.custom.scm.pub}</connection>
+        <developerConnection>${project.custom.scm.dev}</developerConnection>
+        <url>${project.custom.scm.url}</url>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
         <site>
-            <id>anrisoftware</id>
-            <url>dav:https://anrisoftware.com/javadoc/${project.groupId}/${project.artifactId}</url>
+            <id>site-ssh</id>
+            <url>${site.ssh.url}</url>
         </site>
         <repository>
-            <id>osssonatype</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+            <id>public_releases</id>
+            <url>https://maven.anrisoftware.com/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
-            <id>osssonatype_snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>public_snapshots</id>
+            <url>https://maven.anrisoftware.com/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
