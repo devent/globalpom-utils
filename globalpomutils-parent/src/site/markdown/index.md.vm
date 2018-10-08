@@ -1,0 +1,50 @@
+[![Build Status]($context.get("project.custom.jenkins.build.badge.master"))]($context.get("project.custom.jenkins.build.link.master"))
+[![Quality Gate]($context.get("project.custom.sonarqube.qualitygate.badge"))]($context.get("project.custom.sonarqube.qualitygate.link"))
+[![Apache License, Version 2.0]($context.get("project.custom.license.image.url"))](http://www.apache.org/licenses/LICENSE-2.0) © $context.get("project.custom.year") $context.get("project.custom.user.name")
+
+#[[#]]# Description
+
+${project.description}
+
+Mathematical classes.
+
+* Arraysminmax
+
+Classes to return the minimal and maximal value of a given array;
+
+* Constants
+
+Physical constants with an uncertainty and dimension;
+
+* Format
+
+Formats and parses the degree, the latitude and longitude coordinates and
+the physical measurement.
+
+* Math
+
+Various mathematical utilities;
+
+* Measurement
+
+Classes for physical measurements with an uncertainty and the possibility
+to calculate the error propagation. The physical value Value can be an exact
+value ExactStandardValue or a value with an uncertainty StandardValue. The
+physical measurement Measure is a value with a dimension;
+
+#[[##]]# Packages
+
+![Packages Overview](images/packages.svg)
+
+#[[#]]# Links
+
+* [Generated Site](${project.url})
+* [Download (Central)]($context.get("project.custom.central.url"))
+* [Source code]($context.get("project.custom.scm.repo"))
+* [Source code (Github)]($context.get("project.custom.scm.github"))
+* [Project Home]($context.get("project.custom.home"))
+* [Project Roadmap]($context.get("project.custom.home")/roadmap)
+* [Project Issues]($context.get("project.custom.home")/issues)
+* [Jenkins]($context.get("project.custom.jenkins.url"))
+* [SonarQube]($context.get("project.custom.sonarqube.url"))
+

@@ -14,7 +14,7 @@
     <artifactId>globalpomutils-core</artifactId>
     <name>Global POM Utilities :: Core</name>
     <packaging>bundle</packaging>
-    <description>Various utilities.</description>
+    <description>Offers various utilities for various tasks.</description>
     <url>https://javadoc.anrisoftware.com/${project.groupId}/${project.artifactId}/${project.version}/</url>
 
     <properties>
