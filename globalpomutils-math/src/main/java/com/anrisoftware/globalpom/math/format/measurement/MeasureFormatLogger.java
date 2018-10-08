@@ -1,18 +1,3 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.anrisoftware.globalpom.math.format.measurement;
 
 /*-
@@ -24,9 +9,9 @@ package com.anrisoftware.globalpom.math.format.measurement;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,8 +20,8 @@ package com.anrisoftware.globalpom.math.format.measurement;
  * #L%
  */
 
-import static com.anrisoftware.globalpom.math.format.measurement.MeasureFormatLogger._.unparseable;
-import static com.anrisoftware.globalpom.math.format.measurement.MeasureFormatLogger._.unparseable_message;
+import static com.anrisoftware.globalpom.math.format.measurement.MeasureFormatLogger.m.unparseable;
+import static com.anrisoftware.globalpom.math.format.measurement.MeasureFormatLogger.m.unparseable_message;
 
 import java.text.ParseException;
 import java.text.ParsePosition;
@@ -51,7 +36,7 @@ import com.anrisoftware.globalpom.log.AbstractLogger;
  */
 class MeasureFormatLogger extends AbstractLogger {
 
-    enum _ {
+    enum m {
 
         unparseable("Unparseable physical measure"),
 
@@ -59,7 +44,7 @@ class MeasureFormatLogger extends AbstractLogger {
 
         private String name;
 
-        private _(String name) {
+        private m(String name) {
             this.name = name;
         }
 
@@ -77,18 +62,15 @@ class MeasureFormatLogger extends AbstractLogger {
     }
 
     ParseException errorParseValue(String source, ParsePosition pos) {
-        return logException(
-                new ParseException(unparseable.toString(), pos.getErrorIndex()),
+        return logException(new ParseException(unparseable.toString(), pos.getErrorIndex()),
                 unparseable_message.toString(), source);
     }
 
-    void checkString(String[] str, String source, ParsePosition pos)
-            throws ParseException {
+    void checkString(String[] str, String source, ParsePosition pos) throws ParseException {
         if (str.length == 2) {
             return;
         }
-        throw logException(
-                new ParseException(unparseable.toString(), pos.getErrorIndex()),
+        throw logException(new ParseException(unparseable.toString(), pos.getErrorIndex()),
                 unparseable_message.toString(), source);
     }
 }

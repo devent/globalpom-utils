@@ -1,18 +1,3 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.anrisoftware.globalpom.math.distribution.core;
 
 /*-
@@ -24,9 +9,9 @@ package com.anrisoftware.globalpom.math.distribution.core;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,7 +20,7 @@ package com.anrisoftware.globalpom.math.distribution.core;
  * #L%
  */
 
-import static com.anrisoftware.globalpom.math.distribution.core.AbstractDistributionLogger._.bins_less;
+import static com.anrisoftware.globalpom.math.distribution.core.AbstractDistributionLogger.m.bins_less;
 import static org.apache.commons.lang3.Validate.isTrue;
 
 import javax.inject.Singleton;
@@ -53,13 +38,13 @@ class AbstractDistributionLogger extends AbstractLogger {
 
     private static final int MIN_BINS = 1;
 
-    enum _ {
+    enum m {
 
         bins_less("Count of classes %d must be >%d for %s.");
 
         private String name;
 
-        private _(String name) {
+        private m(String name) {
             this.name = name;
         }
 
@@ -77,8 +62,7 @@ class AbstractDistributionLogger extends AbstractLogger {
     }
 
     void checkBins(AbstractDistribution distribution, int bins) {
-        isTrue(bins > MIN_BINS, bins_less.toString(), bins, MIN_BINS,
-                distribution);
+        isTrue(bins > MIN_BINS, bins_less.toString(), bins, MIN_BINS, distribution);
     }
 
 }

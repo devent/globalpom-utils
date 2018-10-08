@@ -1,18 +1,3 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.anrisoftware.globalpom.math.format.measurement;
 
 /*-
@@ -24,9 +9,9 @@ package com.anrisoftware.globalpom.math.format.measurement;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,7 +20,7 @@ package com.anrisoftware.globalpom.math.format.measurement;
  * #L%
  */
 
-import static com.anrisoftware.globalpom.math.format.measurement.ValueFormatLogger._.unparseable;
+import static com.anrisoftware.globalpom.math.format.measurement.ValueFormatLogger.m.unparseable;
 import static java.lang.String.format;
 import static java.util.regex.Pattern.compile;
 
@@ -118,8 +103,7 @@ public class ValueParserWorkerFactory {
 
     private final Pattern decUncertainPattern;
 
-    public ValueParserWorkerFactory(DecimalFormatSymbols symbols,
-            Locale locale, Integer significant, Integer decimal,
+    public ValueParserWorkerFactory(DecimalFormatSymbols symbols, Locale locale, Integer significant, Integer decimal,
             ValueFactory valueFactory) {
         this.symbols = symbols;
         this.locale = locale;
@@ -133,25 +117,17 @@ public class ValueParserWorkerFactory {
         String decPattern = format(DEC_PATTERN, min, dec);
         String numberPattern = format(NUMBER_PATTERN, min, dec);
         String expPattern = format(EXP_PATTERN, min, ex);
-        this.simplePattern = compile(
-                format(SIMPLE_PATTERN, decPattern, expPattern),
+        this.simplePattern = compile(format(SIMPLE_PATTERN, decPattern, expPattern), Pattern.MULTILINE);
+        this.uncertainPattern = compile(format(UNCERTAIN_PATTERN, numberPattern, decPattern, expPattern),
                 Pattern.MULTILINE);
-        this.uncertainPattern = compile(
-                format(UNCERTAIN_PATTERN, numberPattern, decPattern, expPattern),
+        this.uncertainPercentPattern = compile(format(UNCERTAIN_PERCENT_PATTERN, decPattern, expPattern, percent),
                 Pattern.MULTILINE);
-        this.uncertainPercentPattern = compile(
-                format(UNCERTAIN_PERCENT_PATTERN, decPattern, expPattern,
-                        percent), Pattern.MULTILINE);
-        this.uncertainShortPattern = compile(
-                format(UNCERTAIN_SHORT_PATTERN, numberPattern, decPattern,
-                        expPattern), Pattern.MULTILINE);
-        this.decUncertainPattern = compile(
-                format(DEC_UNCERTAIN_PATTERN, decPattern, expPattern),
+        this.uncertainShortPattern = compile(format(UNCERTAIN_SHORT_PATTERN, numberPattern, decPattern, expPattern),
                 Pattern.MULTILINE);
+        this.decUncertainPattern = compile(format(DEC_UNCERTAIN_PATTERN, decPattern, expPattern), Pattern.MULTILINE);
     }
 
-    public ValueParserWorker getValueParserWorker(String source,
-            ParsePosition pos) throws ParseException {
+    public ValueParserWorker getValueParserWorker(String source, ParsePosition pos) throws ParseException {
         source = source.toUpperCase(locale);
         Matcher matcher = simplePattern.matcher(source);
         String valueStr;
@@ -161,45 +137,40 @@ public class ValueParserWorkerFactory {
             valueStr = matcher.group(1);
             exponentStr = matcher.group(2);
             uncString = null;
-            return new SimpleNumberValueParserWorker(symbols, locale,
-                    significant, decimal, valueFactory, valueStr, exponentStr,
-                    uncString);
+            return new SimpleNumberValueParserWorker(symbols, locale, significant, decimal, valueFactory, valueStr,
+                    exponentStr, uncString);
         }
         matcher = uncertainPattern.matcher(source);
         if (matcher.matches()) {
             valueStr = matcher.group(1);
             exponentStr = matcher.group(2);
             uncString = matcher.group(3);
-            return new SimpleNumberValueParserWorker(symbols, locale,
-                    significant, decimal, valueFactory, valueStr, exponentStr,
-                    uncString);
+            return new SimpleNumberValueParserWorker(symbols, locale, significant, decimal, valueFactory, valueStr,
+                    exponentStr, uncString);
         }
         matcher = uncertainPercentPattern.matcher(source);
         if (matcher.matches()) {
             valueStr = matcher.group(1);
             exponentStr = matcher.group(2);
             uncString = matcher.group(3);
-            return new SimpleNumberValueParserWorker(symbols, locale,
-                    significant, decimal, valueFactory, valueStr, exponentStr,
-                    uncString);
+            return new SimpleNumberValueParserWorker(symbols, locale, significant, decimal, valueFactory, valueStr,
+                    exponentStr, uncString);
         }
         matcher = uncertainShortPattern.matcher(source);
         if (matcher.matches()) {
             valueStr = matcher.group(1);
             exponentStr = matcher.group(3);
             uncString = matcher.group(2);
-            return new UncertainShortNumberValueParserWorker(symbols, locale,
-                    significant, decimal, valueFactory, valueStr, exponentStr,
-                    uncString);
+            return new UncertainShortNumberValueParserWorker(symbols, locale, significant, decimal, valueFactory,
+                    valueStr, exponentStr, uncString);
         }
         matcher = decUncertainPattern.matcher(source);
         if (matcher.matches()) {
             valueStr = matcher.group(1);
             exponentStr = matcher.group(2);
             uncString = matcher.group(3);
-            return new SimpleNumberValueParserWorker(symbols, locale,
-                    significant, decimal, valueFactory, valueStr, exponentStr,
-                    uncString);
+            return new SimpleNumberValueParserWorker(symbols, locale, significant, decimal, valueFactory, valueStr,
+                    exponentStr, uncString);
         }
         throw new ParseException(unparseable.toString(), pos.getErrorIndex());
     }

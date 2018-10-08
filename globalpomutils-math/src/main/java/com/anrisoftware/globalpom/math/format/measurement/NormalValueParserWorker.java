@@ -1,18 +1,3 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.anrisoftware.globalpom.math.format.measurement;
 
 /*-
@@ -24,9 +9,9 @@ package com.anrisoftware.globalpom.math.format.measurement;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,7 +20,7 @@ package com.anrisoftware.globalpom.math.format.measurement;
  * #L%
  */
 
-import static com.anrisoftware.globalpom.math.format.measurement.ValueFormatLogger._.unparseable;
+import static com.anrisoftware.globalpom.math.format.measurement.ValueFormatLogger.m.unparseable;
 import static com.anrisoftware.globalpom.math.math.MathUtils.calculateValue;
 import static org.apache.commons.lang3.StringUtils.split;
 
@@ -67,24 +52,22 @@ class NormalValueParserWorker implements ValueParserWorker {
 
     private final Pattern valueGroupsPattern;
 
-    public NormalValueParserWorker(DecimalFormatSymbols symbols, Locale locale,
-            Integer significant, Integer decimal, ValueFactory valueFactory) {
+    public NormalValueParserWorker(DecimalFormatSymbols symbols, Locale locale, Integer significant, Integer decimal,
+            ValueFactory valueFactory) {
         this.symbols = symbols;
         this.locale = locale;
         this.decimal = decimal;
         this.valueFactory = valueFactory;
-        this.valueGroupsPattern = Pattern.compile(String.format(
-                "(.*)(\\(.*\\))?(%s.*)?", symbols.getExponentSeparator()));
+        this.valueGroupsPattern = Pattern
+                .compile(String.format("(.*)(\\(.*\\))?(%s.*)?", symbols.getExponentSeparator()));
     }
 
     @Override
-    public Value stringToValue(String string, Double unc, ParsePosition pos)
-            throws ParseException {
+    public Value stringToValue(String string, Double unc, ParsePosition pos) throws ParseException {
         String astring = string.toUpperCase(locale);
         Matcher matcher = valueGroupsPattern.matcher(astring);
         if (!matcher.matches()) {
-            throw new ParseException(unparseable.toString(),
-                    pos.getErrorIndex());
+            throw new ParseException(unparseable.toString(), pos.getErrorIndex());
         }
         String valueStr = matcher.group(1);
         String uncStr = matcher.group(2);
@@ -210,8 +193,7 @@ class NormalValueParserWorker implements ValueParserWorker {
                 }
             }
             // decimal order
-            if (order < 1 && valueSplit.size() == 2
-                    && valueSplit.get(1) != null) {
+            if (order < 1 && valueSplit.size() == 2 && valueSplit.get(1) != null) {
                 String decimal = valueSplit.get(1);
                 boolean onlyNull = true;
                 int oorder = 0;
@@ -252,8 +234,7 @@ class NormalValueParserWorker implements ValueParserWorker {
                 return buff;
             }
             StringBuilder b = new StringBuilder();
-            boolean firstNotNull = valueSplit.size() > 1
-                    && valueSplit.get(1) != null;
+            boolean firstNotNull = valueSplit.size() > 1 && valueSplit.get(1) != null;
             for (int i = number.length() - 1; i >= 0; i--) {
                 char c = number.charAt(i);
                 switch (c) {
