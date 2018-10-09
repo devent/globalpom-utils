@@ -31,9 +31,9 @@ pipeline {
         }
 
 		/**
-		* The stage will compile on all branches.
+		* The stage will compile and deploy the generated site on all branches.
 		*/
-        stage('Compile') {
+        stage('Compile and deploy Site') {
             steps {
                 container('maven') {
                     withCredentials([string(credentialsId: 'gpg-key-passphrase', variable: 'GPG_PASSPHRASE')]) {
@@ -41,7 +41,7 @@ pipeline {
                     configFileProvider([configFile(fileId: 'maven-settings-global', variable: 'MAVEN_SETTINGS')]) {
                         withMaven() {
                             sh '/setup-gpg.sh'
-                            sh '$MVN_CMD -s $MAVEN_SETTINGS clean install site:site'
+                            sh '$MVN_CMD -s $MAVEN_SETTINGS clean install site:site site:deploy'
                         }
                 	} } }
                 }
@@ -75,28 +75,6 @@ pipeline {
                     	withMaven() {
 	                        sh '/setup-ssh.sh'
                         	sh '$MVN_CMD -s $MAVEN_SETTINGS -B deploy'
-                    	}
-                    }
-                }
-            }
-        } // stage
-
-		/**
-		* The stage will deploy the generated site for feature branches.
-		*/
-        stage('Deploy Site') {
-    		when {
-    			allOf {
-					not { branch 'master' }
-					not { branch 'develop' }
-				}
-			}
-            steps {
-                container('maven') {
-                	configFileProvider([configFile(fileId: 'maven-settings-global', variable: 'MAVEN_SETTINGS')]) {
-                    	withMaven() {
-	                        sh '/setup-ssh.sh'
-                        	sh '$MVN_CMD -s $MAVEN_SETTINGS -B site:deploy'
                     	}
                     }
                 }
