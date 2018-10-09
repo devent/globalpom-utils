@@ -3,7 +3,7 @@
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 4.5.0
- * @version 1.1.0
+ * @version 1.2.0
  */
 pipeline {
 
@@ -31,31 +31,19 @@ pipeline {
         }
 
 		/**
-		* The stage will setup the container for the build.
+		* The stage will compile on all branches.
 		*/
-        stage('Setup Build') {
+        stage('Compile') {
             steps {
                 container('maven') {
                     withCredentials([string(credentialsId: 'gpg-key-passphrase', variable: 'GPG_PASSPHRASE')]) {
-                        configFileProvider([configFile(fileId: 'gpg-key', variable: 'GPG_KEY_FILE')]) {
-                            sh '/setup-gpg.sh'
-                        }
-                    }
-                }
-            }
-        }
-
-		/**
-		* The stage will compile and test on all branches.
-		*/
-        stage('Compile and Test') {
-            steps {
-                container('maven') {
+                    configFileProvider([configFile(fileId: 'gpg-key', variable: 'GPG_KEY_FILE')]) {
                     configFileProvider([configFile(fileId: 'maven-settings-global', variable: 'MAVEN_SETTINGS')]) {
                         withMaven() {
-                            sh '$MVN_CMD -s $MAVEN_SETTINGS clean install'
+                            sh '/setup-gpg.sh'
+                            sh '$MVN_CMD -s $MAVEN_SETTINGS clean install site:site'
                         }
-                    }
+                	} } }
                 }
             }
         }
@@ -108,7 +96,7 @@ pipeline {
                 	configFileProvider([configFile(fileId: 'maven-settings-global', variable: 'MAVEN_SETTINGS')]) {
                     	withMaven() {
 	                        sh '/setup-ssh.sh'
-                        	sh '$MVN_CMD -s $MAVEN_SETTINGS -B site:site site:deploy'
+                        	sh '$MVN_CMD -s $MAVEN_SETTINGS -B site:deploy'
                     	}
                     }
                 }
@@ -157,7 +145,7 @@ pipeline {
                 }
             }
         } // stage
-        
+
     } // stages
 
     post {
