@@ -72,12 +72,14 @@ pipeline {
         stage('Deploy to Private') {
             steps {
                 container('maven') {
+                    withCredentials([string(credentialsId: 'gpg-key-passphrase', variable: 'GPG_PASSPHRASE')]) {
+                    configFileProvider([configFile(fileId: 'gpg-key', variable: 'GPG_KEY_FILE')]) {
                 	configFileProvider([configFile(fileId: 'maven-settings-global', variable: 'MAVEN_SETTINGS')]) {
                     	withMaven() {
-	                        sh '/setup-ssh.sh'
+                            sh '/setup-gpg.sh'
                         	sh '$MVN_CMD -s $MAVEN_SETTINGS -B deploy'
                     	}
-                    }
+                    } } }
                 }
             }
         } // stage
@@ -95,14 +97,17 @@ pipeline {
 			}
             steps {
                 container('maven') {
+                    withCredentials([string(credentialsId: 'gpg-key-passphrase', variable: 'GPG_PASSPHRASE')]) {
+                    configFileProvider([configFile(fileId: 'gpg-key', variable: 'GPG_KEY_FILE')]) {
                 	configFileProvider([configFile(fileId: 'maven-settings-global', variable: 'MAVEN_SETTINGS')]) {
                     	withMaven() {
+                            sh '/setup-gpg.sh'
 	                        sh '/setup-ssh.sh'
                     	    sh 'git checkout develop && git pull origin develop'
                         	sh '$MVN_CMD -s $MAVEN_SETTINGS -B release:prepare'
                         	sh '$MVN_CMD -s $MAVEN_SETTINGS -B release:perform'
                     	}
-                    }
+                    } } }
                 }
             }
         } // stage
@@ -116,11 +121,14 @@ pipeline {
 			}
             steps {
                 container('maven') {
+                    withCredentials([string(credentialsId: 'gpg-key-passphrase', variable: 'GPG_PASSPHRASE')]) {
+                    configFileProvider([configFile(fileId: 'gpg-key', variable: 'GPG_KEY_FILE')]) {
                 	configFileProvider([configFile(fileId: 'maven-settings-global', variable: 'MAVEN_SETTINGS')]) {
                     	withMaven() {
+                            sh '/setup-gpg.sh'
                             sh '$MVN_CMD -s $MAVEN_SETTINGS -Posssonatype -B deploy'
                     	}
-                    }
+                    } } }
                 }
             }
         } // stage
