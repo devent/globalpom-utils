@@ -24,9 +24,9 @@ package com.anrisoftware.globalpom.core.textmatch.tokentemplate;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -48,7 +48,7 @@ import com.google.inject.assistedinject.Assisted;
  * Replace search text with a replacement. The replacement will be surrounded by
  * a begin and end token. If the search text can not be found the replacement
  * will be appended.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.0
  */
@@ -74,20 +74,16 @@ public class TokensTemplate implements Serializable {
 
     /**
      * Sets the begin and end tokens, the template and the argument.
-     * 
-     * @param tokenMarker
-     *            the {@link TokenMarker} holding the begin and end tokens.
-     * 
-     * @param template
-     *            the {@link TokenTemplate} containing the search text and the
-     *            replacement.
-     * 
-     * @param text
-     *            the text in which to replace.
+     *
+     * @param tokenMarker the {@link TokenMarker} holding the begin and end tokens.
+     *
+     * @param template    the {@link TokenTemplate} containing the search text and
+     *                    the replacement.
+     *
+     * @param text        the text in which to replace.
      */
     @Inject
-    TokensTemplate(@Assisted TokenMarker tokenMarker,
-            @Assisted TokenTemplate template, @Assisted String text) {
+    TokensTemplate(@Assisted TokenMarker tokenMarker, @Assisted TokenTemplate template, @Assisted String text) {
         this.beginToken = tokenMarker.getBeginToken();
         this.endToken = tokenMarker.getEndToken();
         this.template = template;
@@ -96,13 +92,12 @@ public class TokensTemplate implements Serializable {
 
     /**
      * Replace search text with a replacement.
-     * 
+     *
      * @return this {@link TokensTemplate}.
      */
     public TokensTemplate replace() {
         Matcher matcher;
         matcher = template.toPattern(beginToken, endToken).matcher(text);
-        System.out.println(matcher); // TODO println
         boolean find = matcher.find();
         String replace = template.toReplace(beginToken, endToken);
         if (find) {
@@ -134,7 +129,7 @@ public class TokensTemplate implements Serializable {
 
     /**
      * Returns the formatted text.
-     * 
+     *
      * @return the text.
      */
     public String getText() {
@@ -143,7 +138,7 @@ public class TokensTemplate implements Serializable {
 
     /**
      * Returns the token template.
-     * 
+     *
      * @return the {@link TokenTemplate}.
      */
     public TokenTemplate getTemplate() {
@@ -152,8 +147,7 @@ public class TokensTemplate implements Serializable {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append(template)
-                .append(BEGIN_TOKEN, beginToken).append(END_TOKEN, endToken)
+        return new ToStringBuilder(this).append(template).append(BEGIN_TOKEN, beginToken).append(END_TOKEN, endToken)
                 .toString();
     }
 }
