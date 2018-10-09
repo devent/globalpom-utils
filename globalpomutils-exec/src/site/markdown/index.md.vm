@@ -51,7 +51,7 @@ configured at runtime:
 <pre>
 /**
  * Attach the logger for RunCommands commands collection. The commands
- * are logged into the file {@code "<prefix>/runcommands.log"}
+ * are logged into the file {@code "&lt;prefix>/runcommands.log"}
  */
 static attachRunCommandsLog(File prefix) {
     LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
@@ -78,33 +78,33 @@ static attachRunCommandsLog(File prefix) {
 Or it can be configured via the logback.xml file:
 
 <pre>
-<configuration>
+&lt;configuration>
 
-    <appender name="RUNCOMMANDS-FILE" class="ch.qos.logback.core.FileAppender">
-        <file>${project.custom.log.prefix}/${project.custom.app.path}-runcommands.log</file>
-        <append>false</append>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${project.custom.log.prefix}/${project.custom.app.path}-runcommands.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>1MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-            <maxHistory>10</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>[%level] %date{ISO8601} [%thread] %logger - %msg %n%xEx</pattern>
-            <immediateFlush>true</immediateFlush>
-        </encoder>
-    </appender>
+    &lt;appender name="RUNCOMMANDS-FILE" class="ch.qos.logback.core.FileAppender">
+        &lt;file>${project.custom.log.prefix}/${project.custom.app.path}-runcommands.log&lt;/file>
+        &lt;append>false&lt;/append>
+        &lt;rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            &lt;fileNamePattern>${project.custom.log.prefix}/${project.custom.app.path}-runcommands.%d{yyyy-MM-dd}.%i.log&lt;/fileNamePattern>
+            &lt;timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                &lt;maxFileSize>1MB&lt;/maxFileSize>
+            &lt;/timeBasedFileNamingAndTriggeringPolicy>
+            &lt;maxHistory>10&lt;/maxHistory>
+        &lt;/rollingPolicy>
+        &lt;encoder>
+            &lt;pattern>[%level] %date{ISO8601} [%thread] %logger - %msg %n%xEx&lt;/pattern>
+            &lt;immediateFlush>true&lt;/immediateFlush>
+        &lt;/encoder>
+    &lt;/appender>
 
-    <root level="ALL">
-        <appender-ref ref="LOG-FILE" />
-    </root>
+    &lt;root level="ALL">
+        &lt;appender-ref ref="LOG-FILE" />
+    &lt;/root>
 
-    <logger name="com.anrisoftware.globalpom.exec.runcommands.RunCommands" level="DEBUG" additivity="false">
-        <appender-ref ref="RUNCOMMANDS-FILE"/>
-    </logger>
+    &lt;logger name="com.anrisoftware.globalpom.exec.runcommands.RunCommands" level="DEBUG" additivity="false">
+        &lt;appender-ref ref="RUNCOMMANDS-FILE"/>
+    &lt;/logger>
 
-</configuration>
+&lt;/configuration>
 </pre>
 
 #[[##]]# Packages
