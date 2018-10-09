@@ -10,6 +10,7 @@
         <version>4.5.0</version>
     </parent>
 
+    <groupId>com.anrisoftware.globalpom</groupId>
     <artifactId>globalpomutils-bundle</artifactId>
     <packaging>pom</packaging>
     <name>Global POM Utilities :: Bundle POM</name>
