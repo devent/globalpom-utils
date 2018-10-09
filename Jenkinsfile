@@ -41,6 +41,7 @@ pipeline {
                     configFileProvider([configFile(fileId: 'maven-settings-global', variable: 'MAVEN_SETTINGS')]) {
                         withMaven() {
                             sh '/setup-gpg.sh'
+	                        sh '/setup-ssh.sh'
                             sh '$MVN_CMD -s $MAVEN_SETTINGS clean install site:site site:deploy'
                         }
                 	} } }
