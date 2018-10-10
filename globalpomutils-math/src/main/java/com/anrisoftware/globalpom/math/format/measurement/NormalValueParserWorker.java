@@ -150,7 +150,6 @@ class NormalValueParserWorker implements ValueParserWorker {
         }
 
         private void splitValue(String value) {
-            System.out.println(value);// TODO println
             String[] dsplit = split(value, decimalSeparator);
             // number
             valueSplit.add(dsplit[0].substring(negative ? 1 : 0));
