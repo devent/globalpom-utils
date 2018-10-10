@@ -136,6 +136,7 @@ class DefaultProcessTask extends Observable implements ProcessTask {
         } catch (IOException e) {
             throw new StartCommandException(this, e, commandLine);
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             throw new CommandInterruptedException(this, e, commandLine);
         } catch (ExecutionException e) {
             throw new StartCommandException(this, e.getCause(), commandLine);

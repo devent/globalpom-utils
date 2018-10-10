@@ -1,18 +1,3 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.anrisoftware.globalpom.exec.internal.scriptprocess;
 
 /*-
@@ -24,9 +9,9 @@ package com.anrisoftware.globalpom.exec.internal.scriptprocess;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -154,11 +139,9 @@ public abstract class AbstractProcessExec implements ScriptExec {
     /**
      * Sets the threads pool and the arguments.
      *
-     * @param threads
-     *            the {@link Threads} threads pool.
+     * @param threads the {@link Threads} threads pool.
      *
-     * @param args
-     *            the {@link Map} arguments.
+     * @param args    the {@link Map} arguments.
      */
     protected AbstractProcessExec(Threads threads, Map<String, Object> args) {
         this.args = args;
@@ -166,8 +149,7 @@ public abstract class AbstractProcessExec implements ScriptExec {
         this.exitCode = getArg(EXIT_CODE, args, EXIT_CODE_DEFAULT);
         this.exitCodes = getArg(EXIT_CODES, args);
         this.checkExitCodes = getArg("checkExitCodes", args, true);
-        this.destroyOnTimeout = getArg(DESTROY_ON_TIMEOUT, args,
-                DESTROY_ON_TIMEOUT_DEFAULT);
+        this.destroyOnTimeout = getArg(DESTROY_ON_TIMEOUT, args, DESTROY_ON_TIMEOUT_DEFAULT);
         this.timeout = getArg(TIMEOUT, args, TIMEOUT_DEFAULT);
         this.outString = getArg(OUT_STRING, args, OUT_STRING_DEFAULT);
         this.errString = getArg(ERR_STRING, args, ERR_STRING_DEFAULT);
@@ -180,13 +162,11 @@ public abstract class AbstractProcessExec implements ScriptExec {
     }
 
     @SuppressWarnings("unchecked")
-    private <T> T getArg(String name, Map<String, Object> args,
-            T defaultValue) {
+    private <T> T getArg(String name, Map<String, Object> args, T defaultValue) {
         return (T) (args.containsKey(name) ? args.get(name) : defaultValue);
     }
 
-    private File getFileArg(String name, Map<String, Object> args,
-            String defaultValue) {
+    private File getFileArg(String name, Map<String, Object> args, String defaultValue) {
         File value = new File(defaultValue);
         Object f = getArg(name, args, value);
         if (f instanceof File) {
@@ -224,13 +204,11 @@ public abstract class AbstractProcessExec implements ScriptExec {
     /**
      * Creates the command line for the process.
      *
-     * @param commandLineFactory
-     *            the {@link ScriptCommandLineFactory}.
+     * @param commandLineFactory the {@link ScriptCommandLineFactory}.
      *
      * @return the {@link CommandLine}.
      */
-    protected abstract CommandLine createCommandLine(
-            ScriptCommandLineFactory commandLineFactory);
+    protected abstract CommandLine createCommandLine(ScriptCommandLineFactory commandLineFactory);
 
     private CommandExec createExec() {
         CommandExec script = scriptExecFactory.create(execFactory);
@@ -247,8 +225,7 @@ public abstract class AbstractProcessExec implements ScriptExec {
         return script;
     }
 
-    private ProcessTask exec(CommandLine line, CommandExec script)
-            throws CommandExecException {
+    private ProcessTask exec(CommandLine line, CommandExec script) throws CommandExecException {
         setupCommandError(script, line);
         setupCommandOutput(script, line);
         Future<ProcessTask> future = script.exec(line);
@@ -259,6 +236,7 @@ public abstract class AbstractProcessExec implements ScriptExec {
                 return future.get();
             }
         } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
             throw new ScriptExecException(e, line, script);
         } catch (ExecutionException e) {
             throw new ScriptExecException(e, line, script);
