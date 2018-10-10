@@ -29,8 +29,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.google.inject.assistedinject.Assisted;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * Replace search text with a replacement. The replacement will be surrounded by
  * a begin and end token. If the search text can not be found the replacement
@@ -119,7 +117,7 @@ public class TokensTemplate implements Serializable {
      *
      * @return the text.
      */
-    @SuppressFBWarnings(value = "squid:S4275", justification = "Better for the user to have a getText() method.")
+    @SuppressWarnings("squid:S4275")
     public String getText() {
         return replacement;
     }
