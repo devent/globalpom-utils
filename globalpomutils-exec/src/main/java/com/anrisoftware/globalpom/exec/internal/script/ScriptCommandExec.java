@@ -1,24 +1,31 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
- *
+package com.anrisoftware.globalpom.exec.internal.script;
+
+/*-
+ * #%L
+ * Global POM Utilities :: Exec
+ * %%
+ * Copyright (C) 2014 - 2018 Advanced Natural Research Institute
+ * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * #L%
  */
-package com.anrisoftware.globalpom.exec.internal.script;
 
 import static com.anrisoftware.globalpom.exec.internal.script.ScriptCommandModule.getScriptCommandExecFactory;
 
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.Future;
@@ -40,7 +47,7 @@ import com.google.inject.assistedinject.Assisted;
 
 /**
  * Executes a script created from a loaded template.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.0
  */
@@ -51,27 +58,36 @@ public class ScriptCommandExec implements CommandExec {
     /**
      * @see ScriptCommandExecFactory#create(CommandExecFactory)
      */
-    public static CommandExec createScriptCommandExec(
-            CommandExecFactory execFactory) {
+    public static CommandExec createScriptCommandExec(CommandExecFactory execFactory) {
         return getScriptCommandExecFactory().create(execFactory);
     }
 
     private final CommandExec exec;
 
+    /**
+     * The observer is notified when the script was terminated.
+     */
     private final Observer scriptFileObserver;
+
+    private final ScriptCommandExecLogger logger;
 
     /**
      * @see ScriptCommandExecFactory#create(CommandExecFactory)
      */
     @Inject
-    ScriptCommandExec(@Assisted CommandExecFactory execFactory) {
+    ScriptCommandExec(@Assisted CommandExecFactory execFactory, ScriptCommandExecLogger logger) {
         this.exec = execFactory.create();
+        this.logger = logger;
         this.scriptFileObserver = new Observer() {
 
             @Override
             public void update(Observable o, Object arg) {
                 ProcessTask task = (ProcessTask) o;
-                deleteScriptFile(task);
+                try {
+                    deleteScriptFile(task);
+                } catch (IOException e) {
+                    ScriptCommandExec.this.logger.deleteScriptFileError(e);
+                }
             }
         };
         exec.setObserver(scriptFileObserver);
@@ -113,8 +129,8 @@ public class ScriptCommandExec implements CommandExec {
     }
 
     @Override
-    public Future<ProcessTask> exec(CommandLine commandLine,
-            PropertyChangeListener... listeners) throws CommandExecException {
+    public Future<ProcessTask> exec(CommandLine commandLine, PropertyChangeListener... listeners)
+            throws CommandExecException {
         return exec.exec(commandLine, listeners);
     }
 
@@ -123,9 +139,10 @@ public class ScriptCommandExec implements CommandExec {
         return new ToStringBuilder(this).append(EXEC, exec).toString();
     }
 
-    private void deleteScriptFile(ProcessTask task) {
+    private void deleteScriptFile(ProcessTask task) throws IOException {
         ScriptCommandLine line = (ScriptCommandLine) task.getCommandLine();
-        ((File) line.getExecutable()).delete();
+        File executable = (File) line.getExecutable();
+        Files.delete(executable.toPath());
     }
 
 }

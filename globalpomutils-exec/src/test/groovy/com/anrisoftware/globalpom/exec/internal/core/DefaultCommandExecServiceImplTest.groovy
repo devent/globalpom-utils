@@ -1,30 +1,34 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
- *
+/*-
+ * #%L
+ * Global POM Utilities :: Exec
+ * %%
+ * Copyright (C) 2014 - 2018 Advanced Natural Research Institute
+ * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * #L%
  */
 package com.anrisoftware.globalpom.exec.internal.core
 
 import static com.anrisoftware.globalpom.utils.TestUtils.*
-import groovy.util.logging.Slf4j
 
 import java.util.concurrent.Future
 
-import org.apache.sling.testing.mock.osgi.junit.OsgiContext
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Rule
-import org.junit.Test
+import org.apache.sling.testing.mock.osgi.junit5.OsgiContext
+import org.apache.sling.testing.mock.osgi.junit5.OsgiContextExtension
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 import com.anrisoftware.globalpom.exec.external.command.CommandLineService
 import com.anrisoftware.globalpom.exec.external.core.CommandExec
@@ -39,6 +43,8 @@ import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsS
 import com.anrisoftware.globalpom.utils.TestUtils
 import com.anrisoftware.propertiesutils.ContextPropertiesFactory
 
+import groovy.util.logging.Slf4j
+
 /**
  * @see DefaultCommandExecServiceImpl
  *
@@ -46,6 +52,7 @@ import com.anrisoftware.propertiesutils.ContextPropertiesFactory
  * @since 3.1
  */
 @Slf4j
+@ExtendWith(OsgiContextExtension.class)
 class DefaultCommandExecServiceImplTest {
 
     @Test
@@ -65,8 +72,7 @@ class DefaultCommandExecServiceImplTest {
         assert process.getErr() == ""
     }
 
-    @Rule
-    public final OsgiContext context = new OsgiContext()
+    final OsgiContext context = new OsgiContext()
 
     PropertiesThreadsService propertiesThreadsService
 
@@ -74,7 +80,7 @@ class DefaultCommandExecServiceImplTest {
 
     CommandExecService commandExecService
 
-    @Before
+    @BeforeEach
     void createFactories() {
         TestUtils.toStringStyle
         context.registerInjectActivateService(new PipeCommandInputServiceImpl(), null)
@@ -88,7 +94,7 @@ class DefaultCommandExecServiceImplTest {
 
     static threadsProperties = DefaultCommandExecTest.class.getResource("/threads_test.properties")
 
-    @BeforeClass
+    @BeforeAll
     static void createFactory() {
         toStringStyle
         this.properties = new ContextPropertiesFactory('com.anrisoftware.globalpom.threads.properties.internal').fromResource(threadsProperties)

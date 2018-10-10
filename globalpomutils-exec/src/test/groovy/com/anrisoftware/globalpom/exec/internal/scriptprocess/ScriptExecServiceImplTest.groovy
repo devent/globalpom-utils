@@ -1,28 +1,32 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
- *
+/*-
+ * #%L
+ * Global POM Utilities :: Exec
+ * %%
+ * Copyright (C) 2014 - 2018 Advanced Natural Research Institute
+ * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * #L%
  */
 package com.anrisoftware.globalpom.exec.internal.scriptprocess
 
 import static com.anrisoftware.globalpom.utils.TestUtils.*
-import groovy.util.logging.Slf4j
 
-import org.apache.sling.testing.mock.osgi.junit.OsgiContext
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Rule
-import org.junit.Test
+import org.apache.sling.testing.mock.osgi.junit5.OsgiContext
+import org.apache.sling.testing.mock.osgi.junit5.OsgiContextExtension
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 import com.anrisoftware.globalpom.exec.external.scriptprocess.ScriptExecService
 import com.anrisoftware.globalpom.exec.internal.command.DefaultCommandLineServiceImpl
@@ -38,14 +42,16 @@ import com.anrisoftware.globalpom.threads.external.core.Threads
 import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreadsService
 import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsServiceImpl
 import com.anrisoftware.propertiesutils.ContextPropertiesFactory
+import com.anrisoftware.resources.st.internal.worker.STDefaultPropertiesServiceImpl
+import com.anrisoftware.resources.st.internal.worker.STTemplateWorkerServiceImpl
 import com.anrisoftware.resources.templates.external.TemplateResource
 import com.anrisoftware.resources.templates.external.Templates
 import com.anrisoftware.resources.templates.external.TemplatesService
 import com.anrisoftware.resources.templates.internal.maps.TemplatesBundlesDefaultMapServiceImpl
 import com.anrisoftware.resources.templates.internal.maps.TemplatesDefaultMapServiceImpl
 import com.anrisoftware.resources.templates.internal.templates.TemplatesServiceImpl
-import com.anrisoftware.resources.templates.internal.worker.STDefaultPropertiesServiceImpl
-import com.anrisoftware.resources.templates.internal.worker.STTemplateWorkerServiceImpl
+
+import groovy.util.logging.Slf4j
 
 /**
  * @see ScriptExecServiceImpl
@@ -54,6 +60,7 @@ import com.anrisoftware.resources.templates.internal.worker.STTemplateWorkerServ
  * @since 3.1
  */
 @Slf4j
+@ExtendWith(OsgiContextExtension.class)
 class ScriptExecServiceImplTest {
 
     @Test
@@ -62,8 +69,7 @@ class ScriptExecServiceImplTest {
                 log: log, text: "foo", this, threads, echoScriptTemplate, "echo")()
     }
 
-    @Rule
-    public final OsgiContext context = new OsgiContext()
+    final OsgiContext context = new OsgiContext()
 
     ScriptExecService scriptExecService
 
@@ -75,7 +81,7 @@ class ScriptExecServiceImplTest {
 
     Threads threads
 
-    @Before
+    @BeforeEach
     void setup() {
         context.registerInjectActivateService(new DefaultCommandLineServiceImpl(), null)
         context.registerInjectActivateService(new PipeCommandInputServiceImpl(), null)
@@ -94,13 +100,14 @@ class ScriptExecServiceImplTest {
         this.templatesService = context.registerInjectActivateService(new TemplatesServiceImpl(), null)
         this.threadsService = context.registerInjectActivateService(new PropertiesThreadsServiceImpl(), null)
         this.echoScriptTemplate = loadTemplates()
+        createThreadsPool()
     }
 
     static properties
 
     static threadsProperties = ScriptExecServiceImplTest.class.getResource("test_threads.properties")
 
-    @BeforeClass
+    @BeforeAll
     static void createFactory() {
         toStringStyle
         this.properties = new ContextPropertiesFactory('com.anrisoftware.globalpom.threads.properties.internal').fromResource(threadsProperties)
@@ -111,7 +118,6 @@ class ScriptExecServiceImplTest {
         return templates.getResource("echo_script")
     }
 
-    @Before
     void createThreadsPool() {
         threads = threadsService.create()
         threads.setProperties properties

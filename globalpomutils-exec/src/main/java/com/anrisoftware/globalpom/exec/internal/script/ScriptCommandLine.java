@@ -1,22 +1,28 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
- *
+package com.anrisoftware.globalpom.exec.internal.script;
+
+/*-
+ * #%L
+ * Global POM Utilities :: Exec
+ * %%
+ * Copyright (C) 2014 - 2018 Advanced Natural Research Institute
+ * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * #L%
  */
-package com.anrisoftware.globalpom.exec.internal.script;
 
 import static com.anrisoftware.globalpom.exec.internal.script.ScriptCommandModule.getScriptCommandLineFactory;
 import static java.io.File.createTempFile;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +40,7 @@ import com.anrisoftware.globalpom.exec.external.command.CommandLineFactory;
 import com.anrisoftware.globalpom.exec.external.core.CommandExecException;
 import com.anrisoftware.globalpom.exec.external.core.CommandLine;
 import com.anrisoftware.globalpom.exec.external.script.ScriptCommandLineFactory;
-import com.anrisoftware.resources.external.ResourcesException;
+import com.anrisoftware.resources.api.external.ResourcesException;
 import com.anrisoftware.resources.templates.external.TemplateResource;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -50,8 +56,7 @@ public class ScriptCommandLine implements CommandLine {
     /**
      * @see ScriptCommandLineFactory#create(String, TemplateResource)
      */
-    public static CommandLine createScriptCommandLine(String name,
-            TemplateResource template) {
+    public static CommandLine createScriptCommandLine(String name, TemplateResource template) {
         return getScriptCommandLineFactory().create(name, template);
     }
 
@@ -164,14 +169,12 @@ public class ScriptCommandLine implements CommandLine {
 
     @Override
     public void setVariableStartChar(char character) {
-        template.getProperties().setProperty(START_CHARACTER_PROPERTY,
-                String.valueOf(character));
+        template.getProperties().setProperty(START_CHARACTER_PROPERTY, String.valueOf(character));
     }
 
     @Override
     public void setVariableStopChar(char character) {
-        template.getProperties().setProperty(STOP_CHARACTER_PROPERTY,
-                String.valueOf(character));
+        template.getProperties().setProperty(STOP_CHARACTER_PROPERTY, String.valueOf(character));
     }
 
     public TemplateResource getTemplate() {
@@ -180,8 +183,7 @@ public class ScriptCommandLine implements CommandLine {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append(TEMPLATE, template)
-                .append(SUBSTITUTIONS, substitutions)
+        return new ToStringBuilder(this).append(TEMPLATE, template).append(SUBSTITUTIONS, substitutions)
                 .append(ARGUMENTS, arguments).toString();
     }
 
@@ -198,13 +200,12 @@ public class ScriptCommandLine implements CommandLine {
 
         @Override
         public String toString() {
-            return new ToStringBuilder(this).append(argument)
-                    .append(QUOTE, quote).toString();
+            return new ToStringBuilder(this).append(argument).append(QUOTE, quote).toString();
         }
     }
 
-    private String createScript(TemplateResource template, String name,
-            Map<String, Object> substitutions) throws CommandExecException {
+    private String createScript(TemplateResource template, String name, Map<String, Object> substitutions)
+            throws CommandExecException {
         try {
             Object[] attributes = createAttributes(name, substitutions);
             return template.getText(true, attributes);
@@ -213,8 +214,7 @@ public class ScriptCommandLine implements CommandLine {
         }
     }
 
-    private Object[] createAttributes(String name,
-            Map<String, Object> substitutions) {
+    private Object[] createAttributes(String name, Map<String, Object> substitutions) {
         Object[] attr = new Object[1 + substitutions.size() * 2];
         attr[0] = name;
         int i = 1;
@@ -228,8 +228,10 @@ public class ScriptCommandLine implements CommandLine {
     private File copyScript(String scriptString) throws CommandExecException {
         try {
             File file = createTempFile(SCRIPT, SCRIPT_POST);
-            FileUtils.write(file, scriptString);
-            file.setExecutable(true);
+            FileUtils.write(file, scriptString, UTF_8);
+            if (!file.setExecutable(true)) {
+                throw log.errorSetExecutable(this, file);
+            }
             return file;
         } catch (IOException e) {
             throw new CopyScriptException(this, e);

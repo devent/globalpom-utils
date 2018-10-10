@@ -1,12 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>com.anrisoftware.globalpom</groupId>
         <artifactId>globalpomutils-parent</artifactId>
-        <version>3.1</version>
+        <version>4.5.0</version>
         <relativePath>../globalpomutils-parent</relativePath>
     </parent>
 
@@ -15,31 +14,37 @@
     <packaging>bundle</packaging>
     <description>Command execution helper.</description>
     <inceptionYear>2014</inceptionYear>
-    <url>https://anrisoftware.com/projects/projects/globalpomutils-exec</url>
+    <url>https://javadoc.anrisoftware.com/${project.groupId}/${project.artifactId}/${project.version}/</url>
+
+    <properties>
+        <project.custom.bundle.namespace>com.anrisoftware.globalpom.exec</project.custom.bundle.namespace>
+        <project.custom.bundle.namespace.internal>com.anrisoftware.globalpom.exec.internal</project.custom.bundle.namespace.internal>
+    </properties>
 
     <issueManagement>
         <system>Redmine</system>
-        <url>https://anrisoftware.com/projects/projects/globalpomutils-exec</url>
+        <url>${project.custom.home}</url>
     </issueManagement>
 
     <scm>
-        <connection>scm:git:git@anrisoftware.com:globalpom-utils.git</connection>
-        <developerConnection>scm:git:git@anrisoftware.com:globalpom-utils.git</developerConnection>
-        <url>https://anrisoftware.com/projects/projects/globalpomutils-exec/repository</url>
+        <connection>${project.custom.scm.pub}</connection>
+        <developerConnection>${project.custom.scm.dev}</developerConnection>
+        <url>${project.custom.scm.url}</url>
+        <tag>globalpomutils-bundle-4.5.0</tag>
     </scm>
 
     <distributionManagement>
         <site>
-            <id>anrisoftware</id>
-            <url>dav:https://anrisoftware.com/javadoc/${project.groupId}/${project.artifactId}</url>
+            <id>site-ssh</id>
+            <url>${site.ssh.url}</url>
         </site>
         <repository>
-            <id>osssonatype</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+            <id>public_releases</id>
+            <url>https://maven.anrisoftware.com/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
-            <id>osssonatype_snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>public_snapshots</id>
+            <url>https://maven.anrisoftware.com/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
@@ -48,7 +53,7 @@
             <dependency>
                 <groupId>com.anrisoftware.globalpom</groupId>
                 <artifactId>globalpomutils-threads</artifactId>
-                <version>3.1</version>
+                <version>4.5.0</version>
                 <type>bundle</type>
             </dependency>
         </dependencies>
@@ -69,7 +74,17 @@
         </dependency>
         <dependency>
             <groupId>org.apache.sling</groupId>
-            <artifactId>org.apache.sling.testing.osgi-mock</artifactId>
+            <artifactId>org.apache.sling.testing.osgi-mock.junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.framework</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-migrationsupport</artifactId>
             <scope>test</scope>
         </dependency>
 
@@ -95,10 +110,6 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.scr.annotations</artifactId>
-        </dependency>
 
         <!-- for script -->
         <dependency>
@@ -115,22 +126,5 @@
             <type>bundle</type>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-scr-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>generate-scr-scrdescriptor</id>
-                        <goals>
-                            <goal>scr</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
