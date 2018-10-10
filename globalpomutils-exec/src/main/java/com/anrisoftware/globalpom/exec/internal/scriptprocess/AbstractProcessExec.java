@@ -82,6 +82,7 @@ public abstract class AbstractProcessExec implements ScriptExec {
 
     private static final String LOG_KEY = "log";
 
+    @SuppressWarnings("squid:S2068")
     private static final String PWD_ARG = "pwd";
 
     private static final String ERR_STRING = "errString";
