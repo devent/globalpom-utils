@@ -1,18 +1,3 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.anrisoftware.globalpom.core.durationformat;
 
 /*-
@@ -24,9 +9,9 @@ package com.anrisoftware.globalpom.core.durationformat;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -84,21 +69,22 @@ public class DurationFormat extends Format {
         static final Injector injector = createInjector();
     }
 
-    private static final Pattern PATTERN = compile("^P(([0-9]+)Y)?(([0-9]+)M)?(([0-9]+)D)?(T(([0-9]+)H)?(([0-9]+)M)?(([0-9\\.]+)S)?)?$");
+    private static final Pattern PATTERN = compile(
+            "^P(([0-9]+)Y)?(([0-9]+)M)?(([0-9]+)D)?(T(([0-9]+)H)?(([0-9]+)M)?(([0-9\\.]+)S)?)?$");
 
-    private static final double DAYS_MONTH = ((365 * 4) + 1) / 48;
+    private static final double DAYS_MONTH = 30.44;
 
-    private static final double YEARS = DAYS_MONTH * 12 * 24 * 60 * 60 * 1000;
+    private static final double YEARS = DAYS_MONTH * 12 * 24 * 60 * 60 * 1000.;
 
-    private static final double MONTH = DAYS_MONTH * 24 * 60 * 60 * 1000;
+    private static final double MONTH = DAYS_MONTH * 24 * 60 * 60 * 1000.;
 
-    private static final double DAYS = 24 * 60 * 60 * 1000;
+    private static final double DAYS = 24 * 60 * 60 * 1000.;
 
-    private static final double HOURS = 60 * 60 * 1000;
+    private static final double HOURS = 60 * 60 * 1000.;
 
-    private static final double MINUTES = 60 * 1000;
+    private static final double MINUTES = 60 * 1000.;
 
-    private static final double SECONDS = 1000;
+    private static final double SECONDS = 1000.;
 
     @Inject
     private DurationFormatLogger log;
@@ -106,8 +92,7 @@ public class DurationFormat extends Format {
     /**
      * Formats the specified duration.
      *
-     * @param obj
-     *            the {@link Duration}.
+     * @param obj the {@link Duration}.
      */
     @Override
     public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos) {
@@ -159,15 +144,12 @@ public class DurationFormat extends Format {
     /**
      * @see #parseObject(String)
      *
-     * @param pos
-     *            the index {@link ParsePosition} position from where to start
+     * @param pos the index {@link ParsePosition} position from where to start
      *            parsing.
      *
-     * @throws ParseException
-     *             if the string is not in the correct format.
+     * @throws ParseException if the string is not in the correct format.
      */
-    public Duration parse(String source, ParsePosition pos)
-            throws ParseException {
+    public Duration parse(String source, ParsePosition pos) throws ParseException {
         try {
             source = source.substring(pos.getIndex());
             Duration duration = decodeDuration(source, pos);
@@ -182,8 +164,7 @@ public class DurationFormat extends Format {
         }
     }
 
-    private Duration decodeDuration(String source, ParsePosition pos)
-            throws ParseException {
+    private Duration decodeDuration(String source, ParsePosition pos) throws ParseException {
         Matcher matcher = PATTERN.matcher(source);
         log.checkMatches(matcher.find(), source, pos);
         long y = (long) (parseLongSave(matcher.group(2)) * YEARS);
