@@ -370,6 +370,7 @@ class ValueFormatTest {
     @BeforeAll
     static void createFactories() {
         TestUtils.toStringStyle
+        TestUtils.epsilon = 10**-16
         injector = Guice.createInjector(new MeasurementStandardModule(), new MeasurementFormatModule())
         formatFactory = injector.getInstance(ValueFormatFactory)
         valueFactory = injector.getInstance(StandardValueFactory)
