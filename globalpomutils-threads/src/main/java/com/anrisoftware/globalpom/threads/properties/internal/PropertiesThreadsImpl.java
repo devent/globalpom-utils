@@ -106,7 +106,7 @@ public class PropertiesThreadsImpl implements PropertiesThreads {
     @Override
     public void setProperties(Properties properties) {
         notNull(properties, "properties = null");
-        this.properties = new ContextProperties(this, properties);
+        this.properties = new ContextProperties(PropertiesThreads.class, properties);
     }
 
     @Override

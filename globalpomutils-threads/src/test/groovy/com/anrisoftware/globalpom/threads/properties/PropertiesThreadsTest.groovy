@@ -20,6 +20,7 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
 import com.anrisoftware.globalpom.threads.external.core.Threads
+import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreads
 import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsImpl
 import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsModule
 import com.anrisoftware.globalpom.utils.TestUtils
@@ -80,6 +81,6 @@ class PropertiesThreadsTest extends AbstractPropertiesThreadsTest {
     static void setupThreads() {
         TestUtils.toStringStyle
         injector = Guice.createInjector(new PropertiesThreadsModule())
-        properties = new ContextPropertiesFactory(PropertiesThreadsImpl).fromResource(propertiesResource)
+        properties = new ContextPropertiesFactory(PropertiesThreads).fromResource(propertiesResource)
     }
 }

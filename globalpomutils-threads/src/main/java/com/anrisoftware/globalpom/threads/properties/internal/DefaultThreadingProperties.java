@@ -16,29 +16,8 @@
 
 package com.anrisoftware.globalpom.threads.properties.internal;
 
-/*-
- * #%L
- * Global POM Utilities :: Threads
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import static com.anrisoftware.globalpom.threads.external.core.ThreadingPolicy.parsePolicy;
 import static java.lang.String.format;
-import static org.apache.commons.lang3.Validate.notNull;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -47,6 +26,7 @@ import java.util.concurrent.ThreadFactory;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 
 import com.anrisoftware.globalpom.threads.external.core.ThreadingPolicy;
@@ -61,8 +41,7 @@ import com.google.inject.assistedinject.Assisted;
  * @since 3.1
  */
 @SuppressWarnings("serial")
-public class DefaultThreadingProperties implements ThreadingProperties,
-        Serializable {
+public class DefaultThreadingProperties implements ThreadingProperties, Serializable {
 
     private static final String POOL_FACTORY_KEY = "pool_factory";
 
@@ -74,12 +53,14 @@ public class DefaultThreadingProperties implements ThreadingProperties,
 
     private final String name;
 
+    @Inject
+    private transient DefaultThreadingPropertiesLogger log;
+
     /**
      * @see DefaultThreadingPropertiesFactory#create(ContextProperties, String)
      */
     @Inject
-    protected DefaultThreadingProperties(@Assisted ContextProperties p,
-            @Assisted String name) {
+    protected DefaultThreadingProperties(@Assisted ContextProperties p, @Assisted String name) {
         this.properties = p;
         this.name = name;
     }
@@ -96,7 +77,7 @@ public class DefaultThreadingProperties implements ThreadingProperties,
     @Override
     public ThreadingPolicy getPolicy() {
         ThreadingPolicy value = getPolicy(null);
-        notNull(value, "policy = null");
+        log.checkThreadingPolicy(this, value);
         return value;
     }
 
@@ -110,22 +91,23 @@ public class DefaultThreadingProperties implements ThreadingProperties,
     @Override
     public ThreadFactory getThreadFactory() throws ThreadsException {
         ThreadFactory value = getThreadFactory(null);
-        notNull(value, "thread-factory = null");
+        log.checkThreadFactory(this, value);
         return value;
     }
 
     @Override
-    public ThreadFactory getThreadFactory(ThreadFactory defaultValue)
-            throws ThreadsException {
-        String value = properties.getProperty(format(KEY_TEMPLATE, name,
-                POOL_FACTORY_KEY));
-        return StringUtils.isEmpty(value) ? defaultValue
-                : createFactory(getFactoryType(value));
+    public ThreadFactory getThreadFactory(ThreadFactory defaultValue) throws ThreadsException {
+        String value = properties.getProperty(format(KEY_TEMPLATE, name, POOL_FACTORY_KEY));
+        return StringUtils.isEmpty(value) ? defaultValue : createFactory(getFactoryType(value));
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @SuppressWarnings("unchecked")
-    private Class<ThreadFactory> getFactoryType(String value)
-            throws ThreadsException {
+    private Class<ThreadFactory> getFactoryType(String value) throws ThreadsException {
         try {
             return (Class<ThreadFactory>) Class.forName(value);
         } catch (ClassNotFoundException e) {
@@ -133,8 +115,7 @@ public class DefaultThreadingProperties implements ThreadingProperties,
         }
     }
 
-    private ThreadFactory createFactory(Class<? extends ThreadFactory> type)
-            throws ThreadsException {
+    private ThreadFactory createFactory(Class<? extends ThreadFactory> type) throws ThreadsException {
         try {
             return ConstructorUtils.invokeConstructor(type);
         } catch (NoSuchMethodException e) {
