@@ -16,26 +16,6 @@
 
 package com.anrisoftware.globalpom.threads.properties.internal;
 
-/*-
- * #%L
- * Global POM Utilities :: Threads
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import static com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsModule.getPropertiesThreadsFactory;
 import static org.apache.commons.lang3.Validate.notBlank;
 import static org.apache.commons.lang3.Validate.notNull;
@@ -142,18 +122,15 @@ public class PropertiesThreadsImpl implements PropertiesThreads {
     }
 
     private ExecutorService createSinglePool(ThreadFactory factory) {
-        return singleFactory.create(properties, name).createExecutorService(
-                factory);
+        return singleFactory.create(properties, name).createExecutorService(factory);
     }
 
     private ExecutorService createCachedPool(ThreadFactory factory) {
-        return cachedFactory.create(properties, name).createExecutorService(
-                factory);
+        return cachedFactory.create(properties, name).createExecutorService(factory);
     }
 
     private ExecutorService createFixedPool(ThreadFactory factory) {
-        FixedThreadingProperties fixedProperties = fixedFactory.create(
-                properties, name);
+        FixedThreadingProperties fixedProperties = fixedFactory.create(properties, name);
         int maxThreads = fixedProperties.getMaxThreads();
         return fixedProperties.createExecutorService(factory, maxThreads);
     }
@@ -187,8 +164,7 @@ public class PropertiesThreadsImpl implements PropertiesThreads {
     }
 
     @Override
-    public boolean awaitTermination(long timeout, TimeUnit unit)
-            throws InterruptedException {
+    public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
         return executor.awaitTermination(timeout, unit);
     }
 
@@ -198,8 +174,7 @@ public class PropertiesThreadsImpl implements PropertiesThreads {
     }
 
     @Override
-    public <V> ListenableFuture<V> submit(Callable<V> callable,
-            PropertyChangeListener... listeners) {
+    public <V> ListenableFuture<V> submit(Callable<V> callable, PropertyChangeListener... listeners) {
         return watchdog.submit(callable, listeners);
     }
 
@@ -209,8 +184,7 @@ public class PropertiesThreadsImpl implements PropertiesThreads {
     }
 
     @Override
-    public <V> ListenableFuture<V> submit(Runnable runable, V result,
-            PropertyChangeListener... listeners) {
+    public <V> ListenableFuture<V> submit(Runnable runable, V result, PropertyChangeListener... listeners) {
         return watchdog.submit(runable, result, listeners);
     }
 
@@ -223,14 +197,12 @@ public class PropertiesThreadsImpl implements PropertiesThreads {
      * Unsupported.
      */
     @Override
-    public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
-            throws InterruptedException {
+    public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks) throws InterruptedException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public <T> List<Future<T>> invokeAll(
-            Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
+    public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
             throws InterruptedException {
         return executor.invokeAll(tasks, timeout, unit);
     }
@@ -239,8 +211,7 @@ public class PropertiesThreadsImpl implements PropertiesThreads {
      * Unsupported.
      */
     @Override
-    public <T> T invokeAny(Collection<? extends Callable<T>> tasks)
-            throws InterruptedException, ExecutionException {
+    public <T> T invokeAny(Collection<? extends Callable<T>> tasks) throws InterruptedException, ExecutionException {
         throw new UnsupportedOperationException();
     }
 
@@ -248,9 +219,8 @@ public class PropertiesThreadsImpl implements PropertiesThreads {
      * Unsupported.
      */
     @Override
-    public <T> T invokeAny(Collection<? extends Callable<T>> tasks,
-            long timeout, TimeUnit unit) throws InterruptedException,
-            ExecutionException, TimeoutException {
+    public <T> T invokeAny(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
+            throws InterruptedException, ExecutionException, TimeoutException {
         throw new UnsupportedOperationException();
     }
 
@@ -265,8 +235,7 @@ public class PropertiesThreadsImpl implements PropertiesThreads {
     }
 
     @Override
-    public List<Future<?>> waitForTasks(Duration timeout)
-            throws InterruptedException {
+    public List<Future<?>> waitForTasks(Duration timeout) throws InterruptedException {
         return watchdog.waitForTasks(timeout);
     }
 

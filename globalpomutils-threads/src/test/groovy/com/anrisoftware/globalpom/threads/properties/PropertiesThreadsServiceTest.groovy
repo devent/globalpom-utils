@@ -26,8 +26,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 import com.anrisoftware.globalpom.threads.external.core.Threads
+import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreads
 import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreadsService
-import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsImpl
 import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsServiceImpl
 import com.anrisoftware.globalpom.utils.TestUtils
 import com.anrisoftware.propertiesutils.ContextPropertiesFactory
@@ -91,6 +91,6 @@ class PropertiesThreadsServiceTest extends AbstractPropertiesThreadsTest {
     @BeforeAll
     static void setupThreads() {
         TestUtils.toStringStyle
-        properties = new ContextPropertiesFactory(PropertiesThreadsImpl).fromResource(propertiesResource)
+        properties = new ContextPropertiesFactory(PropertiesThreads).fromResource(propertiesResource)
     }
 }
