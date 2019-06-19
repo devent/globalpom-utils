@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.anrisoftware.globalpom.core.durationformat
 
 import static com.anrisoftware.globalpom.core.durationformat.DurationFormat.createDurationFormat

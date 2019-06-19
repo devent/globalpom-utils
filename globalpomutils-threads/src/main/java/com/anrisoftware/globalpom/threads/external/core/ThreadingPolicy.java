@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.anrisoftware.globalpom.threads.external.core;
 
 import static org.apache.commons.lang3.Validate.isTrue;
