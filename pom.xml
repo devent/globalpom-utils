@@ -22,7 +22,7 @@
     <parent>
         <groupId>com.anrisoftware.globalpom</groupId>
         <artifactId>globalpom-groovy-osgi</artifactId>
-        <version>4.5.1-SNAPSHOT</version>
+        <version>4.5.1</version>
     </parent>
 
     <groupId>com.anrisoftware.globalpom</groupId>
@@ -34,7 +34,7 @@
     <url>https://javadoc.anrisoftware.com/${project.groupId}/${project.artifactId}/${project.version}/</url>
 
     <modules>
-        <module>globalpomutils-parent</module>
+        <module>globalpomutils-it</module>
         <module>globalpomutils-core</module>
         <module>globalpomutils-data</module>
         <module>globalpomutils-exec</module>
@@ -46,6 +46,7 @@
     </modules>
 
     <properties>
+    	<!-- javadoc -->
         <project.custom.home>https://project.anrisoftware.com/projects/globalpom-utils</project.custom.home>
         <project.custom.license.image.url>https://project.anrisoftware.com/attachments/download/217/apache2.0-small.gif</project.custom.license.image.url>
         <project.custom.central.url>https://search.maven.org/artifact/${project.groupId}/${project.artifactId}/${project.version}/pom</project.custom.central.url>
@@ -57,9 +58,10 @@
         <project.custom.jenkins.url>https://jenkins.anrisoftware.com/job/globalpom-utils-public</project.custom.jenkins.url>
         <project.custom.jenkins.build.badge.master>${project.custom.jenkins.url}/job/master/badge/icon</project.custom.jenkins.build.badge.master>
         <project.custom.jenkins.build.link.master>${project.custom.jenkins.url}/job/master</project.custom.jenkins.build.link.master>
-        <project.custom.sonarqube.url>https://sonarqube.anrisoftware.com/dashboard?id=com.anrisoftware.globalpom%3Aglobalpomutils-bundle</project.custom.sonarqube.url>
-        <project.custom.sonarqube.qualitygate.badge>https://sonarqube.anrisoftware.com/api/badges/gate?key=com.anrisoftware.globalpom%3Aglobalpomutils-bundle</project.custom.sonarqube.qualitygate.badge>
+        <project.custom.sonarqube.url>https://sonar.anrisoftware.com/dashboard?id=com.anrisoftware.globalpom%3Aglobalpomutils-bundle</project.custom.sonarqube.url>
+        <project.custom.sonarqube.qualitygate.badge>https://sonar.anrisoftware.com/api/badges/gate?key=com.anrisoftware.globalpom%3Aglobalpomutils-bundle</project.custom.sonarqube.qualitygate.badge>
         <project.custom.sonarqube.qualitygate.link>${project.custom.sonarqube.url}</project.custom.sonarqube.qualitygate.link>
+        <!-- bundle namespace -->
         <project.custom.bundle.namespace>com.anrisoftware.globalpom</project.custom.bundle.namespace>
         <project.custom.bundle.namespace.internal>com.anrisoftware.globalpom.internal</project.custom.bundle.namespace.internal>
     </properties>
@@ -117,6 +119,54 @@
             <url>https://maven.anrisoftware.com/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.anrisoftware.globalpom</groupId>
+                <artifactId>globalpom-groovytestutils</artifactId>
+                <version>4.5.1-SNAPSHOT</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.anrisoftware.globalpom</groupId>
+                <artifactId>globalpom-log</artifactId>
+                <version>4.5.1-SNAPSHOT</version>
+                <type>bundle</type>
+            </dependency>
+            <dependency>
+                <groupId>com.anrisoftware.propertiesutils</groupId>
+                <artifactId>propertiesutils-contextproperties</artifactId>
+                <version>4.5.1-SNAPSHOT</version>
+                <type>bundle</type>
+            </dependency>
+
+            <!-- resources -->
+            <dependency>
+                <groupId>com.anrisoftware.resources</groupId>
+                <artifactId>resources-texts</artifactId>
+                <version>4.5.1-SNAPSHOT</version>
+                <type>bundle</type>
+            </dependency>
+            <dependency>
+                <groupId>com.anrisoftware.resources</groupId>
+                <artifactId>resources-st</artifactId>
+                <version>4.5.1-SNAPSHOT</version>
+                <type>bundle</type>
+            </dependency>
+            <dependency>
+                <groupId>com.anrisoftware.resources</groupId>
+                <artifactId>resources-templates</artifactId>
+                <version>4.5.1-SNAPSHOT</version>
+                <type>bundle</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <profiles>
         <profile>

@@ -21,9 +21,8 @@
 
     <parent>
         <groupId>com.anrisoftware.globalpom</groupId>
-        <artifactId>globalpomutils-parent</artifactId>
+        <artifactId>globalpomutils</artifactId>
         <version>4.5.1-SNAPSHOT</version>
-        <relativePath>../globalpomutils-parent</relativePath>
     </parent>
 
     <artifactId>globalpomutils-data</artifactId>
