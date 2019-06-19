@@ -65,6 +65,8 @@
         <!-- bundle namespace -->
         <project.custom.bundle.namespace>com.anrisoftware.globalpom</project.custom.bundle.namespace>
         <project.custom.bundle.namespace.internal>com.anrisoftware.globalpom.internal</project.custom.bundle.namespace.internal>
+        <!-- sonar -->
+        <sonar.coverage.jacoco.xmlReportPaths>../globalpomutils-it/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <developers>
