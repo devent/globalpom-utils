@@ -104,16 +104,14 @@ public class DurationFormat extends Format {
 
     /**
      * Parses the specified string to a duration.
-     * <p>
      * <h2>Format</h2>
-     * <p>
      * <ul>
      * <li>{@code "P[yY][mM][dD][T[hH][mM][s[.s]S]]"}
      * </ul>
      *
      * @return the parsed {@link Duration}.
      *
-     * @see {@code http://www.ostyn.com/standards/scorm/samples/ISOTimeForSCORM.htm}
+     * @see {@link http://www.ostyn.com/standards/scorm/samples/ISOTimeForSCORM.htm}
      */
     @Override
     public Object parseObject(String source, ParsePosition pos) {
@@ -127,6 +125,10 @@ public class DurationFormat extends Format {
 
     /**
      * @see #parse(String, ParsePosition)
+     *
+     * @return the parsed {@link Duration}.
+     *
+     * @throws ParseException if the string is not in the correct format.
      */
     public Duration parse(String source) throws ParseException {
         ParsePosition pos = new ParsePosition(0);
@@ -142,6 +144,8 @@ public class DurationFormat extends Format {
      *
      * @param pos the index {@link ParsePosition} position from where to start
      *            parsing.
+     *
+     * @return the parsed {@link Duration}.
      *
      * @throws ParseException if the string is not in the correct format.
      */

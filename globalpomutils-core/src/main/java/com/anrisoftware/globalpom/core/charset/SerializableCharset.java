@@ -24,9 +24,9 @@ package com.anrisoftware.globalpom.core.charset;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -60,8 +60,7 @@ public final class SerializableCharset implements Externalizable {
     /**
      * Decorates the character set for serialization.
      *
-     * @param charset
-     *            the {@link Charset}.
+     * @param charset the {@link Charset}.
      *
      * @return the {@link SerializableCharset}.
      */
@@ -72,15 +71,13 @@ public final class SerializableCharset implements Externalizable {
     /**
      * Decorates the character set for serialization.
      *
-     * @param charset
-     *            the {@link Charset}.
+     * @param charset the {@link Charset}.
      *
      * @return the {@link SerializableCharset}.
      *
      * @since 2.0
      */
-    public static SerializableCharset decorateSerializableCharset(
-            Charset charset) {
+    public static SerializableCharset decorateSerializableCharset(Charset charset) {
         return new SerializableCharset(charset);
     }
 
@@ -108,6 +105,7 @@ public final class SerializableCharset implements Externalizable {
     /**
      * @see Charset#name()
      * @since 2.6
+     * @return the {@link String} name.
      */
     public String name() {
         return charset.name();
@@ -116,6 +114,7 @@ public final class SerializableCharset implements Externalizable {
     /**
      * @see Charset#aliases()
      * @since 2.6
+     * @return the {@link Set} of aliases.
      */
     public Set<String> aliases() {
         return charset.aliases();
@@ -124,6 +123,7 @@ public final class SerializableCharset implements Externalizable {
     /**
      * @see Charset#displayName()
      * @since 2.6
+     * @return the {@link String} display name.
      */
     public String displayName() {
         return charset.displayName();
@@ -132,22 +132,27 @@ public final class SerializableCharset implements Externalizable {
     /**
      * @see Charset#isRegistered()
      * @since 2.6
+     * @return <code>true</code> or <code>false</code> based on {@link Charset#isRegistered()}.
      */
     public boolean isRegistered() {
         return charset.isRegistered();
     }
 
     /**
+     * @param locale the {@link Locale}.
      * @see Charset#displayName(Locale)
      * @since 2.6
+     * @return the {@link String} display name.
      */
     public String displayName(Locale locale) {
         return charset.displayName(locale);
     }
 
     /**
+     * @param cs the {@link Charset}.
      * @see Charset#contains(Charset)
      * @since 2.6
+     * @return <code>true</code> or <code>false</code> based on {@link Charset#contains(Charset)}.
      */
     public boolean contains(Charset cs) {
         return charset.contains(cs);
@@ -156,6 +161,7 @@ public final class SerializableCharset implements Externalizable {
     /**
      * @see Charset#newDecoder()
      * @since 2.6
+     * @return the {@link CharsetDecoder}
      */
     public CharsetDecoder newDecoder() {
         return charset.newDecoder();
@@ -164,6 +170,7 @@ public final class SerializableCharset implements Externalizable {
     /**
      * @see Charset#newEncoder()
      * @since 2.6
+     * @return the {@link CharsetEncoder}
      */
     public CharsetEncoder newEncoder() {
         return charset.newEncoder();
@@ -172,38 +179,47 @@ public final class SerializableCharset implements Externalizable {
     /**
      * @see Charset#canEncode()
      * @since 2.6
+     * @return <code>true</code> or <code>false</code> based on {@link Charset#canEncode()}.
      */
     public boolean canEncode() {
         return charset.canEncode();
     }
 
     /**
+     * @param bb the {@link ByteBuffer}
      * @see Charset#decode(ByteBuffer)
      * @since 2.6
+     * @return the {@link CharBuffer}
      */
     public CharBuffer decode(ByteBuffer bb) {
         return charset.decode(bb);
     }
 
     /**
+     * @param cb the {@link CharBuffer}
      * @see Charset#encode(CharBuffer)
      * @since 2.6
+     * @return the {@link ByteBuffer}
      */
     public ByteBuffer encode(CharBuffer cb) {
         return charset.encode(cb);
     }
 
     /**
+     * @param str the {@link String}
      * @see Charset#encode(String)
      * @since 2.6
+     * @return {@link ByteBuffer}
      */
     public ByteBuffer encode(String str) {
         return charset.encode(str);
     }
 
     /**
+     * @param that the {@link Charset}
      * @see Charset#compareTo(Charset)
      * @since 2.6
+     * @return like {@link Charset#compareTo(Charset)}l
      */
     public int compareTo(Charset that) {
         return charset.compareTo(that);
@@ -212,6 +228,7 @@ public final class SerializableCharset implements Externalizable {
     /**
      * @see Charset#hashCode()
      * @since 2.6
+     * @return the hash code.
      */
     @Override
     public int hashCode() {
@@ -221,6 +238,7 @@ public final class SerializableCharset implements Externalizable {
     /**
      * @see Charset#equals(Object)
      * @since 2.6
+     * @return <code>true</code> or <code>false</code> based on {@link Charset#equals(Object)}.
      */
     @Override
     public boolean equals(Object ob) {
@@ -230,6 +248,7 @@ public final class SerializableCharset implements Externalizable {
     /**
      * @see Charset#toString()
      * @since 2.6
+     * @return the {@link String}
      */
     @Override
     public String toString() {
@@ -242,8 +261,7 @@ public final class SerializableCharset implements Externalizable {
     }
 
     @Override
-    public void readExternal(ObjectInput in) throws IOException,
-            ClassNotFoundException {
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         String name = in.readUTF();
         charset = Charset.forName(name);
     }
