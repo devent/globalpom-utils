@@ -111,7 +111,7 @@ public class DurationFormat extends Format {
      *
      * @return the parsed {@link Duration}.
      *
-     * @see {@link http://www.ostyn.com/standards/scorm/samples/ISOTimeForSCORM.htm}
+     * @see <a href="http://www.ostyn.com/standards/scorm/samples/ISOTimeForSCORM.htm">ISOTimeForSCORM</a>
      */
     @Override
     public Object parseObject(String source, ParsePosition pos) {
@@ -125,6 +125,8 @@ public class DurationFormat extends Format {
 
     /**
      * @see #parse(String, ParsePosition)
+     *
+     * @param source the {@link String} source to parse.
      *
      * @return the parsed {@link Duration}.
      *
@@ -141,6 +143,8 @@ public class DurationFormat extends Format {
 
     /**
      * @see #parseObject(String)
+     *
+     * @param source the {@link String} source to parse.
      *
      * @param pos the index {@link ParsePosition} position from where to start
      *            parsing.

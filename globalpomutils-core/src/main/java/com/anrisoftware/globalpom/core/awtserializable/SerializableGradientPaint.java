@@ -15,26 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.awtserializable;
 
-/*-
- * #%L
- * Global POM Utilities :: Core
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.PaintContext;
@@ -62,8 +42,7 @@ public final class SerializableGradientPaint implements Externalizable {
     /**
      * Decorates the character set for serialization.
      *
-     * @param paint
-     *            the {@link GradientPaint}.
+     * @param paint the {@link GradientPaint}.
      *
      * @return the {@link SerializableGradientPaint}.
      */
@@ -74,13 +53,11 @@ public final class SerializableGradientPaint implements Externalizable {
     /**
      * Decorates the character set for serialization.
      *
-     * @param paint
-     *            the {@link GradientPaint}.
+     * @param paint the {@link GradientPaint}.
      *
      * @return the {@link SerializableGradientPaint}.
      */
-    public static SerializableGradientPaint decorateSerializableGradientPaint(
-            GradientPaint paint) {
+    public static SerializableGradientPaint decorateSerializableGradientPaint(GradientPaint paint) {
         return new SerializableGradientPaint(paint);
     }
 
@@ -131,6 +108,8 @@ public final class SerializableGradientPaint implements Externalizable {
 
     /**
      * @see java.awt.GradientPaint#getPoint1()
+     *
+     * @return the {@link Point2D}
      */
     public Point2D getPoint1() {
         return paint.getPoint1();
@@ -138,6 +117,8 @@ public final class SerializableGradientPaint implements Externalizable {
 
     /**
      * @see java.awt.GradientPaint#getColor1()
+     *
+     * @return the {@link Color}
      */
     public Color getColor1() {
         return paint.getColor1();
@@ -145,6 +126,8 @@ public final class SerializableGradientPaint implements Externalizable {
 
     /**
      * @see java.awt.GradientPaint#getPoint2()
+     *
+     * @return the {@link Point2D}
      */
     public Point2D getPoint2() {
         return paint.getPoint2();
@@ -152,6 +135,8 @@ public final class SerializableGradientPaint implements Externalizable {
 
     /**
      * @see java.awt.GradientPaint#getColor2()
+     *
+     * @return the {@link Color}
      */
     public Color getColor2() {
         return paint.getColor2();
@@ -159,6 +144,8 @@ public final class SerializableGradientPaint implements Externalizable {
 
     /**
      * @see java.awt.GradientPaint#isCyclic()
+     *
+     * @return is cyclic.
      */
     public boolean isCyclic() {
         return paint.isCyclic();
@@ -168,14 +155,18 @@ public final class SerializableGradientPaint implements Externalizable {
      * @see java.awt.GradientPaint#createContext(java.awt.image.ColorModel,
      *      java.awt.Rectangle, java.awt.geom.Rectangle2D,
      *      java.awt.geom.AffineTransform, java.awt.RenderingHints)
+     *
+     * @return the {@link PaintContext}
      */
-    public PaintContext createContext(ColorModel cm, Rectangle deviceBounds,
-            Rectangle2D userBounds, AffineTransform xform, RenderingHints hints) {
+    public PaintContext createContext(ColorModel cm, Rectangle deviceBounds, Rectangle2D userBounds,
+            AffineTransform xform, RenderingHints hints) {
         return paint.createContext(cm, deviceBounds, userBounds, xform, hints);
     }
 
     /**
      * @see java.awt.GradientPaint#getTransparency()
+     *
+     * @return the transparency.
      */
     public int getTransparency() {
         return paint.getTransparency();
@@ -191,8 +182,7 @@ public final class SerializableGradientPaint implements Externalizable {
     }
 
     @Override
-    public void readExternal(ObjectInput in) throws IOException,
-            ClassNotFoundException {
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         Color color1 = (Color) in.readObject();
         Color color2 = (Color) in.readObject();
         Point2D point1 = (Point2D) in.readObject();

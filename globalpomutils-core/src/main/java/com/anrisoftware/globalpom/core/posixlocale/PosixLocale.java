@@ -15,26 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.posixlocale;
 
-/*-
- * #%L
- * Global POM Utilities :: Core
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import static com.anrisoftware.globalpom.core.charset.SerializableCharset.decorateSerializableCharset;
 import static org.apache.commons.lang3.Validate.notNull;
 
@@ -60,7 +40,7 @@ import com.google.inject.assistedinject.AssistedInject;
  * Locale as used in POSIX platforms. Contains the language, country and
  * character set.
  *
- * @see http://en.wikipedia.org/wiki/Locale
+ * @see {@link http://en.wikipedia.org/wiki/Locale}
  *
  * @author Erwin Müller, erwin.mueller@deventm.de
  * @since 2.6
@@ -114,15 +94,13 @@ public final class PosixLocale implements Serializable {
      * @see Locale#SIMPLIFIED_CHINESE
      * @see Charset#defaultCharset()
      */
-    public static final PosixLocale SIMPLIFIED_CHINESE = new PosixLocale(
-            Locale.SIMPLIFIED_CHINESE);
+    public static final PosixLocale SIMPLIFIED_CHINESE = new PosixLocale(Locale.SIMPLIFIED_CHINESE);
 
     /**
      * @see Locale#TRADITIONAL_CHINESE
      * @see Charset#defaultCharset()
      */
-    public static final PosixLocale TRADITIONAL_CHINESE = new PosixLocale(
-            Locale.TRADITIONAL_CHINESE);
+    public static final PosixLocale TRADITIONAL_CHINESE = new PosixLocale(Locale.TRADITIONAL_CHINESE);
 
     /**
      * @see Locale#FRANCE
@@ -194,8 +172,7 @@ public final class PosixLocale implements Serializable {
      * @see Locale#CANADA_FRENCH
      * @see Charset#defaultCharset()
      */
-    public static final PosixLocale CANADA_FRENCH = new PosixLocale(
-            Locale.CANADA_FRENCH);
+    public static final PosixLocale CANADA_FRENCH = new PosixLocale(Locale.CANADA_FRENCH);
 
     private final Locale locale;
 
@@ -204,13 +181,11 @@ public final class PosixLocale implements Serializable {
     /**
      * Sets the locale with the default character set.
      *
-     * @param locale
-     *            the {@link Locale} locale.
+     * @param locale the {@link Locale} locale.
      *
      * @see Charset#defaultCharset()
      *
-     * @throws NullPointerException
-     *             if the specified locale is <code>null</code>.
+     * @throws NullPointerException if the specified locale is <code>null</code>.
      */
     @AssistedInject
     public PosixLocale(@Assisted Locale locale) {
@@ -220,15 +195,12 @@ public final class PosixLocale implements Serializable {
     /**
      * Sets the locale and the character set.
      *
-     * @param locale
-     *            the {@link Locale} locale.
+     * @param locale  the {@link Locale} locale.
      *
-     * @param charset
-     *            the {@link Charset} character set.
+     * @param charset the {@link Charset} character set.
      *
-     * @throws NullPointerException
-     *             if the specified locale or character set is
-     *             <code>null.</code>
+     * @throws NullPointerException if the specified locale or character set is
+     *                              <code>null.</code>
      */
     @AssistedInject
     public PosixLocale(@Assisted Locale locale, @Assisted Charset charset) {
@@ -506,19 +478,17 @@ public final class PosixLocale implements Serializable {
             return false;
         }
         PosixLocale rhs = (PosixLocale) obj;
-        return new EqualsBuilder().append(getLocale(), rhs.getLocale())
-                .append(getCharset(), rhs.getCharset()).isEquals();
+        return new EqualsBuilder().append(getLocale(), rhs.getLocale()).append(getCharset(), rhs.getCharset())
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(getLocale()).append(getCharset())
-                .toHashCode();
+        return new HashCodeBuilder().append(getLocale()).append(getCharset()).toHashCode();
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append(locale).append(charset)
-                .toString();
+        return new ToStringBuilder(this).append(locale).append(charset).toString();
     }
 }

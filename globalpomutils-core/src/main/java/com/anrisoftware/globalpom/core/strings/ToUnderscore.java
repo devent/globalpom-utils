@@ -15,37 +15,17 @@
  */
 package com.anrisoftware.globalpom.core.strings;
 
-/*-
- * #%L
- * Global POM Utilities :: Core
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import static java.util.regex.Pattern.compile;
 
 import java.util.regex.Pattern;
 
 /**
  * Converts a string to a underscore format. Example:
- * 
+ *
  * <pre>
- * CamelCase -> camel_case
+ * CamelCase -&gt; camel_case
  * </pre>
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.1
  */
@@ -57,10 +37,9 @@ public class ToUnderscore {
 
     /**
      * Converts the specified string to underscore format in lower case.
-     * 
-     * @param string
-     *            the string to convert.
-     * 
+     *
+     * @param string the string to convert.
+     *
      * @return the converted string.
      */
     public String convert(String string) {
@@ -69,14 +48,12 @@ public class ToUnderscore {
 
     /**
      * Converts the specified string to underscore format.
-     * 
-     * @param string
-     *            the string to convert.
-     * 
-     * @param lowerCase
-     *            set to {@code true} to convert to lower case, {@code false} to
-     *            leave the save case.
-     * 
+     *
+     * @param string    the string to convert.
+     *
+     * @param lowerCase set to {@code true} to convert to lower case, {@code false}
+     *                  to leave the save case.
+     *
      * @return the converted string.
      */
     public String convert(String string, boolean lowerCase) {

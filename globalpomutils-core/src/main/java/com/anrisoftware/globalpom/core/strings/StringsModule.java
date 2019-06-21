@@ -40,7 +40,7 @@ import com.google.inject.AbstractModule;
 /**
  * 
  *
- * @author Erwin Müller <erwin.mueller@deventm.de>
+ * @author Erwin Müller erwin.mueller@deventm.de
  * @version 3.1
  */
 public class StringsModule extends AbstractModule {

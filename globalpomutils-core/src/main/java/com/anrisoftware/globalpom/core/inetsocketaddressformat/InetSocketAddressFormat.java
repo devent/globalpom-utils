@@ -15,26 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.inetsocketaddressformat;
 
-/*-
- * #%L
- * Global POM Utilities :: Core
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -47,7 +27,7 @@ import javax.inject.Inject;
 
 /**
  * Parses an Internet socket address.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.0
  */
@@ -56,6 +36,8 @@ public class InetSocketAddressFormat extends Format {
 
     /**
      * @see #create()
+     *
+     * @return the Internet socket address {@link InetSocketAddressFormat}.
      */
     public static InetSocketAddressFormat createInetSocketAddressFormat() {
         return create();
@@ -63,7 +45,7 @@ public class InetSocketAddressFormat extends Format {
 
     /**
      * Creates the Internet socket address formatter.
-     * 
+     *
      * @return the Internet socket address {@link InetSocketAddressFormat}.
      */
     public static InetSocketAddressFormat create() {
@@ -74,19 +56,17 @@ public class InetSocketAddressFormat extends Format {
     private InetSocketAddressFormatLogger log;
 
     /**
-     * Formats the specified Internet socket address.
-     * <p>
-     * The format follows the patterns:
-     * 
+     * Formats the specified Internet socket address. The format follows the
+     * patterns:
+     *
      * <ul>
      * <li>{@code <ip-address>}</li>
      * <li>{@code <ip-address>:<port-number>}</li>
      * <li>{@code <host-name>}</li>
      * <li>{@code <host-name>:<port-number>}</li>
      * </ul>
-     * 
-     * @param obj
-     *            the {@link InetSocketAddress}.
+     *
+     * @param obj the {@link InetSocketAddress}.
      */
     @Override
     public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos) {
@@ -109,7 +89,7 @@ public class InetSocketAddressFormat extends Format {
      * Parses the specified string to an Internet socket address.
      * <p>
      * The parser expects the patterns:
-     * 
+     *
      * <ul>
      * <li>{@code <ip-address>}</li>
      * <li>{@code <ip-address>:<port-number>}</li>
@@ -126,19 +106,18 @@ public class InetSocketAddressFormat extends Format {
      * Parses the specified string to an Internet socket address.
      * <p>
      * The parser expects the patterns:
-     * 
+     *
      * <ul>
      * <li>{@code <ip-address>}</li>
      * <li>{@code <ip-address>:<port-number>}</li>
      * <li>{@code <host-name>}</li>
      * <li>{@code <host-name>:<port-number>}</li>
      * </ul>
-     * 
+     *
      * @return the parsed {@link InetSocketAddress}.
-     * 
-     * @throws ParseException
-     *             if the string does not have IP address, host name or port
-     *             number.
+     *
+     * @throws ParseException if the string does not have IP address, host name or
+     *                        port number.
      */
     public InetSocketAddress parse(String source) throws ParseException {
         ParsePosition pos = new ParsePosition(0);
@@ -150,30 +129,27 @@ public class InetSocketAddressFormat extends Format {
     }
 
     /**
-     * Parses the specified string from the specified index to an Internet
-     * socket address.
+     * Parses the specified string from the specified index to an Internet socket
+     * address.
      * <p>
      * The parser expects the patterns:
-     * 
+     *
      * <ul>
      * <li>{@code <ip-address>}</li>
      * <li>{@code <ip-address>:<port-number>}</li>
      * <li>{@code <host-name>}</li>
      * <li>{@code <host-name>:<port-number>}</li>
      * </ul>
-     * 
-     * @param source
-     *            the source string.
-     * 
-     * @param pos
-     *            the index {@link ParsePosition} position from where to start
-     *            parsing.
-     * 
+     *
+     * @param source the source string.
+     *
+     * @param pos    the index {@link ParsePosition} position from where to start
+     *               parsing.
+     *
      * @return the parsed {@link InetSocketAddress}.
-     * 
-     * @throws ParseException
-     *             if the string does not have IP address, host name or port
-     *             number.
+     *
+     * @throws ParseException if the string does not have IP address, host name or
+     *                        port number.
      */
     public InetSocketAddress parse(String source, ParsePosition pos) {
         try {
@@ -189,8 +165,7 @@ public class InetSocketAddressFormat extends Format {
         }
     }
 
-    private InetSocketAddress parseHost(String hostName)
-            throws URISyntaxException {
+    private InetSocketAddress parseHost(String hostName) throws URISyntaxException {
         String host;
         int port;
         try {

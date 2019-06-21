@@ -15,26 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.byteformat;
 
-/*-
- * #%L
- * Global POM Utilities :: Core
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import static com.anrisoftware.globalpom.core.byteformat.UnitMultiplier.parseUnitMultiplier;
 import static org.apache.commons.lang3.StringUtils.split;
 
@@ -126,17 +106,13 @@ public class ByteFormat extends Format {
     }
 
     /**
-     * Formats the specified computer byte.
-     * <p>
-     * The format follows the pattern:
+     * Formats the specified computer byte. The format follows the pattern:
      *
      * <pre>
      * &lt;value&gt; byte
      * </pre>
      *
-     * <p>
      * <h2>Examples</h2>
-     * <p>
      * <ul>
      * <li>{@code "64 byte"}
      * </ul>
@@ -158,17 +134,13 @@ public class ByteFormat extends Format {
     }
 
     /**
-     * Formats the specified computer byte.
-     * <p>
-     * The format follows the pattern:
+     * Formats the specified computer byte. The format follows the pattern:
      *
      * <pre>
      * &lt;value&gt; byte
      * </pre>
      *
-     * <p>
      * <h2>Examples</h2>
-     * <p>
      * <ul>
      * <li>{@code "64 byte"}
      * </ul>
@@ -204,17 +176,13 @@ public class ByteFormat extends Format {
     }
 
     /**
-     * Parses the specified string to computer byte.
-     * <p>
-     * The format follows the pattern:
+     * Parses the specified string to computer byte. The format follows the pattern:
      *
      * <pre>
      * &lt;value&gt;(byte|kB,MB,...,YB|KiB,MiB,...,YiB)
      * </pre>
      *
-     * <p>
      * <h2>Examples</h2>
-     * <p>
      * <ul>
      * <li>{@code "64 byte"}
      * <li>{@code "1 kb"}
@@ -230,17 +198,13 @@ public class ByteFormat extends Format {
     }
 
     /**
-     * Parses the specified string to computer byte.
-     * <p>
-     * The format follows the pattern:
+     * Parses the specified string to computer byte. The format follows the pattern:
      *
      * <pre>
      * &lt;value&gt;(byte|kB,MB,...,YB|KiB,MiB,...,YiB)
      * </pre>
      *
-     * <p>
      * <h2>Examples</h2>
-     * <p>
      * <ul>
      * <li>{@code "64 byte"}
      * <li>{@code "1 kb"}
