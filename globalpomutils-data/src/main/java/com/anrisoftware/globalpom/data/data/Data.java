@@ -89,48 +89,48 @@ public interface Data {
     /**
      * @see ReshapeMatrix64F#unsafe_get(int, int)
      *
-     * @param row
+     * @param row the row.
      *
-     * @param col
+     * @param col the column.
      *
-     * @return
+     * @return the value.
      */
     double unsafe_get(int row, int col);
 
     /**
      * @see ReshapeMatrix64F#set(int, int, double)
      *
-     * @param row
+     * @param row the row.
      *
-     * @param col
+     * @param col the column.
      *
-     * @param val
+     * @param val the value.
      */
     void set(int row, int col, double val);
 
     /**
      * @see ReshapeMatrix64F#unsafe_set(int, int, double)
      *
-     * @param row
+     * @param row the row.
      *
-     * @param col
+     * @param col the column.
      *
-     * @param val
+     * @param val the value.
      */
     void unsafe_set(int row, int col, double val);
 
     /**
      * @see ReshapeMatrix64F#iterator(boolean, int, int, int, int)
      *
-     * @param rowMajor
+     * @param rowMajor the row major flag.
      *
-     * @param minRow
+     * @param minRow   the minimum row.
      *
-     * @param minCol
+     * @param minCol   the minimum column.
      *
-     * @param maxRow
+     * @param maxRow   the maximum row.
      *
-     * @param maxCol
+     * @param maxCol   the maximum column.
      *
      * @return the {@link MatrixIterator}
      */
@@ -138,36 +138,50 @@ public interface Data {
 
     /**
      * @see ReshapeMatrix64F#getNumRows()
+     *
+     * @return the number of rows.
      */
     int getNumRows();
 
     /**
      * @see ReshapeMatrix64F#getNumCols()
+     *
+     * @return the number of columns.
      */
     int getNumCols();
 
     /**
      * @see ReshapeMatrix64F#setNumRows(int)
+     *
+     * @param numRows the number of rows.
      */
     void setNumRows(int numRows);
 
     /**
-     * @see ReshapeMatrix64F#setNumCols(int)
+     * @see ReshapeMatrix64F#setNumCols(int) the number of columns.
      */
     void setNumCols(int numCols);
 
     /**
      * @see ReshapeMatrix64F#getNumElements()
+     *
+     * @return the number of elements.
      */
     int getNumElements();
 
     /**
      * @see ReshapeMatrix64F#set(ReshapeMatrix64F)
+     *
+     * @param A the {@link ReshapeMatrix64F}
      */
     void set(ReshapeMatrix64F A);
 
     /**
      * @see ReshapeMatrix64F#copy()
+     *
+     * @param <T> the type of the {@link ReshapeMatrix64F}
+     *
+     * @return the {@link ReshapeMatrix64F}
      *
      * @since 1.10
      */

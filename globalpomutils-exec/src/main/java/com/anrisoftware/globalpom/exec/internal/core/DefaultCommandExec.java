@@ -53,6 +53,8 @@ public class DefaultCommandExec implements CommandExec {
 
     /**
      * @see CommandExecFactory#create()
+     *
+     * @return the {@link CommandExec}
      */
     public static CommandExec createCommandExec() {
         return getCommandExecFactory().create();
@@ -117,8 +119,8 @@ public class DefaultCommandExec implements CommandExec {
     }
 
     @Override
-    public Future<ProcessTask> exec(CommandLine commandLine,
-            PropertyChangeListener... listeners) throws CommandExecException {
+    public Future<ProcessTask> exec(CommandLine commandLine, PropertyChangeListener... listeners)
+            throws CommandExecException {
         try {
             ProcessTask task = createProcessTask(commandLine, observers);
             return threads.submit(task, setupListener(task, listeners));
@@ -127,8 +129,7 @@ public class DefaultCommandExec implements CommandExec {
         }
     }
 
-    private ProcessTask createProcessTask(CommandLine commandLine,
-            List<Observer> observers) throws IOException {
+    private ProcessTask createProcessTask(CommandLine commandLine, List<Observer> observers) throws IOException {
         DefaultProcessTask task = processTaskFactory.create(commandLine);
         task.setThreads(threads);
         task.addObserver(observers.toArray(new Observer[] {}));
@@ -145,13 +146,11 @@ public class DefaultCommandExec implements CommandExec {
         return task;
     }
 
-    private PropertyChangeListener[] setupListener(ProcessTask task,
-            PropertyChangeListener... l) {
+    private PropertyChangeListener[] setupListener(ProcessTask task, PropertyChangeListener... l) {
         return destroyOnTimeout ? addTimeoutListener(task, l) : l;
     }
 
-    private PropertyChangeListener[] addTimeoutListener(final ProcessTask task,
-            PropertyChangeListener... listeners) {
+    private PropertyChangeListener[] addTimeoutListener(final ProcessTask task, PropertyChangeListener... listeners) {
         return ArrayUtils.add(listeners, new PropertyChangeListener() {
 
             @Override

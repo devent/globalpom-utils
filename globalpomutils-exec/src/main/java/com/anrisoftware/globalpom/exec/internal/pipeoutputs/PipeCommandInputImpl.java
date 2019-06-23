@@ -42,6 +42,10 @@ public class PipeCommandInputImpl implements PipeCommandInput {
 
     /**
      * @see PipeCommandInputFactory#create(InputStream)
+     *
+     * @param stream the {@link InputStream}
+     *
+     * @return the {@link CommandInput}
      */
     public static CommandInput createPipeCommandInput(InputStream stream) {
         return getPipeCommandInputFactory().create(stream);

@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.posixlocale;
 
-
 import static com.anrisoftware.globalpom.core.posixlocale.PosixLocaleFormatLogger.m.unparseable;
 import static com.anrisoftware.globalpom.core.posixlocale.PosixLocaleFormatLogger.m.unparseable_message;
 
@@ -25,7 +24,7 @@ import java.text.ParsePosition;
 import com.anrisoftware.globalpom.log.AbstractLogger;
 
 /**
- * Logging messages for {@link PosixLocaleFormat.class}.
+ * Logging messages for {@link PosixLocaleFormat}.
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.6

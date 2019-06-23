@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.exec.internal.script;
 
-
 import static com.anrisoftware.globalpom.exec.internal.script.ScriptCommandModule.getScriptCommandExecFactory;
 
 import java.beans.PropertyChangeListener;
@@ -53,6 +52,10 @@ public class ScriptCommandExec implements CommandExec {
 
     /**
      * @see ScriptCommandExecFactory#create(CommandExecFactory)
+     *
+     * @param execFactory the {@link CommandExecFactory}
+     *
+     * @return the {@link CommandExec}
      */
     public static CommandExec createScriptCommandExec(CommandExecFactory execFactory) {
         return getScriptCommandExecFactory().create(execFactory);

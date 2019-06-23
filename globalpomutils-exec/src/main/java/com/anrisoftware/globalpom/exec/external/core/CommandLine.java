@@ -77,7 +77,7 @@ public interface CommandLine {
     /**
      * Adds the specified command line argument.
      *
-     * @param arguments the {@link Object} argument.
+     * @param argument the {@link Object} argument.
      *
      * @return this {@link DefaultCommandLine}.
      */
@@ -85,7 +85,6 @@ public interface CommandLine {
 
     /**
      * Adds the specified command line argument.
-     * <p>
      * If the quote arguments is set then the arguments is quoted in double/single
      * quotes.
      * <ul>
@@ -95,7 +94,6 @@ public interface CommandLine {
      * <li>{@code "aaa ccc" bbb} -&gt; {@code '"aaa ccc" bbb'}</li>
      * <li>{@code "aaa"bbb} -&gt; {@code '"aaa"bbb'}</li>
      * </ul>
-     * </p>
      *
      * @param argument the {@link Object} argument.
      *

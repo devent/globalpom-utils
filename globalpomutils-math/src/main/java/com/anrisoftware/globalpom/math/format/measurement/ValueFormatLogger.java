@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.math.format.measurement;
 
-
 import static com.anrisoftware.globalpom.math.format.measurement.ValueFormatLogger.m.unparseable;
 import static com.anrisoftware.globalpom.math.format.measurement.ValueFormatLogger.m.unparseable_message;
 
@@ -25,7 +24,7 @@ import java.text.ParsePosition;
 import com.anrisoftware.globalpom.log.AbstractLogger;
 
 /**
- * Logging messages for {@link ValueFormat.class}.
+ * Logging messages for {@link ValueFormat}.
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10

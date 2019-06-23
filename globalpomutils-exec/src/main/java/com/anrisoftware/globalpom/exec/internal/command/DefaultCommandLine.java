@@ -41,7 +41,7 @@ import com.google.inject.assistedinject.AssistedInject;
 
 /**
  * Quotes command line arguments.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.11
  */
@@ -49,6 +49,8 @@ public class DefaultCommandLine implements CommandLine {
 
     /**
      * @see CommandLineFactory#create(File)
+     *
+     * @return the {@link CommandLine}
      */
     public static CommandLine createCommandLine(File executable) {
         return getCommandLineFactory().create(executable);
@@ -56,6 +58,10 @@ public class DefaultCommandLine implements CommandLine {
 
     /**
      * @see CommandLineFactory#create(String)
+     *
+     * @param executable the {@link String} executable.
+     *
+     * @return the {@link CommandLine}
      */
     public static CommandLine createCommandLine(String executable) {
         return getCommandLineFactory().create(executable);
@@ -187,8 +193,7 @@ public class DefaultCommandLine implements CommandLine {
 
         @Override
         public String toString() {
-            return new ToStringBuilder(this).append(argument)
-                    .append(QUOTE, quote).toString();
+            return new ToStringBuilder(this).append(argument).append(QUOTE, quote).toString();
         }
     }
 
@@ -224,8 +229,7 @@ public class DefaultCommandLine implements CommandLine {
     private String quoteArgument(String argument) {
         argument = argument.trim();
         if (containsWhitespace(argument)) {
-            char q = contains(argument, DOUBLE_QUOTE_CHAR) ? SINGLE_QUOTE_CHAR
-                    : DOUBLE_QUOTE_CHAR;
+            char q = contains(argument, DOUBLE_QUOTE_CHAR) ? SINGLE_QUOTE_CHAR : DOUBLE_QUOTE_CHAR;
             argument = format(QUOTATION_FORMAT, q, argument, q);
         }
         return argument;
@@ -233,8 +237,7 @@ public class DefaultCommandLine implements CommandLine {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append(executable).append(arguments)
-                .toString();
+        return new ToStringBuilder(this).append(executable).append(arguments).toString();
     }
 
 }

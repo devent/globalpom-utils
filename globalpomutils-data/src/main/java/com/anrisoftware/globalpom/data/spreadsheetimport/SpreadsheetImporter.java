@@ -15,26 +15,6 @@
  */
 package com.anrisoftware.globalpom.data.spreadsheetimport;
 
-/*-
- * #%L
- * Global POM Utilities :: Data
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.text.ParseException;
@@ -79,6 +59,8 @@ public interface SpreadsheetImporter extends Closeable {
      * Loads the next row
      *
      * @return {@code true} if there are more rows to load.
+     *
+     * @throws SpreadsheetImportException
      */
     boolean loadNext() throws SpreadsheetImportException;
 
@@ -93,8 +75,8 @@ public interface SpreadsheetImporter extends Closeable {
      * Returns the names of the header if the spreadsheet file contains a header
      * row.
      *
-     * @return the {@link List} of the header {@link String} names or
-     *         {@code null} if the spreadsheet file have no header row.
+     * @return the {@link List} of the header {@link String} names or {@code null}
+     *         if the spreadsheet file have no header row.
      *
      * @see SpreadsheetImportProperties#isHaveHeader()
      */
@@ -103,45 +85,39 @@ public interface SpreadsheetImporter extends Closeable {
     /**
      * Returns the values of the read row.
      *
-     * @return the values {@link List} of the read row or {@code null} if the
-     *         end of file was reached.
+     * @return the values {@link List} of the read row or {@code null} if the end of
+     *         file was reached.
      */
     List<String> getValues();
 
     /**
-     * Returns the values of the read row with the column name as the map key
-     * and the column value as the map value.
+     * Returns the values of the read row with the column name as the map key and
+     * the column value as the map value.
      *
-     * @param columns
-     *            the {@link List} of {@link Column} columns.
+     * @param columns the {@link List} of {@link Column} columns.
      *
      * @return the column names and values {@link Map} of the read row or
      *         {@code null} if the end of file was reached.
      *
-     * @throws ParseException
-     *             if the columns could not be parsed.
+     * @throws ParseException if the columns could not be parsed.
      */
     Map<String, Object> mapValues(List<Column> columns) throws ParseException;
 
     /**
-     * Returns the values of the read row with the column name as the map key
-     * and the column value as the map value.
+     * Returns the values of the read row with the column name as the map key and
+     * the column value as the map value.
      *
-     * @param columns
-     *            the {@link Map} of {@link Column} columns, identified by the
-     *            column name.
+     * @param columns     the {@link Map} of {@link Column} columns, identified by
+     *                    the column name.
      *
-     * @param columnNames
-     *            the {@link List} of column {@link String} names to map the
-     *            column.
+     * @param columnNames the {@link List} of column {@link String} names to map the
+     *                    column.
      *
      * @return the column names and values {@link Map} of the read row or
      *         {@code null} if the end of file was reached.
      *
-     * @throws ParseException
-     *             if the columns could not be parsed.
+     * @throws ParseException if the columns could not be parsed.
      */
-    Map<String, Object> mapValues(Map<String, Column> columns,
-            List<String> columnNames) throws ParseException;
+    Map<String, Object> mapValues(Map<String, Column> columns, List<String> columnNames) throws ParseException;
 
 }

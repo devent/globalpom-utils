@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.localeformat;
 
-
 import static com.anrisoftware.globalpom.core.localeformat.LocaleFormatLogger.m.unparseable;
 import static com.anrisoftware.globalpom.core.localeformat.LocaleFormatLogger.m.unparseable_message;
 
@@ -25,7 +24,7 @@ import java.text.ParsePosition;
 import com.anrisoftware.globalpom.log.AbstractLogger;
 
 /**
- * Logging messages for {@link LocaleFormat.class}.
+ * Logging messages for {@link LocaleFormat}.
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10

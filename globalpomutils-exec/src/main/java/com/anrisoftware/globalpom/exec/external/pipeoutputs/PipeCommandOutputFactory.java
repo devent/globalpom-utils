@@ -32,8 +32,7 @@ public interface PipeCommandOutputFactory {
      * Creates the pipe output that writes from the output of the command to the
      * specified stream.
      *
-     * @param stream
-     *            the {@link OutputStream}.
+     * @param output the {@link OutputStream}.
      *
      * @return the {@link CommandOutput}.
      */

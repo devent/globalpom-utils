@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.durationsimpleformat;
 
-
 import static com.anrisoftware.globalpom.core.durationsimpleformat.DurationSimpleFormatLogger.m.unparseable;
 import static com.anrisoftware.globalpom.core.durationsimpleformat.DurationSimpleFormatLogger.m.unparseablemmessage;
 
@@ -26,7 +25,7 @@ import java.util.regex.Matcher;
 import com.anrisoftware.globalpom.log.AbstractLogger;
 
 /**
- * Logging messages for {@link DurationSimpleFormat.class}.
+ * Logging messages for {@link DurationSimpleFormat}.
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.5

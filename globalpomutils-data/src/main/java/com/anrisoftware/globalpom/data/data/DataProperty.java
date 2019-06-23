@@ -46,7 +46,7 @@ public enum DataProperty {
     /**
      * The data property.
      *
-     * @see Data#set(org.ejml.data.Matrix64F)
+     * @see Data#set(org.ejml.data.ReshapeMatrix64F)
      * @see Data#set(int, int, double)
      */
     DATA
