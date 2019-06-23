@@ -15,26 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.version;
 
-/*-
- * #%L
- * Global POM Utilities :: Core
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParseException;
@@ -70,8 +50,13 @@ public class VersionFormat extends Format {
      * major.minor.revision
      * </pre>
      *
-     * @param obj
-     *            the {@link Version}.
+     * @param obj  the {@link Version}.
+     *
+     * @param buff {@link StringBuffer}
+     *
+     * @param pos  {@link FieldPosition}
+     *
+     * @return the {@link StringBuffer}
      */
     @Override
     public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos) {
@@ -96,12 +81,14 @@ public class VersionFormat extends Format {
 
     /**
      * Parses the specified string to a version.
-     * <p>
      * <h2>Format</h2>
-     * <p>
      * <ul>
      * <li>{@code "major[.minor[.revision]]"}
      * </ul>
+     *
+     * @param source the {@link String} source.
+     *
+     * @param pos    the {@link ParsePosition}
      *
      * @return the parsed {@link Version}.
      */
@@ -112,6 +99,10 @@ public class VersionFormat extends Format {
 
     /**
      * @see #parse(String, ParsePosition)
+     *
+     * @param source the {@link String} source.
+     *
+     * @return the {@link Version}
      */
     public Version parse(String source) throws ParseException {
         ParsePosition pos = new ParsePosition(0);
@@ -125,9 +116,12 @@ public class VersionFormat extends Format {
     /**
      * @see #parseObject(String)
      *
-     * @param pos
-     *            the index {@link ParsePosition} position from where to start
-     *            parsing.
+     * @param source the {@link String} source.
+     *
+     * @param pos    the index {@link ParsePosition} position from where to start
+     *               parsing.
+     *
+     * @return the {@link Version}
      */
     public Version parse(String source, ParsePosition pos) {
         try {

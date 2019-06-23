@@ -15,26 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.textmatch.match;
 
-/*-
- * #%L
- * Global POM Utilities :: Core
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import org.apache.commons.lang3.exception.ContextedException;
 
 /**
@@ -48,6 +28,10 @@ public class MatchTextException extends ContextedException {
 
     /**
      * @see Exception#Exception(String, Throwable)
+     *
+     * @param message the {@link String} message.
+     *
+     * @param cause the {@link Throwable} cause.
      */
     public MatchTextException(String message, Throwable cause) {
         super(message, cause);
@@ -55,6 +39,8 @@ public class MatchTextException extends ContextedException {
 
     /**
      * @see Exception#Exception(String)
+     *
+     * @param message the {@link String} message.
      */
     public MatchTextException(String message) {
         super(message);
@@ -62,6 +48,10 @@ public class MatchTextException extends ContextedException {
 
     /**
      * @see Exception#Exception(String, Throwable)
+     *
+     * @param message the message.
+     *
+     * @param cause the {@link Throwable} cause.
      */
     public MatchTextException(Object message, Throwable cause) {
         super(message.toString(), cause);
@@ -69,6 +59,8 @@ public class MatchTextException extends ContextedException {
 
     /**
      * @see Exception#Exception(String)
+     *
+     * @param message the message.
      */
     public MatchTextException(Object message) {
         super(message.toString());

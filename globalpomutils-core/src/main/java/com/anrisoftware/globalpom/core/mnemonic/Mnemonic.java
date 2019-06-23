@@ -41,6 +41,8 @@ public class Mnemonic {
     /**
      * @see MnemonicFactory#create(String)
      *
+     * @param string the {@link String}
+     *
      * @return the {@link Mnemonic}
      */
     public static Mnemonic valueOf(String string) {

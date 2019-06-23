@@ -89,11 +89,11 @@ public interface CommandLine {
      * If the quote arguments is set then the arguments is quoted in double/single
      * quotes.
      * <ul>
-     * <li>{@code aaa} -> {@code aaa}</li>
-     * <li>{@code aaa bbb} -> {@code "aaa bbb"}</li>
-     * <li>{@code "aaa" bbb} -> {@code '"aaa" bbb'}</li>
-     * <li>{@code "aaa ccc" bbb} -> {@code '"aaa ccc" bbb'}</li>
-     * <li>{@code "aaa"bbb} -> {@code '"aaa"bbb'}</li>
+     * <li>{@code aaa} -&gt; {@code aaa}</li>
+     * <li>{@code aaa bbb} -&gt; {@code "aaa bbb"}</li>
+     * <li>{@code "aaa" bbb} -&gt; {@code '"aaa" bbb'}</li>
+     * <li>{@code "aaa ccc" bbb} -&gt; {@code '"aaa ccc" bbb'}</li>
+     * <li>{@code "aaa"bbb} -&gt; {@code '"aaa"bbb'}</li>
      * </ul>
      * </p>
      *

@@ -15,26 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.textscentral;
 
-/*-
- * #%L
- * Global POM Utilities :: Core
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.Properties;
@@ -104,10 +84,8 @@ public class TextsResources {
      * @since 1.6
      */
     @AssistedInject
-    TextsResources(TextsFactory textsFactory, MnemonicFactory mnemonicFactory,
-            AcceleratorFactory acceleratorFactory) {
-        this(textsFactory, mnemonicFactory, acceleratorFactory,
-                createDefaultProperties());
+    TextsResources(TextsFactory textsFactory, MnemonicFactory mnemonicFactory, AcceleratorFactory acceleratorFactory) {
+        this(textsFactory, mnemonicFactory, acceleratorFactory, createDefaultProperties());
     }
 
     private static Properties createDefaultProperties() {
@@ -125,27 +103,21 @@ public class TextsResources {
      * @since 1.6
      */
     @AssistedInject
-    TextsResources(TextsFactory textsFactory, MnemonicFactory mnemonicFactory,
-            AcceleratorFactory acceleratorFactory,
+    TextsResources(TextsFactory textsFactory, MnemonicFactory mnemonicFactory, AcceleratorFactory acceleratorFactory,
             @Assisted Properties properties) {
         if (properties.containsKey(TEXTS_PROPERTY)) {
-            this.texts = textsFactory.create(properties
-                    .getProperty(TEXTS_PROPERTY));
+            this.texts = textsFactory.create(properties.getProperty(TEXTS_PROPERTY));
         }
         if (properties.containsKey(ACTIONS_PROPERTY)) {
-            this.actions = textsFactory.create(properties
-                    .getProperty(ACTIONS_PROPERTY));
+            this.actions = textsFactory.create(properties.getProperty(ACTIONS_PROPERTY));
         }
         if (properties.containsKey(ACTION_MNEMONICS_PROPERTY)) {
-            this.mnemonics = textsFactory.create(properties
-                    .getProperty(ACTION_MNEMONICS_PROPERTY));
+            this.mnemonics = textsFactory.create(properties.getProperty(ACTION_MNEMONICS_PROPERTY));
         }
         if (properties.containsKey(ACTION_ACCELERATORS_PROPERTY)) {
-            this.accelerators = textsFactory.create(properties
-                    .getProperty(ACTION_ACCELERATORS_PROPERTY));
+            this.accelerators = textsFactory.create(properties.getProperty(ACTION_ACCELERATORS_PROPERTY));
         }
-        this.localeListeners = new EventListenerSupport<LocaleListener>(
-                LocaleListener.class);
+        this.localeListeners = new EventListenerSupport<LocaleListener>(LocaleListener.class);
         this.locale = Locale.getDefault();
         this.mnemonicFactory = mnemonicFactory;
         this.acceleratorFactory = acceleratorFactory;
@@ -154,8 +126,7 @@ public class TextsResources {
     /**
      * Sets the texts resources.
      *
-     * @param texts
-     *            the {@link Texts}.
+     * @param texts the {@link Texts}.
      */
     public void setTexts(Texts texts) {
         Texts oldValue = this.texts;
@@ -177,8 +148,7 @@ public class TextsResources {
     /**
      * Sets the texts resources for the actions names.
      *
-     * @param actions
-     *            the {@link Texts}.
+     * @param actions the {@link Texts}.
      */
     public void setActions(Texts actions) {
         Texts oldValue = this.actions;
@@ -200,8 +170,7 @@ public class TextsResources {
     /**
      * Sets the texts resources for the mnemonics.
      *
-     * @param mnemonics
-     *            the {@link Texts}.
+     * @param mnemonics the {@link Texts}.
      */
     public void setMnemonics(Texts mnemonics) {
         Texts oldValue = this.mnemonics;
@@ -223,8 +192,7 @@ public class TextsResources {
     /**
      * Sets the texts resources for the accelerator keys.
      *
-     * @param accelerators
-     *            the {@link Texts}.
+     * @param accelerators the {@link Texts}.
      */
     public void setAccelerators(Texts accelerators) {
         Texts oldValue = this.accelerators;
@@ -246,8 +214,7 @@ public class TextsResources {
     /**
      * Sets the locale for the texts resources.
      *
-     * @param locale
-     *            the {@link Locale}.
+     * @param locale the {@link Locale}.
      */
     public void setLocale(Locale locale) {
         this.locale = locale;
@@ -270,10 +237,11 @@ public class TextsResources {
     /**
      * Returns the text from the texts resources.
      *
+     * @param name the {@link String} name.
+     *
      * @return the {@link String} text.
      *
-     * @throws ResourcesException
-     *             if there was an error loading the text.
+     * @throws ResourcesException if there was an error loading the text.
      */
     public String getText(String name) throws ResourcesException {
         return texts.getResource(name, locale).getText();
@@ -283,32 +251,29 @@ public class TextsResources {
      * Returns a formatted text from the texts resource.
      * <p>
      * The string is formatted as in
-     * {@link String#format(Locale, String, Object...)} with the current text as
-     * the format string and the current locale as the locale.
+     * {@link String#format(Locale, String, Object...)} with the current text as the
+     * format string and the current locale as the locale.
      *
-     * @param args
-     *            the arguments.
+     * @param name the {@link String} name.
+     *
+     * @param args the arguments.
      *
      * @return the {@link String} text.
      *
-     * @throws ResourcesException
-     *             if there was an error loading the text.
+     * @throws ResourcesException if there was an error loading the text.
      */
-    public String getTextFormat(String name, Object... args)
-            throws ResourcesException {
+    public String getTextFormat(String name, Object... args) throws ResourcesException {
         return texts.getResource(name, locale).getFormattedText(args);
     }
 
     /**
      * Returns the action name from the actions texts resources.
      *
-     * @param name
-     *            the {@link String} resource name.
+     * @param name the {@link String} resource name.
      *
      * @return the {@link String} action name.
      *
-     * @throws ResourcesException
-     *             if there was an error loading the text.
+     * @throws ResourcesException if there was an error loading the text.
      */
     public String getAction(String name) throws ResourcesException {
         return actions.getResource(name, locale).getText();
@@ -319,13 +284,11 @@ public class TextsResources {
      *
      * @see Mnemonic#getMnemonic()
      *
-     * @param name
-     *            the {@link String} resource name.
+     * @param name the {@link String} resource name.
      *
      * @return the {@link Integer} mnemonic key code.
      *
-     * @throws ResourcesException
-     *             if there was an error loading the text resource.
+     * @throws ResourcesException if there was an error loading the text resource.
      */
     public int getMnemonic(String name) throws ResourcesException {
         String keyname = mnemonics.getResource(name, locale).getText();
@@ -333,19 +296,17 @@ public class TextsResources {
     }
 
     /**
-     * Returns the displayed mnemonic index from the mnemonics texts resources
-     * if such index was set in the resource.
+     * Returns the displayed mnemonic index from the mnemonics texts resources if
+     * such index was set in the resource.
      *
      * @see Mnemonic#getMnemonicIndex()
      *
-     * @param name
-     *            the mnemonic text resource {@link String} name.
+     * @param name the mnemonic text resource {@link String} name.
      *
      * @return displayed mnemonic index or -1. The value -1 means no index was
      *         specified.
      *
-     * @throws ResourcesException
-     *             if there was an error loading the text resource.
+     * @throws ResourcesException if there was an error loading the text resource.
      */
     public int getMnemonicIndex(String name) throws ResourcesException {
         String keyname = mnemonics.getResource(name, locale).getText();
@@ -358,18 +319,16 @@ public class TextsResources {
      *
      * @see Accelerator#getAccelerator()
      *
-     * @param name
-     *            the accelerator text resource {@link String} name.
+     * @param name the accelerator text resource {@link String} name.
      *
-     * @return accelerator {@link KeyStroke} or {@code null} if no accelerator
-     *         key was specified.
+     * @return accelerator {@link KeyStroke} or {@code null} if no accelerator key
+     *         was specified.
      *
-     * @throws ResourcesException
-     *             if there was an error loading the text resource.
+     * @throws ResourcesException       if there was an error loading the text
+     *                                  resource.
      *
-     * @throws IllegalArgumentException
-     *             if the specified accelerator or the modifier are not a valid
-     *             key code.
+     * @throws IllegalArgumentException if the specified accelerator or the modifier
+     *                                  are not a valid key code.
      */
     public KeyStroke getAccelerator(String name) {
         try {
@@ -381,22 +340,20 @@ public class TextsResources {
     }
 
     /**
-     * Adds the specified locale listener that is notified if a new locale is
-     * set for the texts resources.
+     * Adds the specified locale listener that is notified if a new locale is set
+     * for the texts resources.
      *
-     * @param l
-     *            the {@link LocaleListener}.
+     * @param l the {@link LocaleListener}.
      */
     public void addTextsLocaleListeners(LocaleListener l) {
         localeListeners.addListener(l);
     }
 
     /**
-     * Removes the specified locale listener that is notified if a new locale is
-     * set for the texts resources.
+     * Removes the specified locale listener that is notified if a new locale is set
+     * for the texts resources.
      *
-     * @param l
-     *            the {@link LocaleListener}.
+     * @param l the {@link LocaleListener}.
      */
     public void removeTextsLocaleListeners(LocaleListener l) {
         localeListeners.removeListener(l);

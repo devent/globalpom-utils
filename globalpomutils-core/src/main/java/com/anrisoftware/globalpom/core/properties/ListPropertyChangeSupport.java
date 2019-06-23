@@ -142,11 +142,11 @@ public class ListPropertyChangeSupport {
 
     /**
      *
-     * @param property the property.
+     * @param propertyName the {@link String} property name.
      *
-     * @param oldValue the old value.
+     * @param oldValue     the old value.
      *
-     * @param newValue the new value.
+     * @param newValue     the new value.
      */
     public void firePropertyChange(String propertyName, int oldValue, int newValue) {
         support.firePropertyChange(propertyName, oldValue, newValue);
@@ -166,11 +166,11 @@ public class ListPropertyChangeSupport {
 
     /**
      *
-     * @param property the property.
+     * @param propertyName the {@link String} property name.
      *
-     * @param oldValue the old value.
+     * @param oldValue     the old value.
      *
-     * @param newValue the new value.
+     * @param newValue     the new value.
      */
     public void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) {
         support.firePropertyChange(propertyName, oldValue, newValue);
@@ -224,7 +224,7 @@ public class ListPropertyChangeSupport {
      *
      * @param index1       the end index.
      *
-     * @param newValue     the new value.
+     * @param oldValue     the old value.
      */
     public void fireListItemRemovedChange(String propertyName, int index0, int index1, Object oldValue) {
         firePropertyChange(new ListItemRemovedEvent(sourceBean, propertyName, index0, index1, oldValue));
@@ -233,6 +233,14 @@ public class ListPropertyChangeSupport {
     /**
      * @see ListItemRemovedEvent#ListItemRemovedEvent(Object, String, int, int,
      *      Object)
+     *
+     * @param property the property.
+     *
+     * @param index0   the start index.
+     *
+     * @param index1   the end index.
+     *
+     * @param oldValue the old value.
      */
     public void fireListItemRemovedChange(Object property, int index0, int index1, Object oldValue) {
         firePropertyChange(new ListItemRemovedEvent(sourceBean, property.toString(), index0, index1, oldValue));
