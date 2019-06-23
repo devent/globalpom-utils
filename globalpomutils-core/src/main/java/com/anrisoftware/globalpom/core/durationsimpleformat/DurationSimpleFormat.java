@@ -162,11 +162,13 @@ public class DurationSimpleFormat extends Format {
      *
      * @param obj        the {@link Measurable} or {@link Number}.
      *
-     * @param buff the {@link StringBuffer}.
+     * @param buff       the {@link StringBuffer}.
      *
-     * @param pos the {@link FieldPosition}.
+     * @param pos        the {@link FieldPosition}.
      *
      * @param multiplier the unit {@link UnitMultiplier}.
+     *
+     * @return the {@link StringBuffer}
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos, UnitMultiplier multiplier) {
@@ -237,7 +239,7 @@ public class DurationSimpleFormat extends Format {
      * <li>{@code "1h"}
      * </ul>
      *
-     * @param source the {@link String} source to parse.
+     * @param source     the {@link String} source to parse.
      *
      * @param multiplier the unit {@link UnitMultiplier}.
      *
@@ -257,8 +259,14 @@ public class DurationSimpleFormat extends Format {
     /**
      * @see #parse(String)
      *
-     * @param pos the index {@link ParsePosition} position from where to start
-     *            parsing.
+     * @param source     the {@link String} the source.
+     *
+     * @param pos        the index {@link ParsePosition} position from where to
+     *                   start parsing.
+     *
+     * @param multiplier the {@link UnitMultiplier}
+     *
+     * @return the {@link Long} duration.
      */
     public Long parse(String source, ParsePosition pos, UnitMultiplier multiplier) {
         source = source.substring(pos.getIndex());

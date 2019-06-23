@@ -125,9 +125,13 @@ public class ByteFormat extends Format {
     }
 
     /**
+     * @see #format(Object)
+     *
+     * @param obj        the object.
+     *
      * @param multiplier the unit {@link UnitMultiplier}.
      *
-     * @see #format(Object)
+     * @return the {@link String}
      */
     public String format(Object obj, UnitMultiplier multiplier) {
         return format(obj, new StringBuffer(), new FieldPosition(0), multiplier).toString();
@@ -147,7 +151,13 @@ public class ByteFormat extends Format {
      *
      * @param obj        the {@link Measurable} or {@link Number}.
      *
+     * @param buff       the {@link StringBuffer}
+     *
+     * @param pos        the {@link FieldPosition}
+     *
      * @param multiplier the unit {@link UnitMultiplier}.
+     *
+     * @return the {@link StringBuffer}
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos, UnitMultiplier multiplier) {
@@ -189,6 +199,8 @@ public class ByteFormat extends Format {
      * <li>{@code "1 Kib"}
      * </ul>
      *
+     * @param source the {@link String} source.
+     *
      * @return the parsed value.
      *
      * @throws ParseException if the string cannot be parsed to a value.
@@ -211,6 +223,8 @@ public class ByteFormat extends Format {
      * <li>{@code "1 Kib"}
      * </ul>
      *
+     * @param source     the {@link String} source.
+     *
      * @param multiplier the unit {@link UnitMultiplier}.
      *
      * @return the parsed value.
@@ -229,8 +243,12 @@ public class ByteFormat extends Format {
     /**
      * @see #parse(String)
      *
-     * @param pos the index {@link ParsePosition} position from where to start
-     *            parsing.
+     * @param source     the {@link String} source.
+     *
+     * @param pos        the index {@link ParsePosition} position from where to
+     *                   start parsing.
+     *
+     * @param multiplier the {@link UnitMultiplier}
      *
      * @return the parsed {@link Long} value or {@code null.}
      */

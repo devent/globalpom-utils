@@ -58,7 +58,7 @@ import com.anrisoftware.globalpom.core.enumsformat.EnumFormat;
  * str  = TestEnum.FORMAT.format(TestEnum.FOO);
  * </pre>
  *
- * @param <E> the enum type subclass.
+ * @param <E>        the enum type subclass.
  *
  * @param <EnumType> the type of the {@link Enum}.
  *
@@ -72,6 +72,12 @@ public class EnumFormat<E extends Enum<E>, EnumType extends Enum<E>> extends For
      *
      * @see EnumFormat#create(Class)
      *
+     * @param <E>        the enum type subclass.
+     *
+     * @param <EnumType> the type of the {@link Enum}.
+     *
+     * @param enumType   the {@link Class} type.
+     *
      * @return the {@link EnumFormat}.
      */
     public static <E extends Enum<E>, EnumType extends Enum<E>> EnumFormat<E, Enum<E>> createEnumFormat(
@@ -83,6 +89,12 @@ public class EnumFormat<E extends Enum<E>, EnumType extends Enum<E>> extends For
      * Factory method to use type inference for the generic parameter.
      *
      * @see EnumFormat#EnumFormat(Class)
+     *
+     * @param <E>        the enum type subclass.
+     *
+     * @param <EnumType> the type of the {@link Enum}.
+     *
+     * @param enumType   the {@link Class} type.
      *
      * @return the {@link EnumFormat}.
      */

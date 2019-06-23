@@ -114,6 +114,8 @@ public class InetSocketAddressFormat extends Format {
      * <li>{@code <host-name>:<port-number>}</li>
      * </ul>
      *
+     * @param source the {@link String} source.
+     *
      * @return the parsed {@link InetSocketAddress}.
      *
      * @throws ParseException if the string does not have IP address, host name or
@@ -147,9 +149,6 @@ public class InetSocketAddressFormat extends Format {
      *               parsing.
      *
      * @return the parsed {@link InetSocketAddress}.
-     *
-     * @throws ParseException if the string does not have IP address, host name or
-     *                        port number.
      */
     public InetSocketAddress parse(String source, ParsePosition pos) {
         try {

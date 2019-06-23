@@ -48,6 +48,8 @@ public class ToList {
      * @param obj the {@link Object}.
      *
      * @param <E> the list element type.
+     *
+     * @return the {@link List}.
      */
     @SuppressWarnings("unchecked")
     public static <E> List<E> toList(List<E> list, Object obj) {

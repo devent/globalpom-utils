@@ -86,6 +86,8 @@ public final class SerializableBasicStroke implements Externalizable {
     /**
      * @see java.awt.BasicStroke#createStrokedShape(java.awt.Shape)
      *
+     * @param s the {@link Shape}
+     *
      * @return the {@link Shape}.
      */
     public Shape createStrokedShape(Shape s) {

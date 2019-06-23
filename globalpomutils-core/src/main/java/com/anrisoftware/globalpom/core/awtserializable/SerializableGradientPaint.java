@@ -156,6 +156,16 @@ public final class SerializableGradientPaint implements Externalizable {
      *      java.awt.Rectangle, java.awt.geom.Rectangle2D,
      *      java.awt.geom.AffineTransform, java.awt.RenderingHints)
      *
+     * @param cm           the {@link ColorModel}
+     *
+     * @param deviceBounds the {@link Rectangle}
+     *
+     * @param userBounds   the {@link Rectangle2D}
+     *
+     * @param xform        the {@link AffineTransform}
+     *
+     * @param hints        {@link RenderingHints}
+     *
      * @return the {@link PaintContext}
      */
     public PaintContext createContext(ColorModel cm, Rectangle deviceBounds, Rectangle2D userBounds,

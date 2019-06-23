@@ -40,7 +40,7 @@ import com.google.inject.assistedinject.AssistedInject;
  * Locale as used in POSIX platforms. Contains the language, country and
  * character set.
  *
- * @see {@link http://en.wikipedia.org/wiki/Locale}
+ * @see <a href="http://en.wikipedia.org/wiki/Locale">Locale Wikipedia</a>
  *
  * @author Erwin Müller, erwin.mueller@deventm.de
  * @since 2.6
