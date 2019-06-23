@@ -221,6 +221,8 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.util.Locale#getLanguage()
+     *
+     * @return the {@link String} language.
      */
     public String getLanguage() {
         return locale.getLanguage();
@@ -228,6 +230,8 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.util.Locale#getScript()
+     *
+     * @return the {@link String} script.
      */
     public String getScript() {
         return locale.getScript();
@@ -235,6 +239,8 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.util.Locale#getCountry()
+     *
+     * @return the {@link String} country.
      */
     public String getCountry() {
         return locale.getCountry();
@@ -242,6 +248,8 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.util.Locale#getVariant()
+     *
+     * @return the {@link String} variant.
      */
     public String getVariant() {
         return locale.getVariant();
@@ -249,6 +257,10 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.util.Locale#getExtension(char)
+     *
+     * @param key the key.
+     *
+     * @return the {@link String} extension.
      */
     public String getExtension(char key) {
         return locale.getExtension(key);
@@ -256,6 +268,8 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.util.Locale#getExtensionKeys()
+     *
+     * @return the {@link Set} extension keys.
      */
     public Set<Character> getExtensionKeys() {
         return locale.getExtensionKeys();
@@ -263,6 +277,8 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.util.Locale#getUnicodeLocaleAttributes()
+     *
+     * @return the {@link Set} unicode locale attributes.
      */
     public Set<String> getUnicodeLocaleAttributes() {
         return locale.getUnicodeLocaleAttributes();
@@ -270,6 +286,10 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.util.Locale#getUnicodeLocaleType(java.lang.String)
+     *
+     * @param key the {@link String} key.
+     *
+     * @return the {@link String} unicode locale type.
      */
     public String getUnicodeLocaleType(String key) {
         return locale.getUnicodeLocaleType(key);
@@ -277,6 +297,8 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.util.Locale#getUnicodeLocaleKeys()
+     *
+     * @return the {@link Set} unicode locale keys.
      */
     public Set<String> getUnicodeLocaleKeys() {
         return locale.getUnicodeLocaleKeys();
@@ -284,6 +306,8 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.util.Locale#toLanguageTag()
+     *
+     * @return the {@link String} language tag.
      */
     public String toLanguageTag() {
         return locale.toLanguageTag();
@@ -291,6 +315,8 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.util.Locale#getISO3Language()
+     *
+     * @return the {@link String} ISO3 language.
      */
     public String getISO3Language() throws MissingResourceException {
         return locale.getISO3Language();
@@ -298,6 +324,8 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.util.Locale#getISO3Country()
+     *
+     * @return the {@link String} ISO3 country.
      */
     public String getISO3Country() throws MissingResourceException {
         return locale.getISO3Country();
@@ -305,6 +333,8 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.util.Locale#getDisplayLanguage()
+     *
+     * @return the {@link String} display language.
      */
     public final String getDisplayLanguage() {
         return locale.getDisplayLanguage();
@@ -312,6 +342,10 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.util.Locale#getDisplayLanguage(java.util.Locale)
+     *
+     * @param inLocale the {@link Locale}
+     *
+     * @return the {@link String} display language.
      */
     public String getDisplayLanguage(Locale inLocale) {
         return locale.getDisplayLanguage(inLocale);
@@ -319,6 +353,8 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.util.Locale#getDisplayScript()
+     *
+     * @return the {@link String} display script.
      */
     public String getDisplayScript() {
         return locale.getDisplayScript();
@@ -326,6 +362,10 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.util.Locale#getDisplayScript(java.util.Locale)
+     *
+     * @param inLocale the {@link Locale}.
+     *
+     * @return the {@link String} display script.
      */
     public String getDisplayScript(Locale inLocale) {
         return locale.getDisplayScript(inLocale);
@@ -333,6 +373,8 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.util.Locale#getDisplayCountry()
+     *
+     * @return the {@link String} display country.
      */
     public final String getDisplayCountry() {
         return locale.getDisplayCountry();
@@ -340,6 +382,10 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.util.Locale#getDisplayCountry(java.util.Locale)
+     *
+     * @param inLocale the {@link Locale}.
+     *
+     * @return the {@link String} display country.
      */
     public String getDisplayCountry(Locale inLocale) {
         return locale.getDisplayCountry(inLocale);
@@ -347,6 +393,8 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.util.Locale#getDisplayVariant()
+     *
+     * @return the {@link String} display variant.
      */
     public final String getDisplayVariant() {
         return locale.getDisplayVariant();
@@ -354,6 +402,10 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.util.Locale#getDisplayVariant(java.util.Locale)
+     *
+     * @param inLocale the {@link Locale}.
+     *
+     * @return the {@link String} display variant.
      */
     public String getDisplayVariant(Locale inLocale) {
         return locale.getDisplayVariant(inLocale);
@@ -361,6 +413,8 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.util.Locale#getDisplayName()
+     *
+     * @return the {@link String} locale display name.
      */
     public final String getLocaleDisplayName() {
         return locale.getDisplayName();
@@ -368,6 +422,10 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.util.Locale#getDisplayName(java.util.Locale)
+     *
+     * @param inLocale the {@link Locale}.
+     *
+     * @return the {@link String} locale display name.
      */
     public String getLocaleDisplayName(Locale inLocale) {
         return locale.getDisplayName(inLocale);
@@ -384,6 +442,8 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.nio.charset.Charset#name()
+     *
+     * @return the {@link String} charset name.
      */
     public String getCharsetName() {
         return charset.name();
@@ -391,6 +451,8 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.nio.charset.Charset#aliases()
+     *
+     * @return the {@link Set} charset aliases.
      */
     public Set<String> getCharsetAliases() {
         return charset.aliases();
@@ -398,6 +460,8 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.nio.charset.Charset#displayName()
+     *
+     * @return the {@link String} charset display name.
      */
     public String getCharsetDisplayName() {
         return charset.displayName();
@@ -405,6 +469,8 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.nio.charset.Charset#isRegistered()
+     *
+     * @return the {@link Boolean} charset registered.
      */
     public boolean isCharsetRegistered() {
         return charset.isRegistered();
@@ -412,6 +478,10 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.nio.charset.Charset#displayName(java.util.Locale)
+     *
+     * @param locale the {@link Locale}.
+     *
+     * @return the {@link String} charset display name.
      */
     public String getCharsetDisplayName(Locale locale) {
         return charset.displayName(locale);
@@ -419,6 +489,10 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.nio.charset.Charset#contains(java.nio.charset.Charset)
+     *
+     * @param cs the {@link Charset}.
+     *
+     * @return the contains.
      */
     public boolean contains(Charset cs) {
         return charset.contains(cs);
@@ -426,6 +500,8 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.nio.charset.Charset#newDecoder()
+     *
+     * @return the {@link CharsetDecoder}
      */
     public CharsetDecoder newDecoder() {
         return charset.newDecoder();
@@ -433,6 +509,8 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.nio.charset.Charset#newEncoder()
+     *
+     * @return the {@link CharsetEncoder}
      */
     public CharsetEncoder newEncoder() {
         return charset.newEncoder();
@@ -440,6 +518,8 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.nio.charset.Charset#canEncode()
+     *
+     * @return can encode.
      */
     public boolean canEncode() {
         return charset.canEncode();
@@ -447,6 +527,10 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.nio.charset.Charset#decode(java.nio.ByteBuffer)
+     *
+     * @param bb the {@link ByteBuffer}
+     *
+     * @return the {@link CharBuffer}.
      */
     public CharBuffer decode(ByteBuffer bb) {
         return charset.decode(bb);
@@ -454,6 +538,10 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.nio.charset.Charset#encode(java.nio.CharBuffer)
+     *
+     * @param the {@link CharBuffer}
+     *
+     * @return the {@link ByteBuffer}
      */
     public ByteBuffer encode(CharBuffer cb) {
         return charset.encode(cb);
@@ -461,6 +549,10 @@ public final class PosixLocale implements Serializable {
 
     /**
      * @see java.nio.charset.Charset#encode(java.lang.String)
+     *
+     * @param str the {@link String}
+     *
+     * @return the {@link ByteBuffer}
      */
     public ByteBuffer encode(String str) {
         return charset.encode(str);

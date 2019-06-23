@@ -15,26 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.posixlocale;
 
-/*-
- * #%L
- * Global POM Utilities :: Core
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.split;
 
@@ -99,8 +79,7 @@ public class PosixLocaleFormat extends Format {
     /**
      * Formats the specified POSIX locale.
      *
-     * @param obj
-     *            the {@link Object} value.
+     * @param obj the {@link Object} value.
      */
     @Override
     public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos) {
@@ -113,11 +92,13 @@ public class PosixLocaleFormat extends Format {
     /**
      * Formats the specified POSIX locale.
      *
-     * @param posixLocale
-     *            the POSIX {@link PosixLocale} locale to format.
+     * @param posixLocale the POSIX {@link PosixLocale} locale to format.
+     *
+     * @param buff        the {@link StringBuffer}
+     *
+     * @param pos         the {@link FieldPosition}
      */
-    public void formatLocale(PosixLocale posixLocale, StringBuffer buff,
-            FieldPosition pos) {
+    public void formatLocale(PosixLocale posixLocale, StringBuffer buff, FieldPosition pos) {
         String lang = posixLocale.getLocale().getLanguage();
         String country = posixLocale.getLocale().getCountry();
         String charset = posixLocale.getCharset().name();
@@ -133,13 +114,12 @@ public class PosixLocaleFormat extends Format {
     }
 
     /**
-     * Parses the specified string to a POSIX locale. The format is expected to
-     * be <code>[language[_territory][.codeset][@modifier]]</code>
+     * Parses the specified string to a POSIX locale. The format is expected to be
+     * <code>[language[_territory][.codeset][@modifier]]</code>
      *
      * @return the parsed {@link PosixLocale}.
      *
-     * @throws ParseException
-     *             if the string cannot be parsed to a value.
+     * @throws ParseException if the string cannot be parsed to a value.
      */
     public PosixLocale parse(String source) throws ParseException {
         ParsePosition pos = new ParsePosition(0);
@@ -153,8 +133,7 @@ public class PosixLocaleFormat extends Format {
     /**
      * @see #parse(String)
      *
-     * @param pos
-     *            the index {@link ParsePosition} position from where to start
+     * @param pos the index {@link ParsePosition} position from where to start
      *            parsing.
      */
     public PosixLocale parse(String source, ParsePosition pos) {
@@ -171,8 +150,7 @@ public class PosixLocaleFormat extends Format {
         }
     }
 
-    private PosixLocale parseLocale(String string, ParsePosition pos)
-            throws ParseException {
+    private PosixLocale parseLocale(String string, ParsePosition pos) throws ParseException {
         String[] strs = split(string, SEP);
         String localestr = strs[0];
         Locale locale = localeFormatFactory.create().parse(localestr);
