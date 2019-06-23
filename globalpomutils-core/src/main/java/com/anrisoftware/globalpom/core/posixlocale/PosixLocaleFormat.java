@@ -117,6 +117,8 @@ public class PosixLocaleFormat extends Format {
      * Parses the specified string to a POSIX locale. The format is expected to be
      * <code>[language[_territory][.codeset][@modifier]]</code>
      *
+     * @param source the {@link String} source.
+     *
      * @return the parsed {@link PosixLocale}.
      *
      * @throws ParseException if the string cannot be parsed to a value.
@@ -133,8 +135,12 @@ public class PosixLocaleFormat extends Format {
     /**
      * @see #parse(String)
      *
-     * @param pos the index {@link ParsePosition} position from where to start
-     *            parsing.
+     * @param source the {@link String} source.
+     *
+     * @param pos    the index {@link ParsePosition} position from where to start
+     *               parsing.
+     *
+     * @return the parsed {@link PosixLocale}.
      */
     public PosixLocale parse(String source, ParsePosition pos) {
         source = source.substring(pos.getIndex());

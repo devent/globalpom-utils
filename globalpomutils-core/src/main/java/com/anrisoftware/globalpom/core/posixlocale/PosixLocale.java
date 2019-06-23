@@ -539,7 +539,7 @@ public final class PosixLocale implements Serializable {
     /**
      * @see java.nio.charset.Charset#encode(java.nio.CharBuffer)
      *
-     * @param the {@link CharBuffer}
+     * @param cb the {@link CharBuffer}
      *
      * @return the {@link ByteBuffer}
      */

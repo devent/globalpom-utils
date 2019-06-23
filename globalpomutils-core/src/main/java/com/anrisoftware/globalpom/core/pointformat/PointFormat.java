@@ -136,16 +136,18 @@ public class PointFormat extends Format {
      * <li><code>x,y</code></li>
      * </ul>
      *
-     * @param point the {@link Point2D} that should be parsed. If {@code null} a
-     *              {@link Point2D.Double} is used.
+     * @param source the {@link String} source.
+     *
+     * @param point  the {@link Point2D} that should be parsed. If {@code null} a
+     *               {@link Point2D.Double} is used.
      *
      * @return the parsed {@link Point2D}.
      *
      * @throws ParseException if the string cannot be parsed to a point.
      *
      * @see Point
-     * @see Point2D#Double
-     * @see Point2D#Float
+     * @see Point2D.Double
+     * @see Point2D.Float
      */
     public Point2D parse(String source, Point2D point) throws ParseException {
         ParsePosition pos = new ParsePosition(0);
