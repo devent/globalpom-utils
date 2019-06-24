@@ -52,9 +52,9 @@ public class ScriptCommandLine implements CommandLine {
     /**
      * @see ScriptCommandLineFactory#create(String, TemplateResource)
      *
-     * @param the {@link String} template name.
+     * @param name the {@link String} template name.
      *
-     * @param the {@link TemplateResource} template resource.
+     * @param template the {@link TemplateResource} template resource.
      *
      * @return the {@link CommandLine}
      */

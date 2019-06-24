@@ -32,6 +32,8 @@ import com.anrisoftware.globalpom.threads.external.core.ListenableFuture;
 /**
  * Informs property change listener when the task is finish.
  *
+ * @param <V> the task type.
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.5
  */
@@ -51,6 +53,8 @@ public class DefaultListenableFuture<V> extends FutureTask<V> implements Listena
 
     /**
      * @see FutureTask#FutureTask(Callable)
+     *
+     * @param callable the {@link Callable}
      */
     public DefaultListenableFuture(Callable<V> callable) {
         super(createExceptionCallable(callable));
@@ -61,6 +65,10 @@ public class DefaultListenableFuture<V> extends FutureTask<V> implements Listena
 
     /**
      * @see FutureTask#FutureTask(Runnable, Object)
+     *
+     * @param runnable the {@link Runnable}
+     *
+     * @param result the result.
      */
     public DefaultListenableFuture(Runnable runnable, V result) {
         super(createExceptionRunnable(runnable), result);

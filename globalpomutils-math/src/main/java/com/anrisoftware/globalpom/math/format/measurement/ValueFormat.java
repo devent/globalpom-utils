@@ -16,26 +16,6 @@
 
 package com.anrisoftware.globalpom.math.format.measurement;
 
-/*-
- * #%L
- * Global POM Utilities :: Math
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import static com.anrisoftware.globalpom.math.measurement.RoundToSignificantFigures.roundToDecimal;
 import static com.anrisoftware.globalpom.math.measurement.RoundToSignificantFigures.roundToSignificant;
 import static org.apache.commons.lang3.Validate.isTrue;
@@ -108,8 +88,7 @@ public class ValueFormat extends Format {
     /**
      * Set to use the scientific notation for formatting the value.
      *
-     * @param scientificNotation
-     *            set to {@code true} to use the scientific notation.
+     * @param scientificNotation set to {@code true} to use the scientific notation.
      */
     public void setUseScientificNotation(boolean scientificNotation) {
         this.scientificNotation = scientificNotation;
@@ -119,8 +98,7 @@ public class ValueFormat extends Format {
     /**
      * Sets the significant figures for formatting the value.
      *
-     * @param sig
-     *            the {@link Integer} significant figures.
+     * @param sig the {@link Integer} significant figures.
      */
     public void setSignificant(int sig) {
         isTrue(sig > 0, "%d>0", sig);
@@ -132,8 +110,7 @@ public class ValueFormat extends Format {
     /**
      * Sets the least significant decimal for formatting the value.
      *
-     * @param dec
-     *            the {@link Integer} least significant decimal.
+     * @param dec the {@link Integer} least significant decimal.
      */
     public void setDecimal(int dec) {
         isTrue(dec > 0, "%d>0", dec);
@@ -143,24 +120,19 @@ public class ValueFormat extends Format {
     }
 
     /**
-     * Formats the specified value.
-     * <p>
-     * The format follows the pattern:
+     * Formats the specified value. The format follows the pattern:
      *
      * <pre>
      * value[(uncertainty)]
      * </pre>
      *
-     * <p>
      * <h2>Examples</h2>
-     * <p>
      * <ul>
      * <li>exact value: {@code 0.0123}
      * <li>uncertain value: {@code 5.0(0.2)}
      * </ul>
      *
-     * @param obj
-     *            the {@link Value}.
+     * @param obj the {@link Value}.
      */
     @Override
     public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos) {
@@ -172,20 +144,16 @@ public class ValueFormat extends Format {
     }
 
     /**
-     * Formats the value according to the significant figure and least
-     * significant decimal.
+     * Formats the value according to the significant figure and least significant
+     * decimal.
      *
-     * @param value
-     *            the {@link Double} value.
+     * @param value the {@link Double} value.
      *
-     * @param order
-     *            the {@link Integer} order.
+     * @param order the {@link Integer} order.
      *
-     * @param sig
-     *            the {@link Integer} significant figure.
+     * @param sig   the {@link Integer} significant figure.
      *
-     * @param dec
-     *            the {@link Integer} least significant decimal,
+     * @param dec   the {@link Integer} least significant decimal,
      *
      * @return the formatted {@link String}.
      */
@@ -195,25 +163,20 @@ public class ValueFormat extends Format {
     }
 
     /**
-     * Formats the value according to the significant figure and least
-     * significant decimal in a scientific format.
+     * Formats the value according to the significant figure and least significant
+     * decimal in a scientific format.
      *
-     * @param value
-     *            the {@link Double} value.
+     * @param value the {@link Double} value.
      *
-     * @param order
-     *            the {@link Integer} order.
+     * @param order the {@link Integer} order.
      *
-     * @param sig
-     *            the {@link Integer} significant figure.
+     * @param sig   the {@link Integer} significant figure.
      *
-     * @param dec
-     *            the {@link Integer} least significant decimal,
+     * @param dec   the {@link Integer} least significant decimal,
      *
      * @return the formatted {@link String}.
      */
-    public String formatScientificValue(double value, int order, int sig,
-            int dec) {
+    public String formatScientificValue(double value, int order, int sig, int dec) {
         ValueFormatWorker w = new ScientificValueFormatWorker(symbols, sig, dec);
         return w.formatNumber(value, order, sig, dec);
     }
@@ -245,8 +208,7 @@ public class ValueFormat extends Format {
      *
      * @return the parsed {@link Value}.
      *
-     * @throws ParseException
-     *             if the string cannot be parsed to a value.
+     * @throws ParseException if the string cannot be parsed to a value.
      */
     public Value parse(String source) throws ParseException {
         ParsePosition pos = new ParsePosition(0);
@@ -260,15 +222,13 @@ public class ValueFormat extends Format {
     /**
      * @see #parse(String)
      *
-     * @param pos
-     *            the index {@link ParsePosition} position from where to start
+     * @param pos the index {@link ParsePosition} position from where to start
      *            parsing.
      */
     public Value parse(String source, ParsePosition pos) {
         source = source.substring(pos.getIndex());
         try {
-            Value address = parserWorkerFactory.getValueParserWorker(source,
-                    pos).stringToValue(source, null, pos);
+            Value address = parserWorkerFactory.getValueParserWorker(source, pos).stringToValue(source, null, pos);
             pos.setErrorIndex(-1);
             pos.setIndex(source.length());
             return address;
@@ -286,22 +246,18 @@ public class ValueFormat extends Format {
     /**
      * Parses the value with the specified uncertainty.
      *
-     * @param source
-     *            the {@link String} source.
+     * @param source the {@link String} source.
      *
-     * @param unc
-     *            the {@link Double} uncertainty or {@link Double#NaN}.
+     * @param unc    the {@link Double} uncertainty or {@link Double#NaN}.
      *
-     * @param pos
-     *            the index {@link ParsePosition} position from where to start
-     *            parsing.
+     * @param pos    the index {@link ParsePosition} position from where to start
+     *               parsing.
      *
      * @return the {@link Value}.
      */
     public Value parse(String source, double unc, ParsePosition pos) {
         try {
-            Value value = parserWorkerFactory.getValueParserWorker(source, pos)
-                    .stringToValue(source, unc, pos);
+            Value value = parserWorkerFactory.getValueParserWorker(source, pos).stringToValue(source, unc, pos);
             pos.setErrorIndex(-1);
             pos.setIndex(source.length());
             return value;
@@ -319,16 +275,13 @@ public class ValueFormat extends Format {
     /**
      * Parses the value with the specified uncertainty.
      *
-     * @param source
-     *            the {@link String} source.
+     * @param source the {@link String} source.
      *
-     * @param unc
-     *            the {@link Double} uncertainty.
+     * @param unc    the {@link Double} uncertainty.
      *
      * @return the {@link Value}.
      *
-     * @throws ParseException
-     *             if the string cannot be parsed to a value.
+     * @throws ParseException if the string cannot be parsed to a value.
      */
     public Value parse(String source, double unc) throws ParseException {
         ParsePosition pos = new ParsePosition(0);
@@ -354,8 +307,7 @@ public class ValueFormat extends Format {
     }
 
     private ValueParserWorkerFactory createValueParserWorkerFactory() {
-        return new ValueParserWorkerFactory(symbols, locale, sig, dec,
-                valueFactory);
+        return new ValueParserWorkerFactory(symbols, locale, sig, dec, valueFactory);
     }
 
 }

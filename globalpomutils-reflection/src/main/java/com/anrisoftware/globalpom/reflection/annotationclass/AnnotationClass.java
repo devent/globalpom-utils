@@ -86,6 +86,16 @@ public class AnnotationClass<ClassType> implements Builder<ClassType> {
 
     /**
      * @see AnnotationClassFactory#create(Object, Class, AccessibleObject)
+     *
+     * @param parent      the parent {@link Object}
+     *
+     * @param annotation  the annotation {@link Class}
+     *
+     * @param object      the {@link AccessibleObject}
+     *
+     * @param <ClassType> the class type.
+     *
+     * @return the {@link AnnotationClass}
      */
     @SuppressWarnings("unchecked")
     public static <ClassType> AnnotationClass<ClassType> create(Object parent, Class<? extends Annotation> annotation,
@@ -110,6 +120,21 @@ public class AnnotationClass<ClassType> implements Builder<ClassType> {
 
     /**
      * @see AnnotationClassFactory#create(Class, AccessibleObject)
+     *
+     * @param logger            the {@link AnnotationClassLogger}
+     *
+     * @param accessFactory     the {@link AnnotationAccessFactory}
+     *
+     * @param beanAccessFactory the {@link BeanAccessFactory}
+     *
+     * @param beanFactory       the {@link BeanFactory}
+     *
+     * @param parent            the parent {@link Object}
+     *
+     * @param annotation        the annotation {@link Class}
+     *
+     * @param object            the {@link AccessibleObject}
+     *
      */
     @Inject
     AnnotationClass(AnnotationClassLogger logger, AnnotationAccessFactory accessFactory,

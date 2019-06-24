@@ -16,26 +16,6 @@
 
 package com.anrisoftware.globalpom.math.measurement;
 
-/*-
- * #%L
- * Global POM Utilities :: Math
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import java.math.BigInteger;
 
 /**
@@ -112,11 +92,9 @@ public interface Value extends Comparable<Value> {
     /**
      * Returns the value rounded to the significant figures.
      *
-     * @param sig
-     *            the significant figures.
+     * @param sig the significant figures.
      *
-     * @param dec
-     *            the least significant decimal place.
+     * @param dec the least significant decimal place.
      *
      * @return the rounded {@link Double}.
      */
@@ -133,8 +111,7 @@ public interface Value extends Comparable<Value> {
     /**
      * Returns the lower bound of this uncertain value.
      *
-     * @param deviation
-     *            the standard deviations of the measured value.
+     * @param deviation the standard deviations of the measured value.
      *
      * @return the lower bound {@link Value} value.
      */
@@ -151,8 +128,7 @@ public interface Value extends Comparable<Value> {
     /**
      * Returns the upper bound of this uncertain value.
      *
-     * @param deviation
-     *            the standard deviations of the measured value.
+     * @param deviation the standard deviations of the measured value.
      *
      * @return the upper bound {@link Value} value.
      */
@@ -161,20 +137,15 @@ public interface Value extends Comparable<Value> {
     /**
      * Returns the value with the specified uncertainty.
      *
-     * @param mantissa
-     *            the significant digits of the value.
+     * @param mantissa the significant digits of the value.
      *
-     * @param order
-     *            the order of the value.
+     * @param order    the order of the value.
      *
-     * @param sig
-     *            the significant figures of the value.
+     * @param sig      the significant figures of the value.
      *
-     * @param dec
-     *            the least significant decimal.
+     * @param dec      the least significant decimal.
      *
-     * @param unc
-     *            the uncertainty {@link Double} or {@link Double#NaN}.
+     * @param unc      the uncertainty {@link Double} or {@link Double#NaN}.
      *
      * @return the {@link Value}.
      */
@@ -183,17 +154,13 @@ public interface Value extends Comparable<Value> {
     /**
      * Returns the value with the specified uncertainty.
      *
-     * @param value
-     *            the {@link Double} value.
+     * @param value the {@link Double} value.
      *
-     * @param sig
-     *            the significant figures of the value.
+     * @param sig   the significant figures of the value.
      *
-     * @param dec
-     *            the least significant decimal.
+     * @param dec   the least significant decimal.
      *
-     * @param unc
-     *            the uncertainty {@link Double} or {@link Double#NaN}.
+     * @param unc   the uncertainty {@link Double} or {@link Double#NaN}.
      *
      * @return the {@link Value}.
      */
@@ -202,14 +169,11 @@ public interface Value extends Comparable<Value> {
     /**
      * Returns the value with the specified uncertainty.
      *
-     * @param value
-     *            the {@link Double} value.
+     * @param value the {@link Double} value.
      *
-     * @param dec
-     *            the least significant decimal.
+     * @param dec   the least significant decimal.
      *
-     * @param unc
-     *            the uncertainty {@link Double} or {@link Double#NaN}.
+     * @param unc   the uncertainty {@link Double} or {@link Double#NaN}.
      *
      * @return the {@link Value}.
      */
@@ -218,8 +182,7 @@ public interface Value extends Comparable<Value> {
     /**
      * Calculates the addition of this value with the addend.
      *
-     * @param addend
-     *            the {@link Value} addend.
+     * @param addend the {@link Value} addend.
      *
      * @return the result {@link Value}.
      */
@@ -228,8 +191,7 @@ public interface Value extends Comparable<Value> {
     /**
      * Calculates the addition of this value with the addend.
      *
-     * @param addend
-     *            the {@link Double} addend.
+     * @param addend the {@link Double} addend.
      *
      * @return the result {@link Value}.
      */
@@ -238,8 +200,7 @@ public interface Value extends Comparable<Value> {
     /**
      * Calculates the addition of this value with the addend.
      *
-     * @param addend
-     *            the {@link Value} addend.
+     * @param addend the {@link Value} addend.
      *
      * @return the result {@link Value}.
      */
@@ -248,8 +209,7 @@ public interface Value extends Comparable<Value> {
     /**
      * Calculates the addition of this value with the addend.
      *
-     * @param addend
-     *            the {@link Double} addend.
+     * @param addend the {@link Double} addend.
      *
      * @return the result {@link Value}.
      */
@@ -258,8 +218,7 @@ public interface Value extends Comparable<Value> {
     /**
      * Calculates the subtraction of this value with the subtrahend.
      *
-     * @param subtrahend
-     *            the {@link Value} subtrahend.
+     * @param subtrahend the {@link Value} subtrahend.
      *
      * @return the result {@link Value}.
      */
@@ -268,8 +227,7 @@ public interface Value extends Comparable<Value> {
     /**
      * Calculates the subtraction of this value with the subtrahend.
      *
-     * @param subtrahend
-     *            the {@link Double} subtrahend.
+     * @param subtrahend the {@link Double} subtrahend.
      *
      * @return the result {@link Value}.
      */
@@ -278,8 +236,7 @@ public interface Value extends Comparable<Value> {
     /**
      * Calculates the subtraction of this value with the subtrahend.
      *
-     * @param subtrahend
-     *            the {@link Value} subtrahend.
+     * @param subtrahend the {@link Value} subtrahend.
      *
      * @return the result {@link Value}.
      */
@@ -288,8 +245,7 @@ public interface Value extends Comparable<Value> {
     /**
      * Calculates the subtraction of this value with the subtrahend.
      *
-     * @param subtrahend
-     *            the {@link Double} subtrahend.
+     * @param subtrahend the {@link Double} subtrahend.
      *
      * @return the result {@link Value}.
      */
@@ -298,8 +254,7 @@ public interface Value extends Comparable<Value> {
     /**
      * Calculates the multiplication of this value with the factor.
      *
-     * @param factor
-     *            the {@link Value} factor.
+     * @param factor the {@link Value} factor.
      *
      * @return the result {@link Value}.
      */
@@ -308,8 +263,7 @@ public interface Value extends Comparable<Value> {
     /**
      * Calculates the multiplication of this value with the factor.
      *
-     * @param factor
-     *            the {@link Double} factor.
+     * @param factor the {@link Double} factor.
      *
      * @return the result {@link Value}.
      */
@@ -318,8 +272,7 @@ public interface Value extends Comparable<Value> {
     /**
      * Calculates the multiplication of this value with the factor.
      *
-     * @param factor
-     *            the {@link Value} factor.
+     * @param factor the {@link Value} factor.
      *
      * @return the result {@link Value}.
      */
@@ -328,8 +281,7 @@ public interface Value extends Comparable<Value> {
     /**
      * Calculates the multiplication of this value with the factor.
      *
-     * @param factor
-     *            the {@link Double} factor.
+     * @param factor the {@link Double} factor.
      *
      * @return the result {@link Value}.
      */
@@ -338,8 +290,7 @@ public interface Value extends Comparable<Value> {
     /**
      * Calculates the division of this value with the divisor.
      *
-     * @param divisor
-     *            the {@link Value} divisor.
+     * @param divisor the {@link Value} divisor.
      *
      * @return the result {@link Value}.
      */
@@ -348,8 +299,7 @@ public interface Value extends Comparable<Value> {
     /**
      * Calculates the division of this value with the divisor.
      *
-     * @param divisor
-     *            the {@link Double} divisor.
+     * @param divisor the {@link Double} divisor.
      *
      * @return the result {@link Value}.
      */
@@ -358,8 +308,7 @@ public interface Value extends Comparable<Value> {
     /**
      * Calculates the division of this value with the numerator.
      *
-     * @param numerator
-     *            the {@link Value} numerator.
+     * @param numerator the {@link Value} numerator.
      *
      * @return the result {@link Value}.
      */
@@ -368,8 +317,7 @@ public interface Value extends Comparable<Value> {
     /**
      * Calculates the division of this value with the numerator.
      *
-     * @param numerator
-     *            the {@link Double} numerator.
+     * @param numerator the {@link Double} numerator.
      *
      * @return the result {@link Value}.
      */
@@ -420,24 +368,27 @@ public interface Value extends Comparable<Value> {
     /**
      * Compares this value to the specified value using the absolute value.
      *
-     * @param v
-     *            the {@link Value}.
+     * @param v the {@link Value}.
      *
-     * @return {@code -1} if {@code this<value;} {@code 0} if
-     *         {@code this=value;} {@code 1} if {@code this>value.}
+     * @return {@code -1} if {@code this<value;} {@code 0} if {@code this=value;}
+     *         {@code 1} if {@code this>value.}
      */
     @Override
     int compareTo(Value v);
 
     /**
-     * Compares this value and the specified value for equality by their
-     * absolute value.
+     * Compares this value and the specified value for equality by their absolute
+     * value.
      */
     @Override
     boolean equals(Object obj);
 
     /**
      * Compares this value and the specified value for consistency.
+     *
+     * @param rhs the right hand side {@link Value}.
+     *
+     * @return <code>true</code> if it is consistent.
      */
     boolean isConsistent(Value rhs);
 

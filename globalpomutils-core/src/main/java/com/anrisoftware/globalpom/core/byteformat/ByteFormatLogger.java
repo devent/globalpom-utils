@@ -24,7 +24,7 @@ import java.text.ParsePosition;
 import com.anrisoftware.globalpom.log.AbstractLogger;
 
 /**
- * Logging messages for {@link ValueFormat}.
+ * Logging messages for {@link ByteFormat}.
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10

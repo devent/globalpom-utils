@@ -139,6 +139,8 @@ public interface Data {
 
     /**
      * @see ReshapeMatrix64F#setNumCols(int) the number of columns.
+     *
+     * @param numCols the number of columns.
      */
     void setNumCols(int numCols);
 

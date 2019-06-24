@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.threads.watchdog;
 
-
 import static java.util.Collections.synchronizedList;
 
 import java.beans.PropertyChangeEvent;
@@ -69,6 +68,14 @@ public class ThreadsWatchdog {
 
     /**
      * @see Threads#submit(Callable, PropertyChangeListener...)
+     *
+     * @param callable  the {@link Callable}
+     *
+     * @param listeners the {@link PropertyChangeListener} listeners.
+     *
+     * @param <V>       the task type.
+     *
+     * @return the task.
      */
     public <V> DefaultListenableFuture<V> submit(Callable<V> callable, PropertyChangeListener... listeners) {
         DefaultListenableFuture<V> futureTask;
@@ -78,6 +85,14 @@ public class ThreadsWatchdog {
 
     /**
      * @see Threads#submit(Runnable, Object, PropertyChangeListener...)
+     *
+     * @param runable   the {@link Runnable}
+     *
+     * @param result    the result.
+     *
+     * @param listeners the {@link PropertyChangeListener} listeners.
+     *
+     * @return the task.
      */
     public <V> ListenableFuture<V> submit(Runnable runable, V result, PropertyChangeListener... listeners) {
         DefaultListenableFuture<V> futureTask;
@@ -129,6 +144,8 @@ public class ThreadsWatchdog {
 
     /**
      * @see Threads#waitForTasks()
+     *
+     * @throws InterruptedException if any of the tasks was interrupted.
      */
     public void waitForTasks() throws InterruptedException {
         while (tasks.size() > 0) {
@@ -140,6 +157,12 @@ public class ThreadsWatchdog {
 
     /**
      * @see Threads#waitForTasks(Duration)
+     *
+     * @param timeout the {@link Duration} timeout duration.
+     *
+     * @return the {@link List} of {@link Future} futures.
+     *
+     * @throws InterruptedException if any of the tasks was interrupted.
      */
     public List<Future<?>> waitForTasks(Duration timeout) throws InterruptedException {
         while (tasks.size() > 0) {

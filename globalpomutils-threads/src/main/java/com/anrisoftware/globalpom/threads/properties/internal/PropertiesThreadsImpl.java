@@ -55,6 +55,8 @@ public class PropertiesThreadsImpl implements PropertiesThreads {
     /**
      * @see PropertiesThreadsFactory#create()
      *
+     * @return the {@link PropertiesThreads}
+     *
      * @since 1.11
      */
     public static PropertiesThreads createPropertiesThreads() {

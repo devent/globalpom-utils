@@ -58,23 +58,35 @@ public interface ListenableFuture<V> extends Future<V> {
 
     /**
      * @see PropertyChangeSupport#addPropertyChangeListener(PropertyChangeListener)
+     *
+     * @param listener the {@link PropertyChangeListener}
      */
     void addPropertyChangeListener(PropertyChangeListener listener);
 
     /**
      * @see PropertyChangeSupport#removePropertyChangeListener(PropertyChangeListener)
+     *
+     * @param listener the {@link PropertyChangeListener}
      */
     void removePropertyChangeListener(PropertyChangeListener listener);
 
     /**
      * @see PropertyChangeSupport#addPropertyChangeListener(String,
      *      PropertyChangeListener)
+     *
+     * @param propertyName the {@link String} property name.
+     *
+     * @param listener     the {@link PropertyChangeListener}
      */
     void addPropertyChangeListener(String propertyName, PropertyChangeListener listener);
 
     /**
      * @see PropertyChangeSupport#removePropertyChangeListener(String,
      *      PropertyChangeListener)
+     *
+     * @param propertyName the {@link String} property name.
+     *
+     * @param listener     the {@link PropertyChangeListener}
      */
     void removePropertyChangeListener(String propertyName, PropertyChangeListener listener);
 

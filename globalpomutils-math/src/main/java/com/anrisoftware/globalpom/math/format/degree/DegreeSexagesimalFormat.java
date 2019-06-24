@@ -16,26 +16,6 @@
 
 package com.anrisoftware.globalpom.math.format.degree;
 
-/*-
- * #%L
- * Global POM Utilities :: Math
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import static com.anrisoftware.globalpom.math.format.degree.Direction.N;
 import static com.anrisoftware.globalpom.math.measurement.RoundToSignificantFigures.roundToDecimal;
 import static com.google.inject.Guice.createInjector;
@@ -66,7 +46,7 @@ import com.google.inject.assistedinject.AssistedInject;
 
 /**
  * Parses angle degree sexagesimal.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.9
  */
@@ -81,6 +61,8 @@ public class DegreeSexagesimalFormat extends Format {
 
     /**
      * @see #create()
+     *
+     * @return {@link DegreeSexagesimalFormat}
      */
     public static DegreeSexagesimalFormat createDegreeSexagesimalFormat() {
         return create();
@@ -88,6 +70,8 @@ public class DegreeSexagesimalFormat extends Format {
 
     /**
      * @see #create(int)
+     *
+     * @return {@link DegreeSexagesimalFormat}
      */
     public static DegreeSexagesimalFormat create() {
         return InjectorInstance.factory.create(4);
@@ -95,7 +79,9 @@ public class DegreeSexagesimalFormat extends Format {
 
     /**
      * Create the sexagesimal degree format.
-     * 
+     *
+     * @param decimal the decimal.
+     *
      * @return the {@link DegreeSexagesimalFormat}.
      */
     public static DegreeSexagesimalFormat create(int decimal) {
@@ -103,17 +89,15 @@ public class DegreeSexagesimalFormat extends Format {
     }
 
     private static class InjectorInstance {
-        static final DegreeSexagesimalFormatFactory factory = createInjector(
-                new DegreeFormatModule()).getInstance(
-                DegreeSexagesimalFormatFactory.class);
+        static final DegreeSexagesimalFormatFactory factory = createInjector(new DegreeFormatModule())
+                .getInstance(DegreeSexagesimalFormatFactory.class);
     }
 
     /**
      * Tests whether the input string is a valid sexagesimal degree format.
-     * 
-     * @param string
-     *            the {@link String} to test.
-     * 
+     *
+     * @param string the {@link String} to test.
+     *
      * @return {@code true} if the input string is a valid sexagesimal degree
      *         format.
      */
@@ -121,9 +105,8 @@ public class DegreeSexagesimalFormat extends Format {
         return PATTERN.matcher(string).matches();
     }
 
-    private static final Pattern PATTERN = compile(String.format(
-            "^((\\d+)%s)((\\d+)%s)?((\\d+(\\.\\d*)?)%s)?(\\s[NSEW])?$",
-            DEGREE_SUB, MIN_SUB, SEC_SUB));
+    private static final Pattern PATTERN = compile(
+            String.format("^((\\d+)%s)((\\d+)%s)?((\\d+(\\.\\d*)?)%s)?(\\s[NSEW])?$", DEGREE_SUB, MIN_SUB, SEC_SUB));
 
     private static final double MIN = 1d / 60d;
 
@@ -155,9 +138,8 @@ public class DegreeSexagesimalFormat extends Format {
 
     /**
      * Formats the specified degree sexagesimal.
-     * 
-     * @param obj
-     *            the {@link Amount}.
+     *
+     * @param obj the {@link Amount}.
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -191,13 +173,11 @@ public class DegreeSexagesimalFormat extends Format {
 
     /**
      * Parses the specified string to degree sexagesimal.
-     * <p>
      * <h2>Format</h2>
-     * <p>
      * <ul>
      * <li>{@code "D°M'S.s" [NSEW]"}
      * </ul>
-     * 
+     *
      * @return the parsed {@link Amount}.
      */
     @Override
@@ -212,6 +192,8 @@ public class DegreeSexagesimalFormat extends Format {
 
     /**
      * @see #parse(String, ParsePosition)
+     *
+     * @param source the {@link String} source.
      */
     public Amount<Angle> parse(String source) throws ParseException {
         ParsePosition pos = new ParsePosition(0);
@@ -224,16 +206,15 @@ public class DegreeSexagesimalFormat extends Format {
 
     /**
      * @see #parseObject(String)
-     * 
-     * @param pos
-     *            the index {@link ParsePosition} position from where to start
-     *            parsing.
-     * 
-     * @throws ParseException
-     *             if the string is not in the correct format.
+     *
+     * @param source the {@link String} source.
+     *
+     * @param pos    the index {@link ParsePosition} position from where to start
+     *               parsing.
+     *
+     * @throws ParseException if the string is not in the correct format.
      */
-    public Amount<Angle> parse(String source, ParsePosition pos)
-            throws ParseException {
+    public Amount<Angle> parse(String source, ParsePosition pos) throws ParseException {
         try {
             source = source.substring(pos.getIndex());
             Amount<Angle> result = decodeAngle(source, pos);
@@ -248,8 +229,7 @@ public class DegreeSexagesimalFormat extends Format {
         }
     }
 
-    private Amount<Angle> decodeAngle(String source, ParsePosition pos)
-            throws ParseException {
+    private Amount<Angle> decodeAngle(String source, ParsePosition pos) throws ParseException {
         Matcher matcher = PATTERN.matcher(source);
         log.checkMatches(matcher.find(), source, pos);
         double degree = parseDoubleSave(matcher.group(2));

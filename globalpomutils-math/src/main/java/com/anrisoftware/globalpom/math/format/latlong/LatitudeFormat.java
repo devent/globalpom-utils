@@ -163,6 +163,8 @@ public class LatitudeFormat extends Format {
     /**
      * Parses the latitude part to a latitude/longitude coordinate.
      *
+     * @param source the {@link String} source.
+     *
      * @return the parsed {@link LatLong}.
      *
      * @throws ParseException if the string can not be parsed.

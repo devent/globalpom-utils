@@ -16,26 +16,6 @@
 
 package com.anrisoftware.globalpom.math.math;
 
-/*-
- * #%L
- * Global POM Utilities :: Math
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import static java.math.MathContext.DECIMAL128;
 import static org.apache.commons.lang3.StringUtils.split;
 import static org.apache.commons.math3.util.FastMath.abs;
@@ -62,26 +42,22 @@ public class MathUtils {
     /**
      * Calculates the value.
      *
-     * @param mantissa
-     *            the {@link BigInteger} mantissa.
+     * @param mantissa the {@link BigInteger} mantissa.
      *
-     * @param decimal
-     *            the decimal place.
+     * @param decimal  the decimal place.
      *
      * @return the {@link Double} value.
      *
      * @since 2.4
      */
     public static double calculateValue(BigInteger mantissa, int decimal) {
-        return new BigDecimal(mantissa).multiply(
-                DECIMAL_10.pow(decimal, DECIMAL128)).doubleValue();
+        return new BigDecimal(mantissa).multiply(DECIMAL_10.pow(decimal, DECIMAL128)).doubleValue();
     }
 
     /**
      * Rounds the specified value toward zero.
      *
-     * @param value
-     *            the value.
+     * @param value the value.
      *
      * @return the rounded value.
      */
@@ -102,8 +78,7 @@ public class MathUtils {
      * {@link Double#NaN}, {@link Double#POSITIVE_INFINITY} and
      * {@link Double#NEGATIVE_INFINITY}.
      *
-     * @param value
-     *            the value.
+     * @param value the value.
      *
      * @return the rounded value.
      *
@@ -122,9 +97,13 @@ public class MathUtils {
     }
 
     /**
-     * Returns the values after the decimal of a real value. I.e. for
-     * value=5.123 it returns 0.123. The function breaks for {@link Double#NaN},
+     * Returns the values after the decimal of a real value. I.e. for value=5.123 it
+     * returns 0.123. The function breaks for {@link Double#NaN},
      * {@link Double#POSITIVE_INFINITY} and {@link Double#NEGATIVE_INFINITY}.
+     *
+     * @param value the value.
+     *
+     * @return the frac value.
      *
      * @since 2.1
      */
@@ -136,8 +115,7 @@ public class MathUtils {
     /**
      * Checks if the value is a fraction.
      *
-     * @param value
-     *            the {@link Double} value.
+     * @param value the {@link Double} value.
      *
      * @return {@code true} if the value is a fraction.
      *
@@ -150,11 +128,9 @@ public class MathUtils {
     /**
      * Returns the number of decimal places from the specified number string.
      *
-     * @param str
-     *            the {@link String} of the number.
+     * @param str              the {@link String} of the number.
      *
-     * @param decimalSeparator
-     *            the decimal separator character.
+     * @param decimalSeparator the decimal separator character.
      *
      * @return the number of decimal places.
      *
@@ -162,8 +138,7 @@ public class MathUtils {
      *
      * @since 2.1
      */
-    public static int decimalPlaces(String str, char decimalSeparator,
-            String exponentSeparator) {
+    public static int decimalPlaces(String str, char decimalSeparator, String exponentSeparator) {
         String[] split = StringUtils.split(str, exponentSeparator);
         double exponent = 0.0;
         int decimal = 0;
@@ -180,8 +155,7 @@ public class MathUtils {
     }
 
     /**
-     * Returns the number of significant places from the specified number
-     * string.
+     * Returns the number of significant places from the specified number string.
      *
      *
      * <ul>
@@ -201,11 +175,9 @@ public class MathUtils {
      * <li>"1.500E-2" - 4 significant</li>
      * </ul>
      *
-     * @param str
-     *            the {@link String} of the number.
+     * @param str              the {@link String} of the number.
      *
-     * @param decimalSeparator
-     *            the decimal separator character.
+     * @param decimalSeparator the decimal separator character.
      *
      * @return the number of decimal places.
      *
@@ -213,8 +185,7 @@ public class MathUtils {
      *
      * @since 2.1
      */
-    public static int sigPlaces(String str, char decimalSeparator,
-            String exponentSeparator) {
+    public static int sigPlaces(String str, char decimalSeparator, String exponentSeparator) {
         String[] splitEx = split(str, exponentSeparator);
         String[] splitNumber = split(splitEx[0], decimalSeparator);
         int decSig = decSigIndex(splitNumber);
