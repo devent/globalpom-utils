@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Inject;
 
@@ -44,17 +45,17 @@ public class ThreadsWatchdog {
 
     private final ThreadsWatchdogLogger log;
 
-    private volatile List<Future<?>> tasks;
+    private List<Future<?>> tasks;
 
-    private volatile ExecutorService executor;
+    private ExecutorService executor;
 
-    private volatile boolean notified;
+    private AtomicBoolean notified;
 
     @Inject
     ThreadsWatchdog(ThreadsWatchdogLogger logger) {
         this.log = logger;
         this.tasks = synchronizedList(new ArrayList<Future<?>>());
-        this.notified = false;
+        this.notified = new AtomicBoolean(false);
     }
 
     /**
@@ -128,7 +129,7 @@ public class ThreadsWatchdog {
 
     private void unlockWait() {
         synchronized (this) {
-            notified = true;
+            notified.set(true);
             notifyAll();
         }
     }
@@ -170,9 +171,7 @@ public class ThreadsWatchdog {
         while (tasks.size() > 0) {
             synchronized (this) {
                 wait(timeout.getMillis());
-                if (notified) {
-                    notified = false;
-                } else {
+                if (!notified.compareAndSet(true, false)) {
                     break;
                 }
             }
