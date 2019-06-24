@@ -40,6 +40,10 @@ public class PipeCommandOutputImpl implements PipeCommandOutput {
 
     /**
      * @see PipeCommandOutputFactory#create(OutputStream)
+     *
+     * @param stream the {@link OutputStream}
+     *
+     * @return the {@link CommandOutput}
      */
     public static CommandOutput createPipeCommandOutput(OutputStream stream) {
         return getPipeCommandOutputFactory().create(stream);

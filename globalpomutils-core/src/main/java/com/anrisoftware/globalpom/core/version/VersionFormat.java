@@ -103,6 +103,8 @@ public class VersionFormat extends Format {
      * @param source the {@link String} source.
      *
      * @return the {@link Version}
+     *
+     * @throws ParseException if there was an error parsing the source.
      */
     public Version parse(String source) throws ParseException {
         ParsePosition pos = new ParsePosition(0);

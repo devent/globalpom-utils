@@ -42,7 +42,7 @@ public class LocaleFormat extends Format {
     /**
      * Formats the specified locale.
      *
-     * @param obj the {@link Value}.
+     * @param obj the {@link Locale}.
      *
      * @see Locale#toString()
      */
@@ -62,6 +62,8 @@ public class LocaleFormat extends Format {
     /**
      * Parses the specified string to a locale.
      *
+     * @param source the {@link String} source.
+     *
      * @return the parsed {@link Locale}.
      *
      * @throws ParseException if the string cannot be parsed to a value.
@@ -80,8 +82,12 @@ public class LocaleFormat extends Format {
     /**
      * @see #parse(String)
      *
-     * @param pos the index {@link ParsePosition} position from where to start
-     *            parsing.
+     * @param source the {@link String} source.
+     *
+     * @param pos    the index {@link ParsePosition} position from where to start
+     *               parsing.
+     *
+     * @return the parsed {@link Locale}.
      */
     public Locale parse(String source, ParsePosition pos) {
         source = source.substring(pos.getIndex());

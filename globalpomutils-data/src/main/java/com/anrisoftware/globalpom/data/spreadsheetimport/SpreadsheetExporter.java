@@ -32,7 +32,7 @@ public interface SpreadsheetExporter {
      *
      * @return this {@link SpreadsheetExporter}.
      *
-     * @throws SpreadsheetExportException
+     * @throws SpreadsheetExportException if there was an error exporting.
      */
     SpreadsheetExporter write(File file) throws SpreadsheetExportException;
 

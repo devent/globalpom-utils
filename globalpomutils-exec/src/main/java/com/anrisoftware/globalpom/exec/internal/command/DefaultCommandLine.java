@@ -50,6 +50,8 @@ public class DefaultCommandLine implements CommandLine {
     /**
      * @see CommandLineFactory#create(File)
      *
+     * @param executable the {@link File} executable.
+     *
      * @return the {@link CommandLine}
      */
     public static CommandLine createCommandLine(File executable) {

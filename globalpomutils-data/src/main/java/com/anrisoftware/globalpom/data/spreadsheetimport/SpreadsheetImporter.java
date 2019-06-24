@@ -35,6 +35,9 @@ public interface SpreadsheetImporter extends Closeable {
      * Opens the spreadsheet to read data.
      *
      * @return this {@link SpreadsheetImporter}.
+     *
+     * @throws SpreadsheetImportException if there was an error loading the
+     *                                    spreadsheet.
      */
     SpreadsheetImporter open() throws SpreadsheetImportException;
 
@@ -60,7 +63,8 @@ public interface SpreadsheetImporter extends Closeable {
      *
      * @return {@code true} if there are more rows to load.
      *
-     * @throws SpreadsheetImportException
+     * @throws SpreadsheetImportException if there was an error loading the next
+     *                                    row.
      */
     boolean loadNext() throws SpreadsheetImportException;
 

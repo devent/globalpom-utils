@@ -42,7 +42,7 @@ public interface ToStringService {
     /**
      * Converts the specified argument to a {@link String}.
      *
-     * @param args the {@link Map} arguments.
+     * @param arg the argument.
      *
      * @param name the {@link String} name.
      *

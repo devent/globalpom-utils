@@ -194,7 +194,7 @@ public class TokenTemplate implements Serializable {
     /**
      * Sets if the replacement should be enclosed in the begin and end token.
      *
-     * @param append set to {@code true} to enclose.
+     * @param enclose set to {@code true} to enclose.
      */
     public void setEnclose(boolean enclose) {
         this.enclose = enclose;

@@ -15,26 +15,6 @@
  */
 package com.anrisoftware.globalpom.data.data;
 
-/*-
- * #%L
- * Global POM Utilities :: Data
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import org.ejml.data.MatrixIterator;
 import org.ejml.data.ReshapeMatrix64F;
 
@@ -58,31 +38,31 @@ public interface Data {
     /**
      * @see ReshapeMatrix64F#reshape(int, int, boolean)
      *
-     * @param numRows
+     * @param numRows    the number of rows.
      *
-     * @param numCols
+     * @param numCols    the number of columns.
      *
-     * @param saveValues
+     * @param saveValues the save values flag.
      */
     void reshape(int numRows, int numCols, boolean saveValues);
 
     /**
      * @see ReshapeMatrix64F#reshape(int, int)
      *
-     * @param numRows
+     * @param numRows the number of rows.
      *
-     * @param numCols
+     * @param numCols the number of columns.
      */
     void reshape(int numRows, int numCols);
 
     /**
      * @see ReshapeMatrix64F#get(int, int)
      *
-     * @param row
+     * @param row the row.
      *
-     * @param col
+     * @param col the column.
      *
-     * @return
+     * @return the value.
      */
     double get(int row, int col);
 

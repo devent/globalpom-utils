@@ -123,6 +123,12 @@ public class EnumFormat<E extends Enum<E>, EnumType extends Enum<E>> extends For
 
     /**
      * @see #parseObject(String, ParsePosition)
+     *
+     * @param source the {@link String} source.
+     *
+     * @param pos the {@link ParsePosition}
+     *
+     * @return the {@link Enum}
      */
     public EnumType parse(String source, ParsePosition pos) {
         try {

@@ -51,6 +51,12 @@ public class ScriptCommandLine implements CommandLine {
 
     /**
      * @see ScriptCommandLineFactory#create(String, TemplateResource)
+     *
+     * @param the {@link String} template name.
+     *
+     * @param the {@link TemplateResource} template resource.
+     *
+     * @return the {@link CommandLine}
      */
     public static CommandLine createScriptCommandLine(String name, TemplateResource template) {
         return getScriptCommandLineFactory().create(name, template);

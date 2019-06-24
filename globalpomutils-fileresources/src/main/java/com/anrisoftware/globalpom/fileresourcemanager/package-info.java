@@ -34,7 +34,7 @@
  * <ul>
  * <li><a href="https://anrisoftware.com/projects/projects/globalpomutils-fileresources/repository">Repository</a></li>
  * <li>{@code git@anrisoftware.com:globalpom-utils.git}
- * <li><a href="https://github.com/devent/globalpom-utils.git">Github Mirror
+ * <li><a href="https://github.com/devent/globalpom-utils.git">Github Mirror</a>
  * <li>{@code git://git@github.com:devent/globalpom-utils.git}
  * </ul>
  *
