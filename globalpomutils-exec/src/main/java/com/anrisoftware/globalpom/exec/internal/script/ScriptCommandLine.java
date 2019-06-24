@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.exec.internal.script;
 
-
 import static com.anrisoftware.globalpom.exec.internal.script.ScriptCommandModule.getScriptCommandLineFactory;
 import static java.io.File.createTempFile;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -52,7 +51,7 @@ public class ScriptCommandLine implements CommandLine {
     /**
      * @see ScriptCommandLineFactory#create(String, TemplateResource)
      *
-     * @param name the {@link String} template name.
+     * @param name     the {@link String} template name.
      *
      * @param template the {@link TemplateResource} template resource.
      *
@@ -72,11 +71,11 @@ public class ScriptCommandLine implements CommandLine {
 
     private static final String QUOTE = "quote";
 
-    private static final String ARGUMENTS = "arguments";
+    private static final String ARGUMENTS_FIELD = "arguments";
 
-    private static final String SUBSTITUTIONS = "substitutions";
+    private static final String SUBSTITUTIONS_FIELD = "substitutions";
 
-    private static final String TEMPLATE = "template";
+    private static final String TEMPLATE_FIELD = "template";
 
     private final TemplateResource template;
 
@@ -185,8 +184,8 @@ public class ScriptCommandLine implements CommandLine {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append(TEMPLATE, template).append(SUBSTITUTIONS, substitutions)
-                .append(ARGUMENTS, arguments).toString();
+        return new ToStringBuilder(this).append(TEMPLATE_FIELD, template).append(SUBSTITUTIONS_FIELD, substitutions)
+                .append(ARGUMENTS_FIELD, arguments).toString();
     }
 
     private static class Argument {

@@ -48,7 +48,7 @@ import com.google.inject.assistedinject.Assisted;
  */
 public class ScriptCommandExec implements CommandExec {
 
-    private static final String EXEC = "exec";
+    private static final String EXEC_FIELD = "exec";
 
     /**
      * @see ScriptCommandExecFactory#create(CommandExecFactory)
@@ -135,7 +135,7 @@ public class ScriptCommandExec implements CommandExec {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append(EXEC, exec).toString();
+        return new ToStringBuilder(this).append(EXEC_FIELD, exec).toString();
     }
 
     private void deleteScriptFile(ProcessTask task) throws IOException {

@@ -40,7 +40,7 @@ import com.google.inject.assistedinject.Assisted;
  */
 public class ScriptExecImpl extends AbstractProcessExec {
 
-    private static final String ARGS = "args";
+    private static final String ARGS_SUB = "args";
 
     private final Map<String, Object> args;
 
@@ -55,14 +55,11 @@ public class ScriptExecImpl extends AbstractProcessExec {
     private final ScriptExecLogger log;
 
     /**
-     * @see ScriptExecFactory#create(Object, Threads, TemplateResource, String,
-     *      Map)
+     * @see ScriptExecFactory#create(Object, Threads, TemplateResource, String, Map)
      */
     @Inject
-    ScriptExecImpl(ScriptExecLogger log, @Assisted Object parent,
-            @Assisted Threads threads,
-            @Assisted TemplateResource templateResource, @Assisted String name,
-            @Assisted Map<String, Object> args) {
+    ScriptExecImpl(ScriptExecLogger log, @Assisted Object parent, @Assisted Threads threads,
+            @Assisted TemplateResource templateResource, @Assisted String name, @Assisted Map<String, Object> args) {
         super(threads, args);
         this.log = log;
         this.args = args;
@@ -80,10 +77,8 @@ public class ScriptExecImpl extends AbstractProcessExec {
     }
 
     @Override
-    protected CommandLine createCommandLine(
-            ScriptCommandLineFactory commandLineFactory) {
-        return commandLineFactory.create(name, templateResource).addSub(ARGS,
-                args);
+    protected CommandLine createCommandLine(ScriptCommandLineFactory commandLineFactory) {
+        return commandLineFactory.create(name, templateResource).addSub(ARGS_SUB, args);
     }
 
     @Override

@@ -33,13 +33,13 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 @SuppressWarnings("serial")
 public class TokenTemplate implements Serializable {
 
-    private static final String ESCAPE = "escape";
+    private static final String ESCAPE_KEY = "escape";
 
-    private static final String ENCLOSE = "enclose";
+    private static final String ENCLOSE_KEY = "enclose";
 
-    private static final String APPEND = "append";
+    private static final String APPEND_KEY = "append";
 
-    private static final String FLAGS = "flags";
+    private static final String FLAGS_KEY = "flags";
 
     private final String search;
 
@@ -65,17 +65,17 @@ public class TokenTemplate implements Serializable {
      */
     public TokenTemplate(Map<String, Object> args, String search, String replace) {
         this(search, replace);
-        if (args.containsKey(FLAGS)) {
-            this.flags = (Integer) args.get(FLAGS);
+        if (args.containsKey(FLAGS_KEY)) {
+            this.flags = (Integer) args.get(FLAGS_KEY);
         }
-        if (args.containsKey(APPEND)) {
-            this.append = (Boolean) args.get(APPEND);
+        if (args.containsKey(APPEND_KEY)) {
+            this.append = (Boolean) args.get(APPEND_KEY);
         }
-        if (args.containsKey(ENCLOSE)) {
-            this.enclose = (Boolean) args.get(ENCLOSE);
+        if (args.containsKey(ENCLOSE_KEY)) {
+            this.enclose = (Boolean) args.get(ENCLOSE_KEY);
         }
-        if (args.containsKey(ESCAPE)) {
-            this.escape = (Boolean) args.get(ESCAPE);
+        if (args.containsKey(ESCAPE_KEY)) {
+            this.escape = (Boolean) args.get(ESCAPE_KEY);
         }
     }
 
