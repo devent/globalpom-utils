@@ -180,9 +180,9 @@ public class AnnotationClass<ClassType> implements Builder<ClassType> {
     /**
      * Returns the class type object.
      *
-     * @returns the field if the field name was specified; instantiates and returns
-     *          the class object if the class type was specified; {@code null} if
-     *          neither was specified in the annotation.
+     * @return the field if the field name was specified; instantiates and returns
+     *         the class object if the class type was specified; {@code null} if
+     *         neither was specified in the annotation.
      *
      * @throws NullPointerException     if the attribute name is {@code null}.
      *

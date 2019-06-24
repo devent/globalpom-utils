@@ -61,6 +61,8 @@ public class LongitudeFormat extends Format {
      *
      * @param latLong the {@link LatLong} latitude/longitude coordinate.
      *
+     * @param decimal the least significant decimal.
+     *
      * @return the {@link LongitudeFormat}
      */
     public static LongitudeFormat createLongitudeFormat(LatLong latLong, int decimal) {
@@ -163,6 +165,8 @@ public class LongitudeFormat extends Format {
     /**
      * Parses the longitude part to a latitude/longitude coordinate.
      *
+     * @param source the {@link String} source string.
+     *
      * @return the parsed {@link LatLong}.
      *
      * @throws ParseException if the string can not be parsed.
@@ -180,15 +184,12 @@ public class LongitudeFormat extends Format {
      * Parses the the longitude part with the specified index to a
      * latitude/longitude coordinate.
      *
-     * @param source the source string.
+     * @param source the {@link String} source string.
      *
      * @param pos    the index {@link ParsePosition} position from where to start
      *               parsing.
      *
      * @return the parsed {@link LatLong}.
-     *
-     * @throws ParseException if the string can not be parsed to a
-     *                        latitude/longitude coordinate.
      */
     public LatLong parse(String source, ParsePosition pos) {
         try {

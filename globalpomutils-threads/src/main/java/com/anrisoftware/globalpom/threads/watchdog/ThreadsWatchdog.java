@@ -92,6 +92,8 @@ public class ThreadsWatchdog {
      *
      * @param listeners the {@link PropertyChangeListener} listeners.
      *
+     * @param <V>       the result type.
+     *
      * @return the task.
      */
     public <V> ListenableFuture<V> submit(Runnable runable, V result, PropertyChangeListener... listeners) {

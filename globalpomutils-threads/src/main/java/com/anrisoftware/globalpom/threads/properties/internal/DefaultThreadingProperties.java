@@ -57,6 +57,10 @@ public class DefaultThreadingProperties implements ThreadingProperties, Serializ
 
     /**
      * @see DefaultThreadingPropertiesFactory#create(ContextProperties, String)
+     *
+     * @param p    the {@link ContextProperties}
+     *
+     * @param name the {@link String} name.
      */
     @Inject
     protected DefaultThreadingProperties(@Assisted ContextProperties p, @Assisted String name) {

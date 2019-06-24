@@ -132,6 +132,8 @@ public class MathUtils {
      *
      * @param decimalSeparator the decimal separator character.
      *
+     * @param exponentSeparator the {@link String} exponent separator.
+     *
      * @return the number of decimal places.
      *
      * @see DecimalFormatSymbols#getDecimalSeparator()
@@ -178,6 +180,8 @@ public class MathUtils {
      * @param str              the {@link String} of the number.
      *
      * @param decimalSeparator the decimal separator character.
+     *
+     * @param exponentSeparator the {@link String} exponent separator.
      *
      * @return the number of decimal places.
      *

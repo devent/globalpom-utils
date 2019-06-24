@@ -32,7 +32,7 @@ public interface BeanFactory {
      * @param type the {@link Class} type of the bean. The bean must have the
      *             standard constructor available for initialization.
      *
-     * @param the  bean type.
+     * @param the <T> bean type.
      *
      * @return the bean.
      *
@@ -48,7 +48,7 @@ public interface BeanFactory {
      * @param typeName the name of the type of the bean. The bean must have the
      *                 standard constructor available for initialization.
      *
-     * @param the  bean type.
+     * @param the <T> bean type.
      *
      * @return the bean.
      *

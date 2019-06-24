@@ -188,16 +188,13 @@ public class ValueFormat extends Format {
 
     /**
      * Parses the specified string to value.
-     * <p>
      * The format follows the pattern:
      *
      * <pre>
      * value[(uncertain)]
      * </pre>
      *
-     * <p>
      * <h2>Examples</h2>
-     * <p>
      * <ul>
      * <li>exact value: {@code 0.0123}
      * <li>uncertain value: {@code 5.0(0.2)}
@@ -205,6 +202,8 @@ public class ValueFormat extends Format {
      * <li>uncertain value: {@code 5.0(2)e-12}
      * <li>uncertain value: {@code 5.0(2)E-12}
      * </ul>
+     *
+     * @param source the {@link String} source string.
      *
      * @return the parsed {@link Value}.
      *
@@ -222,8 +221,12 @@ public class ValueFormat extends Format {
     /**
      * @see #parse(String)
      *
+     * @param source the {@link String} source string.
+     *
      * @param pos the index {@link ParsePosition} position from where to start
      *            parsing.
+     *
+     * @return the parsed {@link Value}.
      */
     public Value parse(String source, ParsePosition pos) {
         source = source.substring(pos.getIndex());

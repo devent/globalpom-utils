@@ -77,12 +77,16 @@ public interface Threads extends ExecutorService {
      * @see ExecutorService#submit(Runnable, Object)
      * @see ListenableFuture.Status
      *
-     * @param callable  the {@link Callable}
+     * @param runable the {@link Runnable}
+     *
+     * @param result the result value.
      *
      * @param listeners {@link PropertyChangeListener} listeners that are informed
      *                  when the task finishes.
      *
      * @param <V>       the task type.
+     *
+     * @return the result.
      */
     <V> ListenableFuture<V> submit(Runnable runable, V result, PropertyChangeListener... listeners);
 
