@@ -19,7 +19,6 @@ package com.anrisoftware.globalpom.exec.internal.script
 import static com.anrisoftware.globalpom.exec.internal.logoutputs.AbstractLogCommandOutput.*
 import static com.anrisoftware.globalpom.exec.internal.script.ScriptCommandExec.*
 import static com.anrisoftware.globalpom.exec.internal.script.ScriptCommandLine.*
-import static com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsImpl.*
 import static com.anrisoftware.globalpom.utils.TestUtils.*
 
 import java.util.concurrent.Future
@@ -41,8 +40,8 @@ import com.anrisoftware.globalpom.exec.external.script.ScriptCommandLineFactory
 import com.anrisoftware.globalpom.exec.internal.command.DefaultCommandLineModule
 import com.anrisoftware.globalpom.exec.internal.core.DefaultProcessModule
 import com.anrisoftware.globalpom.exec.internal.pipeoutputs.PipeOutputsModule
+import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreads
 import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreadsFactory
-import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsImpl
 import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsModule
 import com.anrisoftware.propertiesutils.ContextPropertiesFactory
 import com.anrisoftware.resources.st.internal.worker.STDefaultPropertiesModule
@@ -166,7 +165,7 @@ class ScriptCommandExecTest {
                 new TemplatesDefaultMapsModule(),
                 new STWorkerModule(),
                 new STDefaultPropertiesModule())
-        properties = new ContextPropertiesFactory(PropertiesThreadsImpl).fromResource(threadsProperties)
+        properties = new ContextPropertiesFactory(PropertiesThreads).fromResource(threadsProperties)
         TemplatesFactory templatesFactory = injector.getInstance TemplatesFactory
         scriptTemplates = templatesFactory.create("ScriptTest")
         output_command = scriptTemplates.getResource("output_command")

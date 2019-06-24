@@ -19,7 +19,6 @@ package com.anrisoftware.globalpom.exec.internal.core
 import static com.anrisoftware.globalpom.exec.internal.command.DefaultCommandLine.*
 import static com.anrisoftware.globalpom.exec.internal.core.DefaultCommandExec.*
 import static com.anrisoftware.globalpom.exec.internal.logoutputs.AbstractLogCommandOutput.*
-import static com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsImpl.*
 import static com.anrisoftware.globalpom.utils.TestUtils.*
 
 import java.beans.PropertyChangeListener
@@ -49,8 +48,8 @@ import com.anrisoftware.globalpom.exec.external.pipeoutputs.PipeCommandOutputFac
 import com.anrisoftware.globalpom.exec.internal.command.DefaultCommandLine
 import com.anrisoftware.globalpom.exec.internal.command.DefaultCommandLineModule
 import com.anrisoftware.globalpom.exec.internal.pipeoutputs.PipeOutputsModule
+import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreads
 import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreadsFactory
-import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsImpl
 import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsModule
 import com.anrisoftware.propertiesutils.ContextPropertiesFactory
 import com.google.inject.Guice
@@ -429,7 +428,7 @@ class DefaultCommandExecTest {
                 new DefaultProcessModule(),
                 new PipeOutputsModule(),
                 new PropertiesThreadsModule())
-        this.properties = new ContextPropertiesFactory(PropertiesThreadsImpl).fromResource(threadsProperties)
+        this.properties = new ContextPropertiesFactory(PropertiesThreads).fromResource(threadsProperties)
     }
 
     static File createCommand(String name, URL resource, def tmp) {

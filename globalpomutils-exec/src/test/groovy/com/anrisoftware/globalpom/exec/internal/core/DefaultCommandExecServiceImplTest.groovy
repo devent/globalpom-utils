@@ -35,6 +35,7 @@ import com.anrisoftware.globalpom.exec.internal.command.DefaultCommandLine
 import com.anrisoftware.globalpom.exec.internal.command.DefaultCommandLineServiceImpl
 import com.anrisoftware.globalpom.exec.internal.pipeoutputs.PipeCommandInputServiceImpl
 import com.anrisoftware.globalpom.exec.internal.pipeoutputs.PipeCommandOutputServiceImpl
+import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreads
 import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreadsService
 import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsServiceImpl
 import com.anrisoftware.globalpom.utils.TestUtils
@@ -94,6 +95,6 @@ class DefaultCommandExecServiceImplTest {
     @BeforeAll
     static void createFactory() {
         toStringStyle
-        this.properties = new ContextPropertiesFactory('com.anrisoftware.globalpom.threads.properties.internal').fromResource(threadsProperties)
+        this.properties = new ContextPropertiesFactory(PropertiesThreads).fromResource(threadsProperties)
     }
 }

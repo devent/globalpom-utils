@@ -36,6 +36,7 @@ import com.anrisoftware.globalpom.exec.internal.runcommands.RunCommandsServiceIm
 import com.anrisoftware.globalpom.exec.internal.script.ScriptCommandExecServiceImpl
 import com.anrisoftware.globalpom.exec.internal.script.ScriptCommandLineServiceImpl
 import com.anrisoftware.globalpom.threads.external.core.Threads
+import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreads
 import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreadsService
 import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsServiceImpl
 import com.anrisoftware.propertiesutils.ContextPropertiesFactory
@@ -107,7 +108,7 @@ class ScriptExecServiceImplTest {
     @BeforeAll
     static void createFactory() {
         toStringStyle
-        this.properties = new ContextPropertiesFactory('com.anrisoftware.globalpom.threads.properties.internal').fromResource(threadsProperties)
+        this.properties = new ContextPropertiesFactory(PropertiesThreads).fromResource(threadsProperties)
     }
 
     TemplateResource loadTemplates() {
