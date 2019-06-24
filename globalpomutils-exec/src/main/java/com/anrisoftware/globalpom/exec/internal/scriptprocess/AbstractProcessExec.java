@@ -77,7 +77,7 @@ public abstract class AbstractProcessExec implements ScriptExec {
 
     private static final String LOG_KEY = "log";
 
-    private static final String PWD_ARG = "pwd";
+    private static final String WORK_DIR_ARG = "pwd";
 
     private static final String ERR_STRING_ARG = "errString";
 
@@ -148,7 +148,7 @@ public abstract class AbstractProcessExec implements ScriptExec {
         this.timeout = getArg(TIMEOUT_ARG_ARG, args, TIMEOUT_DEFAULT);
         this.outString = getArg(OUT_STRING_ARG, args, OUT_STRING_DEFAULT);
         this.errString = getArg(ERR_STRING_ARG, args, ERR_STRING_DEFAULT);
-        this.pwd = getFileArg(PWD_ARG, args, System.getProperty("user.dir"));
+        this.pwd = getFileArg(WORK_DIR_ARG, args, System.getProperty("user.dir"));
     }
 
     @SuppressWarnings("unchecked")
