@@ -216,6 +216,8 @@ public class DegreeSexagesimalFormat extends Format {
      * @param pos    the index {@link ParsePosition} position from where to start
      *               parsing.
      *
+     * @return the {@link Amount}
+     *
      * @throws ParseException if the string is not in the correct format.
      */
     public Amount<Angle> parse(String source, ParsePosition pos) throws ParseException {

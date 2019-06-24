@@ -67,6 +67,7 @@ public interface Threads extends ExecutorService {
      *
      * @param <V>       the task type.
      *
+     * @return the result.
      */
     <V> ListenableFuture<V> submit(Callable<V> callable, PropertyChangeListener... listeners);
 
