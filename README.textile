@@ -1,4 +1,4 @@
-!https://jenkins.anrisoftware.com/job/globalpom-utils-public/job/master/badge/icon(Build Status)!:https://jenkins.anrisoftware.com/job/globalpom-utils-public/job/master !https://sonarqube.anrisoftware.com/api/badges/gate?key=com.anrisoftware.globalpom%3Aglobalpomutils(Quality Gate)!:https://sonarqube.anrisoftware.com/dashboard?id=com.anrisoftware.globalpom%3Aglobalpomutils !https://project.anrisoftware.com/attachments/download/217/apache2.0-small.gif(Apache License, Version 2.0)!:http://www.apache.org/licenses/LICENSE-2.0 © 2016&#45;2019 Erwin Müller
+!https://jenkins.anrisoftware.com/job/globalpom-utils-public/job/master/badge/icon(Build Status)!:https://jenkins.anrisoftware.com/job/globalpom-utils-public/job/master !https://sonar.anrisoftware.com/api/badges/gate?key=com.anrisoftware.globalpom%3Aglobalpomutils(Quality Gate)!:https://sonar.anrisoftware.com/dashboard?id=com.anrisoftware.globalpom%3Aglobalpomutils !https://project.anrisoftware.com/attachments/download/217/apache2.0-small.gif(Apache License, Version 2.0)!:http://www.apache.org/licenses/LICENSE-2.0 © 2016&#45;2019 Erwin Müller
 
 h1(#description). Description
 
@@ -14,7 +14,7 @@ h1(#links). Links
 * "(externalLink)Project Roadmap":https://project.anrisoftware.com/projects/globalpom-utils/roadmap
 * "(externalLink)Project Issues":https://project.anrisoftware.com/projects/globalpom-utils/issues
 * "(externalLink)Jenkins":https://jenkins.anrisoftware.com/job/globalpom-utils-public
-* "(externalLink)SonarQube":https://sonarqube.anrisoftware.com/dashboard?id=com.anrisoftware.globalpom%3Aglobalpomutils
+* "(externalLink)SonarQube":https://sonar.anrisoftware.com/dashboard?id=com.anrisoftware.globalpom%3Aglobalpomutils
 
 h1. License
 
