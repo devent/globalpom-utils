@@ -1,22 +1,19 @@
-/*-
- * #%L
- * Global POM Utilities :: Exec
- * %%
- * Copyright (C) 2014 - 2018 Advanced Natural Research Institute
- * %%
+/**
+ * Copyright © 2014 Erwin Müller (erwin.mueller@anrisoftware.com)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * #L%
  */
+
 package com.anrisoftware.globalpom.exec.internal.script
 
 import static com.anrisoftware.globalpom.utils.TestUtils.*
@@ -41,6 +38,7 @@ import com.anrisoftware.globalpom.exec.internal.command.DefaultCommandLineServic
 import com.anrisoftware.globalpom.exec.internal.core.DefaultCommandExecServiceImpl
 import com.anrisoftware.globalpom.exec.internal.pipeoutputs.PipeCommandInputServiceImpl
 import com.anrisoftware.globalpom.exec.internal.pipeoutputs.PipeCommandOutputServiceImpl
+import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreads
 import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreadsService
 import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsServiceImpl
 import com.anrisoftware.globalpom.utils.TestUtils
@@ -124,6 +122,6 @@ class ScriptCommandExecServiceImplTest {
     @BeforeAll
     static void createFactory() {
         toStringStyle
-        this.properties = new ContextPropertiesFactory('com.anrisoftware.globalpom.threads.properties.internal').fromResource(threadsProperties)
+        this.properties = new ContextPropertiesFactory(PropertiesThreads).fromResource(threadsProperties)
     }
 }

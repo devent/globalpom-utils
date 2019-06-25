@@ -1,24 +1,20 @@
-package com.anrisoftware.globalpom.core.durationformat;
-
-/*-
- * #%L
- * Global POM Utilities :: Core
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
+/**
+ * Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * #L%
  */
+package com.anrisoftware.globalpom.core.durationformat;
+
 
 import static com.google.inject.Guice.createInjector;
 import static java.lang.Double.parseDouble;
@@ -108,16 +104,14 @@ public class DurationFormat extends Format {
 
     /**
      * Parses the specified string to a duration.
-     * <p>
      * <h2>Format</h2>
-     * <p>
      * <ul>
      * <li>{@code "P[yY][mM][dD][T[hH][mM][s[.s]S]]"}
      * </ul>
      *
      * @return the parsed {@link Duration}.
      *
-     * @see {@code http://www.ostyn.com/standards/scorm/samples/ISOTimeForSCORM.htm}
+     * @see <a href="http://www.ostyn.com/standards/scorm/samples/ISOTimeForSCORM.htm">ISOTimeForSCORM</a>
      */
     @Override
     public Object parseObject(String source, ParsePosition pos) {
@@ -131,6 +125,12 @@ public class DurationFormat extends Format {
 
     /**
      * @see #parse(String, ParsePosition)
+     *
+     * @param source the {@link String} source to parse.
+     *
+     * @return the parsed {@link Duration}.
+     *
+     * @throws ParseException if the string is not in the correct format.
      */
     public Duration parse(String source) throws ParseException {
         ParsePosition pos = new ParsePosition(0);
@@ -144,8 +144,12 @@ public class DurationFormat extends Format {
     /**
      * @see #parseObject(String)
      *
+     * @param source the {@link String} source to parse.
+     *
      * @param pos the index {@link ParsePosition} position from where to start
      *            parsing.
+     *
+     * @return the parsed {@link Duration}.
      *
      * @throws ParseException if the string is not in the correct format.
      */

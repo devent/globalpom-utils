@@ -1,5 +1,5 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
+/**
+ * Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,6 @@
  * limitations under the License.
  */
 package com.anrisoftware.globalpom.core.awtserializable;
-
-/*-
- * #%L
- * Global POM Utilities :: Core
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
 
 import java.awt.BasicStroke;
 import java.awt.Shape;
@@ -55,8 +35,7 @@ public final class SerializableBasicStroke implements Externalizable {
     /**
      * Decorates the character set for serialization.
      *
-     * @param stroke
-     *            the {@link BasicStroke}.
+     * @param stroke the {@link BasicStroke}.
      *
      * @return the {@link SerializableBasicStroke}.
      */
@@ -67,13 +46,11 @@ public final class SerializableBasicStroke implements Externalizable {
     /**
      * Decorates the character set for serialization.
      *
-     * @param stroke
-     *            the {@link BasicStroke}.
+     * @param stroke the {@link BasicStroke}.
      *
      * @return the {@link SerializableBasicStroke}.
      */
-    public static SerializableBasicStroke decorateSerializableBasicStroke(
-            BasicStroke stroke) {
+    public static SerializableBasicStroke decorateSerializableBasicStroke(BasicStroke stroke) {
         return new SerializableBasicStroke(stroke);
     }
 
@@ -108,6 +85,10 @@ public final class SerializableBasicStroke implements Externalizable {
 
     /**
      * @see java.awt.BasicStroke#createStrokedShape(java.awt.Shape)
+     *
+     * @param s the {@link Shape}
+     *
+     * @return the {@link Shape}.
      */
     public Shape createStrokedShape(Shape s) {
         return stroke.createStrokedShape(s);
@@ -115,6 +96,8 @@ public final class SerializableBasicStroke implements Externalizable {
 
     /**
      * @see java.awt.BasicStroke#getLineWidth()
+     *
+     * @return the line width.
      */
     public float getLineWidth() {
         return stroke.getLineWidth();
@@ -122,6 +105,8 @@ public final class SerializableBasicStroke implements Externalizable {
 
     /**
      * @see java.awt.BasicStroke#getEndCap()
+     *
+     * @return the end cap.
      */
     public int getEndCap() {
         return stroke.getEndCap();
@@ -129,6 +114,8 @@ public final class SerializableBasicStroke implements Externalizable {
 
     /**
      * @see java.awt.BasicStroke#getLineJoin()
+     *
+     * @return the line join.
      */
     public int getLineJoin() {
         return stroke.getLineJoin();
@@ -136,6 +123,8 @@ public final class SerializableBasicStroke implements Externalizable {
 
     /**
      * @see java.awt.BasicStroke#getMiterLimit()
+     *
+     * @return the miter limit.
      */
     public float getMiterLimit() {
         return stroke.getMiterLimit();
@@ -143,6 +132,8 @@ public final class SerializableBasicStroke implements Externalizable {
 
     /**
      * @see java.awt.BasicStroke#getDashArray()
+     *
+     * @return the dash array.
      */
     public float[] getDashArray() {
         return stroke.getDashArray();
@@ -150,6 +141,8 @@ public final class SerializableBasicStroke implements Externalizable {
 
     /**
      * @see java.awt.BasicStroke#getDashPhase()
+     *
+     * @return the dash phase.
      */
     public float getDashPhase() {
         return stroke.getDashPhase();
@@ -188,8 +181,7 @@ public final class SerializableBasicStroke implements Externalizable {
     }
 
     @Override
-    public void readExternal(ObjectInput in) throws IOException,
-            ClassNotFoundException {
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         float width = in.readFloat();
         int cap = in.readInt();
         int join = in.readInt();
@@ -200,8 +192,7 @@ public final class SerializableBasicStroke implements Externalizable {
             dash = (float[]) in.readObject();
         }
         float dash_phase = in.readFloat();
-        this.stroke = new BasicStroke(width, cap, join, miterlimit, dash,
-                dash_phase);
+        this.stroke = new BasicStroke(width, cap, join, miterlimit, dash, dash_phase);
     }
 
 }

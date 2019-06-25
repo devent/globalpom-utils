@@ -1,5 +1,5 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
+/**
+ * Copyright © 2014 Erwin Müller (erwin.mueller@anrisoftware.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,27 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.anrisoftware.globalpom.exec.internal.scriptprocess;
 
-/*-
- * #%L
- * Global POM Utilities :: Exec
- * %%
- * Copyright (C) 2014 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
+package com.anrisoftware.globalpom.exec.internal.scriptprocess;
 
 import java.util.Map;
 
@@ -59,7 +40,7 @@ import com.google.inject.assistedinject.Assisted;
  */
 public class ScriptExecImpl extends AbstractProcessExec {
 
-    private static final String ARGS = "args";
+    private static final String ARGS_SUB = "args";
 
     private final Map<String, Object> args;
 
@@ -74,14 +55,11 @@ public class ScriptExecImpl extends AbstractProcessExec {
     private final ScriptExecLogger log;
 
     /**
-     * @see ScriptExecFactory#create(Object, Threads, TemplateResource, String,
-     *      Map)
+     * @see ScriptExecFactory#create(Object, Threads, TemplateResource, String, Map)
      */
     @Inject
-    ScriptExecImpl(ScriptExecLogger log, @Assisted Object parent,
-            @Assisted Threads threads,
-            @Assisted TemplateResource templateResource, @Assisted String name,
-            @Assisted Map<String, Object> args) {
+    ScriptExecImpl(ScriptExecLogger log, @Assisted Object parent, @Assisted Threads threads,
+            @Assisted TemplateResource templateResource, @Assisted String name, @Assisted Map<String, Object> args) {
         super(threads, args);
         this.log = log;
         this.args = args;
@@ -99,10 +77,8 @@ public class ScriptExecImpl extends AbstractProcessExec {
     }
 
     @Override
-    protected CommandLine createCommandLine(
-            ScriptCommandLineFactory commandLineFactory) {
-        return commandLineFactory.create(name, templateResource).addSub(ARGS,
-                args);
+    protected CommandLine createCommandLine(ScriptCommandLineFactory commandLineFactory) {
+        return commandLineFactory.create(name, templateResource).addSub(ARGS_SUB, args);
     }
 
     @Override

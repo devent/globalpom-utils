@@ -1,24 +1,19 @@
-package com.anrisoftware.globalpom.exec.internal.script;
-
-/*-
- * #%L
- * Global POM Utilities :: Exec
- * %%
- * Copyright (C) 2014 - 2018 Advanced Natural Research Institute
- * %%
+/**
+ * Copyright © 2014 Erwin Müller (erwin.mueller@anrisoftware.com)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * #L%
  */
+package com.anrisoftware.globalpom.exec.internal.script;
 
 import static com.anrisoftware.globalpom.exec.internal.script.ScriptCommandModule.getScriptCommandLineFactory;
 import static java.io.File.createTempFile;
@@ -55,6 +50,12 @@ public class ScriptCommandLine implements CommandLine {
 
     /**
      * @see ScriptCommandLineFactory#create(String, TemplateResource)
+     *
+     * @param name     the {@link String} template name.
+     *
+     * @param template the {@link TemplateResource} template resource.
+     *
+     * @return the {@link CommandLine}
      */
     public static CommandLine createScriptCommandLine(String name, TemplateResource template) {
         return getScriptCommandLineFactory().create(name, template);
@@ -70,11 +71,11 @@ public class ScriptCommandLine implements CommandLine {
 
     private static final String QUOTE = "quote";
 
-    private static final String ARGUMENTS = "arguments";
+    private static final String ARGUMENTS_FIELD = "arguments";
 
-    private static final String SUBSTITUTIONS = "substitutions";
+    private static final String SUBSTITUTIONS_FIELD = "substitutions";
 
-    private static final String TEMPLATE = "template";
+    private static final String TEMPLATE_FIELD = "template";
 
     private final TemplateResource template;
 
@@ -183,8 +184,8 @@ public class ScriptCommandLine implements CommandLine {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append(TEMPLATE, template).append(SUBSTITUTIONS, substitutions)
-                .append(ARGUMENTS, arguments).toString();
+        return new ToStringBuilder(this).append(TEMPLATE_FIELD, template).append(SUBSTITUTIONS_FIELD, substitutions)
+                .append(ARGUMENTS_FIELD, arguments).toString();
     }
 
     private static class Argument {

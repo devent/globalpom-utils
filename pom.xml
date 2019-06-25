@@ -1,3 +1,20 @@
+<!--
+
+    Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
@@ -5,19 +22,20 @@
     <parent>
         <groupId>com.anrisoftware.globalpom</groupId>
         <artifactId>globalpom-groovy-osgi</artifactId>
-        <version>4.5.0</version>
+        <version>4.5.1</version>
     </parent>
 
     <groupId>com.anrisoftware.globalpom</groupId>
-    <artifactId>globalpomutils-bundle</artifactId>
+    <artifactId>globalpomutils</artifactId>
     <packaging>pom</packaging>
     <name>Global POM Utilities :: Bundle POM</name>
-    <version>4.5.0</version>
+    <version>4.5.1-SNAPSHOT</version>
     <description>Contains the modules of the Global POM Utilities.</description>
     <url>https://javadoc.anrisoftware.com/${project.groupId}/${project.artifactId}/${project.version}/</url>
+    <inceptionYear>2013</inceptionYear>
 
     <modules>
-        <module>globalpomutils-parent</module>
+        <module>globalpomutils-it</module>
         <module>globalpomutils-core</module>
         <module>globalpomutils-data</module>
         <module>globalpomutils-exec</module>
@@ -29,6 +47,7 @@
     </modules>
 
     <properties>
+    	<!-- javadoc -->
         <project.custom.home>https://project.anrisoftware.com/projects/globalpom-utils</project.custom.home>
         <project.custom.license.image.url>https://project.anrisoftware.com/attachments/download/217/apache2.0-small.gif</project.custom.license.image.url>
         <project.custom.central.url>https://search.maven.org/artifact/${project.groupId}/${project.artifactId}/${project.version}/pom</project.custom.central.url>
@@ -40,15 +59,14 @@
         <project.custom.jenkins.url>https://jenkins.anrisoftware.com/job/globalpom-utils-public</project.custom.jenkins.url>
         <project.custom.jenkins.build.badge.master>${project.custom.jenkins.url}/job/master/badge/icon</project.custom.jenkins.build.badge.master>
         <project.custom.jenkins.build.link.master>${project.custom.jenkins.url}/job/master</project.custom.jenkins.build.link.master>
-        <project.custom.sonarqube.url>https://sonarqube.anrisoftware.com/dashboard?id=com.anrisoftware.globalpom%3Aglobalpomutils-bundle</project.custom.sonarqube.url>
-        <project.custom.sonarqube.qualitygate.badge>https://sonarqube.anrisoftware.com/api/badges/gate?key=com.anrisoftware.globalpom%3Aglobalpomutils-bundle</project.custom.sonarqube.qualitygate.badge>
+        <project.custom.sonarqube.url>https://sonar.anrisoftware.com/dashboard?id=com.anrisoftware.globalpom%3Aglobalpomutils</project.custom.sonarqube.url>
+        <project.custom.sonarqube.qualitygate.badge>https://sonar.anrisoftware.com/api/badges/gate?key=com.anrisoftware.globalpom%3Aglobalpomutils</project.custom.sonarqube.qualitygate.badge>
         <project.custom.sonarqube.qualitygate.link>${project.custom.sonarqube.url}</project.custom.sonarqube.qualitygate.link>
+        <!-- bundle namespace -->
         <project.custom.bundle.namespace>com.anrisoftware.globalpom</project.custom.bundle.namespace>
         <project.custom.bundle.namespace.internal>com.anrisoftware.globalpom.internal</project.custom.bundle.namespace.internal>
-        <!-- Sonar -->
-        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+        <!-- sonar -->
+        <sonar.coverage.jacoco.xmlReportPaths>../globalpomutils-it/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
     <developers>
@@ -87,7 +105,7 @@
         <connection>${project.custom.scm.pub}</connection>
         <developerConnection>${project.custom.scm.dev}</developerConnection>
         <url>${project.custom.scm.url}</url>
-        <tag>globalpomutils-bundle-4.5.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
@@ -105,38 +123,53 @@
         </snapshotRepository>
     </distributionManagement>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <configuration>
-                    <destFile>${sonar.jacoco.reportPath}</destFile>
-                    <append>true</append>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                        <configuration>
-                            <propertyName>surefireArgLine</propertyName>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>prepare-agent-integration</id>
-                        <goals>
-                            <goal>prepare-agent-integration</goal>
-                        </goals>
-                        <configuration>
-                            <propertyName>failsafeArgLine</propertyName>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.anrisoftware.globalpom</groupId>
+                <artifactId>globalpom-groovytestutils</artifactId>
+                <version>4.5.1-SNAPSHOT</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.anrisoftware.globalpom</groupId>
+                <artifactId>globalpom-log</artifactId>
+                <version>4.5.1-SNAPSHOT</version>
+                <type>bundle</type>
+            </dependency>
+            <dependency>
+                <groupId>com.anrisoftware.propertiesutils</groupId>
+                <artifactId>propertiesutils-contextproperties</artifactId>
+                <version>4.5.1-SNAPSHOT</version>
+                <type>bundle</type>
+            </dependency>
+
+            <!-- resources -->
+            <dependency>
+                <groupId>com.anrisoftware.resources</groupId>
+                <artifactId>resources-texts</artifactId>
+                <version>4.5.1-SNAPSHOT</version>
+                <type>bundle</type>
+            </dependency>
+            <dependency>
+                <groupId>com.anrisoftware.resources</groupId>
+                <artifactId>resources-st</artifactId>
+                <version>4.5.1-SNAPSHOT</version>
+                <type>bundle</type>
+            </dependency>
+            <dependency>
+                <groupId>com.anrisoftware.resources</groupId>
+                <artifactId>resources-templates</artifactId>
+                <version>4.5.1-SNAPSHOT</version>
+                <type>bundle</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <profiles>
         <profile>
@@ -202,6 +235,22 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <!-- Skip signing -Pno-sign -->
+            <id>no-sign</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>

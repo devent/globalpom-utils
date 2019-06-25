@@ -1,5 +1,5 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
+/**
+ * Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,27 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.anrisoftware.globalpom.math.measurement;
 
-/*-
- * #%L
- * Global POM Utilities :: Math
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
+package com.anrisoftware.globalpom.math.measurement;
 
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -47,15 +28,13 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 /**
  * Defines a measurement with a physical unit.
  *
- * @param <UnitType>
- *            the {@link Quantity} of the unit.
+ * @param <UnitType> the {@link Quantity} of the unit.
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.4
  */
 @SuppressWarnings({ "serial", "unchecked" })
-public abstract class AbstractMeasure<UnitType extends Quantity> implements
-        Measure<UnitType>, Serializable {
+public abstract class AbstractMeasure<UnitType extends Quantity> implements Measure<UnitType>, Serializable {
 
     private final Unit<UnitType> unit;
 
@@ -67,28 +46,48 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
 
     /**
      * @see MeasureFactory#create(Measure, ValueFactory)
+     *
+     * @param measure        the {@link Measure}
+     *
+     * @param valueFactory   the {@link ValueFactory}
+     *
+     * @param measureFactory the {@link MeasureFactory}
      */
-    protected AbstractMeasure(Measure<UnitType> measure,
-            ValueFactory valueFactory, MeasureFactory measureFactory) {
-        this(measure.getUnit(), measure.getMeasureValue(), valueFactory,
-                measureFactory);
+    protected AbstractMeasure(Measure<UnitType> measure, ValueFactory valueFactory, MeasureFactory measureFactory) {
+        this(measure.getUnit(), measure.getMeasureValue(), valueFactory, measureFactory);
     }
 
     /**
      * @see MeasureFactory#create(Value, Unit, ValueFactory)
+     *
+     * @param unit           the {@link Unit}
+     *
+     * @param value          the {@link Value}
+     *
+     * @param valueFactory   the {@link ValueFactory}
+     *
+     * @param measureFactory the {@link MeasureFactory}
      */
-    protected AbstractMeasure(Unit<UnitType> unit, Value value,
-            ValueFactory valueFactory, MeasureFactory measureFactory) {
+    protected AbstractMeasure(Unit<UnitType> unit, Value value, ValueFactory valueFactory,
+            MeasureFactory measureFactory) {
         this.unit = unit;
         this.valueFactory = valueFactory;
         this.measureFactory = measureFactory;
         this.value = valueFactory.create(value, valueFactory);
     }
 
+    /**
+     *
+     * @param factory the {@link ValueFactory}
+     */
     public void setValueFactory(ValueFactory factory) {
         this.valueFactory = factory;
     }
 
+    /**
+     *
+     * @param factory the {@link MeasureFactory}
+     */
     public void setMeasureFactory(MeasureFactory factory) {
         this.measureFactory = factory;
     }
@@ -178,8 +177,7 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
     }
 
     @Override
-    public Measure<UnitType> valueOf(BigInteger mantissa, int order, int sig,
-            int dec, double unc) {
+    public Measure<UnitType> valueOf(BigInteger mantissa, int order, int sig, int dec, double unc) {
         Value value = this.value.valueOf(mantissa, order, sig, dec, unc);
         return measureFactory.create(value, getUnit(), valueFactory);
     }
@@ -360,14 +358,12 @@ public abstract class AbstractMeasure<UnitType extends Quantity> implements
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(getUnit()).append(value)
-                .toHashCode();
+        return new HashCodeBuilder().append(getUnit()).append(value).toHashCode();
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append(value.toString())
-                .append(getUnit()).toString();
+        return new ToStringBuilder(this).append(value.toString()).append(getUnit()).toString();
     }
 
 }

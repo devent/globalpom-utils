@@ -1,5 +1,5 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
+/**
+ * Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,26 +15,6 @@
  */
 package com.anrisoftware.globalpom.initfileparser.external;
 
-/*-
- * #%L
- * Global POM Utilities :: Init File Parser
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import java.io.Serializable;
 
 import com.google.inject.assistedinject.Assisted;
@@ -47,8 +27,7 @@ import com.google.inject.assistedinject.AssistedInject;
  * @since 1.0
  */
 @SuppressWarnings("serial")
-public class DefaultInitFileAttributes implements InitFileAttributes,
-        Serializable {
+public class DefaultInitFileAttributes implements InitFileAttributes, Serializable {
 
     private char[] sectionBrackets;
 
@@ -98,8 +77,7 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
         this.stringQuote = a.getStringQuote();
         this.stringQuoteEnabled = a.isStringQuoteEnabled();
         this.defaultSectionName = a.getDefaultSectionName();
-        this.whitespaceBetweenPropertyDelimiter = a
-                .isWhitespaceBetweenPropertyDelimiter();
+        this.whitespaceBetweenPropertyDelimiter = a.isWhitespaceBetweenPropertyDelimiter();
         this.multiValueMark = a.getMultiValueMark();
         this.newLine = a.getNewLine();
         this.allowMultiLineProperties = a.isAllowMultiLineProperties();
@@ -134,6 +112,8 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
 
     /**
      * @since 2.3
+     *
+     * @param stringQuote the string quote character.
      */
     public void setStringQuote(char stringQuote) {
         this.stringQuote = stringQuote;
@@ -146,6 +126,8 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
 
     /**
      * @since 2.4
+     *
+     * @param stringQuoteEnabled if the string quote is enabled.
      */
     public void setStringQuoteEnabled(boolean stringQuoteEnabled) {
         this.stringQuoteEnabled = stringQuoteEnabled;
@@ -158,6 +140,8 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
 
     /**
      * @since 2.3
+     *
+     * @param multiValueMark the {@link String} multi value mark.
      */
     public void setMultiValueMark(String multiValueMark) {
         this.multiValueMark = multiValueMark;
@@ -168,6 +152,10 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
         return multiValueMark;
     }
 
+    /**
+     *
+     * @param name the {@link String} default section name.
+     */
     public void setDefaultSectionName(String name) {
         this.defaultSectionName = name;
     }
@@ -177,6 +165,10 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
         return defaultSectionName;
     }
 
+    /**
+     *
+     * @param whitespace if whitespace between property delimiter is enabled.
+     */
     public void setWhitespaceBetweenPropertyDelimiter(boolean whitespace) {
         this.whitespaceBetweenPropertyDelimiter = whitespace;
     }
@@ -186,6 +178,10 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
         return whitespaceBetweenPropertyDelimiter;
     }
 
+    /**
+     *
+     * @param newLine the {@link String} new line character.
+     */
     public void setNewLine(String newLine) {
         this.newLine = newLine;
     }
@@ -195,6 +191,10 @@ public class DefaultInitFileAttributes implements InitFileAttributes,
         return newLine;
     }
 
+    /**
+     *
+     * @param allow if multi line properties are allowed.
+     */
     public void setAllowMultiLineProperties(boolean allow) {
         this.allowMultiLineProperties = allow;
     }

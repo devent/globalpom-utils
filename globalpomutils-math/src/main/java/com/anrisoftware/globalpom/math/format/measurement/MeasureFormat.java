@@ -1,5 +1,5 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
+/**
+ * Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,27 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.anrisoftware.globalpom.math.format.measurement;
 
-/*-
- * #%L
- * Global POM Utilities :: Math
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
+package com.anrisoftware.globalpom.math.format.measurement;
 
 import java.text.FieldPosition;
 import java.text.Format;
@@ -75,19 +56,16 @@ public class MeasureFormat extends Format {
      * @see MeasureFormatFactory#create(ValueFactory, MeasureFactory)
      */
     @AssistedInject
-    MeasureFormat(ValueFormatFactory valueFormatFactory,
-            @Assisted ValueFactory valueFactory,
+    MeasureFormat(ValueFormatFactory valueFormatFactory, @Assisted ValueFactory valueFactory,
             @Assisted MeasureFactory measureFactory) {
-        this(valueFormatFactory, Locale.getDefault(), valueFactory,
-                measureFactory);
+        this(valueFormatFactory, Locale.getDefault(), valueFactory, measureFactory);
     }
 
     /**
      * @see MeasureFormatFactory#create(Locale, ValueFactory, MeasureFactory)
      */
     @AssistedInject
-    MeasureFormat(ValueFormatFactory valueFormatFactory,
-            @Assisted Locale locale, @Assisted ValueFactory valueFactory,
+    MeasureFormat(ValueFormatFactory valueFormatFactory, @Assisted Locale locale, @Assisted ValueFactory valueFactory,
             @Assisted MeasureFactory measureFactory) {
         this.valueFormat = valueFormatFactory.create(locale, valueFactory);
         this.measureFactory = measureFactory;
@@ -96,8 +74,7 @@ public class MeasureFormat extends Format {
     /**
      * Set to use the scientific notation for formatting the value.
      *
-     * @param scientificNotation
-     *            set to {@code true} to use the scientific notation.
+     * @param scientificNotation set to {@code true} to use the scientific notation.
      */
     public void setUseScientificNotation(boolean scientificNotation) {
         this.valueFormat.setUseScientificNotation(scientificNotation);
@@ -106,8 +83,7 @@ public class MeasureFormat extends Format {
     /**
      * Sets the significant figures for formatting the value.
      *
-     * @param sig
-     *            the {@link Integer} significant figures.
+     * @param sig the {@link Integer} significant figures.
      */
     public void setSignificant(int sig) {
         this.valueFormat.setSignificant(sig);
@@ -116,32 +92,27 @@ public class MeasureFormat extends Format {
     /**
      * Sets the least significant decimal for formatting the value.
      *
-     * @param dec
-     *            the {@link Integer} least significant decimal.
+     * @param dec the {@link Integer} least significant decimal.
      */
     public void setDecimal(int dec) {
         this.valueFormat.setDecimal(dec);
     }
 
     /**
-     * Formats the specified value.
-     * <p>
-     * The format follows the pattern:
+     * Formats the specified value. The format follows the pattern:
      *
      * <pre>
      * value[(uncertainty)] unit
      * </pre>
      *
-     * <p>
      * <h2>Examples</h2>
-     * <p>
+     *
      * <ul>
      * <li>exact value: {@code 0.0123 m}
      * <li>uncertain value: {@code 5.0(0.2) m}
      * </ul>
      *
-     * @param obj
-     *            the {@link Value}.
+     * @param obj the {@link Value}.
      */
     @Override
     public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos) {
@@ -151,8 +122,7 @@ public class MeasureFormat extends Format {
         return buff;
     }
 
-    private void formatMeasure(Measure<?> measure, StringBuffer buff,
-            FieldPosition pos) {
+    private void formatMeasure(Measure<?> measure, StringBuffer buff, FieldPosition pos) {
         valueFormat.format(measure, buff, pos);
         buff.append(' ');
         buff.append(measure.getUnit().toString());
@@ -164,29 +134,27 @@ public class MeasureFormat extends Format {
     }
 
     /**
-     * Parses the specified string to value.
-     * <p>
-     * The format follows the pattern:
+     * Parses the specified string to value. The format follows the pattern:
      *
      * <pre>
      * value[(uncertain)] unit
      * </pre>
      *
-     * <p>
      * <h2>Examples</h2>
-     * <p>
      * <ul>
      * <li>exact value: {@code 0.0123 m}
      * <li>uncertain value: {@code 5.0(0.2) m}
      * </ul>
      *
+     * @param source     the {@link String} source.
+     *
+     * @param <UnitType> the {@link Quantity} type.
+     *
      * @return the parsed {@link Value}.
      *
-     * @throws ParseException
-     *             if the string cannot be parsed to a value.
+     * @throws ParseException if the string cannot be parsed to a value.
      */
-    public <UnitType extends Quantity> Measure<UnitType> parse(String source)
-            throws ParseException {
+    public <UnitType extends Quantity> Measure<UnitType> parse(String source) throws ParseException {
         ParsePosition pos = new ParsePosition(0);
         Measure<?> result = parse(source, pos);
         if (pos.getIndex() == 0) {
@@ -196,17 +164,19 @@ public class MeasureFormat extends Format {
     }
 
     @SuppressWarnings("unchecked")
-    private <UnitType extends Quantity> Measure<UnitType> toUnitType(
-            Measure<?> result) {
+    private <UnitType extends Quantity> Measure<UnitType> toUnitType(Measure<?> result) {
         return (Measure<UnitType>) result;
     }
 
     /**
      * @see #parse(String)
      *
-     * @param pos
-     *            the index {@link ParsePosition} position from where to start
+     * @param source the {@link String} source string.
+     *
+     * @param pos the index {@link ParsePosition} position from where to start
      *            parsing.
+     *
+     * @return the {@link Measure}
      */
     public Measure<?> parse(String source, ParsePosition pos) {
         source = source.substring(pos.getIndex());
@@ -222,8 +192,7 @@ public class MeasureFormat extends Format {
         }
     }
 
-    private Measure<?> parseValue(String string, ParsePosition pos)
-            throws ParseException {
+    private Measure<?> parseValue(String string, ParsePosition pos) throws ParseException {
         String[] str = StringUtils.split(string, ' ');
         log.checkString(str, string, pos);
         Value value = valueFormat.parse(str[0]);

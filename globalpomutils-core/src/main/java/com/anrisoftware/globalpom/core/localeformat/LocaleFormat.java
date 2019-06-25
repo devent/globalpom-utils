@@ -1,5 +1,5 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
+/**
+ * Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,26 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.localeformat;
 
-/*-
- * #%L
- * Global POM Utilities :: Core
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import static org.apache.commons.lang3.StringUtils.split;
 
 import java.text.FieldPosition;
@@ -46,8 +26,8 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 /**
- * Formats and parses a {@link Value} value.
- * 
+ * Formats and parses a {@link Locale}.
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
@@ -61,10 +41,9 @@ public class LocaleFormat extends Format {
 
     /**
      * Formats the specified locale.
-     * 
-     * @param obj
-     *            the {@link Value}.
-     * 
+     *
+     * @param obj the {@link Locale}.
+     *
      * @see Locale#toString()
      */
     @Override
@@ -82,12 +61,13 @@ public class LocaleFormat extends Format {
 
     /**
      * Parses the specified string to a locale.
-     * 
+     *
+     * @param source the {@link String} source.
+     *
      * @return the parsed {@link Locale}.
-     * 
-     * @throws ParseException
-     *             if the string cannot be parsed to a value.
-     * 
+     *
+     * @throws ParseException if the string cannot be parsed to a value.
+     *
      * @see Locale#toString()
      */
     public Locale parse(String source) throws ParseException {
@@ -101,10 +81,13 @@ public class LocaleFormat extends Format {
 
     /**
      * @see #parse(String)
-     * 
-     * @param pos
-     *            the index {@link ParsePosition} position from where to start
-     *            parsing.
+     *
+     * @param source the {@link String} source.
+     *
+     * @param pos    the index {@link ParsePosition} position from where to start
+     *               parsing.
+     *
+     * @return the parsed {@link Locale}.
      */
     public Locale parse(String source, ParsePosition pos) {
         source = source.substring(pos.getIndex());
@@ -120,8 +103,7 @@ public class LocaleFormat extends Format {
         }
     }
 
-    private Locale parseValue(String string, ParsePosition pos)
-            throws ParseException {
+    private Locale parseValue(String string, ParsePosition pos) throws ParseException {
         String[] strs = split(string, SEP);
         if (strs.length == 0) {
             return new Locale("");
@@ -136,7 +118,6 @@ public class LocaleFormat extends Format {
             variant = strs[2];
         }
         return variant != null ? new Locale(lang, country, variant)
-                : country != null ? new Locale(lang, country)
-                        : new Locale(lang);
+                : country != null ? new Locale(lang, country) : new Locale(lang);
     }
 }

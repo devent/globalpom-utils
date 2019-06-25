@@ -1,5 +1,5 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
+/**
+ * Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,6 @@
  * limitations under the License.
  */
 package com.anrisoftware.globalpom.core.textmatch.match;
-
-/*-
- * #%L
- * Global POM Utilities :: Core
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
 
 import static com.anrisoftware.globalpom.core.charset.SerializableCharset.decorateSerializableCharset;
 
@@ -65,9 +45,9 @@ import com.google.inject.assistedinject.AssistedInject;
 @SuppressWarnings("serial")
 public class MatchText implements Serializable {
 
-    private static final String CHARACTER_SET = "character set";
+    private static final String CHARACTER_SET_FIELD = "character set";
 
-    private static final String PATTERN = "pattern";
+    private static final String PATTERN_FIELD = "pattern";
 
     private final URI resource;
 
@@ -84,8 +64,7 @@ public class MatchText implements Serializable {
      * @see MatchTextFactory#create(File, Pattern, Charset)
      */
     @AssistedInject
-    MatchText(@Assisted File file, @Assisted Pattern pattern,
-            @Assisted Charset charset) {
+    MatchText(@Assisted File file, @Assisted Pattern pattern, @Assisted Charset charset) {
         this(file.toURI(), pattern, charset);
     }
 
@@ -93,8 +72,7 @@ public class MatchText implements Serializable {
      * @see MatchTextFactory#create(URL, Pattern, Charset)
      */
     @AssistedInject
-    MatchText(@Assisted URL resource, @Assisted Pattern pattern,
-            @Assisted Charset charset) throws URISyntaxException {
+    MatchText(@Assisted URL resource, @Assisted Pattern pattern, @Assisted Charset charset) throws URISyntaxException {
         this(resource.toURI(), pattern, charset);
     }
 
@@ -102,8 +80,7 @@ public class MatchText implements Serializable {
      * @see MatchTextFactory#create(URI, Pattern, Charset)
      */
     @AssistedInject
-    MatchText(@Assisted URI resource, @Assisted Pattern pattern,
-            @Assisted Charset charset) {
+    MatchText(@Assisted URI resource, @Assisted Pattern pattern, @Assisted Charset charset) {
         this.resource = resource;
         this.pattern = pattern;
         this.charset = decorateSerializableCharset(charset);
@@ -114,8 +91,7 @@ public class MatchText implements Serializable {
      *
      * @return this {@link MatchText}.
      *
-     * @throws MatchTextException
-     *             if there was an error reading the resource.
+     * @throws MatchTextException if there was an error reading the resource.
      */
     public MatchText match() throws MatchTextException {
         String string = readFile();
@@ -171,8 +147,7 @@ public class MatchText implements Serializable {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append(resource)
-                .append(PATTERN, pattern).append(CHARACTER_SET, charset)
-                .toString();
+        return new ToStringBuilder(this).append(resource).append(PATTERN_FIELD, pattern)
+                .append(CHARACTER_SET_FIELD, charset).toString();
     }
 }

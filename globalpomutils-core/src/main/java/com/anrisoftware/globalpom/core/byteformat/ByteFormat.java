@@ -1,5 +1,5 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
+/**
+ * Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,6 @@
  * limitations under the License.
  */
 package com.anrisoftware.globalpom.core.byteformat;
-
-/*-
- * #%L
- * Global POM Utilities :: Core
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
 
 import static com.anrisoftware.globalpom.core.byteformat.UnitMultiplier.parseUnitMultiplier;
 import static org.apache.commons.lang3.StringUtils.split;
@@ -63,8 +43,7 @@ public class ByteFormat extends Format {
     /**
      * Rounds the size to the smallest SI unit.
      *
-     * @param size
-     *            the size.
+     * @param size the size.
      *
      * @return the rounded size with the SI unit.
      *
@@ -127,23 +106,18 @@ public class ByteFormat extends Format {
     }
 
     /**
-     * Formats the specified computer byte.
-     * <p>
-     * The format follows the pattern:
+     * Formats the specified computer byte. The format follows the pattern:
      *
      * <pre>
      * &lt;value&gt; byte
      * </pre>
      *
-     * <p>
      * <h2>Examples</h2>
-     * <p>
      * <ul>
      * <li>{@code "64 byte"}
      * </ul>
      *
-     * @param obj
-     *            the {@link Measurable} or {@link Number}.
+     * @param obj the {@link Measurable} or {@link Number}.
      */
     @Override
     public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos) {
@@ -151,41 +125,42 @@ public class ByteFormat extends Format {
     }
 
     /**
-     * @param multiplier
-     *            the unit {@link UnitMultiplier}.
-     *
      * @see #format(Object)
+     *
+     * @param obj        the object.
+     *
+     * @param multiplier the unit {@link UnitMultiplier}.
+     *
+     * @return the {@link String}
      */
     public String format(Object obj, UnitMultiplier multiplier) {
-        return format(obj, new StringBuffer(), new FieldPosition(0), multiplier)
-                .toString();
+        return format(obj, new StringBuffer(), new FieldPosition(0), multiplier).toString();
     }
 
     /**
-     * Formats the specified computer byte.
-     * <p>
-     * The format follows the pattern:
+     * Formats the specified computer byte. The format follows the pattern:
      *
      * <pre>
      * &lt;value&gt; byte
      * </pre>
      *
-     * <p>
      * <h2>Examples</h2>
-     * <p>
      * <ul>
      * <li>{@code "64 byte"}
      * </ul>
      *
-     * @param obj
-     *            the {@link Measurable} or {@link Number}.
+     * @param obj        the {@link Measurable} or {@link Number}.
      *
-     * @param multiplier
-     *            the unit {@link UnitMultiplier}.
+     * @param buff       the {@link StringBuffer}
+     *
+     * @param pos        the {@link FieldPosition}
+     *
+     * @param multiplier the unit {@link UnitMultiplier}.
+     *
+     * @return the {@link StringBuffer}
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public StringBuffer format(Object obj, StringBuffer buff,
-            FieldPosition pos, UnitMultiplier multiplier) {
+    public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos, UnitMultiplier multiplier) {
         if (obj instanceof Measurable) {
             Measurable measurable = (Measurable) obj;
             formatMeasurable(measurable.longValue(NonSI.BYTE), buff, multiplier);
@@ -196,8 +171,7 @@ public class ByteFormat extends Format {
         return buff;
     }
 
-    private void formatMeasurable(long value, StringBuffer buff,
-            UnitMultiplier multiplier) {
+    private void formatMeasurable(long value, StringBuffer buff, UnitMultiplier multiplier) {
         buff.append(numberFormat.format(value)).append(SEP);
         if (multiplier == UnitMultiplier.ONE) {
             buff.append(NonSI.BYTE.toString());
@@ -212,60 +186,52 @@ public class ByteFormat extends Format {
     }
 
     /**
-     * Parses the specified string to computer byte.
-     * <p>
-     * The format follows the pattern:
+     * Parses the specified string to computer byte. The format follows the pattern:
      *
      * <pre>
      * &lt;value&gt;(byte|kB,MB,...,YB|KiB,MiB,...,YiB)
      * </pre>
      *
-     * <p>
      * <h2>Examples</h2>
-     * <p>
      * <ul>
      * <li>{@code "64 byte"}
      * <li>{@code "1 kb"}
      * <li>{@code "1 Kib"}
      * </ul>
      *
+     * @param source the {@link String} source.
+     *
      * @return the parsed value.
      *
-     * @throws ParseException
-     *             if the string cannot be parsed to a value.
+     * @throws ParseException if the string cannot be parsed to a value.
      */
     public long parse(String source) throws ParseException {
         return parse(source, UnitMultiplier.ONE);
     }
 
     /**
-     * Parses the specified string to computer byte.
-     * <p>
-     * The format follows the pattern:
+     * Parses the specified string to computer byte. The format follows the pattern:
      *
      * <pre>
      * &lt;value&gt;(byte|kB,MB,...,YB|KiB,MiB,...,YiB)
      * </pre>
      *
-     * <p>
      * <h2>Examples</h2>
-     * <p>
      * <ul>
      * <li>{@code "64 byte"}
      * <li>{@code "1 kb"}
      * <li>{@code "1 Kib"}
      * </ul>
      *
-     * @param multiplier
-     *            the unit {@link UnitMultiplier}.
+     * @param source     the {@link String} source.
+     *
+     * @param multiplier the unit {@link UnitMultiplier}.
      *
      * @return the parsed value.
      *
-     * @throws ParseException
-     *             if the string cannot be parsed to a value.
+     * @throws ParseException if the string cannot be parsed to a value.
      */
-    public long parse(String source, UnitMultiplier multiplier)
-            throws ParseException {
+    public long parse(String source, UnitMultiplier multiplier) throws ParseException {
         ParsePosition pos = new ParsePosition(0);
         Long result = parse(source, pos, multiplier);
         if (pos.getIndex() == 0) {
@@ -277,12 +243,16 @@ public class ByteFormat extends Format {
     /**
      * @see #parse(String)
      *
-     * @param pos
-     *            the index {@link ParsePosition} position from where to start
-     *            parsing.
+     * @param source     the {@link String} source.
+     *
+     * @param pos        the index {@link ParsePosition} position from where to
+     *                   start parsing.
+     *
+     * @param multiplier the {@link UnitMultiplier}
+     *
+     * @return the parsed {@link Long} value or {@code null.}
      */
-    public Long parse(String source, ParsePosition pos,
-            UnitMultiplier multiplier) {
+    public Long parse(String source, ParsePosition pos, UnitMultiplier multiplier) {
         source = source.substring(pos.getIndex());
         try {
             long value = parseValue(source);

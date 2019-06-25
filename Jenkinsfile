@@ -2,7 +2,7 @@
  * Builds and deploys the project.
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
- * @since 4.5.0
+ * @since 4.5.1
  * @version 1.2.0
  */
 pipeline {
@@ -10,11 +10,11 @@ pipeline {
     options {
         buildDiscarder(logRotator(numToKeepStr: "3"))
         disableConcurrentBuilds()
-        timeout(time: 60, unit: "MINUTES")
+        timeout(time: 120, unit: "MINUTES")
     }
 
     agent {
-        label 'maven-3-jdk-8'
+        label 'maven-3-jdk-12'
     }
 
     stages {
@@ -31,30 +31,37 @@ pipeline {
         }
 
 		/**
-		* The stage will compile and deploy the generated site on all branches.
+		* The stage will setup the container for the build.
 		*/
-        stage('Compile and deploy Site') {
+        stage('Setup Build') {
             steps {
                 container('maven') {
                     withCredentials([string(credentialsId: 'gpg-key-passphrase', variable: 'GPG_PASSPHRASE')]) {
-                    configFileProvider([configFile(fileId: 'gpg-key', variable: 'GPG_KEY_FILE')]) {
-                    configFileProvider([configFile(fileId: 'maven-settings-global', variable: 'MAVEN_SETTINGS')]) {
-                        withMaven() {
+                        configFileProvider([configFile(fileId: 'gpg-key', variable: 'GPG_KEY_FILE')]) {
                             sh '/setup-gpg.sh'
-	                        sh '/setup-ssh.sh'
-                            sh '$MVN_CMD -s $MAVEN_SETTINGS clean install site:site site:deploy'
                         }
-                	} } }
+                    }
                 }
             }
         }
 
 		/**
-		* The stage will perform the SonarQube analysis on all branches.
+		* The stage will compile, test and deploy on all branches.
 		*/
-        stage('SonarQube Analysis') {
+        stage('Compile, Test and Deploy') {
+    		when {
+    			allOf {
+					not { branch 'master' }
+				}
+			}
             steps {
                 container('maven') {
+                    configFileProvider([configFile(fileId: 'maven-settings-global', variable: 'MAVEN_SETTINGS')]) {
+                        withMaven() {
+	                        sh '/setup-ssh.sh'
+                            sh '$MVN_CMD -s $MAVEN_SETTINGS -B clean install site:site deploy'
+                        }
+                    }
 					withSonarQubeEnv('sonarqube') {
 	                    configFileProvider([configFile(fileId: 'maven-settings-global', variable: 'MAVEN_SETTINGS')]) {
 	                        withMaven() {
@@ -67,19 +74,23 @@ pipeline {
         }
 
 		/**
-		* The stage will deploy the artifacts to the private repository.
+		* The stage will deploy the generated site for feature branches.
 		*/
-        stage('Deploy to Private') {
+        stage('Deploy Site') {
+    		when {
+    			allOf {
+					not { branch 'master' }
+					not { branch 'develop' }
+				}
+			}
             steps {
                 container('maven') {
-                    withCredentials([string(credentialsId: 'gpg-key-passphrase', variable: 'GPG_PASSPHRASE')]) {
-                    configFileProvider([configFile(fileId: 'gpg-key', variable: 'GPG_KEY_FILE')]) {
                 	configFileProvider([configFile(fileId: 'maven-settings-global', variable: 'MAVEN_SETTINGS')]) {
                     	withMaven() {
-                            sh '/setup-gpg.sh'
-                        	sh '$MVN_CMD -s $MAVEN_SETTINGS -B deploy'
+	                        sh '/setup-ssh.sh'
+                        	sh '$MVN_CMD -s $MAVEN_SETTINGS -B site:deploy'
                     	}
-                    } } }
+                    }
                 }
             }
         } // stage
@@ -97,17 +108,15 @@ pipeline {
 			}
             steps {
                 container('maven') {
-                    withCredentials([string(credentialsId: 'gpg-key-passphrase', variable: 'GPG_PASSPHRASE')]) {
-                    configFileProvider([configFile(fileId: 'gpg-key', variable: 'GPG_KEY_FILE')]) {
                 	configFileProvider([configFile(fileId: 'maven-settings-global', variable: 'MAVEN_SETTINGS')]) {
                     	withMaven() {
-                            sh '/setup-gpg.sh'
 	                        sh '/setup-ssh.sh'
                     	    sh 'git checkout develop && git pull origin develop'
+                        	sh '$MVN_CMD -s $MAVEN_SETTINGS -B release:clean'
                         	sh '$MVN_CMD -s $MAVEN_SETTINGS -B release:prepare'
                         	sh '$MVN_CMD -s $MAVEN_SETTINGS -B release:perform'
                     	}
-                    } } }
+                    }
                 }
             }
         } // stage
@@ -121,14 +130,11 @@ pipeline {
 			}
             steps {
                 container('maven') {
-                    withCredentials([string(credentialsId: 'gpg-key-passphrase', variable: 'GPG_PASSPHRASE')]) {
-                    configFileProvider([configFile(fileId: 'gpg-key', variable: 'GPG_KEY_FILE')]) {
                 	configFileProvider([configFile(fileId: 'maven-settings-global', variable: 'MAVEN_SETTINGS')]) {
                     	withMaven() {
-                            sh '/setup-gpg.sh'
                             sh '$MVN_CMD -s $MAVEN_SETTINGS -Posssonatype -B deploy'
                     	}
-                    } } }
+                    }
                 }
             }
         } // stage
@@ -137,11 +143,11 @@ pipeline {
 
     post {
         success {
-	        script {
-	        	pom = readMavenPom file: 'pom.xml'
-	            manager.createSummary("document.png").appendText("<a href='${env.JAVADOC_URL}/${pom.groupId}/${pom.artifactId}/${pom.version}/'>View Maven Site</a>", false)
-	        }
+           script {
+               pom = readMavenPom file: 'pom.xml'
+               manager.createSummary("document.png").appendText("<a href='${env.JAVADOC_URL}/${pom.groupId}/${pom.artifactId}/${pom.version}/'>View Maven Site</a>", false)
+            }
         }
-
     } // post
+
 }

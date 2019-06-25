@@ -1,5 +1,5 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
+/**
+ * Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,9 @@ package com.anrisoftware.globalpom.core.version;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -51,8 +51,8 @@ import com.google.inject.assistedinject.Assisted;
  *
  * <pre>
  * 1.0 = 1.0
- * 1.0.0 < 1.0.1
- * 0.5.2 > 0.5.0
+ * 1.0.0 &lt; 1.0.1
+ * 0.5.2 &gt; 0.5.0
  * </pre>
  *
  * @author Erwin Mueller, erwin.mueller@deventm.org
@@ -62,13 +62,13 @@ public class Version implements Comparable<Version> {
 
     private static final String VERSION_POSITIVE = "Version number must be positive";
 
-    static final String REV = "rev";
+    static final String REV_FIELD = "rev";
 
     private static final String REVISION = "revision";
 
-    static final String MINOR = "minor";
+    static final String MINOR_FIELD = "minor";
 
-    static final String MAJOR = "major";
+    static final String MAJOR_FIELD = "major";
 
     private final int major;
 
@@ -80,8 +80,7 @@ public class Version implements Comparable<Version> {
      * @see VersionFactory#create(int, int, int)
      */
     @Inject
-    Version(@Assisted(MAJOR) int major, @Assisted(MINOR) int minor,
-            @Assisted(REV) int rev) {
+    Version(@Assisted(MAJOR_FIELD) int major, @Assisted(MINOR_FIELD) int minor, @Assisted(REV_FIELD) int rev) {
         isTrue(major > -1, VERSION_POSITIVE);
         isTrue(minor > -1, VERSION_POSITIVE);
         isTrue(rev > -1, VERSION_POSITIVE);
@@ -128,21 +127,19 @@ public class Version implements Comparable<Version> {
             return false;
         }
         Version rhs = (Version) obj;
-        return new EqualsBuilder().append(major, rhs.major)
-                .append(minor, rhs.minor).append(rev, rhs.rev).isEquals();
+        return new EqualsBuilder().append(major, rhs.major).append(minor, rhs.minor).append(rev, rhs.rev).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(major).append(minor).append(rev)
-                .toHashCode();
+        return new HashCodeBuilder().append(major).append(minor).append(rev).toHashCode();
     }
 
     @Override
     public String toString() {
-        ToStringBuilder b = new ToStringBuilder(this).append(MAJOR, major);
+        ToStringBuilder b = new ToStringBuilder(this).append(MAJOR_FIELD, major);
         if (minor != Integer.MAX_VALUE) {
-            b.append(MINOR, minor);
+            b.append(MINOR_FIELD, minor);
         }
         if (rev != Integer.MAX_VALUE) {
             b.append(REVISION, rev);

@@ -1,5 +1,5 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
+/**
+ * Copyright © 2014 Erwin Müller (erwin.mueller@anrisoftware.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,27 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.anrisoftware.globalpom.exec.internal.command;
 
-/*-
- * #%L
- * Global POM Utilities :: Exec
- * %%
- * Copyright (C) 2014 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
+package com.anrisoftware.globalpom.exec.internal.command;
 
 import static com.anrisoftware.globalpom.exec.internal.command.DefaultCommandLineModule.getCommandLineFactory;
 import static java.lang.String.format;
@@ -60,7 +41,7 @@ import com.google.inject.assistedinject.AssistedInject;
 
 /**
  * Quotes command line arguments.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.11
  */
@@ -68,6 +49,10 @@ public class DefaultCommandLine implements CommandLine {
 
     /**
      * @see CommandLineFactory#create(File)
+     *
+     * @param executable the {@link File} executable.
+     *
+     * @return the {@link CommandLine}
      */
     public static CommandLine createCommandLine(File executable) {
         return getCommandLineFactory().create(executable);
@@ -75,6 +60,10 @@ public class DefaultCommandLine implements CommandLine {
 
     /**
      * @see CommandLineFactory#create(String)
+     *
+     * @param executable the {@link String} executable.
+     *
+     * @return the {@link CommandLine}
      */
     public static CommandLine createCommandLine(String executable) {
         return getCommandLineFactory().create(executable);
@@ -206,8 +195,7 @@ public class DefaultCommandLine implements CommandLine {
 
         @Override
         public String toString() {
-            return new ToStringBuilder(this).append(argument)
-                    .append(QUOTE, quote).toString();
+            return new ToStringBuilder(this).append(argument).append(QUOTE, quote).toString();
         }
     }
 
@@ -243,8 +231,7 @@ public class DefaultCommandLine implements CommandLine {
     private String quoteArgument(String argument) {
         argument = argument.trim();
         if (containsWhitespace(argument)) {
-            char q = contains(argument, DOUBLE_QUOTE_CHAR) ? SINGLE_QUOTE_CHAR
-                    : DOUBLE_QUOTE_CHAR;
+            char q = contains(argument, DOUBLE_QUOTE_CHAR) ? SINGLE_QUOTE_CHAR : DOUBLE_QUOTE_CHAR;
             argument = format(QUOTATION_FORMAT, q, argument, q);
         }
         return argument;
@@ -252,8 +239,7 @@ public class DefaultCommandLine implements CommandLine {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append(executable).append(arguments)
-                .toString();
+        return new ToStringBuilder(this).append(executable).append(arguments).toString();
     }
 
 }

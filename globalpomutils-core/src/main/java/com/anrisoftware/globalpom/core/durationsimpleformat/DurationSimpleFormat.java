@@ -1,5 +1,5 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
+/**
+ * Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,6 @@
  * limitations under the License.
  */
 package com.anrisoftware.globalpom.core.durationsimpleformat;
-
-/*-
- * #%L
- * Global POM Utilities :: Core
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
 
 import static com.anrisoftware.globalpom.core.durationsimpleformat.UnitMultiplier.DAYS;
 import static com.anrisoftware.globalpom.core.durationsimpleformat.UnitMultiplier.HOURS;
@@ -74,8 +54,7 @@ public class DurationSimpleFormat extends Format {
     /**
      * Rounds the size to the smallest duration unit.
      *
-     * @param size
-     *            the size.
+     * @param size the size.
      *
      * @return the rounded size with the duration unit.
      */
@@ -112,11 +91,9 @@ public class DurationSimpleFormat extends Format {
 
     private static final String SEP = "";
 
-    private static final Pattern PARSE_PATTERN = Pattern
-            .compile(String.format("(\\d+)(%s|%s|%s|%s|%s|%s|%s|%s)?",
-                    MILLISECONDS.getMetric(), SECONDS.getMetric(),
-                    MINUTES.getMetric(), HOURS.getMetric(), DAYS.getMetric(),
-                    WEEKS.getMetric(), MONTHS.getMetric(), YEARS.getMetric()));
+    private static final Pattern PARSE_PATTERN = Pattern.compile(String.format("(\\d+)(%s|%s|%s|%s|%s|%s|%s|%s)?",
+            MILLISECONDS.getMetric(), SECONDS.getMetric(), MINUTES.getMetric(), HOURS.getMetric(), DAYS.getMetric(),
+            WEEKS.getMetric(), MONTHS.getMetric(), YEARS.getMetric()));
 
     private final NumberFormat numberFormat;
 
@@ -140,66 +117,61 @@ public class DurationSimpleFormat extends Format {
     }
 
     /**
-     * Formats the specified simple duration.
-     * <p>
-     * The format follows the pattern:
+     * Formats the specified simple duration. The format follows the pattern:
      *
      * <pre>
      * &lt;value&gt;s
      * </pre>
      *
-     * <p>
      * <h2>Examples</h2>
-     * <p>
      * <ul>
      * <li>{@code "60s"}
      * </ul>
      *
-     * @param obj
-     *            the {@link Measurable} or {@link Number}.
+     * @param obj the {@link Measurable} or {@link Number}.
      */
     @Override
-    public StringBuffer format(Object obj, StringBuffer buff,
-            FieldPosition pos) {
+    public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos) {
         return format(obj, buff, pos, SECONDS);
     }
 
     /**
-     * @param multiplier
-     *            the unit {@link UnitMultiplier}.
+     * @param obj        the {@link Measurable} or {@link Number}.
+     *
+     * @param multiplier the unit {@link UnitMultiplier}.
      *
      * @see #format(Object)
+     *
+     * @return the {@link String} formatted simple duration.
      */
     public String format(Object obj, UnitMultiplier multiplier) {
-        return format(obj, new StringBuffer(), new FieldPosition(0), multiplier)
-                .toString();
+        return format(obj, new StringBuffer(), new FieldPosition(0), multiplier).toString();
     }
 
     /**
-     * Formats the specified simple duration.
-     * <p>
-     * The format follows the pattern:
+     * Formats the specified simple duration. The format follows the pattern:
      *
      * <pre>
      * &lt;value&gt;s
      * </pre>
      *
-     * <p>
      * <h2>Examples</h2>
-     * <p>
      * <ul>
      * <li>{@code "64s"}
      * </ul>
      *
-     * @param obj
-     *            the {@link Measurable} or {@link Number}.
+     * @param obj        the {@link Measurable} or {@link Number}.
      *
-     * @param multiplier
-     *            the unit {@link UnitMultiplier}.
+     * @param buff       the {@link StringBuffer}.
+     *
+     * @param pos        the {@link FieldPosition}.
+     *
+     * @param multiplier the unit {@link UnitMultiplier}.
+     *
+     * @return the {@link StringBuffer}
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos,
-            UnitMultiplier multiplier) {
+    public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos, UnitMultiplier multiplier) {
         if (obj instanceof Measurable) {
             Measurable measurable = (Measurable) obj;
             long value = measurable.longValue(SI.SECOND.divide(1000));
@@ -217,8 +189,7 @@ public class DurationSimpleFormat extends Format {
         return buff;
     }
 
-    private void formatMeasurable(long value, StringBuffer buff,
-            UnitMultiplier multiplier) {
+    private void formatMeasurable(long value, StringBuffer buff, UnitMultiplier multiplier) {
         buff.append(numberFormat.format(value)).append(SEP);
         buff.append(multiplier.toString());
     }
@@ -229,60 +200,54 @@ public class DurationSimpleFormat extends Format {
     }
 
     /**
-     * Parses the specified string to simple duration.
-     * <p>
-     * The format follows the pattern:
+     * Parses the specified string to simple duration. The format follows the
+     * pattern:
      *
      * <pre>
      * &lt;value&gt;(ms|s|m,h,...,M,y)
      * </pre>
      *
-     * <p>
      * <h2>Examples</h2>
-     * <p>
      * <ul>
      * <li>{@code "64s"}
      * <li>{@code "1m"}
      * <li>{@code "1h"}
      * </ul>
      *
+     * @param source the {@link String} source to parse.
+     *
      * @return the parsed value.
      *
-     * @throws ParseException
-     *             if the string cannot be parsed to a value.
+     * @throws ParseException if the string cannot be parsed to a value.
      */
     public long parse(String source) throws ParseException {
         return parse(source, MILLISECONDS);
     }
 
     /**
-     * Parses the specified string to simple duration.
-     * <p>
-     * The format follows the pattern:
+     * Parses the specified string to simple duration. The format follows the
+     * pattern:
      *
      * <pre>
      * &lt;value&gt;(ms|s|m,h,...,M,y)
      * </pre>
      *
-     * <p>
      * <h2>Examples</h2>
-     * <p>
      * <ul>
      * <li>{@code "64s"}
      * <li>{@code "1m"}
      * <li>{@code "1h"}
      * </ul>
      *
-     * @param multiplier
-     *            the unit {@link UnitMultiplier}.
+     * @param source     the {@link String} source to parse.
+     *
+     * @param multiplier the unit {@link UnitMultiplier}.
      *
      * @return the parsed value.
      *
-     * @throws ParseException
-     *             if the string cannot be parsed to a value.
+     * @throws ParseException if the string cannot be parsed to a value.
      */
-    public long parse(String source, UnitMultiplier multiplier)
-            throws ParseException {
+    public long parse(String source, UnitMultiplier multiplier) throws ParseException {
         ParsePosition pos = new ParsePosition(0);
         Long result = parse(source, pos, multiplier);
         if (pos.getIndex() == 0) {
@@ -294,12 +259,16 @@ public class DurationSimpleFormat extends Format {
     /**
      * @see #parse(String)
      *
-     * @param pos
-     *            the index {@link ParsePosition} position from where to start
-     *            parsing.
+     * @param source     the {@link String} the source.
+     *
+     * @param pos        the index {@link ParsePosition} position from where to
+     *                   start parsing.
+     *
+     * @param multiplier the {@link UnitMultiplier}
+     *
+     * @return the {@link Long} duration.
      */
-    public Long parse(String source, ParsePosition pos,
-            UnitMultiplier multiplier) {
+    public Long parse(String source, ParsePosition pos, UnitMultiplier multiplier) {
         source = source.substring(pos.getIndex());
         try {
             long value = parseValue(source);

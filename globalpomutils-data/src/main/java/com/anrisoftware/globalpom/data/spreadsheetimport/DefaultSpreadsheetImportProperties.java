@@ -1,5 +1,5 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
+/**
+ * Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,6 @@
  * limitations under the License.
  */
 package com.anrisoftware.globalpom.data.spreadsheetimport;
-
-/*-
- * #%L
- * Global POM Utilities :: Data
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
 
 import static org.apache.commons.lang3.Validate.isTrue;
 import static org.apache.commons.lang3.Validate.notNull;
@@ -54,8 +34,7 @@ import com.google.inject.assistedinject.AssistedInject;
  * @since 2.14
  */
 @SuppressWarnings("serial")
-public class DefaultSpreadsheetImportProperties implements
-        SpreadsheetImportProperties, Serializable {
+public class DefaultSpreadsheetImportProperties implements SpreadsheetImportProperties, Serializable {
 
     private URI file;
 
@@ -83,10 +62,11 @@ public class DefaultSpreadsheetImportProperties implements
 
     /**
      * @see DefaultSpreadsheetImportPropertiesFactory#create(SpreadsheetImportProperties)
+     *
+     * @param p the {@link SpreadsheetImportProperties}
      */
     @AssistedInject
-    public DefaultSpreadsheetImportProperties(
-            @Assisted SpreadsheetImportProperties p) {
+    public DefaultSpreadsheetImportProperties(@Assisted SpreadsheetImportProperties p) {
         setFile(p.getFile());
         setSheetNumber(p.getSheetNumber());
         setColumns(p.getColumns());
@@ -95,6 +75,10 @@ public class DefaultSpreadsheetImportProperties implements
         setHaveHeader(p.isHaveHeader());
     }
 
+    /**
+     *
+     * @param file the {@link URI}
+     */
     public void setFile(URI file) {
         notNull(file, "file");
         this.file = file;
@@ -105,6 +89,10 @@ public class DefaultSpreadsheetImportProperties implements
         return file;
     }
 
+    /**
+     *
+     * @param sheetNumber the sheet number.
+     */
     public void setSheetNumber(int sheetNumber) {
         isTrue(sheetNumber > -1, "sheetNumber > -1");
         this.sheetNumber = sheetNumber;
@@ -115,6 +103,9 @@ public class DefaultSpreadsheetImportProperties implements
         return sheetNumber;
     }
 
+    /**
+     * @param columns the columns.
+     */
     public void setColumns(int[] columns) {
         notNull(columns, "columns");
         this.columns = columns;
@@ -125,6 +116,10 @@ public class DefaultSpreadsheetImportProperties implements
         return columns;
     }
 
+    /**
+     *
+     * @param startRow the start row.
+     */
     public void setStartRow(int startRow) {
         isTrue(startRow > -1, "startRow > -1");
         this.startRow = startRow;
@@ -135,9 +130,12 @@ public class DefaultSpreadsheetImportProperties implements
         return startRow;
     }
 
+    /**
+     *
+     * @param endRow the end row.
+     */
     public void setEndRow(int endRow) {
-        isTrue(endRow == -1 || endRow >= startRow,
-                "endRow(%d) >= startRow(%d)", endRow, startRow);
+        isTrue(endRow == -1 || endRow >= startRow, "endRow(%d) >= startRow(%d)", endRow, startRow);
         this.endRow = endRow;
     }
 
@@ -146,6 +144,10 @@ public class DefaultSpreadsheetImportProperties implements
         return endRow;
     }
 
+    /**
+     *
+     * @param haveHeader the have headers.
+     */
     public void setHaveHeader(boolean haveHeader) {
         this.haveHeader = haveHeader;
     }

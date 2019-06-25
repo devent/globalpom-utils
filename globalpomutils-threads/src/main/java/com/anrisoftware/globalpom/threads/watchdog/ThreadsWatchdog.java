@@ -1,24 +1,19 @@
-package com.anrisoftware.globalpom.threads.watchdog;
-
-/*-
- * #%L
- * Global POM Utilities :: Threads
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
+/**
+ * Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * #L%
  */
+package com.anrisoftware.globalpom.threads.watchdog;
 
 import static java.util.Collections.synchronizedList;
 
@@ -29,6 +24,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Inject;
 
@@ -49,17 +45,17 @@ public class ThreadsWatchdog {
 
     private final ThreadsWatchdogLogger log;
 
-    private volatile List<Future<?>> tasks;
+    private List<Future<?>> tasks;
 
-    private volatile ExecutorService executor;
+    private ExecutorService executor;
 
-    private volatile boolean notified;
+    private AtomicBoolean notified;
 
     @Inject
     ThreadsWatchdog(ThreadsWatchdogLogger logger) {
         this.log = logger;
         this.tasks = synchronizedList(new ArrayList<Future<?>>());
-        this.notified = false;
+        this.notified = new AtomicBoolean(false);
     }
 
     /**
@@ -73,6 +69,14 @@ public class ThreadsWatchdog {
 
     /**
      * @see Threads#submit(Callable, PropertyChangeListener...)
+     *
+     * @param callable  the {@link Callable}
+     *
+     * @param listeners the {@link PropertyChangeListener} listeners.
+     *
+     * @param <V>       the task type.
+     *
+     * @return the task.
      */
     public <V> DefaultListenableFuture<V> submit(Callable<V> callable, PropertyChangeListener... listeners) {
         DefaultListenableFuture<V> futureTask;
@@ -82,6 +86,16 @@ public class ThreadsWatchdog {
 
     /**
      * @see Threads#submit(Runnable, Object, PropertyChangeListener...)
+     *
+     * @param runable   the {@link Runnable}
+     *
+     * @param result    the result.
+     *
+     * @param listeners the {@link PropertyChangeListener} listeners.
+     *
+     * @param <V>       the result type.
+     *
+     * @return the task.
      */
     public <V> ListenableFuture<V> submit(Runnable runable, V result, PropertyChangeListener... listeners) {
         DefaultListenableFuture<V> futureTask;
@@ -115,7 +129,7 @@ public class ThreadsWatchdog {
 
     private void unlockWait() {
         synchronized (this) {
-            notified = true;
+            notified.set(true);
             notifyAll();
         }
     }
@@ -133,6 +147,8 @@ public class ThreadsWatchdog {
 
     /**
      * @see Threads#waitForTasks()
+     *
+     * @throws InterruptedException if any of the tasks was interrupted.
      */
     public void waitForTasks() throws InterruptedException {
         while (tasks.size() > 0) {
@@ -144,14 +160,18 @@ public class ThreadsWatchdog {
 
     /**
      * @see Threads#waitForTasks(Duration)
+     *
+     * @param timeout the {@link Duration} timeout duration.
+     *
+     * @return the {@link List} of {@link Future} futures.
+     *
+     * @throws InterruptedException if any of the tasks was interrupted.
      */
     public List<Future<?>> waitForTasks(Duration timeout) throws InterruptedException {
         while (tasks.size() > 0) {
             synchronized (this) {
                 wait(timeout.getMillis());
-                if (notified) {
-                    notified = false;
-                } else {
+                if (!notified.compareAndSet(true, false)) {
                     break;
                 }
             }

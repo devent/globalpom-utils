@@ -1,5 +1,5 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
+/**
+ * Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,26 +15,6 @@
  */
 package com.anrisoftware.globalpom.threads.external.listenablefuture;
 
-/*-
- * #%L
- * Global POM Utilities :: Threads
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.concurrent.Callable;
@@ -48,19 +28,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.anrisoftware.globalpom.threads.external.core.ListenableFuture;
-import com.anrisoftware.globalpom.threads.external.listenablefuture.DefaultListenableFuture;
 
 /**
  * Informs property change listener when the task is finish.
  *
+ * @param <V> the task type.
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.5
  */
-public class DefaultListenableFuture<V> extends FutureTask<V> implements
-        ListenableFuture<V> {
+public class DefaultListenableFuture<V> extends FutureTask<V> implements ListenableFuture<V> {
 
-    private static final Logger logger = LoggerFactory
-            .getLogger(DefaultListenableFuture.class);
+    private static final Logger logger = LoggerFactory.getLogger(DefaultListenableFuture.class);
 
     private final PropertyChangeSupport p;
 
@@ -74,6 +53,8 @@ public class DefaultListenableFuture<V> extends FutureTask<V> implements
 
     /**
      * @see FutureTask#FutureTask(Callable)
+     *
+     * @param callable the {@link Callable}
      */
     public DefaultListenableFuture(Callable<V> callable) {
         super(createExceptionCallable(callable));
@@ -84,6 +65,10 @@ public class DefaultListenableFuture<V> extends FutureTask<V> implements
 
     /**
      * @see FutureTask#FutureTask(Runnable, Object)
+     *
+     * @param runnable the {@link Runnable}
+     *
+     * @param result the result.
      */
     public DefaultListenableFuture(Runnable runnable, V result) {
         super(createExceptionRunnable(runnable), result);
@@ -100,8 +85,7 @@ public class DefaultListenableFuture<V> extends FutureTask<V> implements
     }
 
     @Override
-    public V get(long timeout, TimeUnit unit) throws InterruptedException,
-            ExecutionException, TimeoutException {
+    public V get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
         try {
             return super.get(timeout, unit);
         } catch (TimeoutException e) {
@@ -123,8 +107,7 @@ public class DefaultListenableFuture<V> extends FutureTask<V> implements
         return b.toString();
     }
 
-    private static <V> Callable<V> createExceptionCallable(
-            final Callable<V> callable) {
+    private static <V> Callable<V> createExceptionCallable(final Callable<V> callable) {
         return new Callable<V>() {
 
             @Override
@@ -177,8 +160,7 @@ public class DefaultListenableFuture<V> extends FutureTask<V> implements
      * @see #STATUS_PROPERTY
      */
     @Override
-    public void addPropertyChangeListener(String propertyName,
-            PropertyChangeListener listener) {
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         p.addPropertyChangeListener(propertyName, listener);
     }
 
@@ -188,8 +170,7 @@ public class DefaultListenableFuture<V> extends FutureTask<V> implements
      * @see #STATUS_PROPERTY
      */
     @Override
-    public void removePropertyChangeListener(String propertyName,
-            PropertyChangeListener listener) {
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         p.removePropertyChangeListener(propertyName, listener);
     }
 
