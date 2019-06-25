@@ -1,5 +1,5 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
+/**
+ * Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,6 @@
  * limitations under the License.
  */
 package com.anrisoftware.globalpom.core.schemagenerator;
-
-/*-
- * #%L
- * Global POM Utilities :: Core
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
 
 import static java.lang.String.format;
 import static java.util.EnumSet.of;
@@ -55,7 +35,7 @@ import org.hibernate.tool.hbm2ddl.SchemaExport;
 
 /**
  * Generates the database schema for Hibernate entities.
- * 
+ *
  * @author Original author
  *         <ul>
  *         <li><a href=
@@ -73,8 +53,7 @@ public class SchemaGenerator {
 
     private final Dialect dialect;
 
-    public SchemaGenerator(String packageName, Dialect dialect)
-            throws Exception {
+    public SchemaGenerator(String packageName, Dialect dialect) throws Exception {
         BootstrapServiceRegistry bsr;
         bsr = new BootstrapServiceRegistryBuilder().build();
         StandardServiceRegistryBuilder ssrBuilder;
@@ -93,8 +72,7 @@ public class SchemaGenerator {
     /**
      * Utility method used to fetch Class list based on a package name.
      *
-     * @param packageName
-     *            (should be the package containing your annotated beans.
+     * @param packageName (should be the package containing your annotated beans.
      */
     private List<Class<?>> getClasses(String packageName) throws Exception {
         File directory = null;
@@ -103,8 +81,8 @@ public class SchemaGenerator {
             URL resource = getResource(packageName, cld);
             directory = new File(resource.toURI());
         } catch (NullPointerException ex) {
-            throw new ClassNotFoundException(packageName + " (" + directory
-                    + ") does not appear to be a valid package");
+            throw new ClassNotFoundException(
+                    packageName + " (" + directory + ") does not appear to be a valid package");
         }
         return collectClasses(packageName, directory);
     }
@@ -117,8 +95,7 @@ public class SchemaGenerator {
         return cld;
     }
 
-    private URL getResource(String packageName, ClassLoader cld)
-            throws ClassNotFoundException {
+    private URL getResource(String packageName, ClassLoader cld) throws ClassNotFoundException {
         String path = packageName.replace('.', '/');
         URL resource = cld.getResource(path);
         if (resource == null) {
@@ -127,21 +104,18 @@ public class SchemaGenerator {
         return resource;
     }
 
-    private List<Class<?>> collectClasses(String packageName, File directory)
-            throws ClassNotFoundException {
+    private List<Class<?>> collectClasses(String packageName, File directory) throws ClassNotFoundException {
         List<Class<?>> classes = new ArrayList<Class<?>>();
         if (directory.exists()) {
             String[] files = directory.list();
             for (String file : files) {
                 if (file.endsWith(".class")) {
                     // removes the .class extension
-                    classes.add(Class.forName(packageName + '.'
-                            + file.substring(0, file.length() - 6)));
+                    classes.add(Class.forName(packageName + '.' + file.substring(0, file.length() - 6)));
                 }
             }
         } else {
-            throw new ClassNotFoundException(
-                    format("%s is not a valid package.", packageName));
+            throw new ClassNotFoundException(format("%s is not a valid package.", packageName));
         }
         return classes;
     }
@@ -149,13 +123,14 @@ public class SchemaGenerator {
     /**
      * Method that actually creates the file.
      *
+     * @param directory the {@link File} directory.
+     *
      * @return the generated {@link File}.
      */
     public File generate(File directory) {
         SchemaExport export = new SchemaExport();
         export.setDelimiter(";");
-        File file = new File(directory,
-                format("ddl_%s.sql", dialect.name().toLowerCase()));
+        File file = new File(directory, format("ddl_%s.sql", dialect.name().toLowerCase()));
         export.setOutputFile(file.getAbsolutePath());
         export.setFormat(true);
         export.createOnly(of(SCRIPT), metadata);

@@ -1,21 +1,17 @@
-/*-
- * #%L
- * Global POM Utilities :: Threads
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
+/**
+ * Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * #L%
  */
 package com.anrisoftware.globalpom.threads.properties
 
@@ -23,6 +19,7 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
 import com.anrisoftware.globalpom.threads.external.core.Threads
+import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreads
 import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsImpl
 import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsModule
 import com.anrisoftware.globalpom.utils.TestUtils
@@ -83,6 +80,6 @@ class PropertiesThreadsTest extends AbstractPropertiesThreadsTest {
     static void setupThreads() {
         TestUtils.toStringStyle
         injector = Guice.createInjector(new PropertiesThreadsModule())
-        properties = new ContextPropertiesFactory(PropertiesThreadsImpl).fromResource(propertiesResource)
+        properties = new ContextPropertiesFactory(PropertiesThreads).fromResource(propertiesResource)
     }
 }

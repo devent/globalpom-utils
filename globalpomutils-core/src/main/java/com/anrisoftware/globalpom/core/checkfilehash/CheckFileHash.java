@@ -1,5 +1,5 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
+/**
+ * Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,6 @@
  * limitations under the License.
  */
 package com.anrisoftware.globalpom.core.checkfilehash;
-
-/*-
- * #%L
- * Global POM Utilities :: Core
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
 
 import static com.anrisoftware.globalpom.core.checkfilehash.HashName.forExtension;
 import static org.apache.commons.io.IOUtils.readLines;
@@ -65,9 +45,9 @@ public class CheckFileHash implements Callable<CheckFileHash> {
 
     private static final String SEP = " ";
 
-    private static final String HASH_RESOURCE = "hash resource";
+    private static final String HASH_RESOURCE_FIELD = "hash resource";
 
-    private static final String FILE = "file";
+    private static final String FILE_FIELD = "file";
 
     private final CheckFileHashLogger log;
 
@@ -85,8 +65,7 @@ public class CheckFileHash implements Callable<CheckFileHash> {
      * @see CheckFileHashFactory#create(Map, Object)
      */
     @Inject
-    CheckFileHash(CheckFileHashLogger log, @Assisted Map<String, Object> args,
-            @Assisted Object script) {
+    CheckFileHash(CheckFileHashLogger log, @Assisted Map<String, Object> args, @Assisted Object script) {
         this.log = log;
         this.file = log.file(script, args);
         this.hashResource = log.hash(script, args);
@@ -113,8 +92,7 @@ public class CheckFileHash implements Callable<CheckFileHash> {
     }
 
     private String readHash(URI hashResource, HashName hashName)
-            throws NoSuchAlgorithmException, IOException,
-            MalformedURLException {
+            throws NoSuchAlgorithmException, IOException, MalformedURLException {
         MessageDigest md = MessageDigest.getInstance(hashName.getHashName());
         InputStream fis = file.toURL().openStream();
         byte[] mdbytes = readFile(md, fis);
@@ -132,8 +110,7 @@ public class CheckFileHash implements Callable<CheckFileHash> {
         }
     }
 
-    private String readLine(URI hashResource)
-            throws IOException, MalformedURLException {
+    private String readLine(URI hashResource) throws IOException, MalformedURLException {
         return readLines(hashResource.toURL().openStream(), charset).get(0);
     }
 
@@ -146,8 +123,7 @@ public class CheckFileHash implements Callable<CheckFileHash> {
         return sb.toString();
     }
 
-    private byte[] readFile(MessageDigest md, InputStream fis)
-            throws IOException {
+    private byte[] readFile(MessageDigest md, InputStream fis) throws IOException {
         byte[] dataBytes = new byte[1024];
         int nread = 0;
         while ((nread = fis.read(dataBytes)) != -1) {
@@ -158,7 +134,6 @@ public class CheckFileHash implements Callable<CheckFileHash> {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append(FILE, file)
-                .append(HASH_RESOURCE, hashResource).toString();
+        return new ToStringBuilder(this).append(FILE_FIELD, file).append(HASH_RESOURCE_FIELD, hashResource).toString();
     }
 }

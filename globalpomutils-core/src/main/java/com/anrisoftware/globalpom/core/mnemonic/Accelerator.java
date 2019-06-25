@@ -1,5 +1,5 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
+/**
+ * Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,26 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.mnemonic;
 
-/*-
- * #%L
- * Global POM Utilities :: Core
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import static org.apache.commons.lang3.StringUtils.split;
 
 import java.awt.event.KeyEvent;
@@ -46,7 +26,7 @@ import com.google.inject.assistedinject.Assisted;
 
 /**
  * Action accelerator key.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.5
  */
@@ -54,10 +34,13 @@ public class Accelerator {
 
     /**
      * @see AcceleratorFactory#create(String)
+     *
+     * @param string the {@link String}
+     *
+     * @return the {@link Accelerator}
      */
     public static Accelerator valueOf(String string) {
-        return MnemonicModule.getInjector()
-                .getInstance(AcceleratorFactory.class).create(string);
+        return MnemonicModule.getInjector().getInstance(AcceleratorFactory.class).create(string);
     }
 
     private static final String SEP = ",";
@@ -75,6 +58,8 @@ public class Accelerator {
 
     /**
      * @see AcceleratorFactory#create(String)
+     *
+     * @param string the {@link String}
      */
     @Inject
     Accelerator(@Assisted String string) {
@@ -92,24 +77,23 @@ public class Accelerator {
     }
 
     /**
-     * Returns the accelerator key for an action. The accelerator can be just a
-     * key character or the key code name. In addition, the modifiers can be set
-     * as the modifiers names. Examples:
-     * 
+     * Returns the accelerator key for an action. The accelerator can be just a key
+     * character or the key code name. In addition, the modifiers can be set as the
+     * modifiers names. Examples:
+     *
      * <ul>
      * <li>{@code VK_A,ALT_DOWN_MASK,CTRL_DOWN_MASK}</li>
      * <li>{@code a,ALT_DOWN_MASK,CTRL_DOWN_MASK}</li>
      * <li>{@code a,alt_down_mask,ctrl_down_mask}</li>
      * <li>{@code alt shift X}</li>
      * </ul>
-     * 
-     * @return accelerator {@link KeyStroke} or {@code null} if no accelerator
-     *         key was specified.
-     * 
-     * @throws IllegalArgumentException
-     *             if the specified accelerator or the modifier are not a valid
-     *             key code.
-     * 
+     *
+     * @return accelerator {@link KeyStroke} or {@code null} if no accelerator key
+     *         was specified.
+     *
+     * @throws IllegalArgumentException if the specified accelerator or the modifier
+     *                                  are not a valid key code.
+     *
      * @see KeyEvent
      * @see KeyStroke
      */

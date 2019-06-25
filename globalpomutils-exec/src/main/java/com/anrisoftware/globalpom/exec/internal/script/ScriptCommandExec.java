@@ -1,24 +1,19 @@
-package com.anrisoftware.globalpom.exec.internal.script;
-
-/*-
- * #%L
- * Global POM Utilities :: Exec
- * %%
- * Copyright (C) 2014 - 2018 Advanced Natural Research Institute
- * %%
+/**
+ * Copyright © 2014 Erwin Müller (erwin.mueller@anrisoftware.com)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * #L%
  */
+package com.anrisoftware.globalpom.exec.internal.script;
 
 import static com.anrisoftware.globalpom.exec.internal.script.ScriptCommandModule.getScriptCommandExecFactory;
 
@@ -53,10 +48,14 @@ import com.google.inject.assistedinject.Assisted;
  */
 public class ScriptCommandExec implements CommandExec {
 
-    private static final String EXEC = "exec";
+    private static final String EXEC_FIELD = "exec";
 
     /**
      * @see ScriptCommandExecFactory#create(CommandExecFactory)
+     *
+     * @param execFactory the {@link CommandExecFactory}
+     *
+     * @return the {@link CommandExec}
      */
     public static CommandExec createScriptCommandExec(CommandExecFactory execFactory) {
         return getScriptCommandExecFactory().create(execFactory);
@@ -136,7 +135,7 @@ public class ScriptCommandExec implements CommandExec {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append(EXEC, exec).toString();
+        return new ToStringBuilder(this).append(EXEC_FIELD, exec).toString();
     }
 
     private void deleteScriptFile(ProcessTask task) throws IOException {

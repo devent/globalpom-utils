@@ -1,5 +1,5 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
+/**
+ * Copyright © 2014 Erwin Müller (erwin.mueller@anrisoftware.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,27 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.anrisoftware.globalpom.exec.internal.core;
 
-/*-
- * #%L
- * Global POM Utilities :: Exec
- * %%
- * Copyright (C) 2014 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
+package com.anrisoftware.globalpom.exec.internal.core;
 
 import static com.anrisoftware.globalpom.exec.internal.core.DefaultProcessModule.getCommandExecFactory;
 
@@ -72,6 +53,8 @@ public class DefaultCommandExec implements CommandExec {
 
     /**
      * @see CommandExecFactory#create()
+     *
+     * @return the {@link CommandExec}
      */
     public static CommandExec createCommandExec() {
         return getCommandExecFactory().create();
@@ -136,8 +119,8 @@ public class DefaultCommandExec implements CommandExec {
     }
 
     @Override
-    public Future<ProcessTask> exec(CommandLine commandLine,
-            PropertyChangeListener... listeners) throws CommandExecException {
+    public Future<ProcessTask> exec(CommandLine commandLine, PropertyChangeListener... listeners)
+            throws CommandExecException {
         try {
             ProcessTask task = createProcessTask(commandLine, observers);
             return threads.submit(task, setupListener(task, listeners));
@@ -146,8 +129,7 @@ public class DefaultCommandExec implements CommandExec {
         }
     }
 
-    private ProcessTask createProcessTask(CommandLine commandLine,
-            List<Observer> observers) throws IOException {
+    private ProcessTask createProcessTask(CommandLine commandLine, List<Observer> observers) throws IOException {
         DefaultProcessTask task = processTaskFactory.create(commandLine);
         task.setThreads(threads);
         task.addObserver(observers.toArray(new Observer[] {}));
@@ -164,13 +146,11 @@ public class DefaultCommandExec implements CommandExec {
         return task;
     }
 
-    private PropertyChangeListener[] setupListener(ProcessTask task,
-            PropertyChangeListener... l) {
+    private PropertyChangeListener[] setupListener(ProcessTask task, PropertyChangeListener... l) {
         return destroyOnTimeout ? addTimeoutListener(task, l) : l;
     }
 
-    private PropertyChangeListener[] addTimeoutListener(final ProcessTask task,
-            PropertyChangeListener... listeners) {
+    private PropertyChangeListener[] addTimeoutListener(final ProcessTask task, PropertyChangeListener... listeners) {
         return ArrayUtils.add(listeners, new PropertyChangeListener() {
 
             @Override

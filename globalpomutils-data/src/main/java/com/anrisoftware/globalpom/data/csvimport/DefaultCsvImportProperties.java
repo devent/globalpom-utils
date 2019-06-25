@@ -1,5 +1,5 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
+/**
+ * Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,6 @@
  * limitations under the License.
  */
 package com.anrisoftware.globalpom.data.csvimport;
-
-/*-
- * #%L
- * Global POM Utilities :: Data
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
 
 import static com.anrisoftware.globalpom.core.charset.SerializableCharset.decorate;
 
@@ -56,8 +36,7 @@ import com.google.inject.assistedinject.AssistedInject;
  * @since 1.9
  */
 @SuppressWarnings("serial")
-public class DefaultCsvImportProperties implements CsvImportProperties,
-        Serializable {
+public class DefaultCsvImportProperties implements CsvImportProperties, Serializable {
 
     private URI file;
 
@@ -79,6 +58,8 @@ public class DefaultCsvImportProperties implements CsvImportProperties,
 
     /**
      * @see DefaultCsvImportPropertiesFactory#create(CsvImportProperties)
+     *
+     * @param properties the {@link CsvImportProperties}
      */
     @AssistedInject
     public DefaultCsvImportProperties(@Assisted CsvImportProperties properties) {
@@ -109,6 +90,10 @@ public class DefaultCsvImportProperties implements CsvImportProperties,
         this.numCols = 0;
     }
 
+    /**
+     *
+     * @param file the {@link URI} file.
+     */
     public void setFile(URI file) {
         this.file = file;
     }
@@ -121,8 +106,7 @@ public class DefaultCsvImportProperties implements CsvImportProperties,
     /**
      * Sets that the CSV data have a header row that determines the columns.
      *
-     * @param haveHeader
-     *            {@code true} if the data have a header row.
+     * @param haveHeader {@code true} if the data have a header row.
      *
      * @since 2.3
      */
@@ -135,6 +119,10 @@ public class DefaultCsvImportProperties implements CsvImportProperties,
         return haveHeader;
     }
 
+    /**
+     *
+     * @param charset the {@link Charset}
+     */
     public void setCharset(Charset charset) {
         this.charset = decorate(charset);
     }
@@ -144,6 +132,10 @@ public class DefaultCsvImportProperties implements CsvImportProperties,
         return charset.getCharset();
     }
 
+    /**
+     *
+     * @param locale the {@link Locale}
+     */
     public void setLocale(Locale locale) {
         this.locale = locale;
     }
@@ -153,6 +145,10 @@ public class DefaultCsvImportProperties implements CsvImportProperties,
         return locale;
     }
 
+    /**
+     *
+     * @param separator the separator character.
+     */
     public void setSeparator(char separator) {
         this.separator = separator;
     }
@@ -162,6 +158,10 @@ public class DefaultCsvImportProperties implements CsvImportProperties,
         return separator;
     }
 
+    /**
+     *
+     * @param quote the quote character.
+     */
     public void setQuote(char quote) {
         this.quote = quote;
     }
@@ -171,6 +171,10 @@ public class DefaultCsvImportProperties implements CsvImportProperties,
         return quote;
     }
 
+    /**
+     *
+     * @param symbols the {@link String} symbols.
+     */
     public void setEndOfLineSymbols(String symbols) {
         this.endOfLineSymbols = symbols;
     }
@@ -180,6 +184,10 @@ public class DefaultCsvImportProperties implements CsvImportProperties,
         return endOfLineSymbols;
     }
 
+    /**
+     *
+     * @param row the start row.
+     */
     public void setStartRow(int row) {
         this.startRow = row;
     }
@@ -189,6 +197,10 @@ public class DefaultCsvImportProperties implements CsvImportProperties,
         return startRow;
     }
 
+    /**
+     *
+     * @param numCols the number of columns.
+     */
     public void setNumCols(int numCols) {
         this.numCols = numCols;
     }

@@ -1,24 +1,19 @@
-package com.anrisoftware.globalpom.exec.internal.scriptprocess;
-
-/*-
- * #%L
- * Global POM Utilities :: Exec
- * %%
- * Copyright (C) 2014 - 2018 Advanced Natural Research Institute
- * %%
+/**
+ * Copyright © 2014 Erwin Müller (erwin.mueller@anrisoftware.com)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * #L%
  */
+package com.anrisoftware.globalpom.exec.internal.scriptprocess;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -82,20 +77,19 @@ public abstract class AbstractProcessExec implements ScriptExec {
 
     private static final String LOG_KEY = "log";
 
-    @SuppressWarnings("squid:S2068")
-    private static final String PWD_ARG = "pwd";
+    private static final String WORK_DIR_ARG = "pwd";
 
-    private static final String ERR_STRING = "errString";
+    private static final String ERR_STRING_ARG = "errString";
 
-    private static final String OUT_STRING = "outString";
+    private static final String OUT_STRING_ARG = "outString";
 
-    public static final String TIMEOUT = "timeout";
+    public static final String TIMEOUT_ARG_ARG = "timeout";
 
-    public static final String DESTROY_ON_TIMEOUT = "destroyOnTimeout";
+    public static final String DESTROY_ON_TIMEOUT_ARG = "destroyOnTimeout";
 
-    public static final String EXIT_CODES = "exitCodes";
+    public static final String EXIT_CODES_ARG = "exitCodes";
 
-    public static final String EXIT_CODE = "exitCode";
+    public static final String EXIT_CODE_ARG = "exitCode";
 
     private final Map<String, Object> args;
 
@@ -147,14 +141,14 @@ public abstract class AbstractProcessExec implements ScriptExec {
     protected AbstractProcessExec(Threads threads, Map<String, Object> args) {
         this.args = args;
         this.threads = threads;
-        this.exitCode = getArg(EXIT_CODE, args, EXIT_CODE_DEFAULT);
-        this.exitCodes = getArg(EXIT_CODES, args);
+        this.exitCode = getArg(EXIT_CODE_ARG, args, EXIT_CODE_DEFAULT);
+        this.exitCodes = getArg(EXIT_CODES_ARG, args);
         this.checkExitCodes = getArg("checkExitCodes", args, true);
-        this.destroyOnTimeout = getArg(DESTROY_ON_TIMEOUT, args, DESTROY_ON_TIMEOUT_DEFAULT);
-        this.timeout = getArg(TIMEOUT, args, TIMEOUT_DEFAULT);
-        this.outString = getArg(OUT_STRING, args, OUT_STRING_DEFAULT);
-        this.errString = getArg(ERR_STRING, args, ERR_STRING_DEFAULT);
-        this.pwd = getFileArg(PWD_ARG, args, System.getProperty("user.dir"));
+        this.destroyOnTimeout = getArg(DESTROY_ON_TIMEOUT_ARG, args, DESTROY_ON_TIMEOUT_DEFAULT);
+        this.timeout = getArg(TIMEOUT_ARG_ARG, args, TIMEOUT_DEFAULT);
+        this.outString = getArg(OUT_STRING_ARG, args, OUT_STRING_DEFAULT);
+        this.errString = getArg(ERR_STRING_ARG, args, ERR_STRING_DEFAULT);
+        this.pwd = getFileArg(WORK_DIR_ARG, args, System.getProperty("user.dir"));
     }
 
     @SuppressWarnings("unchecked")

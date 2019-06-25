@@ -1,5 +1,5 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
+/**
+ * Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,27 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.anrisoftware.globalpom.math.distribution.api;
 
-/*-
- * #%L
- * Global POM Utilities :: Math
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
+package com.anrisoftware.globalpom.math.distribution.api;
 
 import com.anrisoftware.globalpom.math.distribution.range.Range;
 
@@ -50,7 +31,7 @@ public interface Distribution {
     /**
      * Indicating no index was found.
      *
-     * @see #indexOf(DistributionValue)
+     * @see #indexOf(double)
      */
     static final int NONE = -1;
 
@@ -64,8 +45,7 @@ public interface Distribution {
     /**
      * Adds the value to the distribution.
      *
-     * @param value
-     *            the value to add.
+     * @param value the value to add.
      *
      * @return {@code true} if the value was added to the distribution.
      */
@@ -74,8 +54,7 @@ public interface Distribution {
     /**
      * Returns the distribution index of the specified value.
      *
-     * @param value
-     *            the value.
+     * @param value the value.
      *
      * @return the index.
      */
@@ -84,19 +63,17 @@ public interface Distribution {
     /**
      * Returns the frequency of the specified value.
      *
-     * @param value
-     *            the value.
+     * @param value the value.
      *
-     * @return the frequency of the value in the distribution or 0 if the value
-     *         is not in the distribution.
+     * @return the frequency of the value in the distribution or 0 if the value is
+     *         not in the distribution.
      */
     long countOf(double value);
 
     /**
      * Returns the values of the distribution class with the specified index.
      *
-     * @param index
-     *            the class index.
+     * @param index the class index.
      *
      * @return the {@link TDoubleList} with the values.
      */
@@ -106,8 +83,7 @@ public interface Distribution {
      * Returns the count of values of the distribution class with the specified
      * index.
      *
-     * @param index
-     *            the class index.
+     * @param index the class index.
      *
      * @return the values count.
      */
@@ -116,8 +92,7 @@ public interface Distribution {
     /**
      * Returns the range of the class with the specified index.
      *
-     * @param index
-     *            the class index.
+     * @param index the class index.
      *
      * @return the {@link Range}.
      */

@@ -1,5 +1,5 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
+/**
+ * Copyright © 2014 Erwin Müller (erwin.mueller@anrisoftware.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,27 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.anrisoftware.globalpom.exec.internal.logoutputs;
 
-/*-
- * #%L
- * Global POM Utilities :: Exec
- * %%
- * Copyright (C) 2014 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
+package com.anrisoftware.globalpom.exec.internal.logoutputs;
 
 import static com.anrisoftware.globalpom.exec.internal.logoutputs.LogOutputsModule.getDebugLogCommandOutputFactory;
 import static com.anrisoftware.globalpom.exec.internal.logoutputs.LogOutputsModule.getErrorLogCommandOutputFactory;
@@ -68,34 +49,42 @@ import com.google.inject.assistedinject.Assisted;
 public abstract class AbstractLogCommandOutput implements LogCommandOutput {
 
     /**
-     * @see CommandOutput#create(Logger, CommandLine)
+     *
+     * @param logger      the {@link Logger}
+     * @param commandLine the {@link CommandLine}
+     * @return the {@link CommandOutput}
      */
-    public static CommandOutput createInfoLogCommandOutput(Logger logger,
-            CommandLine commandLine) {
+    public static CommandOutput createInfoLogCommandOutput(Logger logger, CommandLine commandLine) {
         return getInfoLogCommandOutputFactory().create(logger, commandLine);
     }
 
     /**
-     * @see CommandOutput#create(Logger, CommandLine)
+     *
+     * @param logger      the {@link Logger}
+     * @param commandLine the {@link CommandLine}
+     * @return the {@link CommandOutput}
      */
-    public static CommandOutput createDebugLogCommandOutput(Logger logger,
-            CommandLine commandLine) {
+    public static CommandOutput createDebugLogCommandOutput(Logger logger, CommandLine commandLine) {
         return getDebugLogCommandOutputFactory().create(logger, commandLine);
     }
 
     /**
-     * @see CommandOutput#create(Logger, CommandLine)
+     *
+     * @param logger      the {@link Logger}
+     * @param commandLine the {@link CommandLine}
+     * @return the {@link CommandOutput}
      */
-    public static CommandOutput createTraceLogCommandOutput(Logger logger,
-            CommandLine commandLine) {
+    public static CommandOutput createTraceLogCommandOutput(Logger logger, CommandLine commandLine) {
         return getTraceLogCommandOutputFactory().create(logger, commandLine);
     }
 
     /**
-     * @see CommandOutput#create(Logger, CommandLine)
+     *
+     * @param logger      the {@link Logger}
+     * @param commandLine the {@link CommandLine}
+     * @return the {@link CommandOutput}
      */
-    public static CommandOutput createErrorLogCommandOutput(Logger logger,
-            CommandLine commandLine) {
+    public static CommandOutput createErrorLogCommandOutput(Logger logger, CommandLine commandLine) {
         return getErrorLogCommandOutputFactory().create(logger, commandLine);
     }
 
@@ -111,15 +100,13 @@ public abstract class AbstractLogCommandOutput implements LogCommandOutput {
         private InfoLogCommandOutputFactory outputFactory;
 
         @Inject
-        InfoLogCommandOutput(@Assisted Logger logger,
-                @Assisted CommandLine commandLine) {
+        InfoLogCommandOutput(@Assisted Logger logger, @Assisted CommandLine commandLine) {
             super(logger, commandLine);
         }
 
         @Override
         public CommandOutput clone() {
-            CommandOutput commandOutput = outputFactory.create(getLogger(),
-                    getCommandLine());
+            CommandOutput commandOutput = outputFactory.create(getLogger(), getCommandLine());
             commandOutput.setInput(getInput());
             return commandOutput;
         }
@@ -142,15 +129,13 @@ public abstract class AbstractLogCommandOutput implements LogCommandOutput {
         private DebugLogCommandOutputFactory outputFactory;
 
         @Inject
-        DebugLogCommandOutput(@Assisted Logger logger,
-                @Assisted CommandLine commandLine) {
+        DebugLogCommandOutput(@Assisted Logger logger, @Assisted CommandLine commandLine) {
             super(logger, commandLine);
         }
 
         @Override
         public CommandOutput clone() {
-            CommandOutput commandOutput = outputFactory.create(getLogger(),
-                    getCommandLine());
+            CommandOutput commandOutput = outputFactory.create(getLogger(), getCommandLine());
             commandOutput.setInput(getInput());
             return commandOutput;
         }
@@ -173,15 +158,13 @@ public abstract class AbstractLogCommandOutput implements LogCommandOutput {
         private TraceLogCommandOutputFactory outputFactory;
 
         @Inject
-        TraceLogCommandOutput(@Assisted Logger logger,
-                @Assisted CommandLine commandLine) {
+        TraceLogCommandOutput(@Assisted Logger logger, @Assisted CommandLine commandLine) {
             super(logger, commandLine);
         }
 
         @Override
         public CommandOutput clone() {
-            CommandOutput commandOutput = outputFactory.create(getLogger(),
-                    getCommandLine());
+            CommandOutput commandOutput = outputFactory.create(getLogger(), getCommandLine());
             commandOutput.setInput(getInput());
             return commandOutput;
         }
@@ -204,15 +187,13 @@ public abstract class AbstractLogCommandOutput implements LogCommandOutput {
         private ErrorLogCommandOutputFactory outputFactory;
 
         @Inject
-        ErrorLogCommandOutput(@Assisted Logger logger,
-                @Assisted CommandLine commandLine) {
+        ErrorLogCommandOutput(@Assisted Logger logger, @Assisted CommandLine commandLine) {
             super(logger, commandLine);
         }
 
         @Override
         public CommandOutput clone() {
-            CommandOutput commandOutput = outputFactory.create(getLogger(),
-                    getCommandLine());
+            CommandOutput commandOutput = outputFactory.create(getLogger(), getCommandLine());
             commandOutput.setInput(getInput());
             return commandOutput;
         }
@@ -236,11 +217,9 @@ public abstract class AbstractLogCommandOutput implements LogCommandOutput {
     private String message;
 
     /**
-     * @param logger
-     *            the {@link Logger}.
+     * @param logger      the {@link Logger}.
      *
-     * @param commandLine
-     *            the the {@link CommandLine} for the logging message.
+     * @param commandLine the the {@link CommandLine} for the logging message.
      */
     protected AbstractLogCommandOutput(Logger logger, CommandLine commandLine) {
         this.logger = logger;
@@ -297,8 +276,7 @@ public abstract class AbstractLogCommandOutput implements LogCommandOutput {
 
     @Override
     public CommandOutput call() throws Exception {
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(stream), bufferSize);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream), bufferSize);
         for (String s = reader.readLine(); s != null; s = reader.readLine()) {
             logLine(s);
         }
@@ -311,8 +289,7 @@ public abstract class AbstractLogCommandOutput implements LogCommandOutput {
     /**
      * Log the line red from the command output.
      *
-     * @param line
-     *            the {@link String} line.
+     * @param line the {@link String} line.
      */
     protected abstract void logLine(String line);
 

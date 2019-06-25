@@ -1,5 +1,5 @@
-/*
- * Copyright 2016 Erwin Müller <erwin.mueller@deventm.org>
+/**
+ * Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,9 @@ package com.anrisoftware.globalpom.core.byteformat;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,9 +43,9 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /**
  * Installs the computer byte format factory.
- * 
+ *
  * @see ByteFormatFactory
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.10
  */
@@ -53,6 +53,8 @@ public class ByteFormatModule extends AbstractModule {
 
     /**
      * @see #getFactory()
+     *
+     * @return the {@link ByteFormatFactory}.
      */
     public static ByteFormatFactory getByteFormatFactory() {
         return getFactory();
@@ -60,7 +62,7 @@ public class ByteFormatModule extends AbstractModule {
 
     /**
      * Returns the computer byte format factory.
-     * 
+     *
      * @return the {@link ByteFormatFactory}.
      */
     public static ByteFormatFactory getFactory() {
@@ -71,14 +73,13 @@ public class ByteFormatModule extends AbstractModule {
 
         static final Injector injector = createInjector(new ByteFormatModule());
 
-        static final ByteFormatFactory factory = injector
-                .getInstance(ByteFormatFactory.class);
+        static final ByteFormatFactory factory = injector.getInstance(ByteFormatFactory.class);
     }
 
     @Override
     protected void configure() {
-        install(new FactoryModuleBuilder().implement(ByteFormat.class,
-                ByteFormat.class).build(ByteFormatFactory.class));
+        install(new FactoryModuleBuilder().implement(ByteFormat.class, ByteFormat.class)
+                .build(ByteFormatFactory.class));
     }
 
 }
