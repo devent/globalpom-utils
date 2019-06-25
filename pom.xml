@@ -128,7 +128,7 @@
             <dependency>
                 <groupId>com.anrisoftware.globalpom</groupId>
                 <artifactId>globalpom-groovytestutils</artifactId>
-                <version>4.5.1-SNAPSHOT</version>
+                <version>4.5.1</version>
                 <exclusions>
                     <exclusion>
                         <groupId>junit</groupId>
@@ -139,13 +139,13 @@
             <dependency>
                 <groupId>com.anrisoftware.globalpom</groupId>
                 <artifactId>globalpom-log</artifactId>
-                <version>4.5.1-SNAPSHOT</version>
+                <version>4.5.1</version>
                 <type>bundle</type>
             </dependency>
             <dependency>
                 <groupId>com.anrisoftware.propertiesutils</groupId>
                 <artifactId>propertiesutils-contextproperties</artifactId>
-                <version>4.5.1-SNAPSHOT</version>
+                <version>4.5.1</version>
                 <type>bundle</type>
             </dependency>
 
@@ -153,19 +153,19 @@
             <dependency>
                 <groupId>com.anrisoftware.resources</groupId>
                 <artifactId>resources-texts</artifactId>
-                <version>4.5.1-SNAPSHOT</version>
+                <version>4.5.1</version>
                 <type>bundle</type>
             </dependency>
             <dependency>
                 <groupId>com.anrisoftware.resources</groupId>
                 <artifactId>resources-st</artifactId>
-                <version>4.5.1-SNAPSHOT</version>
+                <version>4.5.1</version>
                 <type>bundle</type>
             </dependency>
             <dependency>
                 <groupId>com.anrisoftware.resources</groupId>
                 <artifactId>resources-templates</artifactId>
-                <version>4.5.1-SNAPSHOT</version>
+                <version>4.5.1</version>
                 <type>bundle</type>
             </dependency>
         </dependencies>
