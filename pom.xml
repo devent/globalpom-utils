@@ -29,7 +29,7 @@
     <artifactId>globalpomutils</artifactId>
     <packaging>pom</packaging>
     <name>Global POM Utilities :: Bundle POM</name>
-    <version>4.5.1-SNAPSHOT</version>
+    <version>4.5.1</version>
     <description>Contains the modules of the Global POM Utilities.</description>
     <url>https://javadoc.anrisoftware.com/${project.groupId}/${project.artifactId}/${project.version}/</url>
     <inceptionYear>2013</inceptionYear>
@@ -105,7 +105,7 @@
         <connection>${project.custom.scm.pub}</connection>
         <developerConnection>${project.custom.scm.dev}</developerConnection>
         <url>${project.custom.scm.url}</url>
-        <tag>HEAD</tag>
+        <tag>globalpomutils-4.5.1</tag>
     </scm>
 
     <distributionManagement>
@@ -128,7 +128,7 @@
             <dependency>
                 <groupId>com.anrisoftware.globalpom</groupId>
                 <artifactId>globalpom-groovytestutils</artifactId>
-                <version>4.5.1-SNAPSHOT</version>
+                <version>4.5.1</version>
                 <exclusions>
                     <exclusion>
                         <groupId>junit</groupId>
@@ -139,13 +139,13 @@
             <dependency>
                 <groupId>com.anrisoftware.globalpom</groupId>
                 <artifactId>globalpom-log</artifactId>
-                <version>4.5.1-SNAPSHOT</version>
+                <version>4.5.1</version>
                 <type>bundle</type>
             </dependency>
             <dependency>
                 <groupId>com.anrisoftware.propertiesutils</groupId>
                 <artifactId>propertiesutils-contextproperties</artifactId>
-                <version>4.5.1-SNAPSHOT</version>
+                <version>4.5.1</version>
                 <type>bundle</type>
             </dependency>
 
@@ -153,19 +153,19 @@
             <dependency>
                 <groupId>com.anrisoftware.resources</groupId>
                 <artifactId>resources-texts</artifactId>
-                <version>4.5.1-SNAPSHOT</version>
+                <version>4.5.1</version>
                 <type>bundle</type>
             </dependency>
             <dependency>
                 <groupId>com.anrisoftware.resources</groupId>
                 <artifactId>resources-st</artifactId>
-                <version>4.5.1-SNAPSHOT</version>
+                <version>4.5.1</version>
                 <type>bundle</type>
             </dependency>
             <dependency>
                 <groupId>com.anrisoftware.resources</groupId>
                 <artifactId>resources-templates</artifactId>
-                <version>4.5.1-SNAPSHOT</version>
+                <version>4.5.1</version>
                 <type>bundle</type>
             </dependency>
         </dependencies>
