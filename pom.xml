@@ -15,14 +15,16 @@
     limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>com.anrisoftware.globalpom</groupId>
         <artifactId>globalpom-groovy-osgi</artifactId>
-        <version>4.5.1</version>
+        <version>4.5.2</version>
     </parent>
 
     <groupId>com.anrisoftware.globalpom</groupId>
@@ -47,7 +49,7 @@
     </modules>
 
     <properties>
-    	<!-- javadoc -->
+        <!-- javadoc -->
         <project.custom.home>https://project.anrisoftware.com/projects/globalpom-utils</project.custom.home>
         <project.custom.license.image.url>https://project.anrisoftware.com/attachments/download/217/apache2.0-small.gif</project.custom.license.image.url>
         <project.custom.central.url>https://search.maven.org/artifact/${project.groupId}/${project.artifactId}/${project.version}/pom</project.custom.central.url>
@@ -67,6 +69,8 @@
         <project.custom.bundle.namespace.internal>com.anrisoftware.globalpom.internal</project.custom.bundle.namespace.internal>
         <!-- sonar -->
         <sonar.coverage.jacoco.xmlReportPaths>../globalpomutils-it/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <!-- versions -->
+        <project.custom.globalpom.version>4.5.2</project.custom.globalpom.version>
     </properties>
 
     <developers>
@@ -128,7 +132,7 @@
             <dependency>
                 <groupId>com.anrisoftware.globalpom</groupId>
                 <artifactId>globalpom-groovytestutils</artifactId>
-                <version>4.5.1</version>
+                <version>${project.custom.globalpom.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>junit</groupId>
@@ -139,13 +143,13 @@
             <dependency>
                 <groupId>com.anrisoftware.globalpom</groupId>
                 <artifactId>globalpom-log</artifactId>
-                <version>4.5.1</version>
+                <version>${project.custom.globalpom.version}</version>
                 <type>bundle</type>
             </dependency>
             <dependency>
                 <groupId>com.anrisoftware.propertiesutils</groupId>
                 <artifactId>propertiesutils-contextproperties</artifactId>
-                <version>4.5.1</version>
+                <version>${project.custom.globalpom.version}</version>
                 <type>bundle</type>
             </dependency>
 
@@ -153,19 +157,19 @@
             <dependency>
                 <groupId>com.anrisoftware.resources</groupId>
                 <artifactId>resources-texts</artifactId>
-                <version>4.5.1</version>
+                <version>${project.custom.globalpom.version}</version>
                 <type>bundle</type>
             </dependency>
             <dependency>
                 <groupId>com.anrisoftware.resources</groupId>
                 <artifactId>resources-st</artifactId>
-                <version>4.5.1</version>
+                <version>${project.custom.globalpom.version}</version>
                 <type>bundle</type>
             </dependency>
             <dependency>
                 <groupId>com.anrisoftware.resources</groupId>
                 <artifactId>resources-templates</artifactId>
-                <version>4.5.1</version>
+                <version>${project.custom.globalpom.version}</version>
                 <type>bundle</type>
             </dependency>
         </dependencies>
