@@ -31,7 +31,7 @@
     <artifactId>globalpomutils</artifactId>
     <packaging>pom</packaging>
     <name>Global POM Utilities :: Bundle POM</name>
-    <version>4.5.2-SNAPSHOT</version>
+    <version>4.5.2</version>
     <description>Contains the modules of the Global POM Utilities.</description>
     <url>https://javadoc.anrisoftware.com/${project.groupId}/${project.artifactId}/${project.version}/</url>
     <inceptionYear>2013</inceptionYear>
