@@ -22,12 +22,11 @@
     <parent>
         <groupId>com.anrisoftware.globalpom</groupId>
         <artifactId>globalpomutils</artifactId>
-        <version>4.5.2</version>
+        <version>4.6.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>globalpomutils-initfileparser</artifactId>
     <name>Global POM Utilities :: Init File Parser</name>
-    <packaging>bundle</packaging>
     <description>Parses INI like files.</description>
     <url>https://javadoc.anrisoftware.com/${project.groupId}/${project.artifactId}/${project.version}/</url>
 
@@ -90,7 +89,6 @@
         <dependency>
             <groupId>com.anrisoftware.globalpom</groupId>
             <artifactId>globalpom-log</artifactId>
-            <type>bundle</type>
         </dependency>
         <dependency>
             <groupId>com.google.inject.extensions</groupId>

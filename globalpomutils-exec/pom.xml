@@ -22,12 +22,11 @@
     <parent>
         <groupId>com.anrisoftware.globalpom</groupId>
         <artifactId>globalpomutils</artifactId>
-        <version>4.5.2</version>
+        <version>4.6.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>globalpomutils-exec</artifactId>
     <name>Global POM Utilities :: Exec</name>
-    <packaging>bundle</packaging>
     <description>Command execution helper.</description>
     <inceptionYear>2014</inceptionYear>
     <url>https://javadoc.anrisoftware.com/${project.groupId}/${project.artifactId}/${project.version}/</url>
@@ -69,9 +68,8 @@
             <dependency>
                 <groupId>com.anrisoftware.globalpom</groupId>
                 <artifactId>globalpomutils-threads</artifactId>
-                <version>4.5.2</version>
-                <type>bundle</type>
-            </dependency>
+                <version>4.6.0-SNAPSHOT</version>
+                </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -85,7 +83,6 @@
         <dependency>
             <groupId>com.anrisoftware.resources</groupId>
             <artifactId>resources-st</artifactId>
-            <type>bundle</type>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -108,7 +105,6 @@
         <dependency>
             <groupId>com.anrisoftware.globalpom</groupId>
             <artifactId>globalpom-log</artifactId>
-            <type>bundle</type>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
@@ -131,7 +127,6 @@
         <dependency>
             <groupId>com.anrisoftware.resources</groupId>
             <artifactId>resources-templates</artifactId>
-            <type>bundle</type>
             <optional>true</optional>
         </dependency>
 
@@ -139,7 +134,6 @@
         <dependency>
             <groupId>com.anrisoftware.globalpom</groupId>
             <artifactId>globalpomutils-threads</artifactId>
-            <type>bundle</type>
         </dependency>
     </dependencies>
 

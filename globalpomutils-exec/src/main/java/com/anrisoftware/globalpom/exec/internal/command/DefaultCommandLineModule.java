@@ -25,9 +25,9 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /**
  * Installs the command line factory.
- * 
+ *
  * @see CommandLineFactory
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.11
  */
@@ -35,7 +35,7 @@ public class DefaultCommandLineModule extends AbstractModule {
 
     /**
      * Returns the command line factory.
-     * 
+     *
      * @return the {@link CommandLineFactory}.
      */
     public static CommandLineFactory getCommandLineFactory() {
@@ -43,14 +43,13 @@ public class DefaultCommandLineModule extends AbstractModule {
     }
 
     private static class instance {
-        static final Injector injector = Guice
-                .createInjector(new DefaultCommandLineModule());
+        static final Injector injector = Guice.createInjector(new DefaultCommandLineModule());
     }
 
     @Override
     protected void configure() {
-        install(new FactoryModuleBuilder().implement(CommandLine.class,
-                DefaultCommandLine.class).build(CommandLineFactory.class));
+        install(new FactoryModuleBuilder().implement(CommandLine.class, DefaultCommandLine.class)
+                .build(CommandLineFactory.class));
     }
 
 }

@@ -23,15 +23,13 @@
 
     <parent>
         <groupId>com.anrisoftware.globalpom</groupId>
-        <artifactId>globalpom-groovy-osgi</artifactId>
-        <version>4.5.2</version>
+        <artifactId>globalpom-groovy-gmavenplus</artifactId>
+        <version>4.6.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.anrisoftware.globalpom</groupId>
     <artifactId>globalpomutils</artifactId>
     <packaging>pom</packaging>
     <name>Global POM Utilities :: Bundle POM</name>
-    <version>4.5.2</version>
     <description>Contains the modules of the Global POM Utilities.</description>
     <url>https://javadoc.anrisoftware.com/${project.groupId}/${project.artifactId}/${project.version}/</url>
     <inceptionYear>2013</inceptionYear>
@@ -70,7 +68,7 @@
         <!-- sonar -->
         <sonar.coverage.jacoco.xmlReportPaths>../globalpomutils-it/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         <!-- versions -->
-        <project.custom.globalpom.version>4.5.2</project.custom.globalpom.version>
+        <project.custom.globalpom.version>4.6.0-SNAPSHOT</project.custom.globalpom.version>
     </properties>
 
     <developers>
@@ -78,7 +76,7 @@
             <id>EM</id>
             <name>Erwin Müller</name>
             <organization>Advanced Natural Research Institute</organization>
-            <email>erwin.mueller@deventm.org</email>
+            <email>erwin@muellerpublic.de</email>
             <roles>
                 <role>Owner</role>
                 <role>Developer</role>
@@ -144,13 +142,11 @@
                 <groupId>com.anrisoftware.globalpom</groupId>
                 <artifactId>globalpom-log</artifactId>
                 <version>${project.custom.globalpom.version}</version>
-                <type>bundle</type>
             </dependency>
             <dependency>
                 <groupId>com.anrisoftware.propertiesutils</groupId>
                 <artifactId>propertiesutils-contextproperties</artifactId>
                 <version>${project.custom.globalpom.version}</version>
-                <type>bundle</type>
             </dependency>
 
             <!-- resources -->
@@ -158,19 +154,16 @@
                 <groupId>com.anrisoftware.resources</groupId>
                 <artifactId>resources-texts</artifactId>
                 <version>${project.custom.globalpom.version}</version>
-                <type>bundle</type>
             </dependency>
             <dependency>
                 <groupId>com.anrisoftware.resources</groupId>
                 <artifactId>resources-st</artifactId>
                 <version>${project.custom.globalpom.version}</version>
-                <type>bundle</type>
             </dependency>
             <dependency>
                 <groupId>com.anrisoftware.resources</groupId>
                 <artifactId>resources-templates</artifactId>
                 <version>${project.custom.globalpom.version}</version>
-                <type>bundle</type>
             </dependency>
         </dependencies>
     </dependencyManagement>
