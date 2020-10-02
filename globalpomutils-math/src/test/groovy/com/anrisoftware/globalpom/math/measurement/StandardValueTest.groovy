@@ -17,7 +17,6 @@
 package com.anrisoftware.globalpom.math.measurement
 
 import static com.anrisoftware.globalpom.utils.TestUtils.*
-import static org.apache.commons.math3.util.FastMath.*
 
 import org.junit.jupiter.api.Test
 
@@ -106,17 +105,17 @@ class StandardValueTest extends ValueTestBase {
     void "value of from double"() {
         def testCases = [
             [value: 1230d, dec: 3, unc: Double.NaN, expected: standardValueFactory.create(1230000, 4, 7, -3)],
-            [value: 1030d, dec: 3, unc: Double.NaN, , expected: standardValueFactory.create(1030000, 4, 7, -3)],
-            [value: 123d, dec: 3, unc: Double.NaN, , expected: standardValueFactory.create(123000, 3, 6, -3)],
-            [value: 1d, dec: 3, unc: Double.NaN, , expected: standardValueFactory.create(1000, 1, 4, -3)],
-            [value: 0.123E2d, dec: 3, unc: Double.NaN, , expected: standardValueFactory.create(12300, 2, 5, -3)],
-            [value: 1.23d, dec: 3, unc: Double.NaN, , expected: standardValueFactory.create(1230, 1, 4, -3)],
-            [value: 0.123d, dec: 3, unc: Double.NaN, , expected: standardValueFactory.create(123, 0, 3, -3)],
-            [value: 0.0123d, dec: 3, unc: Double.NaN, , expected: standardValueFactory.create(12, -1, 2, -3)],
-            [value: 0.00123d, dec: 3, unc: Double.NaN, , expected: standardValueFactory.create(1, -2, 1, -3)],
-            [value: 0.123E-2d, dec: 3, unc: Double.NaN, , expected: standardValueFactory.create(1, -2, 1, -3)],
-            [value: 12.123E-2d, dec: 3, unc: Double.NaN, , expected: standardValueFactory.create(121, 0, 3, -3)],
-            [value: 12.0123E-2d, dec: 3, unc: Double.NaN, , expected: standardValueFactory.create(120, 0, 3, -3)],
+            [value: 1030d, dec: 3, unc: Double.NaN, expected: standardValueFactory.create(1030000, 4, 7, -3)],
+            [value: 123d, dec: 3, unc: Double.NaN, expected: standardValueFactory.create(123000, 3, 6, -3)],
+            [value: 1d, dec: 3, unc: Double.NaN, expected: standardValueFactory.create(1000, 1, 4, -3)],
+            [value: 0.123E2d, dec: 3, unc: Double.NaN, expected: standardValueFactory.create(12300, 2, 5, -3)],
+            [value: 1.23d, dec: 3, unc: Double.NaN, expected: standardValueFactory.create(1230, 1, 4, -3)],
+            [value: 0.123d, dec: 3, unc: Double.NaN, expected: standardValueFactory.create(123, 0, 3, -3)],
+            [value: 0.0123d, dec: 3, unc: Double.NaN, expected: standardValueFactory.create(12, -1, 2, -3)],
+            [value: 0.00123d, dec: 3, unc: Double.NaN, expected: standardValueFactory.create(1, -2, 1, -3)],
+            [value: 0.123E-2d, dec: 3, unc: Double.NaN, expected: standardValueFactory.create(1, -2, 1, -3)],
+            [value: 12.123E-2d, dec: 3, unc: Double.NaN, expected: standardValueFactory.create(121, 0, 3, -3)],
+            [value: 12.0123E-2d, dec: 3, unc: Double.NaN, expected: standardValueFactory.create(120, 0, 3, -3)],
         ]
         epsilon = 10**-9
         def oneValue = standardValueFactory.create(1, 1, 1, 0)
