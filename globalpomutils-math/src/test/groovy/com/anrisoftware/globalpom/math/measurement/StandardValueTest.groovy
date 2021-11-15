@@ -1,5 +1,5 @@
-/**
- * Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
+/*
+ * Copyright 2013-2021 Erwin Müller <erwin.mueller@anrisoftware.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.anrisoftware.globalpom.math.measurement
 
 import static com.anrisoftware.globalpom.utils.TestUtils.*
@@ -21,6 +20,7 @@ import static com.anrisoftware.globalpom.utils.TestUtils.*
 import org.junit.jupiter.api.Test
 
 import com.thoughtworks.xstream.XStream
+import com.thoughtworks.xstream.security.AnyTypePermission
 
 import groovy.util.logging.Slf4j
 
@@ -184,6 +184,7 @@ class StandardValueTest extends ValueTestBase {
     @Test
     void "xstream, serialize"() {
         def xstream = new XStream()
+        xstream.addPermission(AnyTypePermission.ANY)
         def value = standardValueFactory.create(123, 4, 3, 1)
         def xml = xstream.toXML value
         StandardValue valueB = standardValueFactory.create xstream.fromXML(xml)

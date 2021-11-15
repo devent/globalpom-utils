@@ -1,5 +1,5 @@
-/**
- * Copyright © 2013 Erwin Müller (erwin.mueller@anrisoftware.com)
+/*
+ * Copyright 2013-2021 Erwin Müller <erwin.mueller@anrisoftware.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 package com.anrisoftware.globalpom.initfileparser.internal;
-
 
 import static java.nio.charset.Charset.defaultCharset;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
@@ -314,7 +313,7 @@ class InitFileParserImpl implements InitFileParser {
             @SuppressWarnings("unchecked")
             List<String> multi = (List<String>) properties.get(property);
             if (multi == null) {
-                multi = new ArrayList<String>();
+                multi = new ArrayList<>();
             }
             return multi;
         }
@@ -348,11 +347,7 @@ class InitFileParserImpl implements InitFileParser {
     }
 
     private LineIterator createLineIterator() throws InitFileParserException {
-        try {
-            return IOUtils.lineIterator(stream, charset);
-        } catch (IOException e) {
-            throw new ReadResourceException(this, e);
-        }
+        return IOUtils.lineIterator(stream, charset);
     }
 
     private InputStream openStream() throws InitFileParserException {
