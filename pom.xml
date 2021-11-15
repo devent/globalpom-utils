@@ -28,7 +28,7 @@
     </parent>
 
     <artifactId>globalpomutils</artifactId>
-    <version>4.6.0-SNAPSHOT</version>
+    <version>4.6.0</version>
     <packaging>pom</packaging>
     <name>Global POM Utilities :: Bundle POM</name>
     <description>Contains the modules of the Global POM Utilities.</description>
@@ -69,7 +69,7 @@
         <!-- sonar -->
         <sonar.coverage.jacoco.xmlReportPaths>../globalpomutils-it/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         <!-- versions -->
-        <project.custom.globalpom.version>4.6.0-SNAPSHOT</project.custom.globalpom.version>
+        <project.custom.globalpom.version>4.6.0</project.custom.globalpom.version>
     </properties>
 
     <developers>
