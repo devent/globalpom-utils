@@ -46,7 +46,7 @@ class DecimalPlacesTest {
             [value: "1E-5", result: 5 ],
         ]
         def sep = new DecimalFormat().decimalFormatSymbols.decimalSeparator
-        def exsep = new DecimalFormat().decimalFormatSymbols.exponentialSeparator
+        def exsep = new DecimalFormat().decimalFormatSymbols.exponentSeparator
         testCases.eachWithIndex { testCase, int k ->
             log.info "{}. case: {}", k, testCase
             int result = MathUtils.decimalPlaces(testCase.value, sep, exsep)

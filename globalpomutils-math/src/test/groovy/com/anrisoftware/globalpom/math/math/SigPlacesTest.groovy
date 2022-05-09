@@ -50,7 +50,7 @@ class SigPlacesTest {
     @Test
     void "significant places"() {
         def sep = new DecimalFormat().decimalFormatSymbols.decimalSeparator
-        def exsep = new DecimalFormat().decimalFormatSymbols.exponentialSeparator
+        def exsep = new DecimalFormat().decimalFormatSymbols.exponentSeparator
         data.each {
             log.info "{}", it.value
             int result = MathUtils.sigPlaces(it.value, sep, exsep)
