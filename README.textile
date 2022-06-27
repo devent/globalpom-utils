@@ -1,4 +1,4 @@
-!https://jenkins.anrisoftware.com/job/globalpom-utils-public/job/master/badge/icon(Build Status)!:https://jenkins.anrisoftware.com/job/globalpom-utils-public/job/master !https://sonar.anrisoftware.com/api/badges/gate?key=com.anrisoftware.globalpom%3Aglobalpomutils(Quality Gate)!:https://sonar.anrisoftware.com/dashboard?id=com.anrisoftware.globalpom%3Aglobalpomutils !https://project.anrisoftware.com/attachments/download/217/apache2.0-small.gif(Apache License, Version 2.0)!:http://www.apache.org/licenses/LICENSE-2.0 © 2016&#45;2019 Erwin Müller
+!https://jenkins.anrisoftware.com/job/com.anrisoftware.globalpom-globalpom-utils/job/main/badge/icon(Build Status)!:https://jenkins.anrisoftware.com/job/globalpom-utils-public/job/master !https://sonarcloud.io/api/project_badges/measure?project=devent_globalpom-utils&metric=bugs(Bugs)!:https://sonarcloud.io/project/overview?id=devent_globalpom-utils !https://project.anrisoftware.com/attachments/download/217/apache2.0-small.gif(Apache License, Version 2.0)!:http://www.apache.org/licenses/LICENSE-2.0 © 2016&#45;2022 Erwin Müller
 
 h1(#description). Description
 
@@ -6,19 +6,19 @@ Contains the modules of the Global POM Utilities.
 
 h1(#links). Links
 
-* "(externalLink)Generated Site":https://javadoc.anrisoftware.com/com.anrisoftware.globalpom/globalpomutils/4.5.1/
-* "(externalLink)Download (Central)":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils/4.5.1/pom
-* "(externalLink)Source code":https://gitea.anrisoftware.com/anrisoftware.com/globalpom-utils.git
+* "(externalLink)Generated Site":https://javadoc.anrisoftware.com/com.anrisoftware.globalpom/globalpomutils/4.6.1/index.html
+* "(externalLink)Download (Central)":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils/4.6.1/pom
+* "(externalLink)Source code":https://gitea.anrisoftware.com/com.anrisoftware.globalpom/globalpom-utils
 * "(externalLink)Source code (Github)":https://github.com/devent/globalpom-utils
 * "(externalLink)Project Home":https://project.anrisoftware.com/projects/globalpom-utils
 * "(externalLink)Project Roadmap":https://project.anrisoftware.com/projects/globalpom-utils/roadmap
 * "(externalLink)Project Issues":https://project.anrisoftware.com/projects/globalpom-utils/issues
 * "(externalLink)Jenkins":https://jenkins.anrisoftware.com/job/globalpom-utils-public
-* "(externalLink)SonarQube":https://sonar.anrisoftware.com/dashboard?id=com.anrisoftware.globalpom%3Aglobalpomutils
+* "(externalLink)SonarQube":https://sonarcloud.io/project/overview?id=devent_globalpom-utils
 
 h1. License
 
-Copyright ©2016 - 2019 Erwin Müller. All rights reserved.
+Copyright ©2016 - 2022 Erwin Müller. All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
