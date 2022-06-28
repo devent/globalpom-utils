@@ -6,8 +6,15 @@ Contains the modules of the Global POM Utilities.
 
 h1(#links). Links
 
-* "(externalLink)Generated Site":https://javadoc.anrisoftware.com/com.anrisoftware.globalpom/globalpomutils/4.6.1/index.html
-* "(externalLink)Download (Central)":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils/4.6.1/pom
+* "(externalLink)Generated Site":https://javadoc.anrisoftware.com/com.anrisoftware.globalpom/globalpomutils/4.6.2/index.html
+* "(externalLink)globalpomutils-core (Central)":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-core/4.6.2/jar
+* "(externalLink)globalpomutils-data (Central)":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-data/4.6.2/jar
+* "(externalLink)globalpomutils-exec (Central)":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-exec/4.6.2/jar
+* "(externalLink)globalpomutils-fileresources (Central)":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-fileresources/4.6.2/jar
+* "(externalLink)globalpomutils-initfileparser (Central)":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-initfileparser/4.6.2/jar
+* "(externalLink)globalpomutils-math (Central)":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-math/4.6.2/jar
+* "(externalLink)globalpomutils-reflection (Central)":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-reflection/4.6.2/jar
+* "(externalLink)globalpomutils-threads (Central)":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-threads/4.6.2/jar
 * "(externalLink)Source code":https://gitea.anrisoftware.com/com.anrisoftware.globalpom/globalpom-utils
 * "(externalLink)Source code (Github)":https://github.com/devent/globalpom-utils
 * "(externalLink)Project Home":https://project.anrisoftware.com/projects/globalpom-utils
