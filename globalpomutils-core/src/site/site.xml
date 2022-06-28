@@ -44,14 +44,14 @@ xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache
         </links>
         <menu name="Overview">
             <item name="Home" href="/index.html" />
-            <item name="globalpomutils-core (Central)" href="https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-core/${project.version}/jar" />
-            <item name="globalpomutils-data (Central)" href="https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-data/${project.version}/jar" />
-            <item name="globalpomutils-exec (Central)" href="https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-exec/${project.version}/jar" />
-            <item name="globalpomutils-fileresources (Central)" href="https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-fileresources/${project.version}/jar" />
-            <item name="globalpomutils-initfileparser (Central)" href="https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-initfileparser/${project.version}/jar" />
-            <item name="globalpomutils-math (Central)" href="https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-math/${project.version}/jar" />
-            <item name="globalpomutils-reflection (Central)" href="https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-reflection/${project.version}/jar" />
-            <item name="globalpomutils-threads (Central)" href="https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-threads/${project.version}/jar" />
+            <item name="core-${project.artifactId} (Central)" href="https://search.maven.org/artifact/com.anrisoftware.globalpom/core/${project.version}/jar" />
+            <item name="data-${project.artifactId} (Central)" href="https://search.maven.org/artifact/com.anrisoftware.globalpom/data/${project.version}/jar" />
+            <item name="exec-${project.artifactId} (Central)" href="https://search.maven.org/artifact/com.anrisoftware.globalpom/exec/${project.version}/jar" />
+            <item name="fileresources-${project.artifactId} (Central)" href="https://search.maven.org/artifact/com.anrisoftware.globalpom/fileresources/${project.version}/jar" />
+            <item name="initfileparser-${project.artifactId} (Central)" href="https://search.maven.org/artifact/com.anrisoftware.globalpom/initfileparser/${project.version}/jar" />
+            <item name="math-${project.artifactId} (Central)" href="https://search.maven.org/artifact/com.anrisoftware.globalpom/math/${project.version}/jar" />
+            <item name="reflection-${project.artifactId} (Central)" href="https://search.maven.org/artifact/com.anrisoftware.globalpom/reflection/${project.version}/jar" />
+            <item name="threads-${project.artifactId} (Central)" href="https://search.maven.org/artifact/com.anrisoftware.globalpom/threads/${project.version}/jar" />
             <item name="Source code" href="${globalpom.custom.scm.repo}" />
             <item name="Source code (Github)" href="https://github.com/devent/${project.artifactId}" />
             <item name="Project Home" href="${project.issueManagement.url}" />
