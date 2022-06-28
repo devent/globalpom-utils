@@ -22,7 +22,7 @@
     <parent>
         <groupId>com.anrisoftware.globalpom</groupId>
         <artifactId>globalpomutils</artifactId>
-        <version>4.6.2-SNAPSHOT</version>
+        <version>4.6.2</version>
     </parent>
 
     <artifactId>globalpomutils-exec</artifactId>
@@ -68,7 +68,7 @@
             <dependency>
                 <groupId>com.anrisoftware.globalpom</groupId>
                 <artifactId>globalpomutils-threads</artifactId>
-                <version>4.6.2-SNAPSHOT</version>
+                <version>4.6.2</version>
                 </dependency>
         </dependencies>
     </dependencyManagement>
