@@ -57,9 +57,9 @@
         <globalpom.custom.scm.pub>scm:git:https://gitea.anrisoftware.com/com.anrisoftware.globalpom/globalpom-utils.git</globalpom.custom.scm.pub>
         <globalpom.custom.scm.dev>scm:git:git@anrisoftware.com:anrisoftware.com/globalpom-utils.git</globalpom.custom.scm.dev>
         <globalpom.custom.scm.url>${globalpom.custom.home}/repository</globalpom.custom.scm.url>
-        <globalpom.custom.jenkins.url>https://jenkins.anrisoftware.com/job/globalpom-utils-public</globalpom.custom.jenkins.url>
-        <globalpom.custom.jenkins.build.badge.master>${globalpom.custom.jenkins.url}/job/master/badge/icon</globalpom.custom.jenkins.build.badge.master>
-        <globalpom.custom.jenkins.build.link.master>${globalpom.custom.jenkins.url}/job/master</globalpom.custom.jenkins.build.link.master>
+        <globalpom.custom.jenkins.url>https://jenkins.anrisoftware.com/job/com.anrisoftware.globalpom-globalpom-utils</globalpom.custom.jenkins.url>
+        <globalpom.custom.jenkins.build.badge.master>${globalpom.custom.jenkins.url}/job/main/badge/icon</globalpom.custom.jenkins.build.badge.master>
+        <globalpom.custom.jenkins.build.link.master>${globalpom.custom.jenkins.url}/job/main</globalpom.custom.jenkins.build.link.master>
         <globalpom.custom.sonarqube.url>https://sonarcloud.io/project/overview?id=devent_globalpom-utils</globalpom.custom.sonarqube.url>
         <globalpom.custom.sonarqube.qualitygate.badge>https://sonarcloud.io/api/project_badges/measure?project=devent_globalpom-utils&amp;metric=alert_status</globalpom.custom.sonarqube.qualitygate.badge>
         <globalpom.custom.sonarqube.qualitygate.link>${globalpom.custom.sonarqube.url}</globalpom.custom.sonarqube.qualitygate.link>
