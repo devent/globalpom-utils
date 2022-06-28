@@ -11,36 +11,36 @@ Contains the modules of the Global POM Utilities.
 Links
 =====
 
--   [[Generated
-    Site](https://javadoc.anrisoftware.com/com.anrisoftware.globalpom/globalpomutils/4.6.2/index.html)]
--   [[globalpomutils-core
-    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-core/4.6.2/jar)]
--   [[globalpomutils-data
-    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-data/4.6.2/jar)]
--   [[globalpomutils-exec
-    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-exec/4.6.2/jar)]
--   [[globalpomutils-fileresources
-    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-fileresources/4.6.2/jar)]
--   [[globalpomutils-initfileparser
-    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-initfileparser/4.6.2/jar)]
--   [[globalpomutils-math
-    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-math/4.6.2/jar)]
--   [[globalpomutils-reflection
-    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-reflection/4.6.2/jar)]
--   [[globalpomutils-threads
-    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-threads/4.6.2/jar)]
--   [[Source
-    code](https://gitea.anrisoftware.com/com.anrisoftware.globalpom/globalpom-utils)]
--   [[Source code
-    (Github)](https://github.com/devent/globalpom-utils)]
--   [[Project
-    Home](https://project.anrisoftware.com/projects/globalpom-utils)]
--   [[Project
-    Roadmap](https://project.anrisoftware.com/projects/globalpom-utils/roadmap)]
--   [[Project
-    Issues](https://project.anrisoftware.com/projects/globalpom-utils/issues)]
--   [[Jenkins](https://jenkins.anrisoftware.com/job/globalpom-utils-public)]
--   [[SonarQube](https://sonarcloud.io/project/overview?id=devent_globalpom-utils)]
+-   [Generated
+    Site](https://javadoc.anrisoftware.com/com.anrisoftware.globalpom/globalpomutils/4.6.2/index.html)
+-   [globalpomutils-core
+    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-core/4.6.2/jar)
+-   [globalpomutils-data
+    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-data/4.6.2/jar)
+-   [globalpomutils-exec
+    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-exec/4.6.2/jar)
+-   [globalpomutils-fileresources
+    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-fileresources/4.6.2/jar)
+-   [globalpomutils-initfileparser
+    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-initfileparser/4.6.2/jar)
+-   [globalpomutils-math
+    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-math/4.6.2/jar)
+-   [globalpomutils-reflection
+    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-reflection/4.6.2/jar)
+-   [globalpomutils-threads
+    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-threads/4.6.2/jar)
+-   [Source
+    code](https://gitea.anrisoftware.com/com.anrisoftware.globalpom/globalpom-utils)
+-   [Source code
+    (Github)](https://github.com/devent/globalpom-utils)
+-   [Project
+    Home](https://project.anrisoftware.com/projects/globalpom-utils)
+-   [Project
+    Roadmap](https://project.anrisoftware.com/projects/globalpom-utils/roadmap)
+-   [Project
+    Issues](https://project.anrisoftware.com/projects/globalpom-utils/issues)
+-   [Jenkins](https://jenkins.anrisoftware.com/job/globalpom-utils-public)
+-   [SonarQube](https://sonarcloud.io/project/overview?id=devent_globalpom-utils)
 
 License
 =======
