@@ -28,7 +28,7 @@
     </parent>
 
     <artifactId>globalpomutils</artifactId>
-    <version>4.6.2</version>
+    <version>4.6.3-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Global POM Utilities :: Bundle POM</name>
     <description>Contains the modules of the Global POM Utilities.</description>
