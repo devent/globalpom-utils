@@ -271,13 +271,11 @@ public class ByteFormat extends Format {
         String[] str = split(string, SEP);
         log.checkString(str, string);
         long value = numberFormat.parse(str[0]).longValue();
-        if (str.length > 1) {
-            if (!str[1].equals(NonSI.BYTE.toString())) {
-                str = split(str[1], BYTE);
-                UnitMultiplier multiplier = parseUnitMultiplier(str[0]);
-                log.checkMultiplier(multiplier, string);
-                value *= multiplier.getValue();
-            }
+        if (str.length > 1 && !str[1].equals(NonSI.BYTE.toString())) {
+            str = split(str[1], BYTE);
+            UnitMultiplier multiplier = parseUnitMultiplier(str[0]);
+            log.checkMultiplier(multiplier, string);
+            value *= multiplier.getValue();
         }
         return value;
     }
