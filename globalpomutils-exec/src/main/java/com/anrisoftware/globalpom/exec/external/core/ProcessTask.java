@@ -20,7 +20,7 @@ import java.util.concurrent.Callable;
 
 /**
  * Executes command task.
- * 
+ *
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 1.11
  */
@@ -34,14 +34,14 @@ public interface ProcessTask extends Callable<ProcessTask> {
 
     /**
      * Returns the command line of the process.
-     * 
+     *
      * @return the {@link CommandLine}.
      */
     CommandLine getCommandLine();
 
     /**
      * Returns the process of the executed command.
-     * 
+     *
      * @return the {@link Process}.
      */
     Process getProcess();
@@ -53,39 +53,54 @@ public interface ProcessTask extends Callable<ProcessTask> {
 
     /**
      * Returns the standard output of the process after the process finished.
-     * 
+     *
      * @return the {@link String} standard output.
      */
     String getOut();
 
     /**
-     * Returns the standard error output of the process after the process
-     * finished.
-     * 
+     * Returns the standard error output of the process after the process finished.
+     *
      * @return the {@link String} standard error output.
      */
     String getErr();
 
     /**
      * Returns the exit value of the process after the process finished.
-     * 
+     *
      * @return the exit value.
      */
     int getExitValue();
 
     /**
+     * Returns if the process should be destroyed on thread interruption.
+     *
+     * @param flag set to <code>true</code> if the process should be destroyed on
+     *             thread interruption.
+     * @since 4.6.3
+     */
+    void setDestroyOnInterrupted(boolean flag);
+
+    /**
+     * Returns if the process should be destroyed on thread interruption.
+     *
+     * @return <code>true</code> if the process should be destroyed on thread
+     *         interruption.
+     * @since 4.6.3
+     */
+    boolean isDestroyOnInterrupted();
+
+    /**
      * Adds the process task observer(s).
-     * 
-     * @param observer
-     *            the {@link Observer}.
+     *
+     * @param observer the {@link Observer}.
      */
     void addObserver(Observer... observer);
 
     /**
      * Removes the process task observer(s).
-     * 
-     * @param observer
-     *            the {@link Observer}.
+     *
+     * @param observer the {@link Observer}.
      */
     void removeObserver(Observer... observer);
 

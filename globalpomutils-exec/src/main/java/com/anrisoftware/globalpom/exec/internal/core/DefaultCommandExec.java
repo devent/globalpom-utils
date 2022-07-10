@@ -78,6 +78,8 @@ public class DefaultCommandExec implements CommandExec {
 
     private boolean destroyOnTimeout;
 
+    private boolean destroyOnInterrupted;
+
     DefaultCommandExec() {
         this.exitCodes = null;
         this.destroyOnTimeout = true;
@@ -115,6 +117,11 @@ public class DefaultCommandExec implements CommandExec {
     }
 
     @Override
+    public void setDestroyOnInterrupted(boolean flag) {
+        this.destroyOnInterrupted = flag;
+    }
+
+    @Override
     public void setObserver(Observer... observer) {
         this.observers.addAll(Arrays.asList(observer));
     }
@@ -134,6 +141,7 @@ public class DefaultCommandExec implements CommandExec {
     private ProcessTask createProcessTask(CommandLine commandLine, List<Observer> observers) throws IOException {
         DefaultProcessTask task = processTaskFactory.create(commandLine);
         task.setThreads(threads);
+        task.setDestroyOnInterrupted(destroyOnInterrupted);
         task.addObserver(observers.toArray(new Observer[] {}));
         if (output != null) {
             task.setCommandOutput(output.clone());

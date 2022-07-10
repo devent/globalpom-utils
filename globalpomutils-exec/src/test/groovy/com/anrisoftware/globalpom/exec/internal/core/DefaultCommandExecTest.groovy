@@ -1,7 +1,10 @@
 package com.anrisoftware.globalpom.exec.internal.core
 
 import static com.anrisoftware.globalpom.utils.TestUtils.*
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
+import java.util.concurrent.CancellationException
 import java.util.concurrent.TimeUnit
 
 import org.junit.jupiter.api.BeforeAll
@@ -48,6 +51,28 @@ class DefaultCommandExecTest {
         commandExec.commandOutput = debugLogCommandOutputFactory.create(log, commandLine)
         def task = commandExec.exec(commandLine)
         task.get(10, TimeUnit.SECONDS)
+    }
+
+    @Test
+    void "start process and cancel the task"() {
+        def commandExec = commandExecFactory.create()
+        commandExec.threads = threads
+        def commandLine = commandLineFactory.create("sleep")
+        commandLine.add("30")
+        commandExec.destroyOnInterrupted = true
+        def task = commandExec.exec(commandLine)
+        def taskThread = Thread.start {
+            Thread.sleep(100)
+            task.cancel(true)
+        }
+        def processTask = null
+        def cancelled = false
+        try {
+            processTask = task.get()
+        } catch (CancellationException e) {
+            cancelled = true
+        }
+        assertThat cancelled, is(true)
     }
 
     static Injector injector
