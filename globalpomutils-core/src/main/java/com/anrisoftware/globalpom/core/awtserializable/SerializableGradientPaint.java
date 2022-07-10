@@ -37,7 +37,7 @@ import java.io.ObjectOutput;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.7
  */
-public final class SerializableGradientPaint implements Externalizable {
+public class SerializableGradientPaint implements Externalizable {
 
     /**
      * Decorates the character set for serialization.
@@ -61,7 +61,7 @@ public final class SerializableGradientPaint implements Externalizable {
         return new SerializableGradientPaint(paint);
     }
 
-    private GradientPaint paint;
+    private transient GradientPaint paint;
 
     /**
      * For serialization.
