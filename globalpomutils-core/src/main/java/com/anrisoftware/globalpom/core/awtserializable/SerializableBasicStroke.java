@@ -191,8 +191,8 @@ public class SerializableBasicStroke implements Externalizable {
         if (haveDash) {
             dash = (float[]) in.readObject();
         }
-        float dash_phase = in.readFloat();
-        this.stroke = new BasicStroke(width, cap, join, miterlimit, dash, dash_phase);
+        float dashPhase = in.readFloat();
+        this.stroke = new BasicStroke(width, cap, join, miterlimit, dash, dashPhase);
     }
 
 }
