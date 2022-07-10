@@ -30,7 +30,7 @@ import java.io.ObjectOutput;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.7
  */
-public final class SerializableBasicStroke implements Externalizable {
+public class SerializableBasicStroke implements Externalizable {
 
     /**
      * Decorates the character set for serialization.
@@ -54,7 +54,7 @@ public final class SerializableBasicStroke implements Externalizable {
         return new SerializableBasicStroke(stroke);
     }
 
-    private BasicStroke stroke;
+    private transient BasicStroke stroke;
 
     /**
      * For serialization.
