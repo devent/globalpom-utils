@@ -28,6 +28,13 @@ import java.util.List;
 public class ToList {
 
     /**
+     * Utility class.
+     */
+    private ToList() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    /**
      * Returns a list based on the specified object.
      *
      * @param obj the {@link Object}.
