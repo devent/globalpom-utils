@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.strings;
 
-
 import java.util.Map;
 
 /**

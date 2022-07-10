@@ -15,26 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.mnemonic;
 
-/*-
- * #%L
- * Global POM Utilities :: Core
- * %%
- * Copyright (C) 2013 - 2018 Advanced Natural Research Institute
- * %%
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * #L%
- */
-
 import static java.lang.reflect.Modifier.isStatic;
 
 import java.awt.event.KeyEvent;
@@ -110,7 +90,7 @@ public class KeyCodeMap {
 
     private Map<String, Integer> getKeyCodes() {
         if (isGarbageCollected(keyCodes)) {
-            keyCodes = new SoftReference<Map<String, Integer>>(findKeys());
+            keyCodes = new SoftReference<>(findKeys());
         }
         return keyCodes.get();
     }
@@ -120,15 +100,14 @@ public class KeyCodeMap {
     }
 
     private Map<String, Integer> findKeys() {
-        Map<String, Integer> map = new HashMap<String, Integer>();
+        Map<String, Integer> map = new HashMap<>();
         for (Field field : KeyEvent.class.getFields()) {
             if (isStatic(field.getModifiers())) {
                 if (field.getName().startsWith("VK_")
                         || field.getName().endsWith("_MASK")) {
                     try {
                         map.put(field.getName(), field.getInt(null));
-                    } catch (IllegalArgumentException e) {
-                    } catch (IllegalAccessException e) {
+                    } catch (IllegalArgumentException | IllegalAccessException e) {
                     }
                 }
             }

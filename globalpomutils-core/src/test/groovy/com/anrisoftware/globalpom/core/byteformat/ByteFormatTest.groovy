@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.byteformat
 
-
 import static com.anrisoftware.globalpom.utils.TestUtils.*
 
 import org.junit.jupiter.api.BeforeAll

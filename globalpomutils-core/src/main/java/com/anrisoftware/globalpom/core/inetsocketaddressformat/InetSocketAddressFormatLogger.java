@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.inetsocketaddressformat;
 
-
 import static com.anrisoftware.globalpom.core.inetsocketaddressformat.InetSocketAddressFormatLogger.m.errormparse;
 import static com.anrisoftware.globalpom.core.inetsocketaddressformat.InetSocketAddressFormatLogger.m.errormparse1;
 import static com.anrisoftware.globalpom.core.inetsocketaddressformat.InetSocketAddressFormatLogger.m.errormsyntax;

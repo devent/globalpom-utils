@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.strings;
 
-
 import static org.apache.commons.lang3.Validate.notNull;
 
 import java.util.Map;

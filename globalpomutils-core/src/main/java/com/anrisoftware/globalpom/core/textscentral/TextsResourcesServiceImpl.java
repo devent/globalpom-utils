@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.textscentral;
 
-
 import static com.google.inject.Guice.createInjector;
 import static com.google.inject.util.Providers.of;
 

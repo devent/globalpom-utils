@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.checkfilehash;
 
-
 import static com.anrisoftware.globalpom.core.checkfilehash.CheckFileHashLogger.m.filemnull;
 import static com.anrisoftware.globalpom.core.checkfilehash.CheckFileHashLogger.m.hashmmatching;
 import static com.anrisoftware.globalpom.core.checkfilehash.CheckFileHashLogger.m.resourcemnull;

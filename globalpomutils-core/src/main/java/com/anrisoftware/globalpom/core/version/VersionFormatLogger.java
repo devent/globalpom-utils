@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.version;
 
-
 import static com.anrisoftware.globalpom.core.version.VersionFormatLogger.m.error_number_format;
 import static com.anrisoftware.globalpom.core.version.VersionFormatLogger.m.error_parse;
 import static com.anrisoftware.globalpom.core.version.VersionFormatLogger.m.error_parse1;

@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.textmatch.match;
 
-
 import static com.google.inject.Guice.createInjector;
 
 import java.io.File;

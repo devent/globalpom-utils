@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.durationformat;
 
-
 import static com.google.inject.Guice.createInjector;
 import static java.lang.Double.parseDouble;
 import static java.lang.Long.parseLong;

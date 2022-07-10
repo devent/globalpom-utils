@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.textmatch.tokentemplate;
 
-
 import java.io.Serializable;
 import java.util.regex.Matcher;
 

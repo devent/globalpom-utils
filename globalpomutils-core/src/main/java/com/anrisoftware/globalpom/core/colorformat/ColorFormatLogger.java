@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.colorformat;
 
-
 import static com.anrisoftware.globalpom.core.colorformat.ColorFormatLogger.m.errormparse;
 import static com.anrisoftware.globalpom.core.colorformat.ColorFormatLogger.m.errormparse1;
 import static java.lang.String.format;

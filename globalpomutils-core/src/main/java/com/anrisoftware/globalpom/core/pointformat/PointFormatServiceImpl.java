@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.pointformat;
 
-
 import static com.google.inject.Guice.createInjector;
 
 import java.text.NumberFormat;

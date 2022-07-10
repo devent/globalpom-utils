@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.textmatch.match;
 
-
 import static com.anrisoftware.globalpom.core.textmatch.match.MatchTextWorkerLogger.m.no_search_text;
 import static com.anrisoftware.globalpom.core.textmatch.match.MatchTextWorkerLogger.m.search_text;
 

@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.durationformat;
 
-
 import static com.anrisoftware.globalpom.core.durationformat.DurationFormatLogger.m.errormparse;
 import static com.anrisoftware.globalpom.core.durationformat.DurationFormatLogger.m.errormparse1;
 import static com.anrisoftware.globalpom.core.durationformat.DurationFormatLogger.m.errormparsemnumber;

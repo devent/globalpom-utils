@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.posixlocale;
 
-
 import static com.google.inject.Guice.createInjector;
 
 import javax.inject.Inject;

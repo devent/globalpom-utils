@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.core.textmatch.tokentemplate;
 
-
 import static com.anrisoftware.globalpom.core.textmatch.tokentemplate.TokensTemplateLogger.m.argument_append;
 import static com.anrisoftware.globalpom.core.textmatch.tokentemplate.TokensTemplateLogger.m.argument_replaced;
 
