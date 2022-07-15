@@ -1,5 +1,5 @@
 [![Build Status](https://jenkins.anrisoftware.com/job/com.anrisoftware.globalpom-globalpom-utils/job/main/badge/icon)](https://jenkins.anrisoftware.com/job/com.anrisoftware.globalpom-globalpom-utils)
-[![Gate](https://sonarcloud.io/api/project_badges/measure?project=devent_globalpom-utilsmetric=alert_status)](https://sonarcloud.io/project/overview?id=devent_globalpom-utils)
+[![Gate](https://sonarcloud.io/api/project_badges/measure?project=devent_globalpom-utils&metric=alert_status)](https://sonarcloud.io/project/overview?id=devent_globalpom-utils)
 [![Apache License, Version 2.0](https://project.anrisoftware.com/attachments/download/217/apache2.0-small.gif)](http://www.apache.org/licenses/LICENSE-2.0)
 © 2013-2022 Erwin Müller
 
@@ -55,6 +55,6 @@ limitations under the License.
     pandoc -t markdown -f textile -o README.md README.textile
 
     [![Build Status](https://jenkins.anrisoftware.com/job/com.anrisoftware.globalpom-globalpom-utils/job/main/badge/icon)](https://jenkins.anrisoftware.com/job/com.anrisoftware.globalpom-globalpom-utils/job/main)
-    [![Gate](https://sonarcloud.io/api/project_badges/measure?project=devent_globalpom-utils%globalpom.custom.sonarqube.qualitygate.badge%metric=alert_status)](https://sonarcloud.io/project/overview?id=devent_globalpom-utils)
+    [![Gate](https://sonarcloud.io/api/project_badges/measure?project=devent_globalpom-utils&metric=alert_status)](https://sonarcloud.io/project/overview?id=devent_globalpom-utils)
     [![Apache License, Version 2.0](https://project.anrisoftware.com/attachments/download/217/apache2.0-small.gif)](http://www.apache.org/licenses/LICENSE-2.0)
     © 2013 - 2022 Erwin Müller

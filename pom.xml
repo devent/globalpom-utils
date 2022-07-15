@@ -61,7 +61,7 @@
         <globalpom.custom.jenkins.build.badge.master>${globalpom.custom.jenkins.url}/job/main/badge/icon</globalpom.custom.jenkins.build.badge.master>
         <globalpom.custom.jenkins.build.link.master>${globalpom.custom.jenkins.url}/job/main</globalpom.custom.jenkins.build.link.master>
         <globalpom.custom.sonarqube.url>https://sonarcloud.io/project/overview?id=devent_globalpom-utils</globalpom.custom.sonarqube.url>
-        <globalpom.custom.sonarqube.qualitygate.badge>https://sonarcloud.io/api/project_badges/measure?project=devent_globalpom-utils&amp;metric=alert_status</globalpom.custom.sonarqube.qualitygate.badge>
+        <globalpom.custom.sonarqube.qualitygate.badge>https://sonarcloud.io/api/project_badges/measure?project=devent_globalpom-utils\&amp;metric=alert_status</globalpom.custom.sonarqube.qualitygate.badge>
         <globalpom.custom.sonarqube.qualitygate.link>${globalpom.custom.sonarqube.url}</globalpom.custom.sonarqube.qualitygate.link>
         <!-- bundle namespace -->
         <globalpom.custom.bundle.namespace>com.anrisoftware.globalpom</globalpom.custom.bundle.namespace>

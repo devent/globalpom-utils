@@ -1,4 +1,4 @@
-!https://jenkins.anrisoftware.com/job/com.anrisoftware.globalpom-globalpom-utils/job/main/badge/icon(Build Status)!:https://jenkins.anrisoftware.com/job/com.anrisoftware.globalpom-globalpom-utils/job/main !https://sonarcloud.io/api/project_badges/measure?project=devent_globalpom-utils%globalpom.custom.sonarqube.qualitygate.badge%metric=alert_status(Gate)!:https://sonarcloud.io/project/overview?id=devent_globalpom-utils !https://project.anrisoftware.com/attachments/download/217/apache2.0-small.gif(Apache License, Version 2.0)!:http://www.apache.org/licenses/LICENSE-2.0 © 2013&#45;2022 Erwin Müller
+!https://jenkins.anrisoftware.com/job/com.anrisoftware.globalpom-globalpom-utils/job/main/badge/icon(Build Status)!:https://jenkins.anrisoftware.com/job/com.anrisoftware.globalpom-globalpom-utils/job/main !https://sonarcloud.io/api/project_badges/measure?project=devent_globalpom-utils&metric=alert_status(Gate)!:https://sonarcloud.io/project/overview?id=devent_globalpom-utils !https://project.anrisoftware.com/attachments/download/217/apache2.0-small.gif(Apache License, Version 2.0)!:http://www.apache.org/licenses/LICENSE-2.0 © 2013&#45;2022 Erwin Müller
 
 h1(#description). Description
 
@@ -46,7 +46,7 @@ pandoc -t markdown -f textile -o README.md README.textile
 
 <pre>
 [![Build Status](https://jenkins.anrisoftware.com/job/com.anrisoftware.globalpom-globalpom-utils/job/main/badge/icon)](https://jenkins.anrisoftware.com/job/com.anrisoftware.globalpom-globalpom-utils/job/main)
-[![Gate](https://sonarcloud.io/api/project_badges/measure?project=devent_globalpom-utils%globalpom.custom.sonarqube.qualitygate.badge%metric=alert_status)](https://sonarcloud.io/project/overview?id=devent_globalpom-utils)
+[![Gate](https://sonarcloud.io/api/project_badges/measure?project=devent_globalpom-utils&metric=alert_status)](https://sonarcloud.io/project/overview?id=devent_globalpom-utils)
 [![Apache License, Version 2.0](https://project.anrisoftware.com/attachments/download/217/apache2.0-small.gif)](http://www.apache.org/licenses/LICENSE-2.0)
 © 2013 - 2022 Erwin Müller
 </pre>
