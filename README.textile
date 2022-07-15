@@ -6,15 +6,15 @@ Contains the modules of the Global POM Utilities.
 
 h1(#links). Links
 
-* "Generated Site":https://javadoc.anrisoftware.com/com.anrisoftware.globalpom/globalpomutils/4.6.3-SNAPSHOT/index.html
-* "globalpomutils-core":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-core/4.6.3-SNAPSHOT/jar
-* "globalpomutils-data":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-data/4.6.3-SNAPSHOT/jar
-* "globalpomutils-exec":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-exec/4.6.3-SNAPSHOT/jar
-* "globalpomutils-fileresources":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-fileresources/4.6.3-SNAPSHOT/jar
-* "globalpomutils-initfileparser":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-initfileparser/4.6.3-SNAPSHOT/jar
-* "globalpomutils-math":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-math/4.6.3-SNAPSHOT/jar
-* "globalpomutils-reflection":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-reflection/4.6.3-SNAPSHOT/jar
-* "globalpomutils-threads":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-threads/4.6.3-SNAPSHOT/jar
+* "Generated Site":https://javadoc.anrisoftware.com/com.anrisoftware.globalpom/globalpomutils/4.6.3/index.html
+* "globalpomutils-core":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-core/4.6.3/jar
+* "globalpomutils-data":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-data/4.6.3/jar
+* "globalpomutils-exec":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-exec/4.6.3/jar
+* "globalpomutils-fileresources":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-fileresources/4.6.3/jar
+* "globalpomutils-initfileparser":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-initfileparser/4.6.3/jar
+* "globalpomutils-math":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-math/4.6.3/jar
+* "globalpomutils-reflection":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-reflection/4.6.3/jar
+* "globalpomutils-threads":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-threads/4.6.3/jar
 * "Source code":https://gitea.anrisoftware.com/com.anrisoftware.globalpom/globalpom-groovy
 * "Source code Github":https://github.com/devent/globalpom-groovy
 * "Project Home":https://project.anrisoftware.com/projects/globalpom-groovy
