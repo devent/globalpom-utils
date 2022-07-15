@@ -1,4 +1,4 @@
-!https://jenkins.anrisoftware.com/job/com.anrisoftware.globalpom-globalpom-utils/job/main/badge/icon(Build Status)!:https://jenkins.anrisoftware.com/job/globalpom-utils-public/job/master !https://sonarcloud.io/api/project_badges/measure?project=devent_globalpom-utils&metric=bugs(Bugs)!:https://sonarcloud.io/project/overview?id=devent_globalpom-utils !https://project.anrisoftware.com/attachments/download/217/apache2.0-small.gif(Apache License, Version 2.0)!:http://www.apache.org/licenses/LICENSE-2.0 © 2016&#45;2022 Erwin Müller
+!https://jenkins.anrisoftware.com/job/com.anrisoftware.globalpom-globalpom-utils/job/main/badge/icon(Build Status)!:https://jenkins.anrisoftware.com/job/com.anrisoftware.globalpom-globalpom-utils/job/main !https://sonarcloud.io/api/project_badges/measure?project=devent_globalpom-utils%globalpom.custom.sonarqube.qualitygate.badge%metric=alert_status(Gate)!:https://sonarcloud.io/project/overview?id=devent_globalpom-utils !https://project.anrisoftware.com/attachments/download/217/apache2.0-small.gif(Apache License, Version 2.0)!:http://www.apache.org/licenses/LICENSE-2.0 © 2013&#45;2022 Erwin Müller
 
 h1(#description). Description
 
@@ -6,26 +6,25 @@ Contains the modules of the Global POM Utilities.
 
 h1(#links). Links
 
-* "(externalLink)Generated Site":https://javadoc.anrisoftware.com/com.anrisoftware.globalpom/globalpomutils/4.6.2/index.html
-* "(externalLink)globalpomutils-core (Central)":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-core/4.6.2/jar
-* "(externalLink)globalpomutils-data (Central)":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-data/4.6.2/jar
-* "(externalLink)globalpomutils-exec (Central)":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-exec/4.6.2/jar
-* "(externalLink)globalpomutils-fileresources (Central)":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-fileresources/4.6.2/jar
-* "(externalLink)globalpomutils-initfileparser (Central)":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-initfileparser/4.6.2/jar
-* "(externalLink)globalpomutils-math (Central)":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-math/4.6.2/jar
-* "(externalLink)globalpomutils-reflection (Central)":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-reflection/4.6.2/jar
-* "(externalLink)globalpomutils-threads (Central)":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-threads/4.6.2/jar
-* "(externalLink)Source code":https://gitea.anrisoftware.com/com.anrisoftware.globalpom/globalpom-utils
-* "(externalLink)Source code (Github)":https://github.com/devent/globalpom-utils
-* "(externalLink)Project Home":https://project.anrisoftware.com/projects/globalpom-utils
-* "(externalLink)Project Roadmap":https://project.anrisoftware.com/projects/globalpom-utils/roadmap
-* "(externalLink)Project Issues":https://project.anrisoftware.com/projects/globalpom-utils/issues
-* "(externalLink)Jenkins":https://jenkins.anrisoftware.com/job/globalpom-utils-public
-* "(externalLink)SonarQube":https://sonarcloud.io/project/overview?id=devent_globalpom-utils
+* "Generated Site":https://javadoc.anrisoftware.com/com.anrisoftware.globalpom/globalpomutils/4.6.3-SNAPSHOT/index.html
+* "globalpomutils-core":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-core/4.6.3-SNAPSHOT/jar
+* "globalpomutils-data":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-data/4.6.3-SNAPSHOT/jar
+* "globalpomutils-exec":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-exec/4.6.3-SNAPSHOT/jar
+* "globalpomutils-fileresources":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-fileresources/4.6.3-SNAPSHOT/jar
+* "globalpomutils-initfileparser":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-initfileparser/4.6.3-SNAPSHOT/jar
+* "globalpomutils-math":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-math/4.6.3-SNAPSHOT/jar
+* "globalpomutils-reflection":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-reflection/4.6.3-SNAPSHOT/jar
+* "globalpomutils-threads":https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-threads/4.6.3-SNAPSHOT/jar
+* "Source code":https://gitea.anrisoftware.com/com.anrisoftware.globalpom/globalpom-groovy
+* "Source code Github":https://github.com/devent/globalpom-groovy
+* "Project Home":https://project.anrisoftware.com/projects/globalpom-groovy
+* "Project Roadmap":https://project.anrisoftware.com/projects/globalpom-groovy/roadmap
+* "Project Issues":https://project.anrisoftware.com/projects/globalpom-groovy/issues
+* "Jenkins":https://jenkins.anrisoftware.com/job/com.anrisoftware.globalpom-globalpom-utils
 
 h1. License
 
-Copyright ©2016 - 2022 Erwin Müller. All rights reserved.
+Copyright ©2013 - 2022 Erwin Müller. All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -42,41 +41,12 @@ limitations under the License.
 h5. Markdown
 
 <pre>
-[![Build Status](https://jenkins.anrisoftware.com/job/com.anrisoftware.globalpom-globalpom-utils/job/main/badge/icon)](https://jenkins.anrisoftware.com/view/com.anrisoftware.globalpom/job/com.anrisoftware.globalpom-globalpom-utils/job/main)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=devent_globalpom-utils&metric=bugs)](https://sonarcloud.io/project/overview?id=devent_globalpom-utils)
-[![Apache License, Version 2.0](https://project.anrisoftware.com/attachments/download/217/apache2.0-small.gif)](http://www.apache.org/licenses/LICENSE-2.0)
-© 2016-2022 Erwin Müller
+pandoc -t markdown -f textile -o README.md README.textile
 </pre>
 
 <pre>
--   [Generated
-    Site](https://javadoc.anrisoftware.com/com.anrisoftware.globalpom/globalpomutils/4.6.2/index.html)
--   [globalpomutils-core
-    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-core/4.6.2/jar)
--   [globalpomutils-data
-    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-data/4.6.2/jar)
--   [globalpomutils-exec
-    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-exec/4.6.2/jar)
--   [globalpomutils-fileresources
-    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-fileresources/4.6.2/jar)
--   [globalpomutils-initfileparser
-    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-initfileparser/4.6.2/jar)
--   [globalpomutils-math
-    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-math/4.6.2/jar)
--   [globalpomutils-reflection
-    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-reflection/4.6.2/jar)
--   [globalpomutils-threads
-    (Central)](https://search.maven.org/artifact/com.anrisoftware.globalpom/globalpomutils-threads/4.6.2/jar)
--   [Source
-    code](https://gitea.anrisoftware.com/com.anrisoftware.globalpom/globalpom-utils)
--   [Source code
-    (Github)](https://github.com/devent/globalpom-utils)
--   [Project
-    Home](https://project.anrisoftware.com/projects/globalpom-utils)
--   [Project
-    Roadmap](https://project.anrisoftware.com/projects/globalpom-utils/roadmap)
--   [Project
-    Issues](https://project.anrisoftware.com/projects/globalpom-utils/issues)
--   [Jenkins](https://jenkins.anrisoftware.com/job/globalpom-utils-public)
--   [SonarQube](https://sonarcloud.io/project/overview?id=devent_globalpom-utils)
+[![Build Status](https://jenkins.anrisoftware.com/job/com.anrisoftware.globalpom-globalpom-utils/job/main/badge/icon)](https://jenkins.anrisoftware.com/job/com.anrisoftware.globalpom-globalpom-utils/job/main)
+[![Gate](https://sonarcloud.io/api/project_badges/measure?project=devent_globalpom-utils%globalpom.custom.sonarqube.qualitygate.badge%metric=alert_status)](https://sonarcloud.io/project/overview?id=devent_globalpom-utils)
+[![Apache License, Version 2.0](https://project.anrisoftware.com/attachments/download/217/apache2.0-small.gif)](http://www.apache.org/licenses/LICENSE-2.0)
+© 2013 - 2022 Erwin Müller
 </pre>
