@@ -1,5 +1,5 @@
 /*
- * Copyright ${project.custom.year} Erwin Müller <erwin.mueller@anrisoftware.com>
+ * Copyright 2013-2022 Erwin Müller <erwin.mueller@anrisoftware.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 package com.anrisoftware.globalpom.core.version;
-
 
 import static com.anrisoftware.globalpom.core.version.VersionFormatLogger.m.error_number_format;
 import static com.anrisoftware.globalpom.core.version.VersionFormatLogger.m.error_parse;

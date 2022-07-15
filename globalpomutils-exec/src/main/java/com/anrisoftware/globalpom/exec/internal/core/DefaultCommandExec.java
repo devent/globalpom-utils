@@ -16,6 +16,8 @@
 package com.anrisoftware.globalpom.exec.internal.core;
 
 import static com.anrisoftware.globalpom.exec.internal.core.DefaultProcessModule.getCommandExecFactory;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.notNullValue;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -39,8 +41,8 @@ import com.anrisoftware.globalpom.exec.external.core.CommandLine;
 import com.anrisoftware.globalpom.exec.external.core.CommandOutput;
 import com.anrisoftware.globalpom.exec.external.core.ExecuteCommandException;
 import com.anrisoftware.globalpom.exec.external.core.ProcessTask;
-import com.anrisoftware.globalpom.threads.external.core.Threads;
 import com.anrisoftware.globalpom.threads.external.core.ListenableFuture.Status;
+import com.anrisoftware.globalpom.threads.external.core.Threads;
 
 /**
  * Executes an external command.
@@ -76,10 +78,12 @@ public class DefaultCommandExec implements CommandExec {
 
     private boolean destroyOnTimeout;
 
+    private boolean destroyOnInterrupted;
+
     DefaultCommandExec() {
         this.exitCodes = null;
         this.destroyOnTimeout = true;
-        this.observers = new ArrayList<Observer>();
+        this.observers = new ArrayList<>();
     }
 
     @Override
@@ -113,6 +117,11 @@ public class DefaultCommandExec implements CommandExec {
     }
 
     @Override
+    public void setDestroyOnInterrupted(boolean flag) {
+        this.destroyOnInterrupted = flag;
+    }
+
+    @Override
     public void setObserver(Observer... observer) {
         this.observers.addAll(Arrays.asList(observer));
     }
@@ -121,6 +130,7 @@ public class DefaultCommandExec implements CommandExec {
     public Future<ProcessTask> exec(CommandLine commandLine, PropertyChangeListener... listeners)
             throws CommandExecException {
         try {
+            assertThat("Threads was not set", threads, notNullValue());
             ProcessTask task = createProcessTask(commandLine, observers);
             return threads.submit(task, setupListener(task, listeners));
         } catch (IOException e) {
@@ -131,6 +141,7 @@ public class DefaultCommandExec implements CommandExec {
     private ProcessTask createProcessTask(CommandLine commandLine, List<Observer> observers) throws IOException {
         DefaultProcessTask task = processTaskFactory.create(commandLine);
         task.setThreads(threads);
+        task.setDestroyOnInterrupted(destroyOnInterrupted);
         task.addObserver(observers.toArray(new Observer[] {}));
         if (output != null) {
             task.setCommandOutput(output.clone());

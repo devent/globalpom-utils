@@ -22,7 +22,7 @@
     <parent>
         <groupId>com.anrisoftware.globalpom</groupId>
         <artifactId>globalpomutils</artifactId>
-        <version>4.6.2</version>
+        <version>4.6.3</version>
     </parent>
 
     <artifactId>globalpomutils-data</artifactId>
@@ -67,7 +67,7 @@
             <dependency>
                 <groupId>com.anrisoftware.globalpom</groupId>
                 <artifactId>globalpomutils-core</artifactId>
-                <version>4.6.2</version>
+                <version>4.6.3</version>
                 </dependency>
         </dependencies>
     </dependencyManagement>

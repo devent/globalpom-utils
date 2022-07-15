@@ -1,5 +1,5 @@
 /*
- * Copyright ${project.custom.year} Erwin Müller <erwin.mueller@anrisoftware.com>
+ * Copyright 2013-2022 Erwin Müller <erwin.mueller@anrisoftware.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -271,13 +271,11 @@ public class ByteFormat extends Format {
         String[] str = split(string, SEP);
         log.checkString(str, string);
         long value = numberFormat.parse(str[0]).longValue();
-        if (str.length > 1) {
-            if (!str[1].equals(NonSI.BYTE.toString())) {
-                str = split(str[1], BYTE);
-                UnitMultiplier multiplier = parseUnitMultiplier(str[0]);
-                log.checkMultiplier(multiplier, string);
-                value *= multiplier.getValue();
-            }
+        if (str.length > 1 && !str[1].equals(NonSI.BYTE.toString())) {
+            str = split(str[1], BYTE);
+            UnitMultiplier multiplier = parseUnitMultiplier(str[0]);
+            log.checkMultiplier(multiplier, string);
+            value *= multiplier.getValue();
         }
         return value;
     }

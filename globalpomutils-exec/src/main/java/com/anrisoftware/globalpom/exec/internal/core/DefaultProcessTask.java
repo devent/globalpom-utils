@@ -15,7 +15,6 @@
  */
 package com.anrisoftware.globalpom.exec.internal.core;
 
-
 import static java.util.Arrays.asList;
 
 import java.io.ByteArrayInputStream;
@@ -87,6 +86,8 @@ class DefaultProcessTask extends Observable implements ProcessTask {
 
     private ByteArrayOutputStream errorStream;
 
+    private boolean destroyOnInterrupted;
+
     @Inject
     DefaultProcessTask(@Assisted CommandLine commandLine) {
         this.commandLine = commandLine;
@@ -120,6 +121,16 @@ class DefaultProcessTask extends Observable implements ProcessTask {
     }
 
     @Override
+    public void setDestroyOnInterrupted(boolean flag) {
+        this.destroyOnInterrupted = flag;
+    }
+
+    @Override
+    public boolean isDestroyOnInterrupted() {
+        return destroyOnInterrupted;
+    }
+
+    @Override
     public ProcessTask call() throws CommandExecException {
         List<String> command = commandLine.getCommand();
         ProcessBuilder builder = new ProcessBuilder(command);
@@ -132,12 +143,20 @@ class DefaultProcessTask extends Observable implements ProcessTask {
         } catch (IOException e) {
             throw new StartCommandException(this, e, commandLine);
         } catch (InterruptedException e) {
+            stopProcessIfInterrupted();
             Thread.currentThread().interrupt();
             throw new CommandInterruptedException(this, e, commandLine);
         } catch (ExecutionException e) {
             throw new StartCommandException(this, e.getCause(), commandLine);
         }
         return this;
+    }
+
+    private void stopProcessIfInterrupted() {
+        if (!isDestroyOnInterrupted()) {
+            return;
+        }
+        destroy();
     }
 
     private void startProcess(ProcessBuilder builder)
@@ -177,7 +196,7 @@ class DefaultProcessTask extends Observable implements ProcessTask {
         input.setOutput(process.getOutputStream());
         output.setInput(process.getInputStream());
         error.setInput(process.getErrorStream());
-        return new ArrayList<Future<?>>(asList(threads.submit(input), threads.submit(output), threads.submit(error)));
+        return new ArrayList<>(asList(threads.submit(input), threads.submit(output), threads.submit(error)));
     }
 
     private boolean checkExitCodes(int ret, int[] exitCodes) {

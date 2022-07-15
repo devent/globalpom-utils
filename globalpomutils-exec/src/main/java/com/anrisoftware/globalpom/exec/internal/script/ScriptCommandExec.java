@@ -123,6 +123,11 @@ public class ScriptCommandExec implements CommandExec {
     }
 
     @Override
+    public void setDestroyOnInterrupted(boolean flag) {
+        exec.setDestroyOnInterrupted(flag);
+    }
+
+    @Override
     public void setObserver(Observer... observer) {
         exec.setObserver(observer);
     }

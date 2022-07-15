@@ -1,5 +1,5 @@
 /*
- * Copyright ${project.custom.year} Erwin Müller <erwin.mueller@anrisoftware.com>
+ * Copyright 2013-2022 Erwin Müller <erwin.mueller@anrisoftware.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ import java.io.ObjectOutput;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.7
  */
-public final class SerializableGradientPaint implements Externalizable {
+public class SerializableGradientPaint implements Externalizable {
 
     /**
      * Decorates the character set for serialization.
@@ -61,7 +61,7 @@ public final class SerializableGradientPaint implements Externalizable {
         return new SerializableGradientPaint(paint);
     }
 
-    private GradientPaint paint;
+    private transient GradientPaint paint;
 
     /**
      * For serialization.

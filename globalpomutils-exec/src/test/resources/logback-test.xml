@@ -7,22 +7,22 @@
 
 	<appender name="MVN_STYLE" class="ch.qos.logback.core.ConsoleAppender">
 		<target>System.err</target>
+        <immediateFlush>false</immediateFlush>
 		<encoder>
 			<pattern>[%-5level] %-4relative [%thread] %logger{15} - %msg %n</pattern>
-			<immediateFlush>false</immediateFlush>
 		</encoder>
 	</appender>
 
 	<appender name="FILE_DAILY"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>${java.io.tmpdir}/${project.name}.log</file>
+        <immediateFlush>true</immediateFlush>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<fileNamePattern>logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
 		<encoder>
 			<pattern>[%-5level] %-4relative [%thread] %logger{15} - %msg %n</pattern>
-			<immediateFlush>true</immediateFlush>
 		</encoder>
 	</appender>
 

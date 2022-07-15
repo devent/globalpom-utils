@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.anrisoftware.globalpom.exec.internal.scriptprocess;
+package com.anrisoftware.globalpom.exec.internal.threads;
 
-import java.net.URL;
+import javax.inject.Singleton;
 
 import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreads;
 import com.anrisoftware.propertiesutils.AbstractContextPropertiesProvider;
@@ -26,13 +26,12 @@ import com.anrisoftware.propertiesutils.AbstractContextPropertiesProvider;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.3
  */
-@SuppressWarnings("serial")
-public class TestThreadsPropertiesProvider extends AbstractContextPropertiesProvider {
+@Singleton
+class TestThreadsPropertiesProvider extends AbstractContextPropertiesProvider {
 
     private static final URL RES = TestThreadsPropertiesProvider.class.getResource("test_threads.properties");
 
     TestThreadsPropertiesProvider() {
         super(PropertiesThreads.class, RES);
     }
-
 }

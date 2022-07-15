@@ -23,6 +23,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 import com.anrisoftware.globalpom.exec.external.scriptprocess.ScriptExecFactory
+import com.anrisoftware.globalpom.exec.internal.threads.TestThreadsPropertiesProvider
 import com.anrisoftware.globalpom.threads.external.core.Threads
 import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreadsFactory
 import com.anrisoftware.globalpom.threads.properties.internal.PropertiesThreadsModule

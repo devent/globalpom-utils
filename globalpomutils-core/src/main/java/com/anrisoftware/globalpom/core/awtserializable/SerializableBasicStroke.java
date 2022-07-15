@@ -1,5 +1,5 @@
 /*
- * Copyright ${project.custom.year} Erwin Müller <erwin.mueller@anrisoftware.com>
+ * Copyright 2013-2022 Erwin Müller <erwin.mueller@anrisoftware.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ import java.io.ObjectOutput;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.7
  */
-public final class SerializableBasicStroke implements Externalizable {
+public class SerializableBasicStroke implements Externalizable {
 
     /**
      * Decorates the character set for serialization.
@@ -54,7 +54,7 @@ public final class SerializableBasicStroke implements Externalizable {
         return new SerializableBasicStroke(stroke);
     }
 
-    private BasicStroke stroke;
+    private transient BasicStroke stroke;
 
     /**
      * For serialization.
@@ -191,8 +191,8 @@ public final class SerializableBasicStroke implements Externalizable {
         if (haveDash) {
             dash = (float[]) in.readObject();
         }
-        float dash_phase = in.readFloat();
-        this.stroke = new BasicStroke(width, cap, join, miterlimit, dash, dash_phase);
+        float dashPhase = in.readFloat();
+        this.stroke = new BasicStroke(width, cap, join, miterlimit, dash, dashPhase);
     }
 
 }

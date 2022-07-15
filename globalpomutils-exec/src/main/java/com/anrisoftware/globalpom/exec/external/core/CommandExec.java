@@ -73,6 +73,15 @@ public interface CommandExec {
     void setDestroyOnTimeout(boolean flag);
 
     /**
+     * Returns if the process should be destroyed on thread interruption.
+     *
+     * @param flag set to <code>true</code> if the process should be destroyed on
+     *             thread interruption.
+     * @since 4.6.3
+     */
+    void setDestroyOnInterrupted(boolean flag);
+
+    /**
      * Sets the additional observer(s) for the command task.
      *
      * @param observer the {@link Observer} observer(s).

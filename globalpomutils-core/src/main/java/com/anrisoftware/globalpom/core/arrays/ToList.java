@@ -1,5 +1,5 @@
 /*
- * Copyright ${project.custom.year} Erwin Müller <erwin.mueller@anrisoftware.com>
+ * Copyright 2013-2022 Erwin Müller <erwin.mueller@anrisoftware.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,13 @@ import java.util.List;
  * @since 1.0
  */
 public class ToList {
+
+    /**
+     * Utility class.
+     */
+    private ToList() {
+        throw new IllegalStateException("Utility class");
+    }
 
     /**
      * Returns a list based on the specified object.
