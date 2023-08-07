@@ -38,7 +38,7 @@ package com.anrisoftware.globalpom.data.dataimport;
 import java.text.Format;
 import java.text.ParseException;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 

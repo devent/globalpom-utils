@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2022 Erwin Müller <erwin.mueller@anrisoftware.com>
+ * Copyright 2013-2023 Erwin Müller <erwin.mueller@anrisoftware.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import javax.measure.Measurable;
 import javax.measure.unit.NonSI;
 

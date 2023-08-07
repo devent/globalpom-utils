@@ -37,8 +37,8 @@ package com.anrisoftware.globalpom.math.constants;
 
 import java.text.ParseException;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import javax.measure.quantity.Velocity;
 
 import com.anrisoftware.globalpom.math.measurement.Measure;

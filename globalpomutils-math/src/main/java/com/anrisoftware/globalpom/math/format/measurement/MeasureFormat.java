@@ -21,7 +21,7 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Locale;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import javax.measure.quantity.Quantity;
 import javax.measure.unit.Unit;
 import javax.measure.unit.UnitFormat;

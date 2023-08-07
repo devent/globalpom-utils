@@ -26,7 +26,7 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Locale;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.anrisoftware.globalpom.math.measurement.Value;
 import com.anrisoftware.globalpom.math.measurement.ValueFactory;

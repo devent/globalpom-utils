@@ -20,7 +20,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.zip.GZIPOutputStream;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.anrisoftware.globalpom.fileresourcemanager.FileResourceException;
 import com.anrisoftware.globalpom.fileresourcemanager.Resource;

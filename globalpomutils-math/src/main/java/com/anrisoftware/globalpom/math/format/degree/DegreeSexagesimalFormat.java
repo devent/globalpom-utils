@@ -33,7 +33,7 @@ import java.text.ParsePosition;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import javax.measure.quantity.Angle;
 
 import org.apache.commons.lang3.StringUtils;

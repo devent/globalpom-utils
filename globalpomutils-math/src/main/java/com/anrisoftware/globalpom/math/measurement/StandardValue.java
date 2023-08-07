@@ -42,7 +42,7 @@ import static com.anrisoftware.globalpom.math.measurement.ValueFactory.SIGNIFICA
 
 import java.math.BigInteger;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;

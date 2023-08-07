@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.notNullValue;
 
 import java.util.concurrent.ThreadFactory;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import com.anrisoftware.globalpom.log.AbstractLogger;
 import com.anrisoftware.globalpom.threads.external.core.ThreadingPolicy;

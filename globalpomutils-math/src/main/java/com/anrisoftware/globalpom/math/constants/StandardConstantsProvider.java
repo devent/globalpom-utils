@@ -35,8 +35,8 @@ package com.anrisoftware.globalpom.math.constants;
  * #L%
  */
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 
 import com.anrisoftware.globalpom.math.format.measurement.MeasureFormat;
 import com.anrisoftware.globalpom.math.format.measurement.MeasureFormatFactory;

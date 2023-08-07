@@ -17,7 +17,7 @@ package com.anrisoftware.globalpom.initfileparser.internal
 
 import static com.anrisoftware.globalpom.utils.TestUtils.*
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

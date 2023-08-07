@@ -35,7 +35,7 @@ package com.anrisoftware.globalpom.math.distribution.linear;
  * #L%
  */
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.anrisoftware.globalpom.math.distribution.core.AbstractDistribution;
 import com.anrisoftware.globalpom.math.distribution.range.DistributionRange;

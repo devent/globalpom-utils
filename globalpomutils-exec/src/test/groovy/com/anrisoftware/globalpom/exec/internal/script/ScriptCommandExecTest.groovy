@@ -22,7 +22,7 @@ import static com.anrisoftware.globalpom.utils.TestUtils.*
 
 import java.util.concurrent.Future
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach

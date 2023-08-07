@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2022 Erwin Müller <erwin.mueller@anrisoftware.com>
+ * Copyright 2013-2023 Erwin Müller <erwin.mueller@anrisoftware.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.regex.Pattern;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;

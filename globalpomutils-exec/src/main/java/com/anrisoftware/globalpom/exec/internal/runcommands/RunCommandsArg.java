@@ -21,7 +21,7 @@ import static org.apache.commons.lang3.Validate.isInstanceOf;
 
 import java.util.Map;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.anrisoftware.globalpom.exec.external.runcommands.RunCommandsFactory;
 

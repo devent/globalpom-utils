@@ -22,7 +22,7 @@ import static com.anrisoftware.globalpom.exec.internal.scriptprocess.ScriptExecL
 
 import java.util.Map;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.anrisoftware.globalpom.exec.external.core.ProcessTask;
 import com.anrisoftware.globalpom.exec.internal.runcommands.RunCommands;

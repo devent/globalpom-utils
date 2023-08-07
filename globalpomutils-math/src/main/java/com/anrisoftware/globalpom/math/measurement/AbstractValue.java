@@ -47,7 +47,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.ParsePosition;
 import java.util.Locale;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;

@@ -20,7 +20,7 @@ import static org.apache.commons.lang3.Validate.notNull;
 import java.io.File;
 import java.util.Properties;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.anrisoftware.globalpom.projects.appexceptions.AppException;
 import com.anrisoftware.globalpom.projects.appresources.AppResourcesLoader.SetupDefaults;

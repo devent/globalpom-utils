@@ -19,7 +19,7 @@ import static com.anrisoftware.globalpom.projects.appresources.AppProperty.SELEC
 
 import java.net.URI;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.anrisoftware.globalpom.projects.appresources.AbstractAppResources;
 import com.anrisoftware.globalpom.projects.appresources.AppProjects;

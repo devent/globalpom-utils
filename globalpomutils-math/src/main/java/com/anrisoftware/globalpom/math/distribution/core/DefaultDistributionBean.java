@@ -37,7 +37,7 @@ package com.anrisoftware.globalpom.math.distribution.core;
 
 import gnu.trove.list.TDoubleList;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.anrisoftware.globalpom.math.distribution.api.Distribution;
 import com.anrisoftware.globalpom.math.distribution.api.DistributionBean;

@@ -20,7 +20,7 @@ import java.io.ObjectInputStream;
 import java.net.URI;
 import java.util.zip.GZIPInputStream;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 /**
  * Loads the prospection project from the specified resource.

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2022 Erwin Müller <erwin.mueller@anrisoftware.com>
+ * Copyright 2013-2023 Erwin Müller <erwin.mueller@anrisoftware.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ import static org.apache.commons.lang3.StringUtils.split;
 
 import java.awt.event.KeyEvent;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import javax.swing.KeyStroke;
 
 import com.google.inject.assistedinject.Assisted;

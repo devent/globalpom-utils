@@ -18,7 +18,7 @@ package com.anrisoftware.globalpom.initfileparser.internal;
 import java.io.Serializable;
 import java.util.Properties;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 

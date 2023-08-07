@@ -37,7 +37,7 @@ package com.anrisoftware.globalpom.data.spreadsheetimport;
 
 import java.util.List;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import javax.swing.event.TableModelListener;
 
 import com.anrisoftware.globalpom.data.data.Data;

@@ -19,7 +19,7 @@ package com.anrisoftware.globalpom.math.distribution.core;
 import static com.anrisoftware.globalpom.math.distribution.core.AbstractDistributionLogger.m.bins_less;
 import static org.apache.commons.lang3.Validate.isTrue;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import com.anrisoftware.globalpom.log.AbstractLogger;
 

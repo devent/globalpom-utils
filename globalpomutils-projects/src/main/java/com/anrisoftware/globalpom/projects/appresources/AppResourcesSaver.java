@@ -18,7 +18,7 @@ package com.anrisoftware.globalpom.projects.appresources;
 import java.io.File;
 import java.util.concurrent.Callable;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.anrisoftware.globalpom.fileresourcemanager.ResourceSaver;
 import com.anrisoftware.globalpom.fileresourcemanager.ResourceSaverFactory;

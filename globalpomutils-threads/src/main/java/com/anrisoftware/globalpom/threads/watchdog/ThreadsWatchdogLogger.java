@@ -37,7 +37,7 @@ package com.anrisoftware.globalpom.threads.watchdog;
 
 import java.util.concurrent.Future;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import com.anrisoftware.globalpom.log.AbstractLogger;
 import com.anrisoftware.globalpom.threads.external.listenablefuture.DefaultListenableFuture;

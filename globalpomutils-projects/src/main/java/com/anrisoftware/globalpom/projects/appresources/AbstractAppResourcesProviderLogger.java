@@ -19,7 +19,7 @@ import static java.util.Arrays.asList;
 
 import java.util.Collection;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import com.anrisoftware.globalpom.log.AbstractLogger;
 import com.google.inject.CreationException;

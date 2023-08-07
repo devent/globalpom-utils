@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.apache.commons.transaction.file.FileResourceManager;
 import org.apache.commons.transaction.util.LoggerFacade;

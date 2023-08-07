@@ -19,7 +19,7 @@ package com.anrisoftware.globalpom.data.csvimport;
 import static com.anrisoftware.globalpom.data.csvimport.MatrixDataCsvImportLogger.m.imported_data_debug;
 import static com.anrisoftware.globalpom.data.csvimport.MatrixDataCsvImportLogger.m.imported_data_trace;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import com.anrisoftware.globalpom.log.AbstractLogger;
 

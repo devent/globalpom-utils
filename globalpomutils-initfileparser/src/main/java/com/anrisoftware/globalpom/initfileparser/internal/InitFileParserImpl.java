@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Properties;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;

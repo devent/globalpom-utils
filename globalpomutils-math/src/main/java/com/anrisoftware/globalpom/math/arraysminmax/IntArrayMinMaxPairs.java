@@ -18,7 +18,7 @@ package com.anrisoftware.globalpom.math.arraysminmax;
 import static com.anrisoftware.globalpom.math.arraysminmax.ArraysMinMaxModule.getIntArrayMinMaxPairsFactory;
 import static org.apache.commons.lang3.Validate.isTrue;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.google.inject.assistedinject.Assisted;
 

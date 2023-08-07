@@ -37,7 +37,7 @@ package com.anrisoftware.globalpom.reflection.annotationclass;
 
 import static org.apache.commons.lang3.Validate.notBlank;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import com.anrisoftware.globalpom.log.AbstractLogger;
 

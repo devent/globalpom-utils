@@ -23,7 +23,7 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.concurrent.Callable;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import javax.inject.Provider;
 
 import com.anrisoftware.globalpom.projects.appexceptions.AppException;

@@ -15,8 +15,6 @@
  */
 package com.anrisoftware.globalpom.exec.internal.threads;
 
-import javax.inject.Singleton;
-
 import com.anrisoftware.globalpom.threads.properties.external.PropertiesThreads;
 import com.anrisoftware.propertiesutils.AbstractContextPropertiesProvider;
 
@@ -26,7 +24,7 @@ import com.anrisoftware.propertiesutils.AbstractContextPropertiesProvider;
  * @author Erwin Mueller, erwin.mueller@deventm.org
  * @since 2.3
  */
-@Singleton
+@jakarta.inject.Singleton
 class TestThreadsPropertiesProvider extends AbstractContextPropertiesProvider {
 
     private static final URL RES = TestThreadsPropertiesProvider.class.getResource("test_threads.properties");

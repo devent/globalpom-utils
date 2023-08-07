@@ -37,7 +37,7 @@ package com.anrisoftware.globalpom.math.constants;
 
 import java.text.ParseException;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.anrisoftware.globalpom.math.format.measurement.MeasureFormat;
 import com.anrisoftware.globalpom.math.measurement.Measure;

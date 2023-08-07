@@ -19,7 +19,7 @@ package com.anrisoftware.globalpom.data.spreadsheetimport;
 import static com.anrisoftware.globalpom.data.spreadsheetimport.OpenDocumentImporterLogger.m.column_for_name_null;
 import static org.apache.commons.lang3.Validate.notNull;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import com.anrisoftware.globalpom.data.dataimport.Column;
 import com.anrisoftware.globalpom.log.AbstractLogger;

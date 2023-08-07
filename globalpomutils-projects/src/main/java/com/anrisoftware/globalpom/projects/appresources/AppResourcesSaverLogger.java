@@ -19,7 +19,7 @@ import static com.anrisoftware.globalpom.projects.appresources.AppResourcesSaver
 
 import java.io.File;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import com.anrisoftware.globalpom.log.AbstractLogger;
 

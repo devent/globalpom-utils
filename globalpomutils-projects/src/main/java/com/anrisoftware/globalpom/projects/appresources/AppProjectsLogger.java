@@ -18,7 +18,7 @@ package com.anrisoftware.globalpom.projects.appresources;
 import static com.anrisoftware.globalpom.projects.appresources.AppProjectsLogger._.project_added;
 import static com.anrisoftware.globalpom.projects.appresources.AppProjectsLogger._.project_removed;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import com.anrisoftware.globalpom.log.AbstractLogger;
 import com.anrisoftware.globalpom.projects.appproject.Project;

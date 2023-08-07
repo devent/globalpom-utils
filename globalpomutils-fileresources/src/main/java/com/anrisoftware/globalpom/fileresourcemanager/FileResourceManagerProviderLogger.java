@@ -37,7 +37,7 @@ package com.anrisoftware.globalpom.fileresourcemanager;
 
 import java.io.IOException;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import com.anrisoftware.globalpom.log.AbstractLogger;
 

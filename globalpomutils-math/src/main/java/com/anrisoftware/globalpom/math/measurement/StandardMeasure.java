@@ -37,7 +37,7 @@ package com.anrisoftware.globalpom.math.measurement;
 
 import java.io.Serializable;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import javax.measure.quantity.Quantity;
 import javax.measure.unit.Unit;
 

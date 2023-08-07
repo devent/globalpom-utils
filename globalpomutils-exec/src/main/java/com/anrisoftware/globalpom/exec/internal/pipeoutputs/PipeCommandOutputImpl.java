@@ -20,7 +20,7 @@ import static com.anrisoftware.globalpom.exec.internal.pipeoutputs.PipeOutputsMo
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 

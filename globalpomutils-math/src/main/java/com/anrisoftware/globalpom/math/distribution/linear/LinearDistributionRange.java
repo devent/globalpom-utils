@@ -40,7 +40,7 @@ import static org.apache.commons.math3.util.FastMath.abs;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.anrisoftware.globalpom.math.distribution.range.DefaultRange;
 import com.anrisoftware.globalpom.math.distribution.range.DistributionRange;

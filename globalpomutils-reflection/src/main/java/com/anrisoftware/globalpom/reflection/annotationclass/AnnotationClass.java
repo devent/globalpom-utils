@@ -21,7 +21,7 @@ import java.beans.PropertyVetoException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AccessibleObject;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.apache.commons.lang3.builder.Builder;
 

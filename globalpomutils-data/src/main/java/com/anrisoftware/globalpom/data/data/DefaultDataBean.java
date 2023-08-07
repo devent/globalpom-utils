@@ -43,7 +43,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.ejml.data.MatrixIterator;
 import org.ejml.data.ReshapeMatrix64F;

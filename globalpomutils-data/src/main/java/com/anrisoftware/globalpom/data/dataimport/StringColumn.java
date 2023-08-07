@@ -37,7 +37,7 @@ package com.anrisoftware.globalpom.data.dataimport;
 
 import java.text.ParseException;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import com.google.inject.assistedinject.Assisted;
 

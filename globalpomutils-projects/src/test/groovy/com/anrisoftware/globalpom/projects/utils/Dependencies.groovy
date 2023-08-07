@@ -17,7 +17,7 @@ package com.anrisoftware.globalpom.projects.utils
 
 import groovy.transform.CompileStatic
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 import com.anrisoftware.globalpom.fileresourcemanager.FileResourceManagerModule
 import com.anrisoftware.globalpom.projects.appproject.AppProjectModule

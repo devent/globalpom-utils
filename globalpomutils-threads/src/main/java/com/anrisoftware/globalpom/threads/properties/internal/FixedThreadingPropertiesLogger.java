@@ -17,7 +17,7 @@ package com.anrisoftware.globalpom.threads.properties.internal;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import com.anrisoftware.globalpom.log.AbstractLogger;
 
