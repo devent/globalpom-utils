@@ -1,5 +1,5 @@
 /*
- * Copyright ${project.custom.year} Erwin Müller <erwin.mueller@anrisoftware.com>
+ * Copyright 2013-2025 Erwin Müller <erwin.mueller@anrisoftware.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 package com.anrisoftware.globalpom.math.format.degree;
+
+import java.text.NumberFormat;
 
 /*-
  * #%L
@@ -53,10 +55,17 @@ public interface DegreeSexagesimalFormatFactory {
 	/**
 	 * Creates angular degree format.
 	 * 
-	 * @param decimal
-	 *            the least significant decimal.
-	 * 
+	 * @param decimal the least significant decimal.
 	 * @return the {@link DegreeSexagesimalFormat}.
 	 */
 	DegreeSexagesimalFormat create(int decimal);
+
+	/**
+	 * Creates angular degree format.
+	 * 
+	 * @param decimal the least significant decimal.
+	 * @param format  the {@link NumberFormat}.
+	 * @return the {@link DegreeSexagesimalFormat}.
+	 */
+	DegreeSexagesimalFormat create(int decimal, NumberFormat format);
 }

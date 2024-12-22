@@ -1,5 +1,5 @@
 /*
- * Copyright ${project.custom.year} Erwin Müller <erwin.mueller@anrisoftware.com>
+ * Copyright 2013-2025 Erwin Müller <erwin.mueller@anrisoftware.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 package com.anrisoftware.globalpom.math.math
-
-import java.text.DecimalFormat
 
 import org.junit.jupiter.api.Test
 
@@ -32,25 +30,25 @@ import groovy.util.logging.Slf4j
 @Slf4j
 class DecimalPlacesTest {
 
-    @Test
-    void "decimal places"() {
-        def testCases = [
-            [value: "0", result: 0 ],
-            [value: "-5.2", result: 1 ],
-            [value: "5.2", result: 1 ],
-            [value: "-1.47956", result: 5 ],
-            [value: "1.47672", result: 5 ],
-            [value: "0.1E5", result: 4 ],
-            [value: "0.1E-5", result: 6 ],
-            [value: "1E5", result: 5 ],
-            [value: "1E-5", result: 5 ],
-        ]
-        def sep = new DecimalFormat().decimalFormatSymbols.decimalSeparator
-        def exsep = new DecimalFormat().decimalFormatSymbols.exponentSeparator
-        testCases.eachWithIndex { testCase, int k ->
-            log.info "{}. case: {}", k, testCase
-            int result = MathUtils.decimalPlaces(testCase.value, sep, exsep)
-            assert result == testCase.result
-        }
-    }
+	@Test
+	void "decimal places"() {
+		def testCases = [
+			[value: "0", result: 0 ],
+			[value: "-5.2", result: 1 ],
+			[value: "5.2", result: 1 ],
+			[value: "-1.47956", result: 5 ],
+			[value: "1.47672", result: 5 ],
+			[value: "0.1E5", result: 4 ],
+			[value: "0.1E-5", result: 6 ],
+			[value: "1E5", result: 5 ],
+			[value: "1E-5", result: 5 ],
+		]
+		char sep = '.'
+		def exsep = 'E'
+		testCases.eachWithIndex { testCase, int k ->
+			log.info "{}. case: {}", k, testCase
+			int result = MathUtils.decimalPlaces(testCase.value, sep, exsep)
+			assert result == testCase.result
+		}
+	}
 }

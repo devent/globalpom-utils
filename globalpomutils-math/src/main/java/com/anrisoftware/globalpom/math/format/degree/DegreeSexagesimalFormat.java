@@ -1,5 +1,5 @@
 /*
- * Copyright ${project.custom.year} Erwin Müller <erwin.mueller@anrisoftware.com>
+ * Copyright 2013-2025 Erwin Müller <erwin.mueller@anrisoftware.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,6 @@ import java.text.ParsePosition;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import jakarta.inject.Inject;
 import javax.measure.quantity.Angle;
 
 import org.apache.commons.lang3.StringUtils;
@@ -42,6 +41,8 @@ import org.jscience.physics.amount.Amount;
 
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+
+import jakarta.inject.Inject;
 
 /**
  * Parses angle degree sexagesimal.
@@ -60,7 +61,6 @@ public class DegreeSexagesimalFormat extends Format {
 
     /**
      * @see #create()
-     *
      * @return {@link DegreeSexagesimalFormat}
      */
     public static DegreeSexagesimalFormat createDegreeSexagesimalFormat() {
@@ -69,7 +69,6 @@ public class DegreeSexagesimalFormat extends Format {
 
     /**
      * @see #create(int)
-     *
      * @return {@link DegreeSexagesimalFormat}
      */
     public static DegreeSexagesimalFormat create() {
@@ -80,12 +79,22 @@ public class DegreeSexagesimalFormat extends Format {
      * Create the sexagesimal degree format.
      *
      * @param decimal the decimal.
-     *
      * @return the {@link DegreeSexagesimalFormat}.
      */
     public static DegreeSexagesimalFormat create(int decimal) {
         return InjectorInstance.factory.create(decimal);
     }
+
+	/**
+	 * Create the sexagesimal degree format.
+	 *
+	 * @param decimal the decimal.
+	 * @param format  the {@link NumberFormat}.
+	 * @return the {@link DegreeSexagesimalFormat}.
+	 */
+	public static DegreeSexagesimalFormat create(int decimal, NumberFormat format) {
+		return InjectorInstance.factory.create(decimal, format);
+	}
 
     private static class InjectorInstance {
         static final DegreeSexagesimalFormatFactory factory = createInjector(new DegreeFormatModule())
@@ -118,6 +127,8 @@ public class DegreeSexagesimalFormat extends Format {
 
     private final double epsilon;
 
+	private final NumberFormat format;
+
     /**
      * @see DegreeSexagesimalFormatFactory#create()
      */
@@ -131,15 +142,24 @@ public class DegreeSexagesimalFormat extends Format {
      */
     @AssistedInject
     DegreeSexagesimalFormat(@Assisted int decimal) {
-        this.decimal = decimal;
-        this.epsilon = FastMath.pow(10, -(decimal + 1));
+		this(decimal, DecimalFormat.getNumberInstance());
     }
 
     /**
-     * Formats the specified degree sexagesimal.
-     *
-     * @param obj the {@link Amount}.
-     */
+	 * @see DegreeSexagesimalFormatFactory#create(int, NumberFormat)
+	 */
+	@AssistedInject
+	DegreeSexagesimalFormat(@Assisted int decimal, @Assisted NumberFormat format) {
+		this.decimal = decimal;
+		this.epsilon = FastMath.pow(10, -(decimal + 1));
+		this.format = format;
+	}
+
+	/**
+	 * Formats the specified degree sexagesimal.
+	 *
+	 * @param obj the {@link Amount}.
+	 */
     @SuppressWarnings("unchecked")
     @Override
     public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos) {
@@ -153,7 +173,6 @@ public class DegreeSexagesimalFormat extends Format {
     }
 
     private void formatFormat(StringBuffer buff, double value) {
-        NumberFormat format = DecimalFormat.getNumberInstance();
         double degree = (long) value;
         double dmin = abs((value - degree) / MIN);
         double min = roundToDecimal((long) dmin, decimal);

@@ -1,5 +1,5 @@
 /*
- * Copyright ${project.custom.year} Erwin Müller <erwin.mueller@anrisoftware.com>
+ * Copyright 2013-2025 Erwin Müller <erwin.mueller@anrisoftware.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,6 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 
-import jakarta.inject.Inject;
-
 import org.apache.commons.lang3.StringUtils;
 import org.jscience.geography.coordinates.LatLong;
 
@@ -34,6 +32,8 @@ import com.anrisoftware.globalpom.math.format.degree.DegreeSexagesimalFormat;
 import com.anrisoftware.globalpom.math.format.degree.DegreeSexagesimalFormatFactory;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+
+import jakarta.inject.Inject;
 
 /**
  * Parses the latitude part of a geographic coordinate.
@@ -50,9 +50,7 @@ public class LatitudeFormat extends Format {
 
     /**
      * @see #create(LatLong)
-     *
      * @param latLong the {@link LatLong} the latitude and longitude coordinates.
-     *
      * @return the latitude {@link LatitudeFormat} format.
      */
     public static LatitudeFormat createLatitudeFormat(LatLong latLong) {
@@ -61,11 +59,8 @@ public class LatitudeFormat extends Format {
 
     /**
      * @see #create(LatLong, int)
-     *
      * @param latLong the {@link LatLong} the latitude and longitude coordinates.
-     *
      * @param decimal the least significant decimal.
-     *
      * @return the latitude {@link LatitudeFormat} format.
      */
     public static LatitudeFormat createLatitudeFormat(LatLong latLong, int decimal) {
@@ -73,12 +68,32 @@ public class LatitudeFormat extends Format {
     }
 
     /**
-     * Creates the latitude format.
-     *
-     * @param latLong the {@link LatLong} the latitude and longitude coordinates.
-     *
-     * @return the latitude {@link LatitudeFormat} format.
-     */
+	 * @see #create(LatLong, int, NumberFormat)
+	 * @param latLong the {@link LatLong} the latitude and longitude coordinates.
+	 * @param decimal the least significant decimal.
+	 * @param format  the {@link NumberFormat}.
+	 * @return the latitude {@link LatitudeFormat} format.
+	 */
+	public static LatitudeFormat createLatitudeFormat(LatLong latLong, int decimal, NumberFormat format) {
+		return create(latLong, decimal, format);
+	}
+
+	/**
+	 * @see #create(LatLong, NumberFormat)
+	 * @param latLong the {@link LatLong} the latitude and longitude coordinates.
+	 * @param format  the {@link NumberFormat}.
+	 * @return the latitude {@link LatitudeFormat} format.
+	 */
+	public static LatitudeFormat createLatitudeFormat(LatLong latLong, NumberFormat format) {
+		return create(latLong, 3, format);
+	}
+
+	/**
+	 * Creates the latitude format.
+	 *
+	 * @param latLong the {@link LatLong} the latitude and longitude coordinates.
+	 * @return the latitude {@link LatitudeFormat} format.
+	 */
     public static LatitudeFormat create(LatLong latLong) {
         return getLatitudeFormatFactory().create(latLong);
     }
@@ -87,14 +102,24 @@ public class LatitudeFormat extends Format {
      * Creates the latitude format.
      *
      * @param latLong the {@link LatLong} the latitude and longitude coordinates.
-     *
      * @param decimal the least significant decimal.
-     *
      * @return the latitude {@link LatitudeFormat} format.
      */
     public static LatitudeFormat create(LatLong latLong, int decimal) {
         return getLatitudeFormatFactory().create(latLong, decimal);
     }
+
+	/**
+	 * Creates the latitude format.
+	 *
+	 * @param latLong the {@link LatLong} the latitude and longitude coordinates.
+	 * @param decimal the least significant decimal.
+	 * @param format  the {@link NumberFormat}.
+	 * @return the latitude {@link LatitudeFormat} format.
+	 */
+	public static LatitudeFormat create(LatLong latLong, int decimal, NumberFormat format) {
+		return getLatitudeFormatFactory().create(latLong, decimal, format);
+	}
 
     private final int decimal;
 
@@ -105,6 +130,8 @@ public class LatitudeFormat extends Format {
 
     @Inject
     private DegreeSexagesimalFormatFactory sexagesimalFormatFactory;
+
+	private final NumberFormat format;
 
     /**
      * @see LatitudeFormatFactory#create(LatLong)
@@ -119,15 +146,24 @@ public class LatitudeFormat extends Format {
      */
     @AssistedInject
     LatitudeFormat(@Assisted LatLong latLong, @Assisted int decimal) {
-        this.latLong = latLong;
-        this.decimal = decimal;
+		this(latLong, decimal, NumberFormat.getInstance());
     }
 
     /**
-     * Formats the latitude part of the specified latitude/longitude coordinates.
-     *
-     * @param obj the {@link LatLong}.
-     */
+	 * @see LatitudeFormatFactory#create(LatLong, int, NumberFormat)
+	 */
+	@AssistedInject
+	LatitudeFormat(@Assisted LatLong latLong, @Assisted int decimal, @Assisted NumberFormat format) {
+		this.latLong = latLong;
+		this.decimal = decimal;
+		this.format = format;
+	}
+
+	/**
+	 * Formats the latitude part of the specified latitude/longitude coordinates.
+	 *
+	 * @param obj the {@link LatLong}.
+	 */
     @Override
     public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos) {
         if (obj instanceof LatLong) {
@@ -137,7 +173,7 @@ public class LatitudeFormat extends Format {
     }
 
     private void formatCoordinate(StringBuffer buff, double d) {
-        String s = sexagesimalFormatFactory.create(decimal).format(d);
+		String s = sexagesimalFormatFactory.create(decimal, format).format(d);
         if (StringUtils.startsWith(s, "-")) {
             s = s.substring(1);
         }
@@ -215,11 +251,11 @@ public class LatitudeFormat extends Format {
     }
 
     private double parseDecimal(String latitude) throws ParseException {
-        return ((Number) NumberFormat.getInstance().parseObject(latitude)).doubleValue();
+		return ((Number) format.parseObject(latitude)).doubleValue();
     }
 
     private double parseSexagesimal(String latitude) throws ParseException {
-        return sexagesimalFormatFactory.create(decimal).parse(latitude).doubleValue(DEGREE_ANGLE);
+		return sexagesimalFormatFactory.create(decimal, format).parse(latitude).doubleValue(DEGREE_ANGLE);
     }
 
 }

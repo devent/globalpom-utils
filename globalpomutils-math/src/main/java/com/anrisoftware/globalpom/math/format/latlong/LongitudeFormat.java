@@ -1,5 +1,5 @@
 /*
- * Copyright ${project.custom.year} Erwin Müller <erwin.mueller@anrisoftware.com>
+ * Copyright 2013-2025 Erwin Müller <erwin.mueller@anrisoftware.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,6 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 
-import jakarta.inject.Inject;
-
 import org.apache.commons.lang3.StringUtils;
 import org.jscience.geography.coordinates.LatLong;
 
@@ -34,6 +32,8 @@ import com.anrisoftware.globalpom.math.format.degree.DegreeSexagesimalFormat;
 import com.anrisoftware.globalpom.math.format.degree.DegreeSexagesimalFormatFactory;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+
+import jakarta.inject.Inject;
 
 /**
  * Parses the longitude part of a geographic coordinate.
@@ -44,184 +44,220 @@ import com.google.inject.assistedinject.AssistedInject;
 @SuppressWarnings("serial")
 public class LongitudeFormat extends Format {
 
-    /**
-     * @see #create(LatLong)
-     *
-     * @param latLong the {@link LatLong} latitude/longitude coordinate.
-     *
-     * @return the {@link LongitudeFormat}
-     */
-    public static LongitudeFormat createLongitudeFormat(LatLong latLong) {
-        return create(latLong);
-    }
+	/**
+	 * @see #create(LatLong)
+	 * @param latLong the {@link LatLong} latitude/longitude coordinate.
+	 * @return the {@link LongitudeFormat}
+	 */
+	public static LongitudeFormat createLongitudeFormat(LatLong latLong) {
+		return create(latLong);
+	}
 
-    /**
-     * @see #create(LatLong, int)
-     *
-     * @param latLong the {@link LatLong} latitude/longitude coordinate.
-     *
-     * @param decimal the least significant decimal.
-     *
-     * @return the {@link LongitudeFormat}
-     */
-    public static LongitudeFormat createLongitudeFormat(LatLong latLong, int decimal) {
-        return create(latLong, decimal);
-    }
+	/**
+	 * @see #create(LatLong, int)
+	 * @param latLong the {@link LatLong} latitude/longitude coordinate.
+	 * @param decimal the least significant decimal.
+	 * @return the {@link LongitudeFormat}
+	 */
+	public static LongitudeFormat createLongitudeFormat(LatLong latLong, int decimal) {
+		return create(latLong, decimal);
+	}
 
-    /**
-     * Creates the longitude format.
-     *
-     * @param latLong the latitude/longitude coordinate.
-     *
-     * @return the longitude {@link LongitudeFormat} format.
-     */
-    public static LongitudeFormat create(LatLong latLong) {
-        return getLongitudeFormatFactory().create(latLong);
-    }
+	/**
+	 * @see #create(LatLong, int, NumberFormat)
+	 * @param latLong the {@link LatLong} latitude/longitude coordinate.
+	 * @param decimal the least significant decimal.
+	 * @param format  the {@link NumberFormat}.
+	 * @return the {@link LongitudeFormat}
+	 */
+	public static LongitudeFormat createLongitudeFormat(LatLong latLong, int decimal, NumberFormat format) {
+		return create(latLong, decimal, format);
+	}
 
-    /**
-     * Creates the latitude format.
-     *
-     * @param latLong the least significant decimal.
-     *
-     * @param decimal the least significant decimal.
-     *
-     * @return the latitude {@link LongitudeFormat} format.
-     */
-    public static LongitudeFormat create(LatLong latLong, int decimal) {
-        return getLongitudeFormatFactory().create(latLong, decimal);
-    }
+	/**
+	 * @see #create(LatLong, int, NumberFormat)
+	 * @param latLong the {@link LatLong} latitude/longitude coordinate.
+	 * @param format  the {@link NumberFormat}.
+	 * @return the {@link LongitudeFormat}
+	 */
+	public static LongitudeFormat createLongitudeFormat(LatLong latLong, NumberFormat format) {
+		return create(latLong, 3, format);
+	}
 
-    private static final String EAST = "E";
+	/**
+	 * Creates the longitude format.
+	 *
+	 * @param latLong the latitude/longitude coordinate.
+	 * @return the longitude {@link LongitudeFormat} format.
+	 */
+	public static LongitudeFormat create(LatLong latLong) {
+		return getLongitudeFormatFactory().create(latLong);
+	}
 
-    private static final String WEST = "W";
+	/**
+	 * Creates the latitude format.
+	 *
+	 * @param latLong the least significant decimal.
+	 * @param decimal the least significant decimal.
+	 * @return the latitude {@link LongitudeFormat} format.
+	 */
+	public static LongitudeFormat create(LatLong latLong, int decimal) {
+		return getLongitudeFormatFactory().create(latLong, decimal);
+	}
 
-    private static final String WHITE = " ";
+	/**
+	 * Creates the latitude format.
+	 *
+	 * @param latLong the least significant decimal.
+	 * @param decimal the least significant decimal.
+	 * @param format  the {@link NumberFormat}.
+	 * @return the latitude {@link LongitudeFormat} format.
+	 */
+	public static LongitudeFormat create(LatLong latLong, int decimal, NumberFormat format) {
+		return getLongitudeFormatFactory().create(latLong, decimal, format);
+	}
 
-    private final int decimal;
+	private static final String EAST = "E";
 
-    private final LatLong latLong;
+	private static final String WEST = "W";
 
-    @Inject
-    private LongitudeFormatLogger log;
+	private static final String WHITE = " ";
 
-    @Inject
-    private DegreeSexagesimalFormatFactory sexagesimalFormatFactory;
+	private final int decimal;
 
-    /**
-     * @see LongitudeFormatFactory#create(LatLong)
-     */
-    @AssistedInject
-    LongitudeFormat(@Assisted LatLong latLong) {
-        this(latLong, 3);
-    }
+	private final LatLong latLong;
 
-    /**
-     * @see LongitudeFormatFactory#create(LatLong, int)
-     */
-    @AssistedInject
-    LongitudeFormat(@Assisted LatLong latLong, @Assisted int decimal) {
-        this.latLong = latLong;
-        this.decimal = decimal;
-    }
+	@Inject
+	private LongitudeFormatLogger log;
 
-    /**
-     * Formats the longitude part of the specified latitude/longitude coordinates.
-     *
-     * @param obj the {@link LatLong}.
-     */
-    @Override
-    public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos) {
-        if (obj instanceof LatLong) {
-            formatCoordinate(buff, ((LatLong) obj).longitudeValue(DEGREE_ANGLE));
-        }
-        return buff;
-    }
+	@Inject
+	private DegreeSexagesimalFormatFactory sexagesimalFormatFactory;
 
-    private void formatCoordinate(StringBuffer buff, double d) {
-        String s = sexagesimalFormatFactory.create(decimal).format(d);
-        if (StringUtils.startsWith(s, "-")) {
-            s = s.substring(1);
-        }
-        buff.append(s);
-        if (signum(d) > 0.0) {
-            buff.append(WHITE);
-            buff.append(EAST);
-        } else {
-            buff.append(WHITE);
-            buff.append(WEST);
-        }
-    }
+	private final NumberFormat format;
 
-    /**
-     * Parses the longitude part to a latitude/longitude coordinate.
-     */
-    @Override
-    public Object parseObject(String source, ParsePosition pos) {
-        return parse(source, pos);
-    }
+	/**
+	 * @see LongitudeFormatFactory#create(LatLong)
+	 */
+	@AssistedInject
+	LongitudeFormat(@Assisted LatLong latLong) {
+		this(latLong, 3);
+	}
 
-    /**
-     * Parses the longitude part to a latitude/longitude coordinate.
-     *
-     * @param source the {@link String} source string.
-     *
-     * @return the parsed {@link LatLong}.
-     *
-     * @throws ParseException if the string can not be parsed.
-     */
-    public LatLong parse(String source) throws ParseException {
-        ParsePosition pos = new ParsePosition(0);
-        LatLong result = parse(source, pos);
-        if (pos.getIndex() == 0) {
-            throw log.errorParseLatitude(source, pos);
-        }
-        return result;
-    }
+	/**
+	 * @see LongitudeFormatFactory#create(LatLong, int)
+	 */
+	@AssistedInject
+	LongitudeFormat(@Assisted LatLong latLong, @Assisted int decimal) {
+		this(latLong, decimal, NumberFormat.getInstance());
+	}
 
-    /**
-     * Parses the the longitude part with the specified index to a
-     * latitude/longitude coordinate.
-     *
-     * @param source the {@link String} source string.
-     *
-     * @param pos    the index {@link ParsePosition} position from where to start
-     *               parsing.
-     *
-     * @return the parsed {@link LatLong}.
-     */
-    public LatLong parse(String source, ParsePosition pos) {
-        try {
-            source = source.substring(pos.getIndex());
-            LatLong latlong = parse(this.latLong, source, pos);
-            pos.setErrorIndex(-1);
-            pos.setIndex(source.length());
-            return latlong;
-        } catch (ParseException e) {
-            pos.setIndex(0);
-            pos.setErrorIndex(0);
-            return null;
-        }
-    }
+	/**
+	 * @see LongitudeFormatFactory#create(LatLong, int, NumberFormat)
+	 */
+	@AssistedInject
+	LongitudeFormat(@Assisted LatLong latLong, @Assisted int decimal, @Assisted NumberFormat format) {
+		this.latLong = latLong;
+		this.decimal = decimal;
+		this.format = format;
+	}
 
-    private LatLong parse(LatLong latLong, String string, ParsePosition pos) throws ParseException {
-        double lati = latLong.latitudeValue(DEGREE_ANGLE);
-        if (DegreeSexagesimalFormat.isValidFormat(string)) {
-            log.checkLongitude(string, pos);
-            double l = parseSexagesimal(string);
-            return LatLong.valueOf(lati, l, DEGREE_ANGLE);
-        } else {
-            double l = parseDecimal(string);
-            return LatLong.valueOf(lati, l, DEGREE_ANGLE);
-        }
-    }
+	/**
+	 * Formats the longitude part of the specified latitude/longitude coordinates.
+	 *
+	 * @param obj the {@link LatLong}.
+	 */
+	@Override
+	public StringBuffer format(Object obj, StringBuffer buff, FieldPosition pos) {
+		if (obj instanceof LatLong) {
+			formatCoordinate(buff, ((LatLong) obj).longitudeValue(DEGREE_ANGLE));
+		}
+		return buff;
+	}
 
-    private double parseDecimal(String latitude) throws ParseException {
-        return ((Number) NumberFormat.getInstance().parseObject(latitude)).doubleValue();
-    }
+	private void formatCoordinate(StringBuffer buff, double d) {
+		String s = sexagesimalFormatFactory.create(decimal, format).format(d);
+		if (StringUtils.startsWith(s, "-")) {
+			s = s.substring(1);
+		}
+		buff.append(s);
+		if (signum(d) > 0.0) {
+			buff.append(WHITE);
+			buff.append(EAST);
+		} else {
+			buff.append(WHITE);
+			buff.append(WEST);
+		}
+	}
 
-    private double parseSexagesimal(String latitude) throws ParseException {
-        return sexagesimalFormatFactory.create(decimal).parse(latitude).doubleValue(DEGREE_ANGLE);
-    }
+	/**
+	 * Parses the longitude part to a latitude/longitude coordinate.
+	 */
+	@Override
+	public Object parseObject(String source, ParsePosition pos) {
+		return parse(source, pos);
+	}
+
+	/**
+	 * Parses the longitude part to a latitude/longitude coordinate.
+	 *
+	 * @param source the {@link String} source string.
+	 *
+	 * @return the parsed {@link LatLong}.
+	 *
+	 * @throws ParseException if the string can not be parsed.
+	 */
+	public LatLong parse(String source) throws ParseException {
+		ParsePosition pos = new ParsePosition(0);
+		LatLong result = parse(source, pos);
+		if (pos.getIndex() == 0) {
+			throw log.errorParseLatitude(source, pos);
+		}
+		return result;
+	}
+
+	/**
+	 * Parses the the longitude part with the specified index to a
+	 * latitude/longitude coordinate.
+	 *
+	 * @param source the {@link String} source string.
+	 *
+	 * @param pos    the index {@link ParsePosition} position from where to start
+	 *               parsing.
+	 *
+	 * @return the parsed {@link LatLong}.
+	 */
+	public LatLong parse(String source, ParsePosition pos) {
+		try {
+			source = source.substring(pos.getIndex());
+			LatLong latlong = parse(this.latLong, source, pos);
+			pos.setErrorIndex(-1);
+			pos.setIndex(source.length());
+			return latlong;
+		} catch (ParseException e) {
+			pos.setIndex(0);
+			pos.setErrorIndex(0);
+			return null;
+		}
+	}
+
+	private LatLong parse(LatLong latLong, String string, ParsePosition pos) throws ParseException {
+		double lati = latLong.latitudeValue(DEGREE_ANGLE);
+		if (DegreeSexagesimalFormat.isValidFormat(string)) {
+			log.checkLongitude(string, pos);
+			double l = parseSexagesimal(string);
+			return LatLong.valueOf(lati, l, DEGREE_ANGLE);
+		} else {
+			double l = parseDecimal(string);
+			return LatLong.valueOf(lati, l, DEGREE_ANGLE);
+		}
+	}
+
+	private double parseDecimal(String latitude) throws ParseException {
+		return ((Number) format.parseObject(latitude)).doubleValue();
+	}
+
+	private double parseSexagesimal(String latitude) throws ParseException {
+		return sexagesimalFormatFactory.create(decimal, format).parse(latitude).doubleValue(DEGREE_ANGLE);
+	}
 
 }

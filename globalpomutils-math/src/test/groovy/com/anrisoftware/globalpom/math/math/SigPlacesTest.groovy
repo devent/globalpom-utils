@@ -1,5 +1,5 @@
 /*
- * Copyright ${project.custom.year} Erwin Müller <erwin.mueller@anrisoftware.com>
+ * Copyright 2013-2025 Erwin Müller <erwin.mueller@anrisoftware.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,6 @@
  */
 package com.anrisoftware.globalpom.math.math
 
-import java.text.DecimalFormat
-
 import org.junit.jupiter.api.Test
 
 import groovy.util.logging.Slf4j
@@ -30,31 +28,31 @@ import groovy.util.logging.Slf4j
 @Slf4j
 class SigPlacesTest {
 
-    static data = [
-        [value: "4", sig: 1],
-        [value: "1.3", sig: 2],
-        [value: "4325.334", sig: 7],
-        [value: "109", sig: 3],
-        [value: "3.005", sig: 4],
-        [value: "40.001", sig: 5],
-        [value: "0.10", sig: 2],
-        [value: "0.0010", sig: 2],
-        [value: "3.20", sig: 3],
-        [value: "320", sig: 2],
-        [value: "14.3000", sig: 6],
-        [value: "400.00", sig: 5],
-        [value: "2.00E7", sig: 3],
-        [value: "1.500E-2", sig: 4],
-    ]
+	static data = [
+		[value: "4", sig: 1],
+		[value: "1.3", sig: 2],
+		[value: "4325.334", sig: 7],
+		[value: "109", sig: 3],
+		[value: "3.005", sig: 4],
+		[value: "40.001", sig: 5],
+		[value: "0.10", sig: 2],
+		[value: "0.0010", sig: 2],
+		[value: "3.20", sig: 3],
+		[value: "320", sig: 2],
+		[value: "14.3000", sig: 6],
+		[value: "400.00", sig: 5],
+		[value: "2.00E7", sig: 3],
+		[value: "1.500E-2", sig: 4],
+	]
 
-    @Test
-    void "significant places"() {
-        def sep = new DecimalFormat().decimalFormatSymbols.decimalSeparator
-        def exsep = new DecimalFormat().decimalFormatSymbols.exponentSeparator
-        data.each {
-            log.info "{}", it.value
-            int result = MathUtils.sigPlaces(it.value, sep, exsep)
-            assert result == it.sig
-        }
-    }
+	@Test
+	void "significant places"() {
+		char sep = '.'
+		def exsep = 'E'
+		data.each {
+			log.info "{}", it.value
+			int result = MathUtils.sigPlaces(it.value, sep, exsep)
+			assert result == it.sig
+		}
+	}
 }

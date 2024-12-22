@@ -1,5 +1,5 @@
 /*
- * Copyright ${project.custom.year} Erwin Müller <erwin.mueller@anrisoftware.com>
+ * Copyright 2013-2025 Erwin Müller <erwin.mueller@anrisoftware.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@ import static com.anrisoftware.globalpom.math.format.degree.DegreeSexagesimalFor
 import static com.anrisoftware.globalpom.utils.TestUtils.*
 import static javax.measure.unit.NonSI.*
 
+import java.text.DecimalFormat
+
 import org.jscience.physics.amount.Amount
 import org.junit.jupiter.api.Test
 
@@ -30,37 +32,39 @@ import org.junit.jupiter.api.Test
  */
 class DegreeFormatTest {
 
-    static formats = [
-        [format: "40°11'15\"", value: Amount.valueOf(40.1875d, DEGREE_ANGLE)],
-        [format: "40°11'15.13\"", value: Amount.valueOf(40.18753611d, DEGREE_ANGLE)],
-        [format: "40°12'", value: Amount.valueOf(40.2d, DEGREE_ANGLE)],
-    ]
+	static formats = [
+		[format: "40°11'15\"", value: Amount.valueOf(40.1875d, DEGREE_ANGLE)],
+		[format: "40°11'15.13\"", value: Amount.valueOf(40.18753611d, DEGREE_ANGLE)],
+		[format: "40°12'", value: Amount.valueOf(40.2d, DEGREE_ANGLE)],
+	]
 
-    static parses = [
-        [input: "40°11'15\"", value: Amount.valueOf(40.1875d, DEGREE_ANGLE), decimal: 4],
-        [input: "40°11'15.13\"", value: Amount.valueOf(40.18753611d, DEGREE_ANGLE), decimal: 8],
-        [input: "40°12'", value: Amount.valueOf(40.2d, DEGREE_ANGLE), decimal: 1],
-        [input: "40°11'15\" N", value: Amount.valueOf(40.1875d, DEGREE_ANGLE), decimal: 4],
-        [input: "40°11'15\" S", value: Amount.valueOf(-40.1875d, DEGREE_ANGLE), decimal: 4],
-        [input: "40°11'15\" E", value: Amount.valueOf(40.1875d, DEGREE_ANGLE), decimal: 4],
-        [input: "40°11'15\" W", value: Amount.valueOf(-40.1875d, DEGREE_ANGLE), decimal: 4],
-    ]
+	static parses = [
+		[input: "40°11'15\"", value: Amount.valueOf(40.1875d, DEGREE_ANGLE), decimal: 4],
+		[input: "40°11'15.13\"", value: Amount.valueOf(40.18753611d, DEGREE_ANGLE), decimal: 8],
+		[input: "40°12'", value: Amount.valueOf(40.2d, DEGREE_ANGLE), decimal: 1],
+		[input: "40°11'15\" N", value: Amount.valueOf(40.1875d, DEGREE_ANGLE), decimal: 4],
+		[input: "40°11'15\" S", value: Amount.valueOf(-40.1875d, DEGREE_ANGLE), decimal: 4],
+		[input: "40°11'15\" E", value: Amount.valueOf(40.1875d, DEGREE_ANGLE), decimal: 4],
+		[input: "40°11'15\" W", value: Amount.valueOf(-40.1875d, DEGREE_ANGLE), decimal: 4],
+	]
 
-    @Test
-    void "format degree sexagesimal"() {
-        def format = create(4)
-        formats.each {
-            def str = format.format it.value
-            assertStringContent str, it.format
-        }
-    }
+	static format = DecimalFormat.getNumberInstance(Locale.ENGLISH)
 
-    @Test
-    void "parse degree sexagesimal"() {
-        parses.each {
-            def value = create(it.decimal).parse it.input
-            assert isValidFormat(it.input)
-            assert value == it.value
-        }
-    }
+	@Test
+	void "format degree sexagesimal"() {
+		def format = create(4, DecimalFormat.getNumberInstance(Locale.ENGLISH))
+		formats.each {
+			def str = format.format it.value
+			assertStringContent str, it.format
+		}
+	}
+
+	@Test
+	void "parse degree sexagesimal"() {
+		parses.each {
+			def value = create(it.decimal, format).parse it.input
+			assert isValidFormat(it.input)
+			assert value == it.value
+		}
+	}
 }
