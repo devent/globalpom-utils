@@ -35,7 +35,9 @@ import com.google.inject.Injector
 @EnableRuleMigrationSupport
 class ResourceSaverTest {
 
-    @Test
+	static final def L = System.getProperty("line.separator")
+
+	@Test
     void "save resource"() {
         def storedir = tmp.newFolder()
         def fileA = new File(storedir, "A")
@@ -43,9 +45,9 @@ class ResourceSaverTest {
         def saver = factory.create(storedir)
         saver.saveResource(resourceA, resourceB)
         assert fileA.isFile()
-        assert FileUtils.readFileToString(fileA) == "A\n"
+        assert FileUtils.readFileToString(fileA) == "A$L"
         assert fileB.isFile()
-        assert FileUtils.readFileToString(fileB) == "B\n"
+        assert FileUtils.readFileToString(fileB) == "B$L"
     }
 
     def resourceA
