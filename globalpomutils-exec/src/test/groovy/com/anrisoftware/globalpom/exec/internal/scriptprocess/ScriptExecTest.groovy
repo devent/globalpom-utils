@@ -16,11 +16,13 @@
 package com.anrisoftware.globalpom.exec.internal.scriptprocess
 
 import static org.junit.jupiter.api.Assertions.assertThrows
+import static org.junit.jupiter.api.condition.OS.*
 
 import org.joda.time.Duration
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.EnabledOnOs
 
 import com.anrisoftware.globalpom.exec.external.scriptprocess.ScriptExecFactory
 import com.anrisoftware.globalpom.exec.internal.threads.TestThreadsPropertiesProvider
@@ -46,6 +48,7 @@ import groovy.util.logging.Slf4j
  * @since 2.3
  */
 @Slf4j
+@EnabledOnOs([ LINUX, MAC ])
 class ScriptExecTest {
 
     @Test

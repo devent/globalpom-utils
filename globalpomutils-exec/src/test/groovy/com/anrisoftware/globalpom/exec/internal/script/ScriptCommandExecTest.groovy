@@ -19,6 +19,8 @@ import static com.anrisoftware.globalpom.exec.internal.logoutputs.AbstractLogCom
 import static com.anrisoftware.globalpom.exec.internal.script.ScriptCommandExec.*
 import static com.anrisoftware.globalpom.exec.internal.script.ScriptCommandLine.*
 import static com.anrisoftware.globalpom.utils.TestUtils.*
+import static org.junit.jupiter.api.condition.OS.LINUX
+import static org.junit.jupiter.api.condition.OS.MAC
 
 import java.util.concurrent.Future
 
@@ -27,6 +29,7 @@ import jakarta.inject.Inject
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.condition.EnabledOnOs
 
 import com.anrisoftware.globalpom.exec.external.core.CommandExec
 import com.anrisoftware.globalpom.exec.external.core.CommandExecFactory
@@ -62,6 +65,7 @@ import groovy.util.logging.Slf4j
  * @since 2.0
  */
 @Slf4j
+@EnabledOnOs([ LINUX, MAC ])
 class ScriptCommandExecTest {
 
     @Test
