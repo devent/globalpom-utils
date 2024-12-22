@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2023 Erwin Müller <erwin.mueller@anrisoftware.com>
+ * Copyright 2013-2025 Erwin Müller <erwin.mueller@anrisoftware.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +19,15 @@ import static com.anrisoftware.globalpom.utils.TestUtils.*
 
 import java.awt.Point
 import java.awt.geom.Point2D
+import java.text.NumberFormat
 import java.text.ParseException
 import java.text.ParsePosition
 
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+
+import com.google.inject.Guice
+import com.google.inject.Injector
 
 import groovy.transform.CompileStatic
 
@@ -35,9 +40,19 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class PointFormatTest {
 
+	static Injector injector
+	
+	static PointFormatFactory pointFormatFactory
+	
+	@BeforeAll
+	static void setup() {
+		injector = Guice.createInjector(new PointFormatModule())
+		pointFormatFactory = injector.getInstance(PointFormatFactory)
+	}
+	
     @Test
     void "format point, default decimal format"() {
-        def format = new PointFormat()
+        def format = pointFormatFactory.create(NumberFormat.getInstance(Locale.ENGLISH))
         def str = format.format new Point2D.Double(1, 2)
         assertStringContent "(1, 2)", str
 
@@ -50,7 +65,7 @@ class PointFormatTest {
 
     @Test
     void "parse point, default decimal format"() {
-        def format = new PointFormat()
+        def format = pointFormatFactory.create(NumberFormat.getInstance(Locale.ENGLISH))
         List<Map> outputs = new tests_outputs().run() as List
         List<Map> inputs = new tests_inputs().run() as List
         inputs.eachWithIndex { Map input, int i ->

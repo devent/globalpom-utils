@@ -24,11 +24,10 @@
     <parent>
         <groupId>com.anrisoftware.globalpom</groupId>
         <artifactId>globalpom-groovy-gmavenplus</artifactId>
-        <version>4.7.0</version>
+        <version>4.8.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>globalpomutils</artifactId>
-    <version>4.7.0</version>
     <packaging>pom</packaging>
     <name>Global POM Utilities :: Bundle POM</name>
     <description>Contains the modules of the Global POM Utilities.</description>

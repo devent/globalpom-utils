@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2023 Erwin Müller <erwin.mueller@anrisoftware.com>
+ * Copyright 2013-2025 Erwin Müller <erwin.mueller@anrisoftware.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,13 +17,19 @@ package com.anrisoftware.globalpom.core.strings
 
 import org.junit.jupiter.api.Test
 
+/**
+ * 
+ * @author Erwin Müller <erwin@muellerpublic.de>
+ * @see MapToTableString
+ */
 class MapToTableStringTest {
 
+	static final def L = System.getProperty("line.separator")
+	
     @Test
     void "with defaults to string"() {
-        def string = MapToTableString.mapToString map
-        assert string == """Aaa := Bbb
-Ccc := Ddd"""
+        def string = MapToTableString.mapToString(map)
+        assert string == "Aaa := Bbb${L}Ccc := Ddd"
     }
 
     static final map = ["Aaa": "Bbb", "Ccc": "Ddd"]
